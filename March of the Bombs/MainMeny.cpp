@@ -15,7 +15,7 @@ void MainMeny::update()
 
 }
 
-void MainMeny::draw()
+void MainMeny::draw(Graphics::ptr graphics)
 {
 
 }

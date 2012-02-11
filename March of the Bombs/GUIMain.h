@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Screen.h"
+#include "Graphics.h"
 
 class GUIMain
 {
@@ -11,6 +12,6 @@ public:
 	GUIMain();
 	virtual ~GUIMain();
 	void update();
-	void draw();
+	void draw(Graphics::ptr graphics);
 };
 

@@ -16,7 +16,7 @@ void GUIMain::update()
 	screen->update();
 }
 
-void GUIMain::draw()
+void GUIMain::draw(Graphics::ptr graphics)
 {
-	screen->draw();
+	screen->draw(graphics);
 }

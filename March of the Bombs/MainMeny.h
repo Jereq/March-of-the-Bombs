@@ -9,6 +9,6 @@ public:
 	MainMeny(void);
 	~MainMeny(void);
 	void update();
-	void draw();
+	void draw(Graphics::ptr graphics);
 };
 
