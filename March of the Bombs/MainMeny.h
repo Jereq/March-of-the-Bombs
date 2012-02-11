@@ -5,6 +5,7 @@
 class MainMeny :
 	public Screen
 {
+
 public:
 	MainMeny(void);
 	~MainMeny(void);
