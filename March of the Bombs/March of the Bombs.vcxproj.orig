@@ -104,8 +104,11 @@
     <ClInclude Include="GUIMain.h" />
     <ClInclude Include="MainGameLogicHeader.h" />
     <ClInclude Include="MainMeny.h" />
+<<<<<<< HEAD
     <ClInclude Include="Rectangle.h" />
+=======
     <ClInclude Include="MapHeader.h" />
+>>>>>>> Added Units and LogicMap in game-logic filter
     <ClInclude Include="Screen.h" />
     <ClInclude Include="TGALoader.h" />
     <ClInclude Include="UnitsHeader.h" />

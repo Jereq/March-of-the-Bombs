@@ -63,14 +63,16 @@
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Rectangle.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
+=======
     <ClCompile Include="Units.cpp">
       <Filter>Source Files\Game Logic</Filter>
     </ClCompile>
     <ClCompile Include="LogicMap.cpp">
       <Filter>Source Files\Game Logic</Filter>
+>>>>>>> Added Units and LogicMap in game-logic filter
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -104,14 +106,16 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Rectangle.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+=======
     <ClInclude Include="UnitsHeader.h">
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
     <ClInclude Include="MapHeader.h">
       <Filter>Header Files\Game Logic</Filter>
+>>>>>>> Added Units and LogicMap in game-logic filter
     </ClInclude>
   </ItemGroup>
 </Project>
