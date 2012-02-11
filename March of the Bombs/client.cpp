@@ -11,9 +11,6 @@ using glm::mat4;
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
-#include <memory>
-using std::shared_ptr;
-
 #include <stdio.h>
 #include <string>
 using std::string;
@@ -21,12 +18,12 @@ using std::string;
 #include "Camera.h"
 #include "AttachmentPoint.h"
 
-string windowTitle = "Particle-Terrain-Camera";
+string windowTitle = "March of the Bombs";
 float fpsCap = 60;
 
 bool gamePaused;
 
-bool relativeMouseCoordinates;
+//bool relativeMouseCoordinates;
 int previousMouseX;
 int previousMouseY;
 
@@ -88,39 +85,39 @@ void mouseMotionFunc(int x, int y)
 	previousMouseX = x;
 	previousMouseY = y;
 
-	if (!gamePaused)
-	{
-		rotatePlayer(deltaX, deltaY);
-	}
+	//if (!gamePaused)
+	//{
+	//	rotatePlayer(deltaX, deltaY);
+	//}
 }
 
-void setCursorVisible(bool cursorVisible)
-{
-	if (cursorVisible)
-	{
-		glutSetCursor(GLUT_CURSOR_INHERIT);
-	}
-	else
-	{
-		glutSetCursor(GLUT_CURSOR_NONE);
-	}
-}
+//void setCursorVisible(bool cursorVisible)
+//{
+//	if (cursorVisible)
+//	{
+//		glutSetCursor(GLUT_CURSOR_INHERIT);
+//	}
+//	else
+//	{
+//		glutSetCursor(GLUT_CURSOR_NONE);
+//	}
+//}
 
-void setCursorLocked(bool cursorLocked)
-{
-	relativeMouseCoordinates = cursorLocked;
-}
+//void setCursorLocked(bool cursorLocked)
+//{
+//	relativeMouseCoordinates = cursorLocked;
+//}
 
-void centerMouseCursor()
-{
-	int windowCenterX = glutGet(GLUT_WINDOW_WIDTH) / 2;
-	int windowCenterY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
-	
-	glutWarpPointer(windowCenterX, windowCenterY);
-
-	previousMouseX = windowCenterX;
-	previousMouseY = windowCenterY;
-}
+//void centerMouseCursor()
+//{
+//	int windowCenterX = glutGet(GLUT_WINDOW_WIDTH) / 2;
+//	int windowCenterY = glutGet(GLUT_WINDOW_HEIGHT) / 2;
+//	
+//	glutWarpPointer(windowCenterX, windowCenterY);
+//
+//	previousMouseX = windowCenterX;
+//	previousMouseY = windowCenterY;
+//}
 
 int validUpdate = 0;	// Increase to invalidate all queued timer updates
 int previousRunTimeMS = 0;
@@ -152,10 +149,10 @@ void updateFunc(int value)
 		waitTimeMS = delayMS - updateTimeMS;
 	}
 
-	if (relativeMouseCoordinates)
-	{
-		centerMouseCursor();
-	}
+	//if (relativeMouseCoordinates)
+	//{
+	//	centerMouseCursor();
+	//}
 
 	glutTimerFunc(waitTimeMS, updateFunc, validUpdate);
 
@@ -168,18 +165,19 @@ void setGamePaused(bool pause)
 
 	if (pause)
 	{
-		setCursorVisible(true);
-		setCursorLocked(false);
+		//setCursorVisible(true);
+		//setCursorLocked(false);
 
 		validUpdate++;
 	}
 	else
 	{
-		setCursorVisible(false);
-		setCursorLocked(true);
+		//setCursorVisible(false);
+		//setCursorLocked(true);
 
-		centerMouseCursor();
+		//centerMouseCursor();
 
+		previousRunTimeMS = glutGet(GLUT_ELAPSED_TIME);
 		glutTimerFunc(0, updateFunc, validUpdate);
 	}
 }
@@ -195,11 +193,11 @@ const static vec3 BACKWARD	= vec3(0, 0, 1);
 const static vec3 LEFT		= vec3(-1, 0, 0);
 const static vec3 RIGHT		= vec3(1, 0, 0);
 
-void alterPlayerDirection(vec3 direction)
-{
-	//vec3 newDirection = player->getDirection() + direction;
-	//player->setDirection(newDirection);
-}
+//void alterPlayerDirection(vec3 direction)
+//{
+//	vec3 newDirection = player->getDirection() + direction;
+//	player->setDirection(newDirection);
+//}
 
 void keyDownFunc(unsigned char key, int x, int y)
 {
@@ -209,44 +207,44 @@ void keyDownFunc(unsigned char key, int x, int y)
 		setGamePaused(!gamePaused);
 		break;
 
-	case W:
-		alterPlayerDirection(FORWARD);
-		break;
+	//case W:
+	//	alterPlayerDirection(FORWARD);
+	//	break;
 
-	case S:
-		alterPlayerDirection(BACKWARD);
-		break;
+	//case S:
+	//	alterPlayerDirection(BACKWARD);
+	//	break;
 
-	case A:
-		alterPlayerDirection(LEFT);
-		break;
+	//case A:
+	//	alterPlayerDirection(LEFT);
+	//	break;
 
-	case D:
-		alterPlayerDirection(RIGHT);
-		break;
+	//case D:
+	//	alterPlayerDirection(RIGHT);
+	//	break;
 	}
 }
 
 void keyUpFunc(unsigned char key, int x, int y)
 {
-	switch (key)
-	{
-	case W:
-		alterPlayerDirection(-FORWARD);
-		break;
+	//switch (key)
+	//{
+	//case W:
+	//	alterPlayerDirection(-FORWARD);
+	//	break;
 
-	case S:
-		alterPlayerDirection(-BACKWARD);
-		break;
+	//case S:
+	//	alterPlayerDirection(-BACKWARD);
+	//	break;
 
-	case A:
-		alterPlayerDirection(-LEFT);
-		break;
+	//case A:
+	//	alterPlayerDirection(-LEFT);
+	//	break;
 
-	case D:
-		alterPlayerDirection(-RIGHT);
-		break;
-	}
+	//case D:
+	//	alterPlayerDirection(-RIGHT);
+	//	break;
+	//}
 }
 
 void initOpenGL(int argc, char** argv)
@@ -315,10 +313,10 @@ int main(int argc, char** argv)
 	//terrain->loadBlendTexture("Images/Blend0.tga", 1);
 	//terrain->loadBlendTexture("Images/Blend1.tga", 2);
 	
-	vec3 scale = vec3(2000, 100, 2000);
+	//vec3 scale = vec3(2000, 100, 2000);
 
-	vec3 location = -scale / 2.f;
-	location.y = 0;
+	//vec3 location = -scale / 2.f;
+	//location.y = 0;
 
 	//terrain->setScale(scale);
 	//terrain->setLocation(location);
