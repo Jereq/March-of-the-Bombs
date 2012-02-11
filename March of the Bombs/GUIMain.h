@@ -6,12 +6,12 @@
 class GUIMain
 {
 private:
-	Screen::ptr screen;				//smartpointer pointing at screen
+	Screen::ptr screen;						//smartpointer pointing at screen
 
 public:
-	GUIMain();						//constructor
-	virtual ~GUIMain();				//destructor
-	void update();					//updatefunktion
+	GUIMain();								//constructor
+	virtual ~GUIMain();						//destructor
+	void update();							//updatefunktion
 	void draw(Graphics::ptr graphics);		//drawfunktion
 };
 

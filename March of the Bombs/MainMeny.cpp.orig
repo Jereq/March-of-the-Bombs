@@ -2,7 +2,6 @@
 
 MainMeny::MainMeny()
 {
-
 }
 
 MainMeny::~MainMeny()
@@ -15,8 +14,12 @@ void MainMeny::update()
 
 }
 
-//MainMenys drawinfo
+<<<<<<< HEAD
 void MainMeny::draw(Graphics::ptr graphics)
+=======
+//MainMenys drawinfo
+void MainMeny::draw()
+>>>>>>> Commented files
 {
-	
+
 }

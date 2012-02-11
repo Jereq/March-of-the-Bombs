@@ -51,6 +51,9 @@
     <ClCompile Include="TGALoader.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="TGALoader.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\GUIh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

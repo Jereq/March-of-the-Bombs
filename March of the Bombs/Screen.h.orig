@@ -1,0 +1,24 @@
+#pragma once
+
+<<<<<<< HEAD
+#include <boost\shared_ptr.hpp>
+#include "Graphics.h"
+=======
+#include <boost\shared_ptr.hpp>					//include a boost smartpointer
+>>>>>>> Commented files
+
+class Screen
+{
+
+public:
+<<<<<<< HEAD
+	virtual void update() = 0;
+	virtual void draw(Graphics::ptr graphics) = 0;
+	typedef boost::shared_ptr<Screen> ptr;
+=======
+	virtual void update() = 0;					//Makes the other classes aware of the funktion, here they are abstract and not used
+	virtual void draw() = 0;					//Same as fore update-funktion
+	typedef boost::shared_ptr<Screen> ptr;		//A smartpointer
+>>>>>>> Commented files
+
+};
