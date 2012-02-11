@@ -18,12 +18,16 @@
     </Filter>
     <Filter Include="Header Files\GUIh">
       <UniqueIdentifier>{c83c4b8c-ea6d-4836-8ccd-61df2837f1ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphics">
+    </Filter>    <Filter Include="Header Files\Graphics">
       <UniqueIdentifier>{0a8f14a9-a150-40ae-ac03-405b346a571f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{1264d7f0-ad94-401f-9e57-6da8bfd685d8}</UniqueIdentifier>
+    </Filter>    <Filter Include="Header Files\Game Logic">
+      <UniqueIdentifier>{4ac2b0cd-51c3-45f3-a38f-273905d9ea4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Logic">
+      <UniqueIdentifier>{f1dc9ed5-612c-43d2-841e-1b0734372cf9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +45,9 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGameLogic.cpp">
+      <Filter>Source Files\Game Logic</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
       <Filter>Source Files\Graphics</Filter>
@@ -70,6 +77,9 @@
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGameLogicHeader.h">
+      <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
     <ClInclude Include="Graphics.h">
       <Filter>Header Files\Graphics</Filter>

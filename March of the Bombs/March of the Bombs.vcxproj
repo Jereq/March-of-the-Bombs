@@ -88,6 +88,7 @@
     <ClCompile Include="GLTexture.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GUIMain.cpp" />
+    <ClCompile Include="MainGameLogic.cpp" />
     <ClCompile Include="MainMeny.cpp" />
     <ClCompile Include="TGALoader.cpp" />
   </ItemGroup>
@@ -98,6 +99,7 @@
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GUIMain.h" />
+    <ClInclude Include="MainGameLogicHeader.h" />
     <ClInclude Include="MainMeny.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="TGALoader.h" />
