@@ -31,3 +31,4 @@ _ReSharper*/
 *.sdf
 *.opensdf
 ipch/
+*.orig
