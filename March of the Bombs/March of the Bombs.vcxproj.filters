@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\GUIcpp">
+      <UniqueIdentifier>{5a81d221-e80a-41c4-9b4d-6f0fec78cf9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GUIh">
+      <UniqueIdentifier>{c83c4b8c-ea6d-4836-8ccd-61df2837f1ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="client.cpp">
@@ -24,6 +30,12 @@
     <ClCompile Include="AttachmentPoint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GUIMain.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMeny.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h">
@@ -31,6 +43,15 @@
     </ClInclude>
     <ClInclude Include="AttachmentPoint.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIMain.h">
+      <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMeny.h">
+      <Filter>Header Files\GUIh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
