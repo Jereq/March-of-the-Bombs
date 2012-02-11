@@ -84,15 +84,21 @@
     <ClCompile Include="AttachmentPoint.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="client.cpp" />
+    <ClCompile Include="GLTexture.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GUIMain.cpp" />
     <ClCompile Include="MainMeny.cpp" />
+    <ClCompile Include="TGALoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="GLTexture.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="GUIMain.h" />
     <ClInclude Include="MainMeny.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="TGALoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
