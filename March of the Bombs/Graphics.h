@@ -4,6 +4,7 @@
 
 #include "GLTexture.h"
 #include "GLSLProgram.h"
+#include "Rectanglef.h"
 
 class Graphics
 {
@@ -17,5 +18,5 @@ public:
 
 	Graphics();
 
-	void drawTexture(GLTexture::ptr texture);
+	void drawTexture(GLTexture::ptr texture, Rectanglef const& target);
 };

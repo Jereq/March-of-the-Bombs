@@ -34,14 +34,17 @@ Graphics::Graphics()
 	loadShaders();
 }
 
-void Graphics::drawTexture(GLTexture::ptr texture)
+void Graphics::drawTexture(GLTexture::ptr texture, Rectanglef const& target)
 {
+	glm::vec2 pos = target.getPosition();
+	glm::vec2 size = target.getSize();
+
 	glm::vec3 positionData[] =
 	{
-		glm::vec3(0, 0, 0),
-		glm::vec3(1, 0, 0),
-		glm::vec3(0, 1, 0),
-		glm::vec3(1, 1, 0)
+		glm::vec3(pos.x         , pos.y         , 0),
+		glm::vec3(pos.x + size.x, pos.y         , 0),
+		glm::vec3(pos.x         , pos.y + size.y, 0),
+		glm::vec3(pos.x + size.x, pos.y + size.y, 0)
 	};
 
 	glm::vec2 textureData[] =
