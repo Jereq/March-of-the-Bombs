@@ -14,7 +14,15 @@ MainMeny::~MainMeny()
 //Mainmenys updateinfo
 void MainMeny::update()
 {
-
+	/*
+	for(int i = 0; i < buttons.size(); i++)
+	{
+		if(mouserect.intersects(buttons[i].rectangle)
+		{
+			buttons[i].changeState();
+		}
+	}
+	*/
 }
 
 //MainMenys drawinfo

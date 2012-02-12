@@ -19,4 +19,5 @@ public:
 	Button(GLTexture::ptr texture1, GLTexture::ptr texture2, Rectangle rectangle, glm::vec4 color);
 	virtual ~Button();
 	void render(Graphics::ptr dT);
+	void changeState();
 };

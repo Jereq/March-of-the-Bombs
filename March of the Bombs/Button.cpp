@@ -31,3 +31,15 @@ void Button::render(Graphics::ptr graphics)
 		graphics->drawTexture(pressedTexture);
 	}
 }
+
+void Button::changeState()
+{
+	if(!pressed)
+	{
+		pressed = true;
+	}
+	else
+	{
+		pressed = false;
+	}
+}
