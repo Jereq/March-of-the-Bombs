@@ -87,6 +87,9 @@
     <ClCompile Include="UnitMovement.cpp">
       <Filter>Source Files\Game Logic</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -138,6 +141,9 @@
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
     <ClInclude Include="Rectanglef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
