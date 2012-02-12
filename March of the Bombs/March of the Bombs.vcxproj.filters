@@ -78,6 +78,15 @@
     <ClCompile Include="GLSLProgram.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="UnitFactory.cpp">
+      <Filter>Source Files\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitActions.cpp">
+      <Filter>Source Files\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitMovement.cpp">
+      <Filter>Source Files\Game Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -121,6 +130,15 @@
     </ClInclude>
     <ClInclude Include="GLSLProgram.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitFactoryHeader.h">
+      <Filter>Header Files\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitActionsHeader.h">
+      <Filter>Header Files\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="UnitMovementHeader.h">
+      <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -94,6 +94,9 @@
     <ClCompile Include="MainMeny.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="TGALoader.cpp" />
+    <ClCompile Include="UnitActions.cpp" />
+    <ClCompile Include="UnitFactory.cpp" />
+    <ClCompile Include="UnitMovement.cpp" />
     <ClCompile Include="Units.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +113,9 @@
     <ClInclude Include="MapHeader.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="TGALoader.h" />
+    <ClInclude Include="UnitActionsHeader.h" />
+    <ClInclude Include="UnitFactoryHeader.h" />
+    <ClInclude Include="UnitMovementHeader.h" />
     <ClInclude Include="UnitsHeader.h" />
   </ItemGroup>
   <ItemGroup>
