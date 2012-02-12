@@ -11,5 +11,5 @@ out VertexData
 void main()
 {
 	vertexOut.textureCoordinates = textureCoordinates;
-	gl_Position = vec4(vertexPosition, 1);
+	gl_Position = vec4(vertexPosition.x * 2 - 1, vertexPosition.y * 2 - 1, vertexPosition.z, 1);
 }
