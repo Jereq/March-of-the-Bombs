@@ -3,7 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 using glm::vec3;
 
-Camera::Camera(AttachmentPoint const* attachmentPoint)
+Camera::Camera(AttachmentPoint::ptr attachmentPoint)
 	: projectionMatrix(), viewMatrix(), attachmentPoint(attachmentPoint)
 {
 	updateProjectionMatrix(1);
@@ -86,7 +86,7 @@ glm::mat4 Camera::getViewMatrix() const
 	return viewMatrix;
 }
 
-void Camera::setAttachmentPoint(AttachmentPoint const* attachmentPoint)
+void Camera::setAttachmentPoint(AttachmentPoint::ptr attachmentPoint)
 {
 	this->attachmentPoint = attachmentPoint;
 }

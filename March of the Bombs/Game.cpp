@@ -5,6 +5,8 @@
 
 #include <boost/bind.hpp>
 
+Game::ptr Game::instance = Game::ptr();
+
 void Game::initOpenGL()
 {
 	int argc = 1;
@@ -180,8 +182,8 @@ Game::Game()
 
 	graphics = Graphics::ptr(new Graphics());
 	
-	AttachmentPoint attPoint(glm::vec3(0, 5, -15), glm::vec3());
-	camera = Camera::ptr(new Camera(&attPoint));
+	AttachmentPoint::ptr attPoint = AttachmentPoint::ptr(new AttachmentPoint(glm::vec3(0, 5, -15), glm::vec3()));
+	camera = Camera::ptr(new Camera(attPoint));
 }
 
 Game::~Game()

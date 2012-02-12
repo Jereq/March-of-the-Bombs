@@ -9,7 +9,7 @@
 class Camera
 {
 private:
-	AttachmentPoint const* attachmentPoint;
+	AttachmentPoint::ptr attachmentPoint;
 
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
@@ -17,7 +17,7 @@ private:
 public:
 	typedef boost::shared_ptr<Camera> ptr;
 
-	Camera(AttachmentPoint const* attachmentPoint);
+	Camera(AttachmentPoint::ptr attachmentPoint);
 
 	void updateProjectionMatrix(float aspect);
 	void updateViewMatrix();
@@ -25,5 +25,5 @@ public:
 	glm::mat4 getProjectionMatrix() const;
 	glm::mat4 getViewMatrix() const;
 
-	void setAttachmentPoint(AttachmentPoint const* attachmentPoint);
+	void setAttachmentPoint(AttachmentPoint::ptr attachmentPoint);
 };
