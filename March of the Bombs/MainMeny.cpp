@@ -2,6 +2,7 @@
 
 MainMeny::MainMeny()
 {
+	butto
 
 }
 
