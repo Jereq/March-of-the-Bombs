@@ -85,6 +85,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="client.cpp" />
+    <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="GLTexture.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GUIMain.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="AttachmentPoint.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GUIMain.h" />
@@ -109,6 +111,10 @@
     <ClInclude Include="Screen.h" />
     <ClInclude Include="TGALoader.h" />
     <ClInclude Include="UnitsHeader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\standard2d.frag" />
+    <None Include="Shaders\standard2d.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

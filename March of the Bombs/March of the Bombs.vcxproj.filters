@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Game Logic">
       <UniqueIdentifier>{f1dc9ed5-612c-43d2-841e-1b0734372cf9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{b9881098-1f43-4837-a6e2-118521de8b4c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="client.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="LogicMap.cpp">
       <Filter>Source Files\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="GLSLProgram.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,5 +119,16 @@
     <ClInclude Include="MapHeader.h">
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
+    <ClInclude Include="GLSLProgram.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\standard2d.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\standard2d.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
