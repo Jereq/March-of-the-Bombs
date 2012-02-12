@@ -25,6 +25,11 @@ private:
 
 	int previousMouseY;
 	int previousMouseX;
+	int currentMouseX;
+	int currentMouseY;
+
+	int windowWidth;
+	int windowHeight;
 
 	void initOpenGL();
 
@@ -32,13 +37,14 @@ private:
 	static void stReshapeFunc(int width, int height);
 	static void stUpdateFunc(int value);
 	static void stMouseMotionFunc(int x, int y);
+	static void stPassiveMouseMotionFunc(int x, int y);
 	static void stKeyDownFunc(unsigned char key, int x, int y);
 	static void stKeyUpFunc(unsigned char key, int x, int y);
 
 	void displayFunc();
 	void reshapeFunc(int width, int height);
 	void updateFunc(int value);
-	void mouseMotionFunc(int x, int y);
+	void mouseMotionFunc(int x, int y, bool pressed);
 	void keyDownFunc(unsigned char key, int x, int y);
 	void keyUpFunc(unsigned char key, int x, int y);
 
@@ -61,4 +67,6 @@ public:
 
 	void setFpsCap(float cap);
 	float getFpsCap() const;
+
+	glm::vec2 getMousePos() const;
 };

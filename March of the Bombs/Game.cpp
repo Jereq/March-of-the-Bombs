@@ -86,6 +86,9 @@ void Game::stReshapeFunc(int width, int height)
 
 void Game::reshapeFunc(int width, int height)
 {
+	windowWidth = width;
+	windowHeight = height;
+
 	glViewport(0, 0, width, height);
 
 	float aspect = static_cast<float>(width) / static_cast<float>(height);
@@ -104,10 +107,18 @@ void Game::updateFunc(int value)
 	if (value != validUpdate)
 		return;
 
+
 	int runTimeMS = glutGet(GLUT_ELAPSED_TIME);
 	int deltaTimeMS = runTimeMS - previousTime;
 	float deltaTime = deltaTimeMS / 1000.f;
 	previousTime = runTimeMS;
+
+
+	int mouseDeltaX = currentMouseX - previousMouseX;
+	int mouseDeltaY = currentMouseY - previousMouseY;
+	previousMouseX = currentMouseX;
+	previousMouseY = currentMouseY;
+
 
 	update(deltaTime);
 
@@ -134,16 +145,18 @@ void Game::updateFunc(int value)
 
 void Game::stMouseMotionFunc(int x, int y)
 {
-	getInstance()->mouseMotionFunc(x, y);
+	getInstance()->mouseMotionFunc(x, y, true);
 }
 
-void Game::mouseMotionFunc(int x, int y)
+void Game::stPassiveMouseMotionFunc(int x, int y)
 {
-	int deltaX = x - previousMouseX;
-	int deltaY = y - previousMouseY;
+	getInstance()->mouseMotionFunc(x, y, false);
+}
 
-	previousMouseX = x;
-	previousMouseY = y;
+void Game::mouseMotionFunc(int x, int y, bool pressed)
+{
+	currentMouseX = x;
+	currentMouseY = y;
 }
 
 void Game::stKeyDownFunc(unsigned char key, int x, int y)
@@ -251,4 +264,9 @@ void Game::setFpsCap(float cap)
 float Game::getFpsCap() const
 {
 	return fpsCap;
+}
+
+glm::vec2 Game::getMousePos() const
+{
+	return glm::vec2(static_cast<float>(currentMouseX) / windowWidth, 1.f - static_cast<float>(currentMouseY) / windowHeight);
 }
