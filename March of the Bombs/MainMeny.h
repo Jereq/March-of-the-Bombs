@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Screen.h"
+#include "GLTexture.h"
+#include "TGALoader.h"
 
 class MainMeny :
 	public Screen
@@ -8,6 +10,7 @@ class MainMeny :
 
 private:
 	std::vector<Button> buttons;
+	
 
 public:
 	MainMeny(void);

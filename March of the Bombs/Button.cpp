@@ -20,15 +20,14 @@ Button::~Button()
 {
 }
 
-void Button::render(Graphics::ptr dT)
+void Button::render(Graphics::ptr graphics)
 {
 	if(!pressed)
 	{
-		dT->drawTexture(unpressedTexture);
+		graphics->drawTexture(unpressedTexture);
 	}
 	else
 	{
-		dT->drawTexture(pressedTexture);
+		graphics->drawTexture(pressedTexture);
 	}
-
 }
