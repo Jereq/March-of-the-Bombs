@@ -9,6 +9,7 @@ class MainMeny :
 
 private:
 	std::vector<Button> buttons;
+	std::vector<SimpleImage> Backgrounds;
 	
 
 public:
@@ -16,6 +17,7 @@ public:
 	~MainMeny(void);
 	void update();
 	void draw(Graphics::ptr graphics);
-	void creatButtons();
+	void createButtons();
+	void createBackground();
 };
 

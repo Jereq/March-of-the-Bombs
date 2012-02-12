@@ -1,17 +1,23 @@
 #include "SimpleImage.h"
 
 
-SimpleImage(GLTexture::ptr texture1, Rectanglef rectangle);
-: texture(texture1), posSizeRectangle(rectangle), color(glm::vec4(1))
+SimpleImage::SimpleImage(GLTexture::ptr texture, Rectanglef rectangle)
+	: texture(texture), posSizeRectangle(rectangle), color(glm::vec4(1))
 {
 
 }
 
-SimpleImage(GLTexture::ptr texture1, Rectanglef rectangle, glm::vec4 color);
+SimpleImage::SimpleImage(GLTexture::ptr texture, Rectanglef rectangle, glm::vec4 color)
+	: texture(texture), posSizeRectangle(rectangle), color(color)
 {
 
 }
 
 SimpleImage::~SimpleImage(void)
 {
+}
+
+void SimpleImage::render(Graphics::ptr graphics)
+{
+	graphics->drawTexture(texture,posSizeRectangle);
 }
