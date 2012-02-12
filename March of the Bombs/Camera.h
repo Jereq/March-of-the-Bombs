@@ -2,6 +2,8 @@
 
 #include <glm/glm.hpp>
 
+#include <boost/shared_ptr.hpp>
+
 #include "AttachmentPoint.h"
 
 class Camera
@@ -13,6 +15,8 @@ private:
 	glm::mat4 projectionMatrix;
 
 public:
+	typedef boost::shared_ptr<Camera> ptr;
+
 	Camera(AttachmentPoint const* attachmentPoint);
 
 	void updateProjectionMatrix(float aspect);
