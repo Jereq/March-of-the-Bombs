@@ -24,11 +24,11 @@ void Button::render(Graphics::ptr graphics)
 {
 	if(!pressed)
 	{
-		graphics->drawTexture(unpressedTexture);
+		graphics->drawTexture(unpressedTexture,posSizeRectangle);
 	}
 	else
 	{
-		graphics->drawTexture(pressedTexture);
+		graphics->drawTexture(pressedTexture,posSizeRectangle);
 	}
 }
 

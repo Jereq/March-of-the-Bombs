@@ -17,6 +17,6 @@ public:
 	~MainMeny(void);
 	void update();
 	void draw(Graphics::ptr graphics);
-
+	void creatButtons();
 };
 
