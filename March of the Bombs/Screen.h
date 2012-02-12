@@ -3,6 +3,8 @@
 #include <boost\shared_ptr.hpp>							//include a boost smartpointer
 #include "Graphics.h"
 #include "Button.h"
+#include "GLTexture.h"
+#include "TGALoader.h"
 #include <vector>
 
 class Screen

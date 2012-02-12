@@ -1,8 +1,7 @@
 #pragma once
 
 #include "Screen.h"
-#include "GLTexture.h"
-#include "TGALoader.h"
+
 
 class MainMeny :
 	public Screen

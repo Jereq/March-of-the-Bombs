@@ -94,6 +94,7 @@
     <ClCompile Include="MainGameLogic.cpp" />
     <ClCompile Include="MainMeny.cpp" />
     <ClCompile Include="Rectanglef.cpp" />
+    <ClCompile Include="SimpleImage.cpp" />
     <ClCompile Include="TGALoader.cpp" />
     <ClCompile Include="UnitActions.cpp" />
     <ClCompile Include="UnitFactory.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="Rectanglef.h" />
     <ClInclude Include="MapHeader.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="SimpleImage.h" />
     <ClInclude Include="TGALoader.h" />
     <ClInclude Include="UnitActionsHeader.h" />
     <ClInclude Include="UnitFactoryHeader.h" />
