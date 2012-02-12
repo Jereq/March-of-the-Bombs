@@ -76,7 +76,7 @@
       <Filter>Source Files\Game Logic</Filter>
     </ClCompile>
     <ClCompile Include="GLSLProgram.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,7 +120,7 @@
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
     <ClInclude Include="GLSLProgram.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

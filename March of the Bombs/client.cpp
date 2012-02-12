@@ -18,6 +18,8 @@ using std::string;
 #include "Camera.h"
 #include "AttachmentPoint.h"
 
+#include "Graphics.h"
+
 string windowTitle = "March of the Bombs";
 float fpsCap = 60;
 
@@ -30,6 +32,8 @@ int previousMouseY;
 mat4 projectionMatrix;
 
 Camera* camera;
+
+Graphics::ptr graphics;
 
 void displayFunc()
 {
@@ -335,6 +339,8 @@ int main(int argc, char** argv)
 
 	//PointLight pointLight = PointLight(vec4(0.f, 20.f, 20.f, 1.f), vec3(1.f));
 	//model->setPointLight(&pointLight);
+
+	graphics = Graphics::ptr(new Graphics());
 
 	glutMainLoop();
 
