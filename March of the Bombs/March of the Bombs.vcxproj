@@ -92,7 +92,7 @@
     <ClCompile Include="LogicMap.cpp" />
     <ClCompile Include="MainGameLogic.cpp" />
     <ClCompile Include="MainMeny.cpp" />
-    <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="Rectanglef.cpp" />
     <ClCompile Include="TGALoader.cpp" />
     <ClCompile Include="UnitActions.cpp" />
     <ClCompile Include="UnitFactory.cpp" />
@@ -109,7 +109,7 @@
     <ClInclude Include="GUIMain.h" />
     <ClInclude Include="MainGameLogicHeader.h" />
     <ClInclude Include="MainMeny.h" />
-    <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="Rectanglef.h" />
     <ClInclude Include="MapHeader.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="TGALoader.h" />

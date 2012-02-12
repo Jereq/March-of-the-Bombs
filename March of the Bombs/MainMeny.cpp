@@ -3,7 +3,7 @@
 MainMeny::MainMeny()
 {
 	GLTexture::ptr TestTexture1 = GLTexture::loadFromFileTGA("images/skull.tga");
-	Button tempbutton(TestTexture1, TestTexture1,Rectangle());
+	Button tempbutton(TestTexture1, TestTexture1, Rectanglef());
 	buttons.push_back(tempbutton);
 }
 
@@ -28,7 +28,7 @@ void MainMeny::update()
 //MainMenys drawinfo
 void MainMeny::draw(Graphics::ptr graphics)
 {
-	for(int i = 0; i < buttons.size(); i++)
+	for(unsigned int i = 0; i < buttons.size(); i++)
 	{
 		buttons[i].render(graphics);
 	}

@@ -66,9 +66,6 @@
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
-    <ClCompile Include="Rectangle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Units.cpp">
       <Filter>Source Files\Game Logic</Filter>
     </ClCompile>
@@ -80,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="UnitFactory.cpp">
       <Filter>Source Files\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectanglef.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UnitActions.cpp">
       <Filter>Source Files\Game Logic</Filter>
@@ -119,9 +119,6 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
-    <ClInclude Include="Rectangle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UnitsHeader.h">
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
@@ -139,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="UnitMovementHeader.h">
       <Filter>Header Files\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectanglef.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

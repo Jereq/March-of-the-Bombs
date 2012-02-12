@@ -20,6 +20,8 @@ using std::string;
 
 #include "Graphics.h"
 
+#include "GUIMain.h"
+
 string windowTitle = "March of the Bombs";
 float fpsCap = 60;
 
@@ -35,11 +37,14 @@ Camera* camera;
 
 Graphics::ptr graphics;
 
+GUIMain gui;
+
 void displayFunc()
 {
 	camera->updateViewMatrix();
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	gui.draw(graphics);
 
 	glutSwapBuffers();
 
@@ -58,6 +63,7 @@ void reshapeFunc(int width, int height)
 
 void update(float deltaTime)
 {
+	gui.update();
 }
 
 void rotatePlayer(int deltaX, int deltaY)
