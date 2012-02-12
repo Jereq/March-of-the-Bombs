@@ -5,4 +5,4 @@ class MainGameLogic
 private:
 	void updateUnits();
 	void updateMap();
-}
+};
