@@ -90,6 +90,9 @@
     <ClCompile Include="SimpleImage.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
+    <ClCompile Include="MouseState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="SimpleImage.h">
       <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseState.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
