@@ -135,6 +135,8 @@ void Game::updateFunc(int value)
 	previousMouseX = currentMouseX;
 	previousMouseY = currentMouseY;
 
+	mouseState.position = getMousePos();
+
 
 	update(deltaTime);
 
@@ -157,6 +159,48 @@ void Game::updateFunc(int value)
 	glutTimerFunc(waitTimeMS, stUpdateFunc, validUpdate);
 
 	return;
+}
+
+void Game::stMouseFunc(int button, int state, int x, int y)
+{
+	getInstance()->mouseFunc(button, state, x, y);
+}
+
+void Game::mouseFunc(int button, int state, int x, int y)
+{
+	currentMouseX = x;
+	currentMouseY = y;
+
+	ButtonState::ButtonStateEnum* buttonState = NULL;
+
+	switch (button)
+	{
+	case GLUT_LEFT_BUTTON:
+		buttonState = &mouseState.leftButton;
+		break;
+
+	case GLUT_RIGHT_BUTTON:
+		buttonState = &mouseState.rightButton;
+		break;
+
+	case GLUT_MIDDLE_BUTTON:
+		buttonState = &mouseState.middleButton;
+		break;
+
+	default:
+		return;
+	}
+
+	switch (state)
+	{
+	case GLUT_DOWN:
+		*buttonState = ButtonState::Pressed;
+		break;
+
+	case GLUT_UP:
+		*buttonState = ButtonState::Released;
+		break;
+	}
 }
 
 void Game::stMouseMotionFunc(int x, int y)
@@ -285,4 +329,9 @@ float Game::getFpsCap() const
 glm::vec2 Game::getMousePos() const
 {
 	return glm::vec2(static_cast<float>(currentMouseX) / windowWidth, 1.f - static_cast<float>(currentMouseY) / windowHeight);
+}
+
+MouseState const& Game::getMouseState() const
+{
+	return mouseState;
 }
