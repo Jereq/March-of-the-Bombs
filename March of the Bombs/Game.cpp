@@ -3,9 +3,16 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 
+#ifndef IL_USE_PRAGMA_LIBS
+	#define IL_USE_PRAGMA_LIBS
+#endif
+#include <IL/ilut.h>
+
 #include <boost/bind.hpp>
 
 Game::ptr Game::instance = Game::ptr();
+
+std::string Game::windowTitle = "March of the Bombs";
 
 void Game::initOpenGL()
 {
@@ -60,6 +67,13 @@ void Game::initOpenGL()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
+}
+
+void Game::initDevIL()
+{
+	ilInit();
+	iluInit();
+	ilutRenderer(ILUT_OPENGL);
 }
 
 void Game::stDisplayFunc()
@@ -191,8 +205,6 @@ void Game::update(float deltaTime)
 
 Game::Game()
 {
-	initOpenGL();
-
 	graphics = Graphics::ptr(new Graphics());
 	
 	AttachmentPoint::ptr attPoint = AttachmentPoint::ptr(new AttachmentPoint(glm::vec3(0, 5, -15), glm::vec3()));
@@ -212,6 +224,8 @@ Game::ptr Game::getInstance()
 {
 	if (!instance)
 	{
+		initOpenGL();
+		initDevIL();
 		instance = ptr(new Game());
 	}
 

@@ -13,7 +13,8 @@ public:
 	typedef boost::shared_ptr<Game> ptr;
 
 private:
-	std::string windowTitle;
+	static std::string windowTitle;
+
 	Camera::ptr camera;
 	GUIMain gui;
 	Graphics::ptr graphics;
@@ -31,7 +32,8 @@ private:
 	int windowWidth;
 	int windowHeight;
 
-	void initOpenGL();
+	static void initOpenGL();
+	static void initDevIL();
 
 	static void stDisplayFunc();
 	static void stReshapeFunc(int width, int height);

@@ -44,7 +44,7 @@ void MainMeny::draw(Graphics::ptr graphics)
 
 void MainMeny::createButtons()
 {
-	GLTexture::ptr TestButton1 = GLTexture::loadFromFileTGA("images/skull.tga");
+	GLTexture::ptr TestButton1 = GLTexture::loadTexture(L"images/skull.tga");
 
 	//class		name	unpressed		pressed		rectangle	lower left corner	upper right corner
 	Button tempbutton0(TestButton1, TestButton1, Rectanglef(glm::vec2(0.25f,0.42f),glm::vec2(0.50f,0.15f)));
@@ -63,7 +63,7 @@ void MainMeny::createButtons()
 
 void MainMeny::createBackground()
 {
-	GLTexture::ptr TestBackground1 = GLTexture::loadFromFileTGA("images/skull.tga");
+	GLTexture::ptr TestBackground1 = GLTexture::loadTexture(L"images/skull.tga");
 
 	SimpleImage Background1(TestBackground1, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(1.00f,1.00f)));
 

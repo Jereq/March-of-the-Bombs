@@ -6,34 +6,17 @@
 class GLTexture
 {
 private:
-	static GLint handleCount;
+	GLuint handle;
 
-	GLfloat* data;
-	GLsizei width;
-	GLsizei height;
-	GLint dataFormat;
-	GLint desiredFormat;
-	int numberOfChannels;
-	GLint handle;
-
-	GLTexture(GLsizei width, GLsizei height, GLint dataFormat, int numberOfChannels, GLint desiredFormat, GLfloat* data);
+	GLTexture(GLuint handle);
 
 public:
 	typedef boost::shared_ptr<GLTexture> ptr;
-	static ptr loadFromFileTGA(const char* fileName);
+
+	static ptr loadTexture(wchar_t* fileName);
 
 	~GLTexture();
 
-	GLfloat* getData();
-	GLsizei getWidth();
-	GLsizei getHeight();
-	GLint getDataFormat();
-	GLint getDesiredFormat();
-	GLenum getType();
-	int getNumberOfChannels();
-	GLint getHandle() const;
-
-	void setDesiredFormat(GLint format);
-
-	void applyBoxFilter();
+	GLuint getHandle() const;
+	void use(GLint textureUnit) const;
 };

@@ -5,7 +5,6 @@
 #include "Button.h"
 #include "SimpleImage.h"
 #include "GLTexture.h"
-#include "TGALoader.h"
 #include <vector>
 
 class Screen

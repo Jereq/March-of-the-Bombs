@@ -81,26 +81,13 @@ void Graphics::drawTexture(GLTexture::ptr texture, Rectanglef const& target)
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 
 
-	glActiveTexture(GL_TEXTURE0 + texture->getHandle());
-	GLuint textureId;
-	glGenTextures(1, &textureId);
-	glBindTexture(GL_TEXTURE_2D, textureId);
+	texture->use(0);
+	prog.setUniform("texture", 0);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, texture->getDesiredFormat(), texture->getWidth(), texture->getHeight(),
-		0, texture->getDataFormat(), texture->getType(), texture->getData());
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-
-	prog.setUniform("texture", texture->getHandle());
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 
-	glDeleteTextures(1, &textureId);
 	glDeleteVertexArrays(1, &vaoHandle);
 	glDeleteBuffers(1, bufferHandles);
 }
