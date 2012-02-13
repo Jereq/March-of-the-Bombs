@@ -52,7 +52,7 @@ void MainMeny::createButtons()
 	GLTexture::ptr ExitButton = GLTexture::loadTexture(L"images/ButtonExit.png");
 
 	//class	 name	unpressed	 pressed	 rectangle	lower left corner		upper right corner
-	Button button0(LobbyButton, LobbyButton, Rectanglef(glm::vec2(0.25f,0.42f),glm::vec2(0.50f,0.15f)));
+	Button button0(TestButton1, TestButton1, Rectanglef(glm::vec2(0.25f,0.42f),glm::vec2(0.50f,0.15f)));
 	Button button1(HtPButton, HtPButton, Rectanglef(glm::vec2(0.30f,0.32f),glm::vec2(0.40f,0.08f)));
 	Button button2(OptionButton, OptionButton, Rectanglef(glm::vec2(0.33f,0.22f),glm::vec2(0.35f,0.08f)));
 	Button button3(CreditsButton, CreditsButton, Rectanglef(glm::vec2(0.36f,0.12f),glm::vec2(0.30f,0.08f)));
