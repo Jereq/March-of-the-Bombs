@@ -19,11 +19,11 @@ GLTexture::ptr GLTexture::loadTexture(wchar_t* fileName)
 	ILboolean result = ilLoadImage(fileName);
 	if (result)
 	{
-		std::cout << "Loaded texture: " << fileName << std::endl;
+		std::wcout << "Loaded texture: " << fileName << std::endl;
 	}
 	else
 	{
-		std::cerr << "Could not load file: " << fileName << std::endl;
+		std::wcerr << "Could not load file: " << fileName << std::endl;
 	}
 	
 	GLuint handle = ilutGLBindTexImage();
