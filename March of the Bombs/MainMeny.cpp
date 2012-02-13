@@ -14,15 +14,25 @@ MainMeny::~MainMeny()
 //Mainmenys updateinfo
 void MainMeny::update()
 {
-	/*
-	for(int i = 0; i < buttons.size(); i++)
+	Game::ptr game = Game::getInstance();
+
+	MouseState mouseState = game->getMouseState();
+
+	if (mouseState.leftButton == ButtonState::Pressed)
 	{
-		if(mouserect.intersects(buttons[i].rectanglef)
+		for(std::vector<Button>::size_type i = 0; i < buttons.size(); i++)
 		{
-			buttons[i].changeState();
+			if(buttons[i].intersects(mouseState.position))
+			{
+				buttons[i].changeState();
+			}
 		}
 	}
-	*/
+
+	if (buttons.back().isPressed())
+	{
+		game->close();
+	}
 }
 
 //MainMenys drawinfo

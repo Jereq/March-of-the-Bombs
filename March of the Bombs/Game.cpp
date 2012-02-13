@@ -28,6 +28,7 @@ void Game::initOpenGL()
 	
 	glutDisplayFunc(Game::stDisplayFunc);
 	glutReshapeFunc(Game::stReshapeFunc);
+	glutMouseFunc(Game::stMouseFunc);
 	glutMotionFunc(Game::stMouseMotionFunc);
 	glutPassiveMotionFunc(Game::stMouseMotionFunc);
 	glutKeyboardFunc(Game::stKeyDownFunc);
@@ -263,6 +264,7 @@ Game::~Game()
 
 void Game::start()
 {
+	unpause();
 	glutMainLoop();
 }
 
@@ -334,4 +336,9 @@ glm::vec2 Game::getMousePos() const
 MouseState const& Game::getMouseState() const
 {
 	return mouseState;
+}
+
+void Game::close()
+{
+	glutLeaveMainLoop();
 }

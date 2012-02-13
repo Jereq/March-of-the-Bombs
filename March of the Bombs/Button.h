@@ -21,4 +21,7 @@ public:
 	virtual ~Button();
 	void render(Graphics::ptr dT);
 	void changeState();
+
+	bool intersects(glm::vec2 const& point) const;
+	bool isPressed() const;
 };

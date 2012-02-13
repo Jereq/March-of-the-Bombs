@@ -76,4 +76,6 @@ public:
 
 	glm::vec2 getMousePos() const;
 	MouseState const& getMouseState() const;
+
+	void close();
 };

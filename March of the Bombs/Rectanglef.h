@@ -17,4 +17,6 @@ public:
 
 	void setPosition(glm::vec2 const& newPos);
 	void setSize(glm::vec2 const& newSize);
+
+	bool intersects(glm::vec2 const& point) const;
 };

@@ -31,3 +31,18 @@ void Rectanglef::setSize(vec2 const& newSize)
 {
 	size = newSize;
 }
+
+bool Rectanglef::intersects(vec2 const& point) const
+{
+	if (point.x < position.x ||
+		point.y < position.y ||
+		point.x > position.x + size.x ||
+		point.y > position.y + size.y)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
