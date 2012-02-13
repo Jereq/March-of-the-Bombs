@@ -2,7 +2,6 @@
 
 #include "Screen.h"
 
-
 class MainMeny :
 	public Screen
 {

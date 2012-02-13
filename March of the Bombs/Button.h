@@ -13,10 +13,11 @@ private:
 	glm::vec4 color;						//using vec4 for more options later on, this as color
 	Rectanglef posSizeRectangle;				//position- and size- rectangle 
 	bool pressed;
+	float depth;
 
 public:
-	Button(GLTexture::ptr texture1, GLTexture::ptr texture2, Rectanglef rectangle);
-	Button(GLTexture::ptr texture1, GLTexture::ptr texture2, Rectanglef rectangle, glm::vec4 color);
+	Button(GLTexture::ptr texture1, GLTexture::ptr texture2, Rectanglef rectangle, float depth);
+	Button(GLTexture::ptr texture1, GLTexture::ptr texture2, Rectanglef rectangle, float depth, glm::vec4 color);
 	virtual ~Button();
 	void render(Graphics::ptr dT);
 	void changeState();
