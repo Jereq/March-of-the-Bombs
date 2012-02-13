@@ -67,6 +67,8 @@ void Game::initOpenGL()
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
+
+	glClearColor(1, 0, 1, 1);
 }
 
 void Game::initDevIL()

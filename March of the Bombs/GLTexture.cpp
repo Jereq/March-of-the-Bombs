@@ -50,5 +50,5 @@ GLuint GLTexture::getHandle() const
 void GLTexture::use(GLint textureUnit) const
 {
 	glActiveTexture(GL_TEXTURE0 + textureUnit);
-	glBindTexture(GL_TEXTURE0 + textureUnit, handle);
+	glBindTexture(GL_TEXTURE_2D, handle);
 }

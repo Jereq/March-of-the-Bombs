@@ -34,17 +34,17 @@ Graphics::Graphics()
 	loadShaders();
 }
 
-void Graphics::drawTexture(GLTexture::ptr texture, Rectanglef const& target)
+void Graphics::drawTexture(GLTexture::ptr texture, Rectanglef const& target, float depth)
 {
 	glm::vec2 pos = target.getPosition();
 	glm::vec2 size = target.getSize();
 
 	glm::vec3 positionData[] =
 	{
-		glm::vec3(pos.x         , pos.y         , 0),
-		glm::vec3(pos.x + size.x, pos.y         , 0),
-		glm::vec3(pos.x         , pos.y + size.y, 0),
-		glm::vec3(pos.x + size.x, pos.y + size.y, 0)
+		glm::vec3(pos.x         , pos.y         , depth),
+		glm::vec3(pos.x + size.x, pos.y         , depth),
+		glm::vec3(pos.x         , pos.y + size.y, depth),
+		glm::vec3(pos.x + size.x, pos.y + size.y, depth)
 	};
 
 	glm::vec2 textureData[] =
@@ -81,8 +81,11 @@ void Graphics::drawTexture(GLTexture::ptr texture, Rectanglef const& target)
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	texture->use(0);
-	prog.setUniform("texture", 0);
+	prog.setUniform("texture", (GLint)0);
 
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);

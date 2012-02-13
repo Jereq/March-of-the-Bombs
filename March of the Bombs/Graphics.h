@@ -18,5 +18,5 @@ public:
 
 	Graphics();
 
-	void drawTexture(GLTexture::ptr texture, Rectanglef const& target);
+	void drawTexture(GLTexture::ptr texture, Rectanglef const& target, float depth);
 };
