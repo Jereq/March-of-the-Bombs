@@ -1,12 +1,13 @@
 #pragma once
 
 #include <string>
+#include <deque>
 
 #include <boost/shared_ptr.hpp>
 
 #include "Camera.h"
 #include "GUIMain.h"
-#include "MouseState.h"
+#include "Event.h"
 
 class Game
 {
@@ -19,7 +20,7 @@ private:
 	Camera::ptr camera;
 	GUIMain gui;
 	Graphics::ptr graphics;
-	MouseState mouseState;
+	std::deque<Event::ptr> events;
 
 	bool paused;
 	int validUpdate;
@@ -75,7 +76,7 @@ public:
 	float getFpsCap() const;
 
 	glm::vec2 getMousePos() const;
-	MouseState const& getMouseState() const;
+	std::deque<Event::ptr>& getEvents();
 
 	void close();
 };

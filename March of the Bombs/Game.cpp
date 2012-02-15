@@ -10,6 +10,9 @@
 
 #include <boost/bind.hpp>
 
+#include "KeyboardEvent.h"
+#include "MouseButtonEvent.h"
+
 Game::ptr Game::instance = Game::ptr();
 
 std::string Game::windowTitle = "March of the Bombs";
@@ -136,10 +139,9 @@ void Game::updateFunc(int value)
 	previousMouseX = currentMouseX;
 	previousMouseY = currentMouseY;
 
-	mouseState.position = getMousePos();
-
 
 	update(deltaTime);
+
 
 	glutPostRedisplay();
 
@@ -172,20 +174,21 @@ void Game::mouseFunc(int button, int state, int x, int y)
 	currentMouseX = x;
 	currentMouseY = y;
 
-	ButtonState::ButtonStateEnum* buttonState = NULL;
+	MouseButtonEvent::mouseButton eButton;
+	MouseButtonEvent::mouseButtonState eState;
 
 	switch (button)
 	{
 	case GLUT_LEFT_BUTTON:
-		buttonState = &mouseState.leftButton;
+		eButton = MouseButton::Left;
 		break;
 
 	case GLUT_RIGHT_BUTTON:
-		buttonState = &mouseState.rightButton;
+		eButton = MouseButton::Right;
 		break;
 
 	case GLUT_MIDDLE_BUTTON:
-		buttonState = &mouseState.middleButton;
+		eButton = MouseButton::Middle;
 		break;
 
 	default:
@@ -195,13 +198,18 @@ void Game::mouseFunc(int button, int state, int x, int y)
 	switch (state)
 	{
 	case GLUT_DOWN:
-		*buttonState = ButtonState::Pressed;
+		eState = MouseButtonState::Pressed;
 		break;
 
 	case GLUT_UP:
-		*buttonState = ButtonState::Released;
+		eState = MouseButtonState::Released;
 		break;
+
+	default:
+		return;
 	}
+
+	events.push_back(Event::ptr(new MouseButtonEvent(eButton, eState, getMousePos())));
 }
 
 void Game::stMouseMotionFunc(int x, int y)
@@ -227,13 +235,7 @@ void Game::stKeyDownFunc(unsigned char key, int x, int y)
 
 void Game::keyDownFunc(unsigned char key, int x, int y)
 {
-	const static char ESC = 0x1B;
-	switch (key)
-	{
-	case ESC:
-		setPaused(!isPaused());
-		break;
-	}
+	events.push_back(Event::ptr(new KeyboardEvent(key, KeyboardEventType::Pressed)));
 }
 
 void Game::stKeyUpFunc(unsigned char key, int x, int y)
@@ -243,6 +245,7 @@ void Game::stKeyUpFunc(unsigned char key, int x, int y)
 
 void Game::keyUpFunc(unsigned char key, int x, int y)
 {
+	events.push_back(Event::ptr(new KeyboardEvent(key, KeyboardEventType::Released)));
 }
 
 void Game::update(float deltaTime)
@@ -333,9 +336,9 @@ glm::vec2 Game::getMousePos() const
 	return glm::vec2(static_cast<float>(currentMouseX) / windowWidth, 1.f - static_cast<float>(currentMouseY) / windowHeight);
 }
 
-MouseState const& Game::getMouseState() const
+std::deque<Event::ptr>& Game::getEvents()
 {
-	return mouseState;
+	return events;
 }
 
 void Game::close()

@@ -1,5 +1,8 @@
 #include "MainMeny.h"
 #include "Game.h"
+#include <boost/foreach.hpp>
+#include "KeyboardEvent.h"
+#include "MouseButtonEvent.h"
 
 MainMeny::MainMeny()
 {
@@ -16,22 +19,51 @@ void MainMeny::update()
 {
 	Game::ptr game = Game::getInstance();
 
-	MouseState mouseState = game->getMouseState();
+	std::deque<Event::ptr>& events = game->getEvents();
+	std::deque<Event::ptr>::size_type numEvents = events.size();
+	std::deque<Event::ptr>::size_type eventsHandled = 0;
 
-	if (mouseState.leftButton == ButtonState::Pressed)
+	while (!events.empty() && eventsHandled++ < numEvents)
 	{
-		for(std::vector<Button>::size_type i = 0; i < buttons.size(); i++)
+		Event::ptr ev = events.front();
+		events.pop_front();
+
+		switch (ev->eventType)
 		{
-			if(buttons[i].intersects(mouseState.position))
+		case EventType::Keyboard:
 			{
-				buttons[i].changeState();
-			}
-		}
-	}
+				KeyboardEvent* keyEvent = static_cast<KeyboardEvent*>(ev.get());
 
-	if (buttons.back().isPressed())
-	{
-		game->close();
+				const static char ESC = 0x1B;
+				if (keyEvent->key == ESC && keyEvent->eventType == KeyboardEventType::Pressed)
+				{
+					game->close();
+				}
+			}
+			break;
+
+		case EventType::MouseButton:
+			{
+				MouseButtonEvent* mbEvent = static_cast<MouseButtonEvent*>(ev.get());
+
+				if (mbEvent->button == MouseButton::Left && mbEvent->state == MouseButtonState::Pressed)
+				{
+					BOOST_FOREACH(Button& button, buttons)
+					{
+						if(button.intersects(mbEvent->position))
+						{
+							button.changeState();
+						}
+					}
+
+					if (buttons.back().isPressed())
+					{
+						game->close();
+					}
+				}
+			}
+			break;
+		}
 	}
 }
 
