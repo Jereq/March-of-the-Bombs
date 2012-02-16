@@ -40,13 +40,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)external/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)external/lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)external/include;$(SolutionDir)Shared;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(SolutionDir)external/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)external/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)external/lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)external/include;$(SolutionDir)Shared;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(SolutionDir)external/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -54,7 +54,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_WIN32_WINNT=0x0501</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -70,7 +70,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_WIN32_WINNT=0x0501</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -87,6 +87,7 @@
     <ClCompile Include="client.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameClient.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="GLTexture.cpp" />
     <ClCompile Include="Graphics.cpp" />
@@ -97,6 +98,7 @@
     <ClCompile Include="MainMeny.cpp" />
     <ClCompile Include="MouseButtonEvent.cpp" />
     <ClCompile Include="MouseState.cpp" />
+    <ClCompile Include="PacketDispatchClient.cpp" />
     <ClCompile Include="Rectanglef.cpp" />
     <ClCompile Include="SimpleImage.cpp" />
     <ClCompile Include="UnitActions.cpp" />
@@ -110,6 +112,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameClient.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="Graphics.h" />
