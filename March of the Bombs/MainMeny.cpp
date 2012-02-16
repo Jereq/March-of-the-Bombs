@@ -39,6 +39,14 @@ void MainMeny::update()
 				{
 					game->close();
 				}
+				else if (keyEvent->key == 'c' && keyEvent->eventType == KeyboardEventType::Released)
+				{
+					game->connect();
+				}
+				else if (keyEvent->key == 'b' && keyEvent->eventType == KeyboardEventType::Released)
+				{
+					game->sendBlob();
+				}
 			}
 			break;
 

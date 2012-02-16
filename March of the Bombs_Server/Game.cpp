@@ -9,15 +9,21 @@ Game::Game(PacketManager& packetManager)
 
 void Game::join(Player::ptr player)
 {
+	std::cout << "Player joined" << std::endl;
+
 	players.insert(player);
-	BOOST_FOREACH(Packet::const_ptr packet, packetQueue)
-	{
-		player->deliver(packet);
-	}
+
+	//// Deliver history
+	//BOOST_FOREACH(Packet::const_ptr packet, packetQueue)
+	//{
+	//	player->deliver(packet);
+	//}
 }
 
 void Game::leave(Player::ptr player)
 {
+	std::cout << "Player left" << std::endl;
+
 	players.erase(player);
 }
 

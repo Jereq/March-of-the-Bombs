@@ -33,6 +33,8 @@ private:
 	void startRead();
 
 public:
+	typedef boost::shared_ptr<GameClient> ptr;
+
 	GameClient(boost::asio::io_service& io_service,
 		boost::asio::ip::tcp::resolver::iterator endpointIterator);
 	~GameClient();

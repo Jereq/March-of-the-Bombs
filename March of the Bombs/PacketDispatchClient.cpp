@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#include "Game.h"
+
 void Packet1SimpleMessage::dispatch(void* context) const
 {
 	std::cout << "<Server> " << getMessage() << std::endl;
@@ -12,6 +14,9 @@ void Packet1SimpleMessage::dispatch(void* context) const
 void Packet2Blob::dispatch(void* constex) const
 {
 	std::cout << "Received blob from server: " << getBlobLength() << " bytes" << std::endl;
+	
+	Game::ptr game = Game::getInstance();
+	game->close();
 }
 
 void Packet3Login::dispatch(void* context) const

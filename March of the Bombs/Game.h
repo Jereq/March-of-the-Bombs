@@ -8,6 +8,7 @@
 #include "Camera.h"
 #include "GUIMain.h"
 #include "Event.h"
+#include "GameClient.h"
 
 class Game
 {
@@ -21,6 +22,9 @@ private:
 	GUIMain gui;
 	Graphics::ptr graphics;
 	std::deque<Event::ptr> events;
+
+	boost::asio::io_service ioService;
+	GameClient::ptr client;
 
 	bool paused;
 	int validUpdate;
@@ -79,4 +83,7 @@ public:
 	std::deque<Event::ptr>& getEvents();
 
 	void close();
+
+	void connect();
+	void sendBlob();
 };

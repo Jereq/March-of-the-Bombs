@@ -13,6 +13,8 @@
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"
 
+#include <Packet2Blob.h>
+
 Game::ptr Game::instance = Game::ptr();
 
 std::string Game::windowTitle = "March of the Bombs";
@@ -250,6 +252,15 @@ void Game::keyUpFunc(unsigned char key, int x, int y)
 
 void Game::update(float deltaTime)
 {
+	if (client && client->isRunning())
+	{
+		while (client->hasReceivedPackets())
+		{
+			Packet::ptr packet = client->popReceivedPacket();
+			packet->dispatch(NULL);
+		}
+	}
+
 	gui.update();
 }
 
@@ -344,4 +355,33 @@ std::deque<Event::ptr>& Game::getEvents()
 void Game::close()
 {
 	glutLeaveMainLoop();
+}
+
+void Game::connect()
+{
+	if (client)
+	{
+		client.reset();
+		ioService.reset();
+	}
+
+	using boost::asio::ip::tcp;
+
+	tcp::resolver resolver(ioService);
+	tcp::resolver::query query("localhost", "1694");
+	tcp::resolver::iterator endpointIterator = resolver.resolve(query);
+
+	client = GameClient::ptr(new GameClient(ioService, endpointIterator));
+	client->start();
+}
+
+void Game::sendBlob()
+{
+	if (client)
+	{
+		char data[Packet::MAX_LOAD_SIZE];
+		Packet::ptr packet = Packet::ptr(new Packet2Blob(data, Packet::MAX_LOAD_SIZE));
+
+		client->write(packet);
+	}
 }
