@@ -3,12 +3,12 @@
 #include <fstream>
 #include <sstream>
 
-int GLSLProgram::getUniformLocation(const char* name)
+int GLSLProgram::getUniformLocation(const char* name) const
 {
 	return glGetUniformLocation(handle, name);
 }
 
-bool GLSLProgram::fileExists(const string& fileName)
+bool GLSLProgram::fileExists(const string& fileName) const
 {
 	std::ifstream ifile(fileName);
 	return ifile.is_open();
@@ -160,7 +160,7 @@ bool GLSLProgram::link()
 	}
 }
 
-void GLSLProgram::use()
+void GLSLProgram::use() const
 {
 	if (handle <= 0 || (!linked))
 		return;
@@ -193,7 +193,7 @@ void GLSLProgram::bindFragDataLocation(GLuint location, const char* name)
 	glBindFragDataLocation(handle, location, name);
 }
 
-void GLSLProgram::setUniform(const char* name, float x, float y, float z)
+void GLSLProgram::setUniform(const char* name, float x, float y, float z) const
 {
 	use();
 	int loc = getUniformLocation(name);
@@ -203,12 +203,12 @@ void GLSLProgram::setUniform(const char* name, float x, float y, float z)
 	}
 }
 
-void GLSLProgram::setUniform(const char* name, const glm::vec3& v)
+void GLSLProgram::setUniform(const char* name, const glm::vec3& v) const
 {
 	this->setUniform(name, v.x, v.y, v.z);
 }
 
-void GLSLProgram::setUniform(const char* name, const glm::vec4& v)
+void GLSLProgram::setUniform(const char* name, const glm::vec4& v) const
 {
 	use();
 	int loc = getUniformLocation(name);
@@ -218,7 +218,7 @@ void GLSLProgram::setUniform(const char* name, const glm::vec4& v)
 	}
 }
 
-void GLSLProgram::setUniform(const char* name, const glm::mat3& m)
+void GLSLProgram::setUniform(const char* name, const glm::mat3& m) const
 {
 	use();
 	int loc = getUniformLocation(name);
@@ -228,7 +228,7 @@ void GLSLProgram::setUniform(const char* name, const glm::mat3& m)
 	}
 }
 
-void GLSLProgram::setUniform(const char* name, const glm::mat4& m)
+void GLSLProgram::setUniform(const char* name, const glm::mat4& m) const
 {
 	use();
 	int loc = getUniformLocation(name);
@@ -238,7 +238,7 @@ void GLSLProgram::setUniform(const char* name, const glm::mat4& m)
 	}
 }
 
-void GLSLProgram::setUniform(const char* name, float val)
+void GLSLProgram::setUniform(const char* name, float val) const
 {
 	use();
 	int loc = getUniformLocation(name);
@@ -248,7 +248,7 @@ void GLSLProgram::setUniform(const char* name, float val)
 	}
 }
 
-void GLSLProgram::setUniform(const char* name, GLint val)
+void GLSLProgram::setUniform(const char* name, GLint val) const
 {
 	use();
 	int loc = getUniformLocation(name);
@@ -258,7 +258,7 @@ void GLSLProgram::setUniform(const char* name, GLint val)
 	}
 }
 
-void GLSLProgram::setUniform(const char* name, GLuint val)
+void GLSLProgram::setUniform(const char* name, GLuint val) const
 {
 	use();
 	int loc = getUniformLocation(name);
@@ -268,7 +268,7 @@ void GLSLProgram::setUniform(const char* name, GLuint val)
 	}
 }
 
-void GLSLProgram::setUniform(const char* name, bool val)
+void GLSLProgram::setUniform(const char* name, bool val) const
 {
 	use();
 	int loc = getUniformLocation(name);
@@ -278,7 +278,7 @@ void GLSLProgram::setUniform(const char* name, bool val)
 	}
 }
 
-void GLSLProgram::printActiveUniforms()
+void GLSLProgram::printActiveUniforms() const
 {
 	GLint nUniforms, written, size, location, maxLen;
 	GLchar* name;
@@ -301,7 +301,7 @@ void GLSLProgram::printActiveUniforms()
 	delete[] name;
 }
 
-void GLSLProgram::printActiveAttribs()
+void GLSLProgram::printActiveAttribs() const
 {
 	GLint nAttribs, written, size, location, maxLen;
 	GLchar* name;
