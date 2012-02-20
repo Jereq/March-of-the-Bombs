@@ -96,9 +96,12 @@
     <ClCompile Include="LogicMap.cpp" />
     <ClCompile Include="MainGameLogic.cpp" />
     <ClCompile Include="MainMeny.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Model3DS.cpp" />
     <ClCompile Include="MouseButtonEvent.cpp" />
     <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="PacketDispatchClient.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Rectanglef.cpp" />
     <ClCompile Include="SimpleImage.cpp" />
     <ClCompile Include="UnitActions.cpp" />
@@ -120,8 +123,11 @@
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="MainGameLogicHeader.h" />
     <ClInclude Include="MainMeny.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Model3DS.h" />
     <ClInclude Include="MouseButtonEvent.h" />
     <ClInclude Include="MouseState.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="Rectanglef.h" />
     <ClInclude Include="MapHeader.h" />
     <ClInclude Include="Screen.h" />

@@ -6,26 +6,26 @@ void Graphics::loadShaders()
 	using std::cerr;
 	using std::endl;
 
-	if (!prog.compileShaderFromFile("Shaders/standard2d.vert", GLSLShader::VERTEX))
+	if (!prog2D.compileShaderFromFile("Shaders/standard2d.vert", GLSLShader::VERTEX))
 	{
-		cerr << "standard2d vertex shader failed to compile!" << endl << prog.log() << endl;
+		cerr << "standard2d vertex shader failed to compile!" << endl << prog2D.log() << endl;
 	}
-	if (!prog.compileShaderFromFile("Shaders/standard2d.frag", GLSLShader::FRAGMENT))
+	if (!prog2D.compileShaderFromFile("Shaders/standard2d.frag", GLSLShader::FRAGMENT))
 	{
-		cerr << "standard2d fragment shader failed to compile!" << endl << prog.log() << endl;
+		cerr << "standard2d fragment shader failed to compile!" << endl << prog2D.log() << endl;
 	}
 
-	prog.bindAttribLocation(0, "vertexPosition");
-	prog.bindAttribLocation(1, "textureCoordinates");
+	prog2D.bindAttribLocation(0, "vertexPosition");
+	prog2D.bindAttribLocation(1, "textureCoordinates");
 
-	if (!prog.link())
+	if (!prog2D.link())
 	{
-		cerr << "standard2d shader program failed to link!" << endl << prog.log() << endl;
+		cerr << "standard2d shader program failed to link!" << endl << prog2D.log() << endl;
 	}
 
 	cout << "Printing standard2d shader program information..." << endl;
-	prog.printActiveUniforms();
-	prog.printActiveAttribs();
+	prog2D.printActiveUniforms();
+	prog2D.printActiveAttribs();
 	printf("\n");
 }
 
@@ -85,7 +85,7 @@ void Graphics::drawTexture(GLTexture::ptr texture, Rectanglef const& target, flo
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	texture->use(0);
-	prog.setUniform("texture", (GLint)0);
+	prog2D.setUniform("texture", (GLint)0);
 
 
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -93,4 +93,19 @@ void Graphics::drawTexture(GLTexture::ptr texture, Rectanglef const& target, flo
 
 	glDeleteVertexArrays(1, &vaoHandle);
 	glDeleteBuffers(1, bufferHandles);
+}
+
+Camera::ptr Graphics::getCamera() const
+{
+	return camera;
+}
+
+void Graphics::addPrimaryLight(PointLight::ptr const& light)
+{
+	primaryLights.push_back(light);
+}
+
+std::vector<PointLight::ptr> const& Graphics::getPrimaryLights() const
+{
+	return primaryLights;
 }
