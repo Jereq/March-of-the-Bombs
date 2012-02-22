@@ -150,6 +150,10 @@
     <ClInclude Include="UnitsHeader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\model.frag" />
+    <None Include="Shaders\model.vert" />
+    <None Include="Shaders\modelShadow.frag" />
+    <None Include="Shaders\modelShadow.vert" />
     <None Include="Shaders\standard2d.frag" />
     <None Include="Shaders\standard2d.vert" />
   </ItemGroup>

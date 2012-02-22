@@ -27,6 +27,8 @@ Model3DS::Model3DS(std::string const& fileName)
 	{
 		throw "Could not load model";
 	}
+
+	createVBO();
 }
 
 Model3DS::~Model3DS()
@@ -102,7 +104,7 @@ void Model3DS::createVBO()
 		texCoords.reserve(texCoords.size() + numVert);
 
 		unsigned int normalPos = normals.size();
-		normals.resize(normals.size() + numVert);
+		normals.resize(normals.size() + mesh->nfaces * 3);
 		lib3ds_mesh_calculate_vertex_normals(mesh, reinterpret_cast<float(*)[3]>(&normals[normalPos]));
 
 		for (unsigned int j = 0; j < numVert; j++)
@@ -111,7 +113,7 @@ void Model3DS::createVBO()
 			texCoords.push_back(*reinterpret_cast<glm::vec2*>(mesh->texcos[j]));
 		}
 
-		indices.reserve(indices.size() + numVert);
+		indices.reserve(indices.size() + mesh->nfaces * 3);
 		int matIndex = -1;
 		MaterialGroup* currentGroup = NULL;
 		for (int i = 0; i < mesh->nfaces; i++)
@@ -126,7 +128,7 @@ void Model3DS::createVBO()
 				{
 					groups.push_back(MaterialGroup());
 
-					currentGroup = &groups.front();
+					currentGroup = &groups.back();
 					currentGroup->startIndex = indices.size();
 					currentGroup->material = model->materials[matIndex];
 				}
@@ -134,7 +136,7 @@ void Model3DS::createVBO()
 
 			for (int j = 0; j < 3; j++)
 			{
-				indices.push_back(face.index[j]);
+				indices.push_back(baseVertex + face.index[j]);
 			}
 
 			currentGroup->count += 3;

@@ -15,7 +15,7 @@ using glm::mat4;
 
 #include "Graphics.h"
 
-Model::Model(Model3DS::ptr modelData)
+Model::Model(Model3DS::ptr const& modelData)
 	: modelData(modelData), validModelMatrix(false), scale(1.f)
 {
 	loadShadeProg();
@@ -53,12 +53,12 @@ void Model::loadShadeProg()
 
 void Model::loadShadowProg()
 {
-	if (!shadowProg.compileShaderFromFile("Shaders/model.vert", GLSLShader::VERTEX))
+	if (!shadowProg.compileShaderFromFile("Shaders/modelShadow.vert", GLSLShader::VERTEX))
 	{
 		printf("Model shadow vertex shader failed to compile!\n%s\n", shadowProg.log().c_str());
 		exit(EXIT_FAILURE);
 	}
-	if (!shadowProg.compileShaderFromFile("Shaders/model.frag", GLSLShader::FRAGMENT))
+	if (!shadowProg.compileShaderFromFile("Shaders/modelShadow.frag", GLSLShader::FRAGMENT))
 	{
 		printf("Model shadow fragment shader failed to compile!\n%s\n", shadowProg.log().c_str());
 		exit(EXIT_FAILURE);

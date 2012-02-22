@@ -22,14 +22,13 @@ protected:
 	mutable bool validModelMatrix;
 	mutable glm::mat4 modelMatrix;
 
-	Model(Model3DS::ptr modelData);
-
 	void loadShadeProg();
 	void loadShadowProg();
 
 public:
 	typedef boost::shared_ptr<Model> ptr;
 
+	Model(Model3DS::ptr const& modelData);
 	virtual ~Model();
 
 	virtual void draw(Graphics const& graphics) const;

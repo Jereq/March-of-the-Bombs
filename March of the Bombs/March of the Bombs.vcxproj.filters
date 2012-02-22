@@ -247,5 +247,17 @@
     <None Include="Shaders\standard2d.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
+    <None Include="Shaders\modelShadow.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\model.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\model.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Shaders\modelShadow.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
