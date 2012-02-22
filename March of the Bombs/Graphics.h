@@ -64,7 +64,7 @@ public:
 
 	Camera::ptr getCamera() const;
 
-	void addPrimaryLight(PointLight::ptr const& light);
+	void setPrimaryLights(std::vector<PointLight::ptr> const& lights);
 	std::vector<PointLight::ptr> const& getPrimaryLights() const;
 
 	void updateViewport();

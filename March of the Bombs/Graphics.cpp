@@ -98,7 +98,7 @@ void Graphics::prepareTextureBuffers()
 
 Graphics::Graphics()
 {
-	AttachmentPoint::ptr attPoint = AttachmentPoint::ptr(new AttachmentPoint(glm::vec3(0, 5, -15), glm::vec3()));
+	AttachmentPoint::ptr attPoint = AttachmentPoint::ptr(new AttachmentPoint(glm::vec3(0, 0, 15), glm::vec3()));
 	camera = Camera::ptr(new Camera(attPoint));
 
 	loadShaders();
@@ -183,9 +183,9 @@ Camera::ptr Graphics::getCamera() const
 	return camera;
 }
 
-void Graphics::addPrimaryLight(PointLight::ptr const& light)
+void Graphics::setPrimaryLights(std::vector<PointLight::ptr> const& lights)
 {
-	primaryLights.push_back(light);
+	primaryLights = lights;
 }
 
 std::vector<PointLight::ptr> const& Graphics::getPrimaryLights() const
