@@ -82,9 +82,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AttachmentPoint.cpp" />
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="client.cpp" />
+    <ClCompile Include="EmptyBlock.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClient.cpp" />
@@ -93,6 +95,8 @@
     <ClCompile Include="GLTexture.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="GUIMain.cpp" />
+    <ClCompile Include="HardBlock.cpp" />
+    <ClCompile Include="HQBlock.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="LogicMap.cpp" />
     <ClCompile Include="MainGameLogic.cpp" />
@@ -105,6 +109,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Rectanglef.cpp" />
     <ClCompile Include="SimpleImage.cpp" />
+    <ClCompile Include="SoftBlock.cpp" />
     <ClCompile Include="UnitActions.cpp" />
     <ClCompile Include="UnitFactory.cpp" />
     <ClCompile Include="UnitMovement.cpp" />
@@ -112,8 +117,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="EmptyBlock.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClient.h" />
@@ -122,6 +129,8 @@
     <ClInclude Include="GLTexture.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="GUIMain.h" />
+    <ClInclude Include="HardBlock.h" />
+    <ClInclude Include="HQBlock.h" />
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="MainGameLogicHeader.h" />
     <ClInclude Include="MainMeny.h" />
@@ -134,6 +143,7 @@
     <ClInclude Include="MapHeader.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="SimpleImage.h" />
+    <ClInclude Include="SoftBlock.h" />
     <ClInclude Include="UnitActionsHeader.h" />
     <ClInclude Include="UnitFactoryHeader.h" />
     <ClInclude Include="UnitMovementHeader.h" />

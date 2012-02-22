@@ -1,9 +1,13 @@
 #pragma once
+#include <boost/multi_array.hpp>
 
-class MapUpdate
+class Map
 {
 private:
+	void loadDefaultMap();
 	void updateUnitPositions();
 	void updateBuildings();
 	void UpdateWalls();
+
+
 };
