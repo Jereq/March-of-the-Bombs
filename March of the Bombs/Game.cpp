@@ -388,3 +388,8 @@ int Game::getWindowHeight() const
 {
 	return windowHeight;
 }
+
+Graphics::ptr const& Game::getGraphics() const
+{
+	return graphics;
+}

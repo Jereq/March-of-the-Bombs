@@ -88,4 +88,6 @@ public:
 
 	int getWindowWidth() const;
 	int getWindowHeight() const;
+
+	Graphics::ptr const& getGraphics() const;
 };
