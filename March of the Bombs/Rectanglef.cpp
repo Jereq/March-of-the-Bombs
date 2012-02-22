@@ -46,3 +46,17 @@ bool Rectanglef::intersects(vec2 const& point) const
 		return true;
 	}
 }
+
+bool Rectanglef::operator<(Rectanglef const& rhs) const
+{
+	if (size.x < rhs.size.x) return true;
+	if (size.x > rhs.size.x) return false;
+	if (size.y < rhs.size.y) return true;
+	if (size.y > rhs.size.y) return false;
+
+	if (position.x < rhs.position.x) return true;
+	if (position.x > rhs.position.x) return false;
+	if (position.y < rhs.position.y) return true;
+
+	return false;
+}

@@ -113,7 +113,7 @@ Graphics::~Graphics()
 
 void Graphics::drawTexture(GLTexture::ptr const& texture, Rectanglef const& target, float depth)
 {
-	textureInstances.push_back(TextureInstance(texture, target, depth));
+	textureInstances.insert(TextureInstance(texture, target, depth));
 }
 
 void Graphics::drawModel(Model::ptr const& model)

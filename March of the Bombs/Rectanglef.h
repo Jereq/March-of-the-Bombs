@@ -19,4 +19,6 @@ public:
 	void setSize(glm::vec2 const& newSize);
 
 	bool intersects(glm::vec2 const& point) const;
+
+	bool operator<(Rectanglef const& rhs) const;
 };

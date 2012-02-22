@@ -4,6 +4,7 @@
 
 #include <vector>
 #include <list>
+#include <set>
 
 #include "GLTexture.h"
 #include "GLSLProgram.h"
@@ -25,6 +26,16 @@ private:
 			: texture(texture), target(target), depth(depth)
 		{
 		}
+
+		bool operator<(TextureInstance const& rhs) const
+		{
+			if (depth > rhs.depth) return true;
+			if (depth < rhs.depth) return false;
+			if (texture < rhs.texture) return true;
+			if (rhs.texture < texture) return false;
+			if (target < rhs.target) return true;
+			return false;
+		}
 	};
 
 	GLSLProgram prog2D;
@@ -32,7 +43,7 @@ private:
 	std::vector<PointLight::ptr> primaryLights;
 
 	std::list<Model::ptr> models;
-	std::list<TextureInstance> textureInstances;
+	std::set<TextureInstance> textureInstances;
 
 	GLuint textureBuffers2D[2];
 	GLuint texture2DVAO;
