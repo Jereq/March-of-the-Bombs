@@ -49,6 +49,12 @@ void Model::loadShadeProg()
 	shadeProg.printActiveUniforms();
 	shadeProg.printActiveAttribs();
 	printf("\n");
+
+	shadeProg.setUniform("lights[0].shadowMap", (GLuint)0);
+	shadeProg.setUniform("lights[1].shadowMap", (GLuint)1);
+	shadeProg.setUniform("lights[2].shadowMap", (GLuint)2);
+	shadeProg.setUniform("lights[3].shadowMap", (GLuint)3);
+	shadeProg.setUniform("lights[4].shadowMap", (GLuint)4);
 }
 
 void Model::loadShadowProg()
@@ -95,24 +101,27 @@ void Model::draw(Graphics const& graphics) const
 	shadeProg.setUniform("projectionMatrix", projectionMatrix);
 
 	GLuint lightCount = 0;
-	const static GLuint maxLights = 5;
+	const static GLuint MAX_LIGHTS = 5;
 	char uniformBuffer[128] = {0};
 	BOOST_FOREACH(PointLight::ptr const& light, graphics.getPrimaryLights())
 	{
-		sprintf_s(uniformBuffer, "lightPosition[%d]", lightCount);
+		sprintf_s(uniformBuffer, "lights[%d].position", lightCount);
 		shadeProg.setUniform(uniformBuffer, light->getPosition());
 
-		sprintf_s(uniformBuffer, "lightIntesity[%d]", lightCount);
+		sprintf_s(uniformBuffer, "lights[%d].intensity", lightCount);
 		shadeProg.setUniform(uniformBuffer, light->getIntensity());
 
-		sprintf_s(uniformBuffer, "lightMatrix[%d]", lightCount);
+		sprintf_s(uniformBuffer, "shadowMatrices[%d]", lightCount);
 		shadeProg.setUniform(uniformBuffer, light->getViewProjectionMatrix() * getModelMatrix());
 
-		sprintf_s(uniformBuffer, "lightShadowTexture[%d]", lightCount);
-		shadeProg.setUniform(uniformBuffer, light->getShadowBuffer());
+		sprintf_s(uniformBuffer, "lights[%d].shadowMap", lightCount);
+		shadeProg.setUniform(uniformBuffer, lightCount);
+
+		glActiveTexture(GL_TEXTURE0 + lightCount);
+		glBindTexture(GL_TEXTURE_2D, light->getShadowTexture());
 
 		lightCount++;
-		if (lightCount >= maxLights)
+		if (lightCount >= MAX_LIGHTS)
 		{
 			break;
 		}
@@ -145,9 +154,10 @@ void Model::setPosition(vec3 const& position)
 
 void Model::setRotation(vec3 const& rotation)
 {
-	if (rotation != this->rotation)
+	vec3 tRot = glm::mod(rotation, 360);
+	if (tRot != this->rotation)
 	{
-		this->rotation = rotation;
+		this->rotation = tRot;
 		validModelMatrix = false;
 	}
 }

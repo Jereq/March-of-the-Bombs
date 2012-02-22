@@ -19,7 +19,7 @@ protected:
 	public:
 		unsigned int count;
 		unsigned int startIndex;
-		Lib3dsMaterial* material;
+		Lib3dsMaterial material;
 
 		MaterialGroup();
 
@@ -28,12 +28,13 @@ protected:
 
 	std::vector<MaterialGroup> groups;
 
-	Lib3dsFile* model;
 	GLuint vertexVBO;
 	GLuint normalVBO;
 	GLuint texCoordVBO;
 	GLuint indexVBO;
 	GLuint modelVAO;
+
+	virtual void createVBO(Lib3dsFile* modelFile);
 
 public:
 	typedef boost::shared_ptr<Model3DS> ptr;
@@ -43,5 +44,4 @@ public:
 
 	virtual void draw(GLSLProgram const& prog) const;
 	virtual void drawShadow() const;
-	virtual void createVBO();
 };

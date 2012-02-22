@@ -7,34 +7,34 @@ using std::vector;
 #include <boost/foreach.hpp>
 
 Model3DS::MaterialGroup::MaterialGroup()
-	: count(0), startIndex(0), material(NULL)
+	: count(0), startIndex(0)
 {
 }
 
 void Model3DS::MaterialGroup::use(GLSLProgram const& prog) const
 {
-	prog.setUniform("ambient", *reinterpret_cast<glm::vec3*>(material->ambient));
-	prog.setUniform("diffuse", *reinterpret_cast<glm::vec3*>(material->diffuse));
-	prog.setUniform("specular", *reinterpret_cast<glm::vec3*>(material->specular));
+	prog.setUniform("material.ambient", *reinterpret_cast<glm::vec3 const*>(material.ambient));
+	prog.setUniform("material.diffuse", *reinterpret_cast<glm::vec3 const*>(material.diffuse));
+	prog.setUniform("material.specular", *reinterpret_cast<glm::vec3 const*>(material.specular));
+	prog.setUniform("material.shininess", material.shininess);
 }
 
 Model3DS::Model3DS(std::string const& fileName)
 	: vertexVBO(0), normalVBO(0), texCoordVBO(0), indexVBO(0), modelVAO(0)
 {
-	model = lib3ds_file_open(fileName.c_str());
+	Lib3dsFile* modelFile = lib3ds_file_open(fileName.c_str());
 
-	if (!model)
+	if (!modelFile)
 	{
 		throw "Could not load model";
 	}
 
-	createVBO();
+	createVBO(modelFile);
+	lib3ds_file_free(modelFile);
 }
 
 Model3DS::~Model3DS()
 {
-	lib3ds_file_free(model);
-
 	if (vertexVBO)
 	{
 		glDeleteBuffers(1, &vertexVBO);
@@ -86,16 +86,16 @@ void Model3DS::drawShadow() const
 	glBindVertexArray(0);
 }
 
-void Model3DS::createVBO()
+void Model3DS::createVBO(Lib3dsFile* modelFile)
 {
 	vector<glm::vec3> vertices;
 	vector<glm::vec3> normals;
 	vector<glm::vec2> texCoords;
 	vector<unsigned short> indices;
 	
-	for (int i = 0; i < model->nmeshes; i++)
+	for (int i = 0; i < modelFile->nmeshes; i++)
 	{
-		Lib3dsMesh* mesh = model->meshes[i];
+		Lib3dsMesh* mesh = modelFile->meshes[i];
 
 		unsigned int baseVertex = vertices.size();
 
@@ -130,7 +130,7 @@ void Model3DS::createVBO()
 
 					currentGroup = &groups.back();
 					currentGroup->startIndex = indices.size();
-					currentGroup->material = model->materials[matIndex];
+					currentGroup->material = *modelFile->materials[matIndex];
 				}
 			}
 
