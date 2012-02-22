@@ -3,6 +3,7 @@
 #include <boost/foreach.hpp>
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"
+#include "GameScreen.h"
 
 MainMeny::MainMeny()
 {
@@ -64,7 +65,12 @@ void MainMeny::update()
 						}
 					}
 
-					if (buttons.back().isPressed())
+					if (buttons[0].isPressed())
+					{
+						nextScreen = Screen::ptr(new GameScreen());
+					}
+
+					if (buttons[4].isPressed())
 					{
 						game->close();
 					}
@@ -90,6 +96,13 @@ void MainMeny::draw(Graphics::ptr graphics)
 	{
 		buttons[i].render(graphics);
 	}
+}
+
+Screen::ptr MainMeny::getNextScreen()
+{
+	Screen::ptr screen;
+	screen.swap(nextScreen);
+	return screen;
 }
 
 void MainMeny::createButtons()
