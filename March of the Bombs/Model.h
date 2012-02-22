@@ -4,7 +4,9 @@
 
 #include "Model3DS.h"
 #include "GLSLProgram.h"
-#include "Graphics.h"
+#include "PointLight.h"
+
+class Graphics;
 
 class Model
 {
@@ -26,6 +28,8 @@ protected:
 	void loadShadowProg();
 
 public:
+	typedef boost::shared_ptr<Model> ptr;
+
 	virtual ~Model();
 
 	virtual void draw(Graphics const& graphics) const;

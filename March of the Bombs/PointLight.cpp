@@ -41,14 +41,14 @@ mat4 const& PointLight::getViewMatrix() const
 	return viewMatrix;
 }
 
-GLuint PointLight::getShadowTexture(GLsizei width, GLsizei height, GLuint& framebuffer)
+GLuint PointLight::getShadowTexture(GLsizei size, GLuint& framebuffer)
 {
 	GLfloat border[] = { 1.f, 0, 0, 0 };
 
 	GLuint depthTex;
 	glGenTextures(1, &depthTex);
 	glBindTexture(GL_TEXTURE_2D, depthTex);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, size, size, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_INT, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -77,14 +77,16 @@ const static GLsizei shadowSize = 2048;
 PointLight::PointLight()
 	: validProjectionMatrix(false), validViewMatrix(false), validViewProjectionMatrix(false)
 {
-	shadowTexture = getShadowTexture(shadowSize, shadowSize, shadowBuffer);
+	shadowResolution = shadowSize;
+	shadowTexture = getShadowTexture(shadowResolution, shadowBuffer);
 }
 
 PointLight::PointLight(vec4 position, vec3 intensity)
 	: position(position), intensity(intensity),
 	 validProjectionMatrix(false), validViewMatrix(false), validViewProjectionMatrix(false)
 {
-	shadowTexture = getShadowTexture(shadowSize, shadowSize, shadowBuffer);
+	shadowResolution = shadowSize;
+	shadowTexture = getShadowTexture(shadowResolution, shadowBuffer);
 }
 
 PointLight::~PointLight()
@@ -140,4 +142,9 @@ GLuint PointLight::getShadowTexture() const
 GLuint PointLight::getShadowBuffer() const
 {
 	return shadowBuffer;
+}
+
+GLsizei PointLight::getShadowResolution() const
+{
+	return shadowResolution;
 }

@@ -91,10 +91,9 @@ void Game::stDisplayFunc()
 
 void Game::displayFunc()
 {
-	camera->updateViewMatrix();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	gui.draw(graphics);
+
+	graphics->render();
 
 	glutSwapBuffers();
 
@@ -111,10 +110,7 @@ void Game::reshapeFunc(int width, int height)
 	windowWidth = width;
 	windowHeight = height;
 
-	glViewport(0, 0, width, height);
-
-	float aspect = static_cast<float>(width) / static_cast<float>(height);
-	camera->updateProjectionMatrix(aspect);
+	graphics->updateViewport();
 
 	return;
 }
@@ -267,9 +263,6 @@ void Game::update(float deltaTime)
 Game::Game()
 {
 	graphics = Graphics::ptr(new Graphics());
-	
-	AttachmentPoint::ptr attPoint = AttachmentPoint::ptr(new AttachmentPoint(glm::vec3(0, 5, -15), glm::vec3()));
-	camera = Camera::ptr(new Camera(attPoint));
 }
 
 Game::~Game()
@@ -384,4 +377,14 @@ void Game::sendBlob()
 
 		client->write(packet);
 	}
+}
+
+int Game::getWindowWidth() const
+{
+	return windowWidth;
+}
+
+int Game::getWindowHeight() const
+{
+	return windowHeight;
 }

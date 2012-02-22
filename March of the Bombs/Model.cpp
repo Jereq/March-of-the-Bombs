@@ -13,6 +13,8 @@ using glm::vec3;
 using glm::mat3;
 using glm::mat4;
 
+#include "Graphics.h"
+
 Model::Model(Model3DS::ptr modelData)
 	: modelData(modelData), validModelMatrix(false), scale(1.f)
 {

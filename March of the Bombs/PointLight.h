@@ -22,9 +22,9 @@ private:
 
 	GLuint shadowTexture;
 	GLuint shadowBuffer;
+	GLsizei shadowResolution;
 
-
-	GLuint getShadowTexture(GLsizei width, GLsizei height, GLuint& framebuffer);
+	GLuint getShadowTexture(GLsizei size, GLuint& framebuffer);
 	
 public:
 	typedef boost::shared_ptr<PointLight> ptr;
@@ -45,4 +45,5 @@ public:
 
 	GLuint getShadowTexture() const;
 	GLuint getShadowBuffer() const;
+	GLsizei getShadowResolution() const;
 };

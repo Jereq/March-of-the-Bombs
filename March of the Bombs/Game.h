@@ -18,7 +18,6 @@ public:
 private:
 	static std::string windowTitle;
 
-	Camera::ptr camera;
 	GUIMain gui;
 	Graphics::ptr graphics;
 	std::deque<Event::ptr> events;
@@ -86,4 +85,7 @@ public:
 
 	void connect();
 	void sendBlob();
+
+	int getWindowWidth() const;
+	int getWindowHeight() const;
 };

@@ -1,5 +1,33 @@
 #include "Graphics.h"
 
+#include <boost/foreach.hpp>
+
+#include "Game.h"
+
+void Graphics::drawTextureInstance(TextureInstance const& texInst) const
+{
+	glm::vec2 pos = texInst.target.getPosition();
+	glm::vec2 size = texInst.target.getSize();
+	float depth = texInst.depth;
+
+	glm::vec3 positionData[] =
+	{
+		glm::vec3(pos.x         , pos.y         , depth),
+		glm::vec3(pos.x + size.x, pos.y         , depth),
+		glm::vec3(pos.x         , pos.y + size.y, depth),
+		glm::vec3(pos.x + size.x, pos.y + size.y, depth)
+	};
+
+	GLuint positionBufferHandle = textureBuffers2D[0];
+	GLuint textureBufferHandle = textureBuffers2D[1];
+
+	glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, 4 * sizeof(glm::vec3), positionData);
+
+	texInst.texture->use(0);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+}
+
 void Graphics::loadShaders()
 {
 	using std::cout;
@@ -27,27 +55,13 @@ void Graphics::loadShaders()
 	prog2D.printActiveUniforms();
 	prog2D.printActiveAttribs();
 	printf("\n");
+
+	prog2D.setUniform("texture", (GLint)0);
 }
 
-Graphics::Graphics()
+void Graphics::prepareTextureBuffers()
 {
-	loadShaders();
-}
-
-void Graphics::drawTexture(GLTexture::ptr texture, Rectanglef const& target, float depth)
-{
-	glm::vec2 pos = target.getPosition();
-	glm::vec2 size = target.getSize();
-
-	glm::vec3 positionData[] =
-	{
-		glm::vec3(pos.x         , pos.y         , depth),
-		glm::vec3(pos.x + size.x, pos.y         , depth),
-		glm::vec3(pos.x         , pos.y + size.y, depth),
-		glm::vec3(pos.x + size.x, pos.y + size.y, depth)
-	};
-
-	glm::vec2 textureData[] =
+	const static glm::vec2 textureData[] =
 	{
 		glm::vec2(0, 0),
 		glm::vec2(1, 0),
@@ -55,21 +69,19 @@ void Graphics::drawTexture(GLTexture::ptr texture, Rectanglef const& target, flo
 		glm::vec2(1, 1)
 	};
 
-	GLuint bufferHandles[2];
-	glGenBuffers(2, bufferHandles);
+	glGenBuffers(2, textureBuffers2D);
 
-	GLuint positionBufferHandle = bufferHandles[0];
-	GLuint textureBufferHandle = bufferHandles[1];
+	GLuint positionBufferHandle = textureBuffers2D[0];
+	GLuint textureBufferHandle = textureBuffers2D[1];
 
 	glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
-	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(glm::vec3), positionData, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(glm::vec3), NULL, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, textureBufferHandle);
 	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(glm::vec2), textureData, GL_STATIC_DRAW);
 
-	GLuint vaoHandle;
-	glGenVertexArrays(1, &vaoHandle);
-	glBindVertexArray(vaoHandle);
+	glGenVertexArrays(1, &texture2DVAO);
+	glBindVertexArray(texture2DVAO);
 
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
@@ -80,19 +92,90 @@ void Graphics::drawTexture(GLTexture::ptr texture, Rectanglef const& target, flo
 	glBindBuffer(GL_ARRAY_BUFFER, textureBufferHandle);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+Graphics::Graphics()
+{
+	AttachmentPoint::ptr attPoint = AttachmentPoint::ptr(new AttachmentPoint(glm::vec3(0, 5, -15), glm::vec3()));
+	camera = Camera::ptr(new Camera(attPoint));
+
+	loadShaders();
+	prepareTextureBuffers();
+}
+
+Graphics::~Graphics()
+{
+	glDeleteBuffers(2, textureBuffers2D);
+	glDeleteVertexArrays(1, &texture2DVAO);
+}
+
+void Graphics::drawTexture(GLTexture::ptr const& texture, Rectanglef const& target, float depth)
+{
+	textureInstances.push_back(TextureInstance(texture, target, depth));
+}
+
+void Graphics::drawModel(Model::ptr const& model)
+{
+	models.push_back(model);
+}
+
+void Graphics::render()
+{
+	glCullFace(GL_FRONT);
+	glEnable(GL_POLYGON_OFFSET_FILL);
+	glPolygonOffset(-1.1f, -4.f);
+
+	BOOST_FOREACH(PointLight::ptr const& light, primaryLights)
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, light->getShadowBuffer());
+		glViewport(0, 0, light->getShadowResolution(), light->getShadowResolution());
+		glClear(GL_DEPTH_BUFFER_BIT);
+
+		BOOST_FOREACH(Model::ptr const& model, models)
+		{
+			model->drawShadow(light);
+		}
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	Game::ptr const& game = Game::getInstance();
+	glViewport(0, 0, game->getWindowWidth(), game->getWindowHeight());
+
+	glCullFace(GL_BACK);
+	glDisable(GL_POLYGON_OFFSET_FILL);
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	camera->updateViewMatrix();
+
+	BOOST_FOREACH(Model::ptr const& model, models)
+	{
+		model->draw(*this);
+	}
+
+	models.clear();
+
+
+	glBindVertexArray(texture2DVAO);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	texture->use(0);
-	prog2D.setUniform("texture", (GLint)0);
+	BOOST_FOREACH(TextureInstance const& texInst, textureInstances)
+	{
+		drawTextureInstance(texInst);
+	}
 
+	glDisable(GL_BLEND);
 
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
 
+	textureInstances.clear();
 
-	glDeleteVertexArrays(1, &vaoHandle);
-	glDeleteBuffers(1, bufferHandles);
+	return;
 }
 
 Camera::ptr Graphics::getCamera() const
@@ -108,4 +191,17 @@ void Graphics::addPrimaryLight(PointLight::ptr const& light)
 std::vector<PointLight::ptr> const& Graphics::getPrimaryLights() const
 {
 	return primaryLights;
+}
+
+void Graphics::updateViewport()
+{
+	Game::ptr const& game = Game::getInstance();
+
+	int width = game->getWindowWidth();
+	int height = game->getWindowHeight();
+
+	glViewport(0, 0, width, height);
+
+	float aspect = static_cast<float>(width) / static_cast<float>(height);
+	camera->updateProjectionMatrix(aspect);
 }
