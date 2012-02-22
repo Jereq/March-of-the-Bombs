@@ -143,6 +143,15 @@ void Model3DS::createVBO()
 		}
 	}
 
+	vector<glm::vec3> indexedNormals;
+	indexedNormals.resize(vertices.size());
+
+	unsigned int i = 0;
+	BOOST_FOREACH(unsigned int index, indices)
+	{
+		indexedNormals[index] = normals[i++];
+	}
+
 	GLuint vertexBuffers[4];
 	glGenBuffers(4, vertexBuffers);
 
@@ -155,7 +164,7 @@ void Model3DS::createVBO()
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, normalVBO);
-	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), normals.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, indexedNormals.size() * sizeof(glm::vec3), indexedNormals.data(), GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, texCoordVBO);
 	glBufferData(GL_ARRAY_BUFFER, texCoords.size() * sizeof(glm::vec2), texCoords.data(), GL_STATIC_DRAW);
