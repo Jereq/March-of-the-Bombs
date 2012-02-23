@@ -53,7 +53,7 @@ class array_iterator
     iterator_facade<
         array_iterator<T,TPtr,NumDims,Reference>
       , typename associated_types<T,NumDims>::value_type
-      , boost::random_access_traversal_tag
+      , std::random_access_iterator_tag
       , Reference
     >
     , private
@@ -68,12 +68,7 @@ class array_iterator
   friend class iterator_core_access;
   typedef detail::multi_array::associated_types<T,NumDims> access_t;
 
-  typedef iterator_facade<
-        array_iterator<T,TPtr,NumDims,Reference>
-      , typename detail::multi_array::associated_types<T,NumDims>::value_type
-      , boost::random_access_traversal_tag
-      , Reference
-    > facade_type;
+  typedef typename array_iterator::iterator_facade_ facade_type;
 
   typedef typename access_t::index index;
   typedef typename access_t::size_type size_type;

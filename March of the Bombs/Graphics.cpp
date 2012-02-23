@@ -175,6 +175,40 @@ void Graphics::render()
 
 	textureInstances.clear();
 
+
+	/**
+	 * Debug code that displays the first lights depth texture
+	**/
+
+	//if (primaryLights.size() > 0)
+	//{
+	//	glBindVertexArray(texture2DVAO);
+
+	//	glm::vec2 pos(0, 0);
+	//	glm::vec2 size(0.5f, 0.5f);
+	//	float depth = 0.99f;
+
+	//	glm::vec3 positionData[] =
+	//	{
+	//		glm::vec3(pos.x         , pos.y         , depth),
+	//		glm::vec3(pos.x + size.x, pos.y         , depth),
+	//		glm::vec3(pos.x         , pos.y + size.y, depth),
+	//		glm::vec3(pos.x + size.x, pos.y + size.y, depth)
+	//	};
+
+	//	GLuint positionBufferHandle = textureBuffers2D[0];
+	//	GLuint textureBufferHandle = textureBuffers2D[1];
+
+	//	glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
+	//	glBufferSubData(GL_ARRAY_BUFFER, 0, 4 * sizeof(glm::vec3), positionData);
+
+	//	prog2D.use();
+	//	glActiveTexture(GL_TEXTURE0);
+	//	glBindTexture(GL_TEXTURE_2D, primaryLights[0]->getShadowTexture());
+	//	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	//}
+
+
 	return;
 }
 

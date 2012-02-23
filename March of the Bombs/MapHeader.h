@@ -11,5 +11,6 @@ private:
 	void updateBuildings();
 	void UpdateWalls();
 
-	boost::multi_array<Block::ptr,2> blockMap;
+	typedef boost::multi_array<Block::ptr, 2> block2DArray;
+	block2DArray blockMap;
 };

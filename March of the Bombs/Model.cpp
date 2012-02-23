@@ -134,11 +134,9 @@ void Model::draw(Graphics const& graphics) const
 
 void Model::drawShadow(PointLight::ptr const& light) const
 {
-	mat4 modelViewMatrix = light->getViewMatrix() * getModelMatrix();
-	mat4 projectionMatrix = light->getProjectionMatrix();
+	mat4 modelViewProjectionMatrix = light->getProjectionMatrix() * light->getViewMatrix() * getModelMatrix();
 
-	shadowProg.setUniform("modelViewMatrix", modelViewMatrix);
-	shadowProg.setUniform("projectionMatrix", projectionMatrix);
+	shadowProg.setUniform("modelViewProjectionMatrix", modelViewProjectionMatrix);
 
 	modelData->drawShadow();
 }
