@@ -180,11 +180,11 @@ void Model3DS::createVBO(Lib3dsFile* modelFile)
 	glBindBuffer(GL_ARRAY_BUFFER, vertexVBO);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
-	glBindBuffer(GL_ARRAY_BUFFER, normalVBO);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-
 	glBindBuffer(GL_ARRAY_BUFFER, texCoordVBO);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	glBindBuffer(GL_ARRAY_BUFFER, normalVBO);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexVBO);
