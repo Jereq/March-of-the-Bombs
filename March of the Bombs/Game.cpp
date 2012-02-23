@@ -54,6 +54,10 @@ void Game::initOpenGL()
 	printf("OpenGL version supported: %i.%i\n", major, minor);
 	printf("GLSL version supported: %s\n", glslVersion);
 
+	// Version used
+	major = 3;
+	minor = 2;
+
 	printf("Will now set GL version to: %i.%i\n", major, minor);
 	glutInitContextVersion(major, minor);
 	glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
