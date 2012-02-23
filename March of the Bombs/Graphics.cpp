@@ -56,7 +56,7 @@ void Graphics::loadShaders()
 	prog2D.printActiveAttribs();
 	printf("\n");
 
-	prog2D.setUniform("texture", (GLint)0);
+	prog2D.setUniform("image", (GLint)0);
 }
 
 void Graphics::prepareTextureBuffers()

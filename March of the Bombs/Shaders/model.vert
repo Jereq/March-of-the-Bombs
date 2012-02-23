@@ -9,7 +9,7 @@ uniform mat4 projectionMatrix;
 uniform mat3 normalMatrix;
 
 uniform mat4 shadowMatrices[5];
-uniform uint numLights = 0;
+uniform uint numLights = 0U;
 
 out VertexOut
 {
@@ -28,7 +28,7 @@ void main()
 	vOut.textureCoordinates = vertexTextureCoordinates;
 	vOut.normal = normalize(normalMatrix * vertexNormal);
 
-	for (int i = 0; i < numLights; i++)
+	for (uint i = 0U; i < numLights; i++)
 	{
 		vOut.shadowCoordinates[i] = shadowMatrices[i] * vec4(vertexPosition, 1);
 	}

@@ -18,7 +18,7 @@ struct Light
 };
 
 uniform Light lights[5];
-uniform uint numLights = 0;
+uniform uint numLights = 0U;
 
 uniform struct Material
 {
@@ -29,7 +29,7 @@ uniform struct Material
 	sampler2D diffuseMap;
 } material;
 
-layout(location = 0) out vec4 fragColor;
+out vec4 fragColor;
 
 vec3 phongModelDiffAndSpec(in Light light, in vec3 normal, in vec3 view, in vec3 diffColor)
 {
@@ -51,7 +51,7 @@ void main()
 
 	vec3 result = vec3(0);
 
-	if (numLights > 0)
+	if (numLights > 0U)
 	{
 		float sum = 0;
 		sum += textureProjOffset(lights[0].shadowMap, fragIn.shadowCoordinates[0], ivec2(-1, -1));
@@ -65,7 +65,7 @@ void main()
 		result += shadow * diffAndSpec;
 	}
 
-	if (numLights > 1)
+	if (numLights > 1U)
 	{
 		float sum = 0;
 		sum += textureProjOffset(lights[1].shadowMap, fragIn.shadowCoordinates[1], ivec2(-1, -1));
@@ -79,7 +79,7 @@ void main()
 		result += shadow * diffAndSpec;
 	}
 
-	if (numLights > 2)
+	if (numLights > 2U)
 	{
 		float sum = 0;
 		sum += textureProjOffset(lights[2].shadowMap, fragIn.shadowCoordinates[2], ivec2(-1, -1));
@@ -93,7 +93,7 @@ void main()
 		result += shadow * diffAndSpec;
 	}
 
-	if (numLights > 3)
+	if (numLights > 3U)
 	{
 		float sum = 0;
 		sum += textureProjOffset(lights[3].shadowMap, fragIn.shadowCoordinates[3], ivec2(-1, -1));
@@ -107,7 +107,7 @@ void main()
 		result += shadow * diffAndSpec;
 	}
 
-	if (numLights > 4)
+	if (numLights > 4U)
 	{
 		float sum = 0;
 		sum += textureProjOffset(lights[4].shadowMap, fragIn.shadowCoordinates[4], ivec2(-1, -1));
@@ -121,7 +121,7 @@ void main()
 		result += shadow * diffAndSpec;
 	}
 
-	if (numLights == 0)
+	if (numLights == 0U)
 	{
 		result = diffColor * material.diffuse + material.specular;
 	}
