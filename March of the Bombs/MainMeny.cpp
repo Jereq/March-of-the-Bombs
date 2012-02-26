@@ -108,11 +108,11 @@ Screen::ptr MainMeny::getNextScreen()
 void MainMeny::createButtons()
 {
 	//GLTexture::ptr TestButton1 =	GLTexture::loadTexture(L"images/skull.tga");
-	GLTexture::ptr LobbyButton =	GLTexture::loadTexture(L"images/ButtonLobby.png");
-	GLTexture::ptr HtPButton =		GLTexture::loadTexture(L"images/ButtonHtP.png");
-	GLTexture::ptr OptionButton =	GLTexture::loadTexture(L"images/ButtonOption.png");
-	GLTexture::ptr CreditsButton =	GLTexture::loadTexture(L"images/ButtonCredits.png");
-	GLTexture::ptr ExitButton =		GLTexture::loadTexture(L"images/ButtonExit.png");
+	GLTexture::ptr LobbyButton =	GLTexture::getTexture(L"images/ButtonLobby.png");
+	GLTexture::ptr HtPButton =		GLTexture::getTexture(L"images/ButtonHtP.png");
+	GLTexture::ptr OptionButton =	GLTexture::getTexture(L"images/ButtonOption.png");
+	GLTexture::ptr CreditsButton =	GLTexture::getTexture(L"images/ButtonCredits.png");
+	GLTexture::ptr ExitButton =		GLTexture::getTexture(L"images/ButtonExit.png");
 
 	//class	 name	unpressed		pressed			rectangle	lower left corner		upper right corner
 	Button button0(LobbyButton,		LobbyButton,	Rectanglef(glm::vec2(0.25f,0.50f),glm::vec2(0.50f,0.15f)), 0.0f);
@@ -131,7 +131,7 @@ void MainMeny::createButtons()
 
 void MainMeny::createBackground()
 {
-	GLTexture::ptr Background = GLTexture::loadTexture(L"images/MotBbackground.png");
+	GLTexture::ptr Background = GLTexture::getTexture(L"images/MotBbackground.png");
 
 	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(1.00f,1.00f)), 0.99f);
 

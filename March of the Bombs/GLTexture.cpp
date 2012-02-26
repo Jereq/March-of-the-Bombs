@@ -5,18 +5,20 @@
 #endif
 #include <IL/ilut.h>
 
+std::map<std::wstring, GLTexture::w_ptr> GLTexture::textureMap;
+
 GLTexture::GLTexture(GLuint handle)
 	: handle(handle)
 {
 }
 
-GLTexture::ptr GLTexture::loadTexture(wchar_t* fileName)
+GLTexture::ptr GLTexture::loadTexture(std::wstring const& fileName)
 {
 	ILuint ilName;
 	ilGenImages(1, &ilName);
 	ilBindImage(ilName);
 
-	ILboolean result = ilLoadImage(fileName);
+	ILboolean result = ilLoadImage(fileName.c_str());
 	if (result)
 	{
 		std::wcout << "Loaded texture: " << fileName << std::endl;
@@ -40,6 +42,19 @@ GLTexture::~GLTexture()
 	{
 		glDeleteTextures(1, &handle);
 	}
+}
+
+GLTexture::ptr GLTexture::getTexture(std::wstring const& fileName)
+{
+	GLTexture::ptr& tex = textureMap[fileName].lock();
+
+	if (!tex)
+	{
+		tex = loadTexture(fileName);
+		textureMap[fileName] = tex;
+	}
+
+	return tex;
 }
 
 GLuint GLTexture::getHandle() const
