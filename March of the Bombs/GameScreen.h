@@ -10,7 +10,7 @@ private:
 	std::vector<PointLight::ptr> primaryLights;
 
 public:
-	Model::ptr test;
+	Model::ptr test[100];
 
 	GameScreen();
 

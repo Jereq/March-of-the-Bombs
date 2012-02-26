@@ -15,15 +15,31 @@ using glm::mat4;
 
 #include "Graphics.h"
 
-Model::Model(Model3DS::ptr const& modelData)
-	: modelData(modelData), validModelMatrix(false), scale(1.f)
+std::map<std::string, Model3DS::ptr> Model::modelMap;
+GLSLProgram Model::shadeProg;
+GLSLProgram Model::shadowProg;
+
+Model::Model(std::string const& fileName)
+	: validModelMatrix(false), scale(1.f)
 {
+	if (modelMap.count(fileName) == 0)
+	{
+		modelMap[fileName] = Model3DS::ptr(new Model3DS(fileName));
+	}
+
+	modelData = modelMap[fileName];
+
 	loadShadeProg();
 	loadShadowProg();
 }
 
 void Model::loadShadeProg()
 {
+	if (shadeProg.isLinked())
+	{
+		return;
+	}
+
 	if (!shadeProg.compileShaderFromFile("Shaders/model.vert", GLSLShader::VERTEX))
 	{
 		printf("Model vertex shader failed to compile!\n%s\n", shadeProg.log().c_str());
@@ -59,6 +75,11 @@ void Model::loadShadeProg()
 
 void Model::loadShadowProg()
 {
+	if (shadowProg.isLinked())
+	{
+		return;
+	}
+
 	if (!shadowProg.compileShaderFromFile("Shaders/modelShadow.vert", GLSLShader::VERTEX))
 	{
 		printf("Model shadow vertex shader failed to compile!\n%s\n", shadowProg.log().c_str());
@@ -115,7 +136,7 @@ void Model::draw(Graphics const& graphics) const
 		shadeProg.setUniform(uniformBuffer, light->getViewProjectionMatrix() * getModelMatrix());
 
 		sprintf_s(uniformBuffer, "lights[%d].shadowMap", lightCount);
-		shadeProg.setUniform(uniformBuffer, lightCount);
+		shadeProg.setUniform(uniformBuffer, (GLint)lightCount);
 
 		glActiveTexture(GL_TEXTURE0 + lightCount);
 		glBindTexture(GL_TEXTURE_2D, light->getShadowTexture());

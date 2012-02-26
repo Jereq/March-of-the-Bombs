@@ -1,5 +1,8 @@
 #pragma once
 
+#include <map>
+#include <string>
+
 #include <glm/glm.hpp>
 
 #include "Model3DS.h"
@@ -11,9 +14,11 @@ class Graphics;
 class Model
 {
 protected:
+	static std::map<std::string, Model3DS::ptr> modelMap;
+
 	Model3DS::ptr modelData;
-	GLSLProgram shadeProg;
-	GLSLProgram shadowProg;
+	static GLSLProgram shadeProg;
+	static GLSLProgram shadowProg;
 
 	glm::vec3 position;
 	glm::vec3 rotation;
@@ -28,7 +33,7 @@ protected:
 public:
 	typedef boost::shared_ptr<Model> ptr;
 
-	Model(Model3DS::ptr const& modelData);
+	Model(std::string const& fileName);
 	virtual ~Model();
 
 	virtual void draw(Graphics const& graphics) const;
