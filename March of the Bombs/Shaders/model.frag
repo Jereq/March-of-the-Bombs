@@ -123,7 +123,7 @@ void main()
 
 	if (numLights == 0U)
 	{
-		result = diffColor * material.diffuse + material.specular;
+		result = diffColor * material.diffuse;
 	}
 
 	fragColor = vec4(result + material.ambient, 1.0);

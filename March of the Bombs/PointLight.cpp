@@ -41,7 +41,7 @@ mat4 const& PointLight::getViewMatrix() const
 	return viewMatrix;
 }
 
-GLuint PointLight::getShadowTexture(GLsizei size, GLuint& framebuffer)
+GLuint PointLight::createShadowTexture(GLsizei size, GLuint& framebuffer)
 {
 	GLfloat border[] = { 1.f, 0, 0, 0 };
 
@@ -78,7 +78,7 @@ PointLight::PointLight()
 	: validProjectionMatrix(false), validViewMatrix(false), validViewProjectionMatrix(false)
 {
 	shadowResolution = shadowSize;
-	shadowTexture = getShadowTexture(shadowResolution, shadowBuffer);
+	shadowTexture = createShadowTexture(shadowResolution, shadowBuffer);
 }
 
 PointLight::PointLight(vec4 position, vec3 intensity)
@@ -86,7 +86,7 @@ PointLight::PointLight(vec4 position, vec3 intensity)
 	 validProjectionMatrix(false), validViewMatrix(false), validViewProjectionMatrix(false)
 {
 	shadowResolution = shadowSize;
-	shadowTexture = getShadowTexture(shadowResolution, shadowBuffer);
+	shadowTexture = createShadowTexture(shadowResolution, shadowBuffer);
 }
 
 PointLight::~PointLight()
