@@ -20,6 +20,9 @@ void Model3DS::MaterialGroup::use(GLSLProgram const& prog) const
 	prog.setUniform("material.diffuse", *reinterpret_cast<glm::vec3 const*>(material.diffuse));
 	prog.setUniform("material.specular", *reinterpret_cast<glm::vec3 const*>(material.specular));
 	prog.setUniform("material.shininess", 40.f);
+
+	glActiveTexture(GL_TEXTURE0 + 5);
+	glBindTexture(GL_TEXTURE_2D, (GLuint) material.texture1_map.user_ptr);
 }
 
 Model3DS::Model3DS(std::string const& fileName)

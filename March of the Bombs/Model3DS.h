@@ -26,6 +26,7 @@ protected:
 		void use(GLSLProgram const& prog) const;
 	};
 
+public:
 	std::vector<MaterialGroup> groups;
 
 	GLuint vertexVBO;

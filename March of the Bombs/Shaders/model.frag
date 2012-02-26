@@ -26,8 +26,9 @@ uniform struct Material
 	vec3 diffuse;
 	vec3 specular;
 	float shininess;
-	sampler2D diffuseMap;
 } material;
+
+uniform sampler2D diffuseMap;
 
 out vec4 fragColor;
 
@@ -47,7 +48,7 @@ void main()
 {
 	vec3 normal = normalize(fragIn.normal);
 	vec3 view = normalize(vec3(-fragIn.position));
-	vec3 diffColor = vec3(1);//vec3(texture(material.diffuseMap, fragIn.textureCoordinates));
+	vec3 diffColor = vec3(texture(diffuseMap, fragIn.textureCoordinates));
 
 	vec3 result = vec3(0);
 

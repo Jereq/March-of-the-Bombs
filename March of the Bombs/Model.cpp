@@ -29,6 +29,9 @@ Model::Model(std::string const& fileName)
 
 	modelData = modelMap[fileName];
 
+	textures.push_back(GLTexture::getTexture(L"Images/skull.tga"));
+	modelData->groups[0].material.texture1_map.user_ptr = (GLvoid*) textures[0]->getHandle();
+
 	loadShadeProg();
 	loadShadowProg();
 }
@@ -66,11 +69,12 @@ void Model::loadShadeProg()
 	shadeProg.printActiveAttribs();
 	printf("\n");
 
-	shadeProg.setUniform("lights[0].shadowMap", (GLuint)0);
-	shadeProg.setUniform("lights[1].shadowMap", (GLuint)1);
-	shadeProg.setUniform("lights[2].shadowMap", (GLuint)2);
-	shadeProg.setUniform("lights[3].shadowMap", (GLuint)3);
-	shadeProg.setUniform("lights[4].shadowMap", (GLuint)4);
+	shadeProg.setUniform("lights[0].shadowMap", (GLint)0);
+	shadeProg.setUniform("lights[1].shadowMap", (GLint)1);
+	shadeProg.setUniform("lights[2].shadowMap", (GLint)2);
+	shadeProg.setUniform("lights[3].shadowMap", (GLint)3);
+	shadeProg.setUniform("lights[4].shadowMap", (GLint)4);
+	shadeProg.setUniform("diffuseMap", (GLint)5);
 }
 
 void Model::loadShadowProg()
