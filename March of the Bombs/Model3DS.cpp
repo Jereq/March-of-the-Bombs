@@ -4,6 +4,9 @@
 #include <vector>
 using std::vector;
 
+#include <list>
+#include <map>
+
 #include <boost/foreach.hpp>
 
 Model3DS::MaterialGroup::MaterialGroup()
@@ -16,7 +19,7 @@ void Model3DS::MaterialGroup::use(GLSLProgram const& prog) const
 	prog.setUniform("material.ambient", *reinterpret_cast<glm::vec3 const*>(material.ambient));
 	prog.setUniform("material.diffuse", *reinterpret_cast<glm::vec3 const*>(material.diffuse));
 	prog.setUniform("material.specular", *reinterpret_cast<glm::vec3 const*>(material.specular));
-	prog.setUniform("material.shininess", material.shininess);
+	prog.setUniform("material.shininess", 40.f);
 }
 
 Model3DS::Model3DS(std::string const& fileName)
@@ -86,11 +89,25 @@ void Model3DS::drawShadow() const
 	glBindVertexArray(0);
 }
 
+class compareVec3
+{
+public:
+	bool operator()(glm::vec3 const& lhs, glm::vec3 const& rhs)
+	{
+		if (lhs.x < rhs.x) return true;
+		if (lhs.x > rhs.x) return false;
+		if (lhs.y < rhs.y) return true;
+		if (lhs.y > rhs.y) return false;
+		if (lhs.z < rhs.z) return true;
+		return false;
+	}
+};
+
 void Model3DS::createVBO(Lib3dsFile* modelFile)
 {
 	vector<glm::vec3> vertices;
-	vector<glm::vec3> normals;
 	vector<glm::vec2> texCoords;
+	vector<glm::vec3> indexedNormals;
 	vector<unsigned short> indices;
 	
 	for (int i = 0; i < modelFile->nmeshes; i++)
@@ -103,14 +120,43 @@ void Model3DS::createVBO(Lib3dsFile* modelFile)
 		vertices.reserve(vertices.size() + numVert);
 		texCoords.reserve(texCoords.size() + numVert);
 
-		unsigned int normalPos = normals.size();
-		normals.resize(normals.size() + mesh->nfaces * 3);
-		lib3ds_mesh_calculate_vertex_normals(mesh, reinterpret_cast<float(*)[3]>(&normals[normalPos]));
-
 		for (unsigned int j = 0; j < numVert; j++)
 		{
 			vertices.push_back(*reinterpret_cast<glm::vec3*>(mesh->vertices[j]));
 			texCoords.push_back(*reinterpret_cast<glm::vec2*>(mesh->texcos[j]));
+		}
+
+		std::map<glm::vec3, std::list<unsigned short>, compareVec3> doubleVertices;
+		for (unsigned int j = baseVertex; j < vertices.size(); j++)
+		{
+			doubleVertices[vertices[j]].push_back(j);
+		}
+
+		vector<glm::vec3> faceNormals(mesh->nfaces);
+		lib3ds_mesh_calculate_face_normals(mesh, reinterpret_cast<float(*)[3]>(&faceNormals[0]));
+
+		int fCount = 0;
+		indexedNormals.resize(indexedNormals.size() + numVert);
+		BOOST_FOREACH(glm::vec3 const& normal, faceNormals)
+		{
+			Lib3dsFace const& face = mesh->faces[fCount];
+
+			for (unsigned int j = 0; j < 3; j++)
+			{
+				glm::vec3 pos = vertices[baseVertex + face.index[j]];
+
+				BOOST_FOREACH(unsigned short normInd, doubleVertices[pos])
+				{
+					indexedNormals[normInd] += normal;
+				}
+			}
+
+			fCount++;
+		}
+
+		for (unsigned int j = baseVertex; j < indexedNormals.size(); j++)
+		{
+			indexedNormals[j] = glm::normalize(indexedNormals[j]);
 		}
 
 		indices.reserve(indices.size() + mesh->nfaces * 3);
@@ -141,15 +187,6 @@ void Model3DS::createVBO(Lib3dsFile* modelFile)
 
 			currentGroup->count += 3;
 		}
-	}
-
-	vector<glm::vec3> indexedNormals;
-	indexedNormals.resize(vertices.size());
-
-	unsigned int i = 0;
-	BOOST_FOREACH(unsigned int index, indices)
-	{
-		indexedNormals[index] = normals[i++];
 	}
 
 	GLuint vertexBuffers[4];
