@@ -11,10 +11,10 @@ GUIMain::~GUIMain()
 }
 
 //the final updatefunktion that uses the updateinfo from the currently pointing screen
-void GUIMain::update()
+void GUIMain::update(float deltaTime)
 {
 	//add some form of cheeck when to chance screen.. some funktion/bool or something simular
-	screen->update();									//Pointing this funktion to use the pointers targets update 
+	screen->update(deltaTime);								//Pointing this function to use the pointers targets update 
 
 	Screen::ptr next = screen->getNextScreen();
 	while (next)

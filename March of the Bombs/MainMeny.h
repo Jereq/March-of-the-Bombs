@@ -14,7 +14,7 @@ private:
 public:
 	MainMeny(void);
 	~MainMeny(void);
-	void update();
+	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
 

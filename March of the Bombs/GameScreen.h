@@ -14,7 +14,7 @@ public:
 
 	GameScreen();
 
-	void update();
+	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
 };

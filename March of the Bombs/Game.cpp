@@ -261,7 +261,7 @@ void Game::update(float deltaTime)
 		}
 	}
 
-	gui.update();
+	gui.update(deltaTime);
 }
 
 Game::Game()

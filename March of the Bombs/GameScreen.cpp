@@ -11,7 +11,7 @@ GameScreen::GameScreen()
 	Game::getInstance()->getGraphics()->setPrimaryLights(primaryLights);
 }
 
-void GameScreen::update()
+void GameScreen::update(float deltaTime)
 {
 	glm::vec3 rot = test->getRotation() + glm::vec3(0.0001f, 0.00003, 0);
 	test->setRotation(rot);

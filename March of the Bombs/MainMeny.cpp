@@ -16,7 +16,7 @@ MainMeny::~MainMeny()
 }
 
 //Mainmenys updateinfo
-void MainMeny::update()
+void MainMeny::update(float deltaTime)
 {
 	Game::ptr game = Game::getInstance();
 

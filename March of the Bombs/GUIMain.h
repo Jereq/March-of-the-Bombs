@@ -11,7 +11,7 @@ private:
 public:
 	GUIMain();								//constructor
 	virtual ~GUIMain();						//destructor
-	void update();							//updatefunktion
-	void draw(Graphics::ptr graphics);		//drawfunktion
+	void update(float deltaTime);			//updatefunction
+	void draw(Graphics::ptr graphics);		//drawfunction
 };
 
