@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Screen.h"
-#include "MouseMoveEvent.h"
 #include "KeyboardEvent.h"
+#include "MouseMoveEvent.h"
 #include "MouseButtonEvent.h"
 
 class Game;
@@ -28,5 +28,5 @@ public:
 	void createBackground();
 	void KeyboardEventMethod(KeyboardEvent* keyEvent);
 	void MousePressEventMethod(MouseButtonEvent* mbEvent);
-	void MouseTouchEventMethod();
+	void MouseTouchEventMethod(MouseMoveEvent* mmEvent);
 };

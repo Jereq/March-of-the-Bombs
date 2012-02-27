@@ -42,11 +42,17 @@ void MainMeny::update(float deltaTime)
 
 		case EventType::MouseButton:
 			{
-				MouseButtonEvent* mbEvent = static_cast<MouseButtonEvent*>(ev.get());
+				MouseButtonEvent* mbEvent = static_cast<MouseButtonEvent*>(ev.get());				
 
 				MousePressEventMethod(mbEvent);
-
 				
+			}
+			break;
+		case EventType::MouseMove:
+			{
+				MouseMoveEvent* mmEvent = static_cast<MouseMoveEvent*>(ev.get());
+
+				MouseTouchEventMethod(mmEvent);
 			}
 			break;
 		}
@@ -137,27 +143,29 @@ void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
 {
 	if (mbEvent->button == MouseButton::Left && mbEvent->state == MouseButtonState::Pressed)
 	{
-		BOOST_FOREACH(Button& button, buttons)
-		{
-			if(button.intersects(mbEvent->position))
-			{
-				button.changeState();
-			}
-		}
-
-		if (buttons[0].isPressed())
+		if (buttons[0].getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new GameScreen());
 		}
 
-		if (buttons[4].isPressed())
+		if (buttons[4].getState() == Hovered)
 		{
 			game->close();
 		}
 	}
 }
 
-void MainMeny::MouseTouchEventMethod()
+void MainMeny::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 {
-
+	BOOST_FOREACH(Button& button, buttons)
+	{
+		if(button.intersects(mmEvent->position))
+		{
+			button.setState(Hovered);
+		}
+		else
+		{
+			button.setState(Unused);
+		}
+	}
 }
