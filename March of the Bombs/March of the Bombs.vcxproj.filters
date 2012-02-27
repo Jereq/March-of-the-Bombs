@@ -165,6 +165,12 @@
     <ClCompile Include="Model3DS.cpp">
       <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
+    <ClCompile Include="PlaneModelData.cpp">
+      <Filter>Source Files\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="PlaneModel.cpp">
+      <Filter>Source Files\Graphics\Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -273,6 +279,12 @@
       <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="ModelData.h">
+      <Filter>Header Files\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneModelData.h">
+      <Filter>Header Files\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="PlaneModel.h">
       <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,131 +1,40 @@
-#include "BlockModelData.h"
+#include "PlaneModelData.h"
 
 using glm::vec2;
 using glm::vec3;
 
-const unsigned short BlockModelData::NUM_INDICES = 36;
-BlockModelData::ptr BlockModelData::instance;
+const unsigned short PlaneModelData::NUM_INDICES = 4;
+PlaneModelData::ptr PlaneModelData::instance;
 
-void BlockModelData::createVBO()
+void PlaneModelData::createVBO()
 {
-	vec3 positionData[24] =
+	vec3 positionData[4] =
 	{
 		vec3(0, 0, 0),
 		vec3(0, 0, 1),
-		vec3(0, 1, 1),
-		vec3(0, 1, 0),
-
-		vec3(1, 0, 0),
-		vec3(1, 1, 0),
-		vec3(1, 1, 1),
 		vec3(1, 0, 1),
-
-		vec3(0, 0, 0),
-		vec3(1, 0, 0),
-		vec3(1, 0, 1),
-		vec3(0, 0, 1),
-
-		vec3(0, 1, 0),
-		vec3(0, 1, 1),
-		vec3(1, 1, 1),
-		vec3(1, 1, 0),
-
-		vec3(0, 0, 0),
-		vec3(0, 1, 0),
-		vec3(1, 1, 0),
-		vec3(1, 0, 0),
-
-		vec3(0, 0, 1),
-		vec3(1, 0, 1),
-		vec3(1, 1, 1),
-		vec3(0, 1, 1)
+		vec3(1, 0, 0)
 	};
 
-	vec3 normalData[24] =
+	vec3 normalData[4] =
 	{
-		vec3(-1, 0, 0),
-		vec3(-1, 0, 0),
-		vec3(-1, 0, 0),
-		vec3(-1, 0, 0),
-
-		vec3(1, 0, 0),
-		vec3(1, 0, 0),
-		vec3(1, 0, 0),
-		vec3(1, 0, 0),
-
-		vec3(0, -1, 0),
-		vec3(0, -1, 0),
-		vec3(0, -1, 0),
-		vec3(0, -1, 0),
-
 		vec3(0, 1, 0),
 		vec3(0, 1, 0),
 		vec3(0, 1, 0),
-		vec3(0, 1, 0),
-
-		vec3(0, 0, -1),
-		vec3(0, 0, -1),
-		vec3(0, 0, -1),
-		vec3(0, 0, -1),
-
-		vec3(0, 0, 1),
-		vec3(0, 0, 1),
-		vec3(0, 0, 1),
-		vec3(0, 0, 1),
+		vec3(0, 1, 0)
 	};
 
-	vec2 texData[24] =
+	vec2 texData[4] =
 	{
-		vec2(0, 0),
-		vec2(1, 0),
-		vec2(1, 1),
-		vec2(0, 1),
-		
-		vec2(1, 0),
-		vec2(1, 1),
 		vec2(0, 1),
 		vec2(0, 0),
-
-		vec2(0, 0),
 		vec2(1, 0),
-		vec2(1, 1),
-		vec2(0, 1),
-
-		vec2(0, 0),
-		vec2(1, 0),
-		vec2(1, 1),
-		vec2(0, 1),
-		
-		vec2(1, 0),
-		vec2(1, 1),
-		vec2(0, 1),
-		vec2(0, 0),
-
-		vec2(0, 0),
-		vec2(1, 0),
-		vec2(1, 1),
-		vec2(0, 1)
+		vec2(1, 1)
 	};
 
 	unsigned char indexData[NUM_INDICES] =
 	{
-		0, 1, 3,
-		1, 2, 3,
-
-		4, 5, 7,
-		5, 6, 7,
-
-		8,  9, 11,
-		9, 10, 11,
-
-		12, 13, 15,
-		13, 14, 15,
-
-		16, 17, 19,
-		17, 18, 19,
-
-		20, 21, 23,
-		21, 22, 23
+		0, 1, 3, 2
 	};
 
 	GLuint vertexBuffers[4];
@@ -172,26 +81,26 @@ void BlockModelData::createVBO()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void BlockModelData::setMaterial()
+void PlaneModelData::setMaterial()
 {
 	material.ambient[0] = 0;
 	material.ambient[1] = 0;
 	material.ambient[2] = 0;
 
-	material.diffuse[0] = 0.6f;
-	material.diffuse[1] = 0.6f;
-	material.diffuse[2] = 0.6f;
+	material.diffuse[0] = 0.9f;
+	material.diffuse[1] = 0.9f;
+	material.diffuse[2] = 0.9f;
 
-	material.specular[0] = 0.4f;
-	material.specular[1] = 0.4f;
-	material.specular[2] = 0.4f;
+	material.specular[0] = 0.1f;
+	material.specular[1] = 0.1f;
+	material.specular[2] = 0.1f;
 
-	material.shininess = 40.f;
+	material.shininess = 20.f;
 
 	material.texture1_map.user_ptr = (void*)texture->getHandle();
 }
 
-void BlockModelData::useMaterial(GLSLProgram const& prog) const
+void PlaneModelData::useMaterial(GLSLProgram const& prog) const
 {
 	prog.setUniform("material.ambient", *reinterpret_cast<glm::vec3 const*>(material.ambient));
 	prog.setUniform("material.diffuse", *reinterpret_cast<glm::vec3 const*>(material.diffuse));
@@ -202,15 +111,15 @@ void BlockModelData::useMaterial(GLSLProgram const& prog) const
 	glBindTexture(GL_TEXTURE_2D, (GLuint) material.texture1_map.user_ptr);
 }
 
-BlockModelData::BlockModelData()
+PlaneModelData::PlaneModelData()
 	: vertexVBO(0), normalVBO(0), texCoordVBO(0), indexVBO(0), modelVAO(0),
-	texture(GLTexture::getTexture(L"Images/Hard Rock.png"))
+	texture(GLTexture::getTexture(L"Images/GroundPlane.png"))
 {
 	createVBO();
 	setMaterial();
 }
 
-BlockModelData::~BlockModelData()
+PlaneModelData::~PlaneModelData()
 {
 	if (vertexVBO)
 	{
@@ -238,30 +147,30 @@ BlockModelData::~BlockModelData()
 	}
 }
 
-void BlockModelData::draw(GLSLProgram const& prog) const
+void PlaneModelData::draw(GLSLProgram const& prog) const
 {
 	glBindVertexArray(modelVAO);
 
 	useMaterial(prog);
-	glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
+	glDrawElements(GL_TRIANGLE_STRIP, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
 
 	glBindVertexArray(0);
 }
 
-void BlockModelData::drawShadow() const
+void PlaneModelData::drawShadow() const
 {
 	glBindVertexArray(modelVAO);
 
-	glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
+	glDrawElements(GL_TRIANGLE_STRIP, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
 
 	glBindVertexArray(0);
 }
 
-BlockModelData::ptr BlockModelData::getInstance()
+PlaneModelData::ptr PlaneModelData::getInstance()
 {
 	if (!instance)
 	{
-		instance = BlockModelData::ptr(new BlockModelData());
+		instance = PlaneModelData::ptr(new PlaneModelData());
 	}
 
 	return instance;

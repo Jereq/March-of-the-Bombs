@@ -98,7 +98,7 @@ void Graphics::prepareTextureBuffers()
 
 Graphics::Graphics()
 {
-	AttachmentPoint::ptr attPoint = AttachmentPoint::ptr(new AttachmentPoint(glm::vec3(0, 0, 15), glm::vec3()));
+	AttachmentPoint::ptr attPoint = AttachmentPoint::ptr(new AttachmentPoint(glm::vec3(-20, 15, 20), glm::vec3(-30, -45, 0)));
 	camera = Camera::ptr(new Camera(attPoint));
 
 	loadShaders();
@@ -125,7 +125,8 @@ void Graphics::render()
 {
 	glCullFace(GL_FRONT);
 	glEnable(GL_POLYGON_OFFSET_FILL);
-	glPolygonOffset(-1.1f, -4.f);
+	//glPolygonOffset(-1.1f, -4.f);
+	glPolygonOffset(-1.f, -3.f);
 
 	BOOST_FOREACH(PointLight::ptr const& light, primaryLights)
 	{

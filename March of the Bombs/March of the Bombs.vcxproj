@@ -109,6 +109,8 @@
     <ClCompile Include="MouseMoveEvent.cpp" />
     <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="PacketDispatchClient.cpp" />
+    <ClCompile Include="PlaneModel.cpp" />
+    <ClCompile Include="PlaneModelData.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Rectanglef.cpp" />
     <ClCompile Include="SimpleImage.cpp" />
@@ -145,6 +147,8 @@
     <ClInclude Include="MouseButtonEvent.h" />
     <ClInclude Include="MouseMoveEvent.h" />
     <ClInclude Include="MouseState.h" />
+    <ClInclude Include="PlaneModel.h" />
+    <ClInclude Include="PlaneModelData.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Rectanglef.h" />
     <ClInclude Include="MapHeader.h" />

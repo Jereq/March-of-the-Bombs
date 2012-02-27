@@ -11,6 +11,7 @@ private:
 
 public:
 	Model::ptr test[100];
+	Model::ptr testBlocks[100];
 
 	GameScreen();
 
