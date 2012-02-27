@@ -1,6 +1,7 @@
 #include "GameScreen.h"
 
 #include "Game.h"
+#include "BlockModel.h"
 
 GameScreen::GameScreen()
 {
@@ -15,6 +16,11 @@ GameScreen::GameScreen()
 		test[i] = Model::ptr(new Model("Models/StandardBomber1.3ds"));
 		test[i]->setPosition(glm::vec3(i % 10 - 4.5f, (i / 10) * 0.1f + 1.45f, -(i / 10) + 5) * 3.f);
 	}
+
+	glm::vec3 pos = test[5]->getPosition();
+	test[5] = Model::ptr(new BlockModel());
+	test[5]->setPosition(pos);
+	test[5]->setScale(glm::vec3(3));
 
 	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(0, 20, -5, 1), glm::vec3(0.2f))));
 	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(0, 20, 0, 1), glm::vec3(0.2f))));

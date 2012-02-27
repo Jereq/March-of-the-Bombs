@@ -32,6 +32,8 @@ protected:
 	void loadShadeProg();
 	void loadShadowProg();
 
+	Model(ModelData::ptr const& model);
+
 public:
 	typedef boost::shared_ptr<Model> ptr;
 

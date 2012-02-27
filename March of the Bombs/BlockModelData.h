@@ -1,8 +1,10 @@
 #pragma once
 
-#include "Modeldata.h"
+#include "ModelData.h"
 
 #include <lib3ds/lib3ds.h>
+
+#include "GLTexture.h"
 
 class BlockModelData :
 	public ModelData
@@ -16,6 +18,7 @@ private:
 	static ptr instance;
 
 	Lib3dsMaterial material;
+	GLTexture::ptr texture;
 
 	GLuint vertexVBO;
 	GLuint normalVBO;
@@ -24,6 +27,8 @@ private:
 	GLuint modelVAO;
 
 	virtual void createVBO();
+	virtual void setMaterial();
+	virtual void useMaterial(GLSLProgram const& prog) const;
 
 protected:
 	BlockModelData();

@@ -112,20 +112,20 @@ void BlockModelData::createVBO()
 		0, 1, 3,
 		1, 2, 3,
 
-		4, 5, 6,
-		5, 7, 6,
+		4, 5, 7,
+		5, 6, 7,
 
-		8,  9, 10,
-		9, 11, 10,
+		8,  9, 11,
+		9, 10, 11,
 
-		12, 13, 14,
-		13, 15, 14,
+		12, 13, 15,
+		13, 14, 15,
 
-		16, 17, 18,
-		17, 19, 18,
+		16, 17, 19,
+		17, 18, 19,
 
-		20, 21, 22,
-		21, 23, 22
+		20, 21, 23,
+		21, 22, 23
 	};
 
 	GLuint vertexBuffers[4];
@@ -172,10 +172,42 @@ void BlockModelData::createVBO()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+void BlockModelData::setMaterial()
+{
+	material.ambient[0] = 0;
+	material.ambient[1] = 0;
+	material.ambient[2] = 0;
+
+	material.diffuse[0] = 0.6f;
+	material.diffuse[1] = 0.6f;
+	material.diffuse[2] = 0.6f;
+
+	material.specular[0] = 0.4f;
+	material.specular[1] = 0.4f;
+	material.specular[2] = 0.4f;
+
+	material.shininess = 40.f;
+
+	material.texture1_map.user_ptr = (void*)texture->getHandle();
+}
+
+void BlockModelData::useMaterial(GLSLProgram const& prog) const
+{
+	prog.setUniform("material.ambient", *reinterpret_cast<glm::vec3 const*>(material.ambient));
+	prog.setUniform("material.diffuse", *reinterpret_cast<glm::vec3 const*>(material.diffuse));
+	prog.setUniform("material.specular", *reinterpret_cast<glm::vec3 const*>(material.specular));
+	prog.setUniform("material.shininess", material.shininess);
+
+	glActiveTexture(GL_TEXTURE0 + 5);
+	glBindTexture(GL_TEXTURE_2D, (GLuint) material.texture1_map.user_ptr);
+}
+
 BlockModelData::BlockModelData()
-	: vertexVBO(0), normalVBO(0), texCoordVBO(0), indexVBO(0), modelVAO(0)
+	: vertexVBO(0), normalVBO(0), texCoordVBO(0), indexVBO(0), modelVAO(0),
+	texture(GLTexture::getTexture(L"Images/skull.tga"))
 {
 	createVBO();
+	setMaterial();
 }
 
 BlockModelData::~BlockModelData()
@@ -210,6 +242,7 @@ void BlockModelData::draw(GLSLProgram const& prog) const
 {
 	glBindVertexArray(modelVAO);
 
+	useMaterial(prog);
 	glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
 
 	glBindVertexArray(0);

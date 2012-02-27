@@ -19,11 +19,14 @@ using glm::mat4;
 GLSLProgram Model::shadeProg;
 GLSLProgram Model::shadowProg;
 
-Model::Model(std::string const& fileName)
-	: validModelMatrix(false), scale(1.f)
+Model::Model(ModelData::ptr const& model)
+	: modelData(model), validModelMatrix(false), scale(1.f)
 {
-	modelData = Model3DS::getModel(fileName);
-	
+}
+
+Model::Model(std::string const& fileName)
+	: modelData(Model3DS::getModel(fileName)), validModelMatrix(false), scale(1.f)
+{
 	textures.push_back(GLTexture::getTexture(L"Images/skull.tga"));
 	reinterpret_cast<Model3DS*>(modelData.get())->groups[0].material.texture1_map.user_ptr = (GLvoid*) textures[0]->getHandle();
 
