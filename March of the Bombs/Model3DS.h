@@ -34,6 +34,8 @@ protected:
 	
 	static std::map<std::string, Model3DS::ptr> modelMap;
 
+	Model3DS(std::string const& fileName);
+
 public: //private:
 	std::vector<MaterialGroup> groups;
 
@@ -46,7 +48,6 @@ public: //private:
 	virtual void createVBO(Lib3dsFile* modelFile);
 
 public:
-	Model3DS(std::string const& fileName);
 	virtual ~Model3DS();
 
 	virtual void draw(GLSLProgram const& prog) const;

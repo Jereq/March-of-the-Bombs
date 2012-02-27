@@ -153,6 +153,9 @@
     <ClCompile Include="MouseMoveEvent.cpp">
       <Filter>Source Files\Event</Filter>
     </ClCompile>
+    <ClCompile Include="BlockModelData.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="MouseMoveEvent.h">
       <Filter>Header Files\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockModelData.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
