@@ -6,6 +6,7 @@
 #include "GameScreen.h"
 
 MainMeny::MainMeny()
+	: game(Game::getInstance())
 {
 	MainMeny::createBackground();				//creates the vector holding all the backgrounds for this screen
 	MainMeny::createButtons();					//creates the vector holding all the buttons for this screen
@@ -18,7 +19,7 @@ MainMeny::~MainMeny()
 //Mainmenys updateinfo
 void MainMeny::update(float deltaTime)
 {
-	Game::ptr game = Game::getInstance();
+	
 
 	std::deque<Event::ptr>& events = game->getEvents();
 	std::deque<Event::ptr>::size_type numEvents = events.size();
@@ -35,19 +36,7 @@ void MainMeny::update(float deltaTime)
 			{
 				KeyboardEvent* keyEvent = static_cast<KeyboardEvent*>(ev.get());
 
-				const static char ESC = 0x1B;
-				if (keyEvent->key == ESC && keyEvent->eventType == KeyboardEventType::Pressed)
-				{
-					game->close();
-				}
-				else if (keyEvent->key == 'c' && keyEvent->eventType == KeyboardEventType::Released)
-				{
-					game->connect();
-				}
-				else if (keyEvent->key == 'b' && keyEvent->eventType == KeyboardEventType::Released)
-				{
-					game->sendBlob();
-				}
+				KeyboardEventMethod(keyEvent);
 			}
 			break;
 
@@ -136,4 +125,21 @@ void MainMeny::createBackground()
 	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(1.00f,1.00f)), 0.99f);
 
 	Backgrounds.push_back(Background1);
+}
+
+void MainMeny::KeyboardEventMethod(KeyboardEvent* keyEvent)
+{
+	const static char ESC = 0x1B;
+	if (keyEvent->key == ESC && keyEvent->eventType == KeyboardEventType::Pressed)
+	{
+		game->close();
+	}
+	else if (keyEvent->key == 'c' && keyEvent->eventType == KeyboardEventType::Released)
+	{
+		game->connect();
+	}
+	else if (keyEvent->key == 'b' && keyEvent->eventType == KeyboardEventType::Released)
+	{
+		game->sendBlob();
+	}
 }

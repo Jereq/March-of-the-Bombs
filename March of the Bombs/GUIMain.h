@@ -9,6 +9,8 @@ private:
 	Screen::ptr screen;						//smartpointer pointing at screen
 
 public:
+	typedef boost::shared_ptr<GUIMain> ptr;
+
 	GUIMain();								//constructor
 	virtual ~GUIMain();						//destructor
 	void update(float deltaTime);			//updatefunction

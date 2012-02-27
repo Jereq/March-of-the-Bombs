@@ -18,7 +18,7 @@ public:
 private:
 	static std::string windowTitle;
 
-	GUIMain gui;
+	GUIMain::ptr gui;
 	Graphics::ptr graphics;
 	std::deque<Event::ptr> events;
 

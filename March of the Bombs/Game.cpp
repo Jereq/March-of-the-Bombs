@@ -96,7 +96,7 @@ void Game::stDisplayFunc()
 
 void Game::displayFunc()
 {
-	gui.draw(graphics);
+	gui->draw(graphics);
 
 	graphics->render();
 
@@ -264,7 +264,7 @@ void Game::update(float deltaTime)
 		}
 	}
 
-	gui.update(deltaTime);
+	gui->update(deltaTime);
 }
 
 Game::Game()
@@ -278,6 +278,11 @@ Game::~Game()
 
 void Game::start()
 {
+	if (!gui)
+	{
+		gui = GUIMain::ptr(new GUIMain());
+	}
+
 	unpause();
 	glutMainLoop();
 }
