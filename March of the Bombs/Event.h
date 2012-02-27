@@ -7,7 +7,8 @@ namespace EventType
 	enum EventTypeEnum
 	{
 		Keyboard,
-		MouseButton
+		MouseButton,
+		MouseMove
 	};
 }
 

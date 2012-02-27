@@ -12,6 +12,7 @@
 
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"
+#include "MouseMoveEvent.h"
 
 #include <Packet2Blob.h>
 
@@ -228,6 +229,8 @@ void Game::mouseMotionFunc(int x, int y, bool pressed)
 {
 	currentMouseX = x;
 	currentMouseY = y;
+
+	events.push_back(Event::ptr(new MouseMoveEvent(getMousePos(), pressed)));
 }
 
 void Game::stKeyDownFunc(unsigned char key, int x, int y)

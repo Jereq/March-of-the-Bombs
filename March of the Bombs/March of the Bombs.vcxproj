@@ -104,6 +104,7 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Model3DS.cpp" />
     <ClCompile Include="MouseButtonEvent.cpp" />
+    <ClCompile Include="MouseMoveEvent.cpp" />
     <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="PacketDispatchClient.cpp" />
     <ClCompile Include="PointLight.cpp" />
@@ -138,6 +139,7 @@
     <ClInclude Include="Model3DS.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="MouseButtonEvent.h" />
+    <ClInclude Include="MouseMoveEvent.h" />
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Rectanglef.h" />
