@@ -3,6 +3,9 @@
 #include "HardBlock.h"
 #include "SoftBlock.h"
 #include "HQBlock.h"
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 void Map::loadDefaultMap()
 {
@@ -26,4 +29,15 @@ void Map::loadDefaultMap()
 				break;
 			}
 		}
+}
+
+void Map::loadMapFromFile()
+{
+	ofstream mapFile;
+	mapFile.open ("defaultmapfile.txt", ios::in);
+	if(mapFile.is_open())
+		cout << "LOADED!";
+
+
+	mapFile.close();
 }

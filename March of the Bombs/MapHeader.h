@@ -7,6 +7,7 @@ class Map
 {
 private:
 	void loadDefaultMap();
+	void loadMapFromFile();
 	void updateUnitPositions();
 	void updateBuildings();
 	void UpdateWalls();
