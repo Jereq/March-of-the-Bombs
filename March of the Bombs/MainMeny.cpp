@@ -1,8 +1,8 @@
 #include "MainMeny.h"
 #include "Game.h"
 #include <boost/foreach.hpp>
-#include "KeyboardEvent.h"
-#include "MouseButtonEvent.h"
+//#include "KeyboardEvent.h"
+//#include "MouseButtonEvent.h"
 #include "GameScreen.h"
 
 MainMeny::MainMeny()
@@ -44,26 +44,9 @@ void MainMeny::update(float deltaTime)
 			{
 				MouseButtonEvent* mbEvent = static_cast<MouseButtonEvent*>(ev.get());
 
-				if (mbEvent->button == MouseButton::Left && mbEvent->state == MouseButtonState::Pressed)
-				{
-					BOOST_FOREACH(Button& button, buttons)
-					{
-						if(button.intersects(mbEvent->position))
-						{
-							button.changeState();
-						}
-					}
+				MousePressEventMethod(mbEvent);
 
-					if (buttons[0].isPressed())
-					{
-						nextScreen = Screen::ptr(new GameScreen());
-					}
-
-					if (buttons[4].isPressed())
-					{
-						game->close();
-					}
-				}
+				
 			}
 			break;
 		}
@@ -96,19 +79,25 @@ Screen::ptr MainMeny::getNextScreen()
 
 void MainMeny::createButtons()
 {
-	//GLTexture::ptr TestButton1 =	GLTexture::loadTexture(L"images/skull.tga");
-	GLTexture::ptr LobbyButton =	GLTexture::getTexture(L"images/ButtonLobby.png");
-	GLTexture::ptr HtPButton =		GLTexture::getTexture(L"images/ButtonHtP.png");
-	GLTexture::ptr OptionButton =	GLTexture::getTexture(L"images/ButtonOption.png");
-	GLTexture::ptr CreditsButton =	GLTexture::getTexture(L"images/ButtonCredits.png");
-	GLTexture::ptr ExitButton =		GLTexture::getTexture(L"images/ButtonExit.png");
+	//GLTexture::ptr TestButton1	=	GLTexture::loadTexture(L"images/skull.tga");
+	GLTexture::ptr LobbyButton		=	GLTexture::getTexture(L"images/ButtonLobby.png");
+	GLTexture::ptr HtPButton		=	GLTexture::getTexture(L"images/ButtonHtP.png");
+	GLTexture::ptr OptionButton		=	GLTexture::getTexture(L"images/ButtonOption.png");
+	GLTexture::ptr CreditsButton	=	GLTexture::getTexture(L"images/ButtonCredits.png");
+	GLTexture::ptr ExitButton		=	GLTexture::getTexture(L"images/ButtonExit.png");
+
+	GLTexture::ptr LobbyButtonT		=	GLTexture::getTexture(L"images/ButtonLobbyT.png");
+	GLTexture::ptr HtPButtonT		=	GLTexture::getTexture(L"images/ButtonHtPT.png");
+	GLTexture::ptr OptionButtonT	=	GLTexture::getTexture(L"images/ButtonOptionT.png");
+	GLTexture::ptr CreditsButtonT	=	GLTexture::getTexture(L"images/ButtonCreditsT.png");
+	GLTexture::ptr ExitButtonT		=	GLTexture::getTexture(L"images/ButtonExitT.png");
 
 	//class	 name	unpressed		pressed			rectangle	lower left corner		upper right corner
-	Button button0(LobbyButton,		LobbyButton,	Rectanglef(glm::vec2(0.25f,0.50f),glm::vec2(0.50f,0.15f)), 0.0f);
-	Button button1(HtPButton,		HtPButton,		Rectanglef(glm::vec2(0.30f,0.39f),glm::vec2(0.40f,0.10f)), 0.0f);
-	Button button2(OptionButton,	OptionButton,	Rectanglef(glm::vec2(0.33f,0.26f),glm::vec2(0.35f,0.10f)), 0.0f);
-	Button button3(CreditsButton,	CreditsButton,	Rectanglef(glm::vec2(0.36f,0.14f),glm::vec2(0.30f,0.10f)), 0.0f);
-	Button button4(ExitButton,		ExitButton,		Rectanglef(glm::vec2(0.38f,0.02f),glm::vec2(0.25f,0.08f)), 0.0f);
+	Button button0(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.25f,0.50f),glm::vec2(0.50f,0.15f)), 0.0f);
+	Button button1(HtPButton,		HtPButtonT,		Rectanglef(glm::vec2(0.30f,0.39f),glm::vec2(0.40f,0.10f)), 0.0f);
+	Button button2(OptionButton,	OptionButtonT,	Rectanglef(glm::vec2(0.33f,0.26f),glm::vec2(0.35f,0.10f)), 0.0f);
+	Button button3(CreditsButton,	CreditsButtonT,	Rectanglef(glm::vec2(0.36f,0.14f),glm::vec2(0.30f,0.10f)), 0.0f);
+	Button button4(ExitButton,		ExitButtonT,	Rectanglef(glm::vec2(0.38f,0.02f),glm::vec2(0.25f,0.08f)), 0.0f);
 
 
 	buttons.push_back(button0);
@@ -142,4 +131,33 @@ void MainMeny::KeyboardEventMethod(KeyboardEvent* keyEvent)
 	{
 		game->sendBlob();
 	}
+}
+
+void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
+{
+	if (mbEvent->button == MouseButton::Left && mbEvent->state == MouseButtonState::Pressed)
+	{
+		BOOST_FOREACH(Button& button, buttons)
+		{
+			if(button.intersects(mbEvent->position))
+			{
+				button.changeState();
+			}
+		}
+
+		if (buttons[0].isPressed())
+		{
+			nextScreen = Screen::ptr(new GameScreen());
+		}
+
+		if (buttons[4].isPressed())
+		{
+			game->close();
+		}
+	}
+}
+
+void MainMeny::MouseTouchEventMethod()
+{
+
 }
