@@ -26,8 +26,8 @@ void Game::initOpenGL()
 	char* foo = "ProgramName";
 	glutInit(&argc, &foo);
 
-	int windowWidth = 800;
-	int windowHeight = 600;
+	int windowWidth = 1280;
+	int windowHeight = 700;
 	glutInitWindowSize(windowWidth, windowHeight);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE);
 	glutCreateWindow(windowTitle.c_str());
@@ -79,7 +79,7 @@ void Game::initOpenGL()
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 
-	glClearColor(1, 0, 1, 1);
+	glClearColor(0.5f, 0.5f, 0.5f, 1);
 }
 
 void Game::initDevIL()
