@@ -150,6 +150,14 @@
     <ClInclude Include="UnitsHeader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Images\ButtonCredits.png" />
+    <None Include="Images\ButtonExit.png" />
+    <None Include="Images\ButtonHtP.png" />
+    <None Include="Images\ButtonLobby.png" />
+    <None Include="Images\ButtonOption.png" />
+    <None Include="Images\MotBBackground.png" />
+    <None Include="Images\skull.tga" />
+    <None Include="Models\StandardBomber1.3ds" />
     <None Include="Shaders\model.frag" />
     <None Include="Shaders\model.vert" />
     <None Include="Shaders\modelShadow.frag" />

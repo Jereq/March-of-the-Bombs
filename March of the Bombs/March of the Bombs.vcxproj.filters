@@ -40,6 +40,12 @@
     <Filter Include="Source Files\Event">
       <UniqueIdentifier>{e5aac1a9-e74d-4c55-9f9f-c8aea4731e32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Models">
+      <UniqueIdentifier>{aec0bedd-d2a8-4560-b46f-9e9d507bab36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images">
+      <UniqueIdentifier>{3297de5c-6443-4f5b-b144-7f2e42f4bf76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="client.cpp">
@@ -258,6 +264,28 @@
     </None>
     <None Include="Shaders\modelShadow.frag">
       <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Models\StandardBomber1.3ds">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Images\skull.tga" />
+    <None Include="Images\MotBBackground.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\ButtonCredits.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\ButtonExit.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\ButtonHtP.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\ButtonLobby.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\ButtonOption.png">
+      <Filter>Resource Files\Images</Filter>
     </None>
   </ItemGroup>
 </Project>
