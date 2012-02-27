@@ -49,6 +49,12 @@
       <UniqueIdentifier>{3297de5c-6443-4f5b-b144-7f2e42f4bf76}</UniqueIdentifier>
       <Extensions>png;tga</Extensions>
     </Filter>
+    <Filter Include="Source Files\Graphics\Model">
+      <UniqueIdentifier>{6da0b048-2535-49d9-a6de-a30f976aaec5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Model">
+      <UniqueIdentifier>{159cc572-093a-4f59-8d55-b878065955bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="client.cpp">
@@ -123,13 +129,7 @@
     <ClCompile Include="PacketDispatchClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Model3DS.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="PointLight.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="GameScreen.cpp">
@@ -153,11 +153,17 @@
     <ClCompile Include="MouseMoveEvent.cpp">
       <Filter>Source Files\Event</Filter>
     </ClCompile>
-    <ClCompile Include="BlockModelData.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="BlockModel.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockModelData.cpp">
+      <Filter>Source Files\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model3DS.cpp">
+      <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,13 +236,7 @@
     <ClInclude Include="GameClient.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Model3DS.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="PointLight.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="GameScreen.h">
@@ -257,17 +257,23 @@
     <ClInclude Include="SoftBlock.h">
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
-    <ClInclude Include="ModelData.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="MouseMoveEvent.h">
       <Filter>Header Files\Event</Filter>
     </ClInclude>
-    <ClInclude Include="BlockModelData.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="BlockModel.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockModelData.h">
+      <Filter>Header Files\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model3DS.h">
+      <Filter>Header Files\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelData.h">
+      <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
