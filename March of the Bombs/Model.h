@@ -2,10 +2,11 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include <glm/glm.hpp>
 
-#include "Model3DS.h"
+#include "ModelData.h"
 #include "GLSLProgram.h"
 #include "GLTexture.h"
 #include "PointLight.h"
@@ -15,9 +16,7 @@ class Graphics;
 class Model
 {
 protected:
-	static std::map<std::string, Model3DS::ptr> modelMap;
-
-	Model3DS::ptr modelData;
+	ModelData::ptr modelData;
 	std::vector<GLTexture::ptr> textures;
 
 	static GLSLProgram shadeProg;

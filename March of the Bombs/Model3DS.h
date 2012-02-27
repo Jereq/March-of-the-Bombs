@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <boost/shared_ptr.hpp>
 
 #include <lib3ds/lib3ds.h>
@@ -9,10 +10,15 @@
 
 #include <GL/glew.h>
 
+#include "ModelData.h"
 #include "GLSLProgram.h"
 
 class Model3DS
+	: public ModelData
 {
+public:
+	typedef boost::shared_ptr<Model3DS> ptr;
+
 protected:
 	class MaterialGroup
 	{
@@ -25,8 +31,10 @@ protected:
 
 		void use(GLSLProgram const& prog) const;
 	};
+	
+	static std::map<std::string, Model3DS::ptr> modelMap;
 
-public:
+public: //private:
 	std::vector<MaterialGroup> groups;
 
 	GLuint vertexVBO;
@@ -38,11 +46,11 @@ public:
 	virtual void createVBO(Lib3dsFile* modelFile);
 
 public:
-	typedef boost::shared_ptr<Model3DS> ptr;
-
 	Model3DS(std::string const& fileName);
 	virtual ~Model3DS();
 
 	virtual void draw(GLSLProgram const& prog) const;
 	virtual void drawShadow() const;
+
+	static ptr getModel(std::string const& fileName);
 };

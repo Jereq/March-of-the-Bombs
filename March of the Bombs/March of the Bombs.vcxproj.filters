@@ -248,6 +248,9 @@
     <ClInclude Include="SoftBlock.h">
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
+    <ClInclude Include="ModelData.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\standard2d.frag">

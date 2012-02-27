@@ -136,6 +136,7 @@
     <ClInclude Include="MainMeny.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Model3DS.h" />
+    <ClInclude Include="ModelData.h" />
     <ClInclude Include="MouseButtonEvent.h" />
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="PointLight.h" />

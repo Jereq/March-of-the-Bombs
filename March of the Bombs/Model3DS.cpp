@@ -9,6 +9,8 @@ using std::vector;
 
 #include <boost/foreach.hpp>
 
+std::map<std::string, Model3DS::ptr> Model3DS::modelMap;
+
 Model3DS::MaterialGroup::MaterialGroup()
 	: count(0), startIndex(0)
 {
@@ -234,4 +236,14 @@ void Model3DS::createVBO(Lib3dsFile* modelFile)
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+Model3DS::ptr Model3DS::getModel(std::string const& fileName)
+{
+	if (modelMap.count(fileName) == 0)
+	{
+		modelMap[fileName] = Model3DS::ptr(new Model3DS(fileName));
+	}
+
+	return modelMap[fileName];
 }

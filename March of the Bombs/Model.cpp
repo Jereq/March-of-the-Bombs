@@ -14,23 +14,18 @@ using glm::mat3;
 using glm::mat4;
 
 #include "Graphics.h"
+#include "Model3DS.h"
 
-std::map<std::string, Model3DS::ptr> Model::modelMap;
 GLSLProgram Model::shadeProg;
 GLSLProgram Model::shadowProg;
 
 Model::Model(std::string const& fileName)
 	: validModelMatrix(false), scale(1.f)
 {
-	if (modelMap.count(fileName) == 0)
-	{
-		modelMap[fileName] = Model3DS::ptr(new Model3DS(fileName));
-	}
-
-	modelData = modelMap[fileName];
-
+	modelData = Model3DS::getModel(fileName);
+	
 	textures.push_back(GLTexture::getTexture(L"Images/skull.tga"));
-	modelData->groups[0].material.texture1_map.user_ptr = (GLvoid*) textures[0]->getHandle();
+	reinterpret_cast<Model3DS*>(modelData.get())->groups[0].material.texture1_map.user_ptr = (GLvoid*) textures[0]->getHandle();
 
 	loadShadeProg();
 	loadShadowProg();
