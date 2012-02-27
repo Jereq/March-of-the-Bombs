@@ -33,6 +33,7 @@
     </Filter>
     <Filter Include="Resource Files\Shaders">
       <UniqueIdentifier>{b9881098-1f43-4837-a6e2-118521de8b4c}</UniqueIdentifier>
+      <Extensions>frag;vert</Extensions>
     </Filter>
     <Filter Include="Header Files\Event">
       <UniqueIdentifier>{f02956c8-36fd-4beb-aee5-b59f1144c1a4}</UniqueIdentifier>
@@ -42,9 +43,11 @@
     </Filter>
     <Filter Include="Resource Files\Models">
       <UniqueIdentifier>{aec0bedd-d2a8-4560-b46f-9e9d507bab36}</UniqueIdentifier>
+      <Extensions>3ds</Extensions>
     </Filter>
     <Filter Include="Resource Files\Images">
       <UniqueIdentifier>{3297de5c-6443-4f5b-b144-7f2e42f4bf76}</UniqueIdentifier>
+      <Extensions>png;tga</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
