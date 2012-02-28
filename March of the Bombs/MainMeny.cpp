@@ -99,7 +99,7 @@ void MainMeny::createButtons()
 	GLTexture::ptr ExitButtonT		=	GLTexture::getTexture(L"images/ButtonExitT.png");
 
 	//class	 name	unpressed		pressed			rectangle	lower left corner		upper right corner
-	Button button0(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.30f,0.35f),glm::vec2(0.40f,0.15f)), 0.0f);
+	Button button0(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.30f,0.25f),glm::vec2(0.40f,0.15f)), 0.0f);
 	Button button1(HtPButton,		HtPButtonT,		Rectanglef(glm::vec2(0.53f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
 	Button button2(OptionButton,	OptionButtonT,	Rectanglef(glm::vec2(0.27f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
 	Button button3(CreditsButton,	CreditsButtonT,	Rectanglef(glm::vec2(0.80f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f);
@@ -144,6 +144,21 @@ void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
 	if (mbEvent->button == MouseButton::Left && mbEvent->state == MouseButtonState::Pressed)
 	{
 		if (buttons[0].getState() == Hovered)
+		{
+			nextScreen = Screen::ptr(new GameScreen());
+		}
+
+		if (buttons[1].getState() == Hovered)
+		{
+			nextScreen = Screen::ptr(new GameScreen());
+		}
+
+		if (buttons[2].getState() == Hovered)
+		{
+			nextScreen = Screen::ptr(new GameScreen());
+		}
+
+		if (buttons[3].getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new GameScreen());
 		}
