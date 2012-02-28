@@ -1,9 +1,8 @@
 #include "MainMeny.h"
 #include "Game.h"
-#include <boost/foreach.hpp>
-//#include "KeyboardEvent.h"
-//#include "MouseButtonEvent.h"
+//#include <boost/foreach.hpp>
 #include "GameScreen.h"
+#include "OptionScreen.h"
 
 MainMeny::MainMeny()
 	: game(Game::getInstance())

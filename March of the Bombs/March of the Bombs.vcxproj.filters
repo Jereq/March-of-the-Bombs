@@ -171,6 +171,15 @@
     <ClCompile Include="PlaneModel.cpp">
       <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
+    <ClCompile Include="OptionScreen.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditsScreen.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
+    <ClCompile Include="HtPScreen.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -286,6 +295,15 @@
     </ClInclude>
     <ClInclude Include="PlaneModel.h">
       <Filter>Header Files\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionScreen.h">
+      <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditsScreen.h">
+      <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="HtPScreen.h">
+      <Filter>Header Files\GUIh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

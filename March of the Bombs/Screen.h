@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost\shared_ptr.hpp>							//include a boost smartpointer
+#include <boost/foreach.hpp>
 #include "Graphics.h"
 #include "Button.h"
 #include "SimpleImage.h"

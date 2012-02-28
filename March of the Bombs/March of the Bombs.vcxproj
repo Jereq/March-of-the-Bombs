@@ -88,6 +88,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="client.cpp" />
+    <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="EmptyBlock.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -99,6 +100,7 @@
     <ClCompile Include="GUIMain.cpp" />
     <ClCompile Include="HardBlock.cpp" />
     <ClCompile Include="HQBlock.cpp" />
+    <ClCompile Include="HtPScreen.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="LogicMap.cpp" />
     <ClCompile Include="MainGameLogic.cpp" />
@@ -108,6 +110,7 @@
     <ClCompile Include="MouseButtonEvent.cpp" />
     <ClCompile Include="MouseMoveEvent.cpp" />
     <ClCompile Include="MouseState.cpp" />
+    <ClCompile Include="OptionScreen.cpp" />
     <ClCompile Include="PacketDispatchClient.cpp" />
     <ClCompile Include="PlaneModel.cpp" />
     <ClCompile Include="PlaneModelData.cpp" />
@@ -127,6 +130,7 @@
     <ClInclude Include="BlockModelData.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="EmptyBlock.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Game.h" />
@@ -138,6 +142,7 @@
     <ClInclude Include="GUIMain.h" />
     <ClInclude Include="HardBlock.h" />
     <ClInclude Include="HQBlock.h" />
+    <ClInclude Include="HtPScreen.h" />
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="MainGameLogicHeader.h" />
     <ClInclude Include="MainMeny.h" />
@@ -147,6 +152,7 @@
     <ClInclude Include="MouseButtonEvent.h" />
     <ClInclude Include="MouseMoveEvent.h" />
     <ClInclude Include="MouseState.h" />
+    <ClInclude Include="OptionScreen.h" />
     <ClInclude Include="PlaneModel.h" />
     <ClInclude Include="PlaneModelData.h" />
     <ClInclude Include="PointLight.h" />
