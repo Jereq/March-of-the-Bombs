@@ -10,6 +10,7 @@ using namespace std;
 #include "HQBlock.h"
 
 #include "PlaneModelData.h"
+#include <string>
 
 void Map::loadDefaultMap()
 {
@@ -55,10 +56,16 @@ void Map::loadDefaultMap()
 
 void Map::loadMapFromFile()
 {
-	ofstream mapFile;
+	//char height[100], width[100];
+	std::string height;
+	ifstream mapFile;
 	mapFile.open ("defaultmapfile.txt", ios::in);
 	if(mapFile.is_open())
-		cout << "LOADED!";
+	{
+		std::getline(mapFile, height);
+
+	}
+
 
 
 	mapFile.close();
@@ -86,3 +93,5 @@ bool Map::intersectGround(glm::vec3 const& origin, glm::vec3 const& direction, f
 {
 	return groundPlane->rayIntersect(origin, direction, distance);
 }
+
+//getline
