@@ -99,11 +99,11 @@ void MainMeny::createButtons()
 	GLTexture::ptr ExitButtonT		=	GLTexture::getTexture(L"images/ButtonExitT.png");
 
 	//class	 name	unpressed		pressed			rectangle	lower left corner		upper right corner
-	Button button0(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.25f,0.50f),glm::vec2(0.50f,0.15f)), 0.0f);
-	Button button1(HtPButton,		HtPButtonT,		Rectanglef(glm::vec2(0.30f,0.39f),glm::vec2(0.40f,0.10f)), 0.0f);
-	Button button2(OptionButton,	OptionButtonT,	Rectanglef(glm::vec2(0.33f,0.26f),glm::vec2(0.35f,0.10f)), 0.0f);
-	Button button3(CreditsButton,	CreditsButtonT,	Rectanglef(glm::vec2(0.36f,0.14f),glm::vec2(0.30f,0.10f)), 0.0f);
-	Button button4(ExitButton,		ExitButtonT,	Rectanglef(glm::vec2(0.38f,0.02f),glm::vec2(0.25f,0.08f)), 0.0f);
+	Button button0(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.30f,0.35f),glm::vec2(0.40f,0.15f)), 0.0f);
+	Button button1(HtPButton,		HtPButtonT,		Rectanglef(glm::vec2(0.53f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
+	Button button2(OptionButton,	OptionButtonT,	Rectanglef(glm::vec2(0.27f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
+	Button button3(CreditsButton,	CreditsButtonT,	Rectanglef(glm::vec2(0.80f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f);
+	Button button4(ExitButton,		ExitButtonT,	Rectanglef(glm::vec2(0.05f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f);
 
 
 	buttons.push_back(button0);
