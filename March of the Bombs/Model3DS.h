@@ -12,6 +12,7 @@
 
 #include "ModelData.h"
 #include "GLSLProgram.h"
+#include "GLTexture.h"
 
 class Model3DS
 	: public ModelData
@@ -26,19 +27,18 @@ protected:
 		unsigned int count;
 		unsigned int startIndex;
 		Lib3dsMaterial material;
+		GLTexture::ptr texture;
 
 		MaterialGroup();
 
 		void use(GLSLProgram const& prog) const;
 	};
-	
-	static std::map<std::string, Model3DS::ptr> modelMap;
+
+	std::vector<MaterialGroup> groups;
 
 	Model3DS(std::string const& fileName);
 
-public: //private:
-	std::vector<MaterialGroup> groups;
-
+private:
 	GLuint vertexVBO;
 	GLuint normalVBO;
 	GLuint texCoordVBO;
@@ -52,6 +52,4 @@ public:
 
 	virtual void draw(GLSLProgram const& prog) const;
 	virtual void drawShadow() const;
-
-	static ptr getModel(std::string const& fileName);
 };

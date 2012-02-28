@@ -180,6 +180,9 @@
     <ClCompile Include="HtPScreen.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
+    <ClCompile Include="StandardBombModelData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -304,6 +307,9 @@
     </ClInclude>
     <ClInclude Include="HtPScreen.h">
       <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardBombModelData.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

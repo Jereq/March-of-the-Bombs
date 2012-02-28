@@ -22,14 +22,6 @@ GLSLProgram Model::shadowProg;
 Model::Model(ModelData::ptr const& model)
 	: modelData(model), validModelMatrix(false), scale(1.f)
 {
-}
-
-Model::Model(std::string const& fileName)
-	: modelData(Model3DS::getModel(fileName)), validModelMatrix(false), scale(1.f)
-{
-	textures.push_back(GLTexture::getTexture(L"Models/Standard.png"));
-	reinterpret_cast<Model3DS*>(modelData.get())->groups[0].material.texture1_map.user_ptr = (GLvoid*) textures[0]->getHandle();
-
 	loadShadeProg();
 	loadShadowProg();
 }

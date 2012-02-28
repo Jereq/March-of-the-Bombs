@@ -9,8 +9,6 @@ using std::vector;
 
 #include <boost/foreach.hpp>
 
-std::map<std::string, Model3DS::ptr> Model3DS::modelMap;
-
 Model3DS::MaterialGroup::MaterialGroup()
 	: count(0), startIndex(0)
 {
@@ -23,8 +21,11 @@ void Model3DS::MaterialGroup::use(GLSLProgram const& prog) const
 	prog.setUniform("material.specular", *reinterpret_cast<glm::vec3 const*>(material.specular));
 	prog.setUniform("material.shininess", 40.f);
 
-	glActiveTexture(GL_TEXTURE0 + 5);
-	glBindTexture(GL_TEXTURE_2D, (GLuint) material.texture1_map.user_ptr);
+	if (texture)
+	{
+		glActiveTexture(GL_TEXTURE0 + 5);
+		glBindTexture(GL_TEXTURE_2D, texture->getHandle());
+	}
 }
 
 Model3DS::Model3DS(std::string const& fileName)
@@ -236,14 +237,4 @@ void Model3DS::createVBO(Lib3dsFile* modelFile)
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
-
-Model3DS::ptr Model3DS::getModel(std::string const& fileName)
-{
-	if (modelMap.count(fileName) == 0)
-	{
-		modelMap[fileName] = Model3DS::ptr(new Model3DS(fileName));
-	}
-
-	return modelMap[fileName];
 }

@@ -32,12 +32,10 @@ protected:
 	void loadShadeProg();
 	void loadShadowProg();
 
-	Model(ModelData::ptr const& model);
-
 public:
 	typedef boost::shared_ptr<Model> ptr;
 
-	Model(std::string const& fileName);
+	Model(ModelData::ptr const& model);
 	virtual ~Model();
 
 	virtual void draw(Graphics const& graphics) const;

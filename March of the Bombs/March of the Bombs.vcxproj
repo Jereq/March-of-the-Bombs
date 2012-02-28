@@ -118,6 +118,7 @@
     <ClCompile Include="Rectanglef.cpp" />
     <ClCompile Include="SimpleImage.cpp" />
     <ClCompile Include="SoftBlock.cpp" />
+    <ClCompile Include="StandardBombModelData.cpp" />
     <ClCompile Include="UnitActions.cpp" />
     <ClCompile Include="UnitFactory.cpp" />
     <ClCompile Include="UnitMovement.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Screen.h" />
     <ClInclude Include="SimpleImage.h" />
     <ClInclude Include="SoftBlock.h" />
+    <ClInclude Include="StandardBombModelData.h" />
     <ClInclude Include="UnitActionsHeader.h" />
     <ClInclude Include="UnitFactoryHeader.h" />
     <ClInclude Include="UnitMovementHeader.h" />

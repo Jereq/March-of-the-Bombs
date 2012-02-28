@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "BlockModel.h"
 #include "PlaneModel.h"
+#include "StandardBombModelData.h"
 
 GameScreen::GameScreen()
 	: game(Game::getInstance()), cameraPos(new AttachmentPoint(glm::vec3(-20, 15, 20), glm::vec3(-30, -45, 0))),
@@ -14,7 +15,7 @@ GameScreen::GameScreen()
 	
 	for (int i = 0; i < 100; i++)
 	{
-		test[i] = Model::ptr(new Model("Models/Standard.3ds"));
+		test[i] = Model::ptr(new Model(StandardBombModelData::getInstance()));
 		test[i]->setPosition(glm::vec3((i % 10 - 4.5f) * 2.f, 0, (-(i / 10) + 4.5f) * 2.f));
 		test[i]->setScale(glm::vec3(0.5f));
 		test[i]->setRotation(glm::vec3(0, 90, 0));
