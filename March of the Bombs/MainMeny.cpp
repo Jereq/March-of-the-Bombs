@@ -3,6 +3,8 @@
 //#include <boost/foreach.hpp>
 #include "GameScreen.h"
 #include "OptionScreen.h"
+#include "CreditsScreen.h"
+#include "HtPScreen.h"
 
 MainMeny::MainMeny()
 	: game(Game::getInstance())
@@ -18,8 +20,6 @@ MainMeny::~MainMeny()
 //Mainmenys updateinfo
 void MainMeny::update(float deltaTime)
 {
-	
-
 	std::deque<Event::ptr>& events = game->getEvents();
 	std::deque<Event::ptr>::size_type numEvents = events.size();
 	std::deque<Event::ptr>::size_type eventsHandled = 0;
@@ -159,7 +159,7 @@ void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
 
 		if (buttons[3].getState() == Hovered)
 		{
-			nextScreen = Screen::ptr(new GameScreen());
+			nextScreen = Screen::ptr(new CreditsScreen());
 		}
 
 		if (buttons[4].getState() == Hovered)

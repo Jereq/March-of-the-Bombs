@@ -18,8 +18,8 @@ private:
 	boost::shared_ptr<Game> game;
 
 public:
-	MainMeny(void);
-	~MainMeny(void);
+	MainMeny();
+	~MainMeny();
 	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
