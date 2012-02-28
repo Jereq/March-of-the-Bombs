@@ -153,9 +153,6 @@
     <ClCompile Include="MouseMoveEvent.cpp">
       <Filter>Source Files\Event</Filter>
     </ClCompile>
-    <ClCompile Include="BlockModel.cpp">
-      <Filter>Source Files\Graphics\Model</Filter>
-    </ClCompile>
     <ClCompile Include="BlockModelData.cpp">
       <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
@@ -168,9 +165,6 @@
     <ClCompile Include="PlaneModelData.cpp">
       <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
-    <ClCompile Include="PlaneModel.cpp">
-      <Filter>Source Files\Graphics\Model</Filter>
-    </ClCompile>
     <ClCompile Include="OptionScreen.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
@@ -181,7 +175,7 @@
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
     <ClCompile Include="StandardBombModelData.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -278,9 +272,6 @@
     <ClInclude Include="MouseMoveEvent.h">
       <Filter>Header Files\Event</Filter>
     </ClInclude>
-    <ClInclude Include="BlockModel.h">
-      <Filter>Header Files\Graphics\Model</Filter>
-    </ClInclude>
     <ClInclude Include="BlockModelData.h">
       <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
@@ -296,9 +287,6 @@
     <ClInclude Include="PlaneModelData.h">
       <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
-    <ClInclude Include="PlaneModel.h">
-      <Filter>Header Files\Graphics\Model</Filter>
-    </ClInclude>
     <ClInclude Include="OptionScreen.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
@@ -309,7 +297,7 @@
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
     <ClInclude Include="StandardBombModelData.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

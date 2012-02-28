@@ -83,7 +83,6 @@
   <ItemGroup>
     <ClCompile Include="AttachmentPoint.cpp" />
     <ClCompile Include="Block.cpp" />
-    <ClCompile Include="BlockModel.cpp" />
     <ClCompile Include="BlockModelData.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -112,7 +111,6 @@
     <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="OptionScreen.cpp" />
     <ClCompile Include="PacketDispatchClient.cpp" />
-    <ClCompile Include="PlaneModel.cpp" />
     <ClCompile Include="PlaneModelData.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Rectanglef.cpp" />
@@ -127,7 +125,6 @@
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h" />
     <ClInclude Include="Block.h" />
-    <ClInclude Include="BlockModel.h" />
     <ClInclude Include="BlockModelData.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
@@ -154,7 +151,6 @@
     <ClInclude Include="MouseMoveEvent.h" />
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="OptionScreen.h" />
-    <ClInclude Include="PlaneModel.h" />
     <ClInclude Include="PlaneModelData.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Rectanglef.h" />

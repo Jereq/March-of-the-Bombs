@@ -3,8 +3,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Game.h"
-#include "BlockModel.h"
-#include "PlaneModel.h"
+#include "BlockModelData.h"
+#include "PlaneModelData.h"
 #include "StandardBombModelData.h"
 
 GameScreen::GameScreen()
@@ -23,29 +23,29 @@ GameScreen::GameScreen()
 
 	for (int i = 0; i < 25; i++)
 	{
-		testBlocks[i] = Model::ptr(new BlockModel());
+		testBlocks[i] = Model::ptr(new Model(BlockModelData::getInstance()));
 		testBlocks[i]->setPosition(glm::vec3(i - 13.f, 0, -13.f));
 	}
 
 	for (int i = 25; i < 50; i++)
 	{
-		testBlocks[i] = Model::ptr(new BlockModel());
+		testBlocks[i] = Model::ptr(new Model(BlockModelData::getInstance()));
 		testBlocks[i]->setPosition(glm::vec3(12.f, 0, i - 25 - 13.f));
 	}
 
 	for (int i = 50; i < 75; i++)
 	{
-		testBlocks[i] = Model::ptr(new BlockModel());
+		testBlocks[i] = Model::ptr(new Model(BlockModelData::getInstance()));
 		testBlocks[i]->setPosition(glm::vec3(-(i - 50) + 12.f, 0, 12.f));
 	}
 
 	for (int i = 75; i < 100; i++)
 	{
-		testBlocks[i] = Model::ptr(new BlockModel());
+		testBlocks[i] = Model::ptr(new Model(BlockModelData::getInstance()));
 		testBlocks[i]->setPosition(glm::vec3(-13.f, 0, -(i - 75) + 12.f));
 	}
 
-	test[0] = Model::ptr(new PlaneModel());
+	test[0] = Model::ptr(new Model(PlaneModelData::getInstance()));
 	test[0]->setPosition(glm::vec3(-100, 0, -100));
 	test[0]->setScale(glm::vec3(200));
 
