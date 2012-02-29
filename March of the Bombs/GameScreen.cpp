@@ -12,47 +12,33 @@ GameScreen::GameScreen()
 	rotationYSpeed(0), rotationXSpeed(0)
 {
 	game->getGraphics()->getCamera()->setAttachmentPoint(cameraPos);
-	
-	for (int i = 0; i < 100; i++)
-	{
-		test[i] = Model::ptr(new Model(StandardBombModelData::getInstance()));
-		test[i]->setPosition(glm::vec3((i % 10 - 4.5f) * 2.f, 0, (-(i / 10) + 4.5f) * 2.f));
-		test[i]->setScale(glm::vec3(0.5f));
-		test[i]->setRotation(glm::vec3(0, 90, 0));
-	}
 
-	for (int i = 0; i < 25; i++)
-	{
-		testBlocks[i] = Model::ptr(new Model(BlockModelData::getInstance()));
-		testBlocks[i]->setPosition(glm::vec3(i - 13.f, 0, -13.f));
-	}
-
-	for (int i = 25; i < 50; i++)
-	{
-		testBlocks[i] = Model::ptr(new Model(BlockModelData::getInstance()));
-		testBlocks[i]->setPosition(glm::vec3(12.f, 0, i - 25 - 13.f));
-	}
-
-	for (int i = 50; i < 75; i++)
-	{
-		testBlocks[i] = Model::ptr(new Model(BlockModelData::getInstance()));
-		testBlocks[i]->setPosition(glm::vec3(-(i - 50) + 12.f, 0, 12.f));
-	}
-
-	for (int i = 75; i < 100; i++)
-	{
-		testBlocks[i] = Model::ptr(new Model(BlockModelData::getInstance()));
-		testBlocks[i]->setPosition(glm::vec3(-13.f, 0, -(i - 75) + 12.f));
-	}
-
-	test[0] = Model::ptr(new Model(PlaneModelData::getInstance()));
-	test[0]->setPosition(glm::vec3(-100, 0, -100));
-	test[0]->setScale(glm::vec3(200));
+	groundPlane = Model::ptr(new Model(PlaneModelData::getInstance()));
+	groundPlane->setPosition(glm::vec3(-100, 0, -100));
+	groundPlane->setScale(glm::vec3(200));
 
 	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(0, 20, -5, 1), glm::vec3(0.2f))));
 	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(0, 20, 0, 1), glm::vec3(0.2f))));
 	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(-5, 60, -5, 1), glm::vec3(0.7f))));
 	game->getGraphics()->setPrimaryLights(primaryLights);
+
+
+	blockMap.loadDefaultMap();
+
+	test = Model::ptr(new Model(StandardBombModelData::getInstance()));
+	test->setPosition(glm::vec3(0.f));
+	test->setScale(glm::vec3(0.3f));
+
+	std::list<glm::vec2> path;
+	bool success = blockMap.findPath(test->getPosition().swizzle(glm::X, glm::Z), glm::vec2(20.5f, 32.5f), path);
+
+	if (success)
+	{
+		BOOST_FOREACH(glm::vec2 const& pos, path)
+		{
+			testPath.push_back(glm::vec3(pos.x, 0, pos.y));
+		}
+	}
 }
 
 void GameScreen::update(float deltaTime)
@@ -96,12 +82,32 @@ void GameScreen::update(float deltaTime)
 		}
 	}
 
+	if (!testPath.empty())
+	{
+		const static float speed = 3.f;
+		glm::vec3 pos = test->getPosition();
+		float distanceToGo = speed * deltaTime;
 
-	//for (int i = 1; i < 100; i++)
-	//{
-	//	glm::vec3 rot = test[i]->getRotation() + glm::vec3(17, 67, 0) * deltaTime;
-	//	test[i]->setRotation(rot);
-	//}
+		while (distanceToGo > 0 && !testPath.empty())
+		{
+			float distance = glm::distance(pos, testPath.front());
+
+			if (distanceToGo >= distance)
+			{
+				distanceToGo -= distance;
+				pos = testPath.front();
+				testPath.pop_front();
+			}
+			else
+			{
+				glm::vec3 direction = glm::normalize(testPath.front() - pos);
+				pos += direction * distanceToGo;
+				distanceToGo = 0;
+			}
+		}
+
+		test->setPosition(pos);
+	}
 
 	glm::vec3 rotation = cameraPos->getRotation();
 	rotation.y += rotationYSpeed * deltaTime;
@@ -123,15 +129,10 @@ void GameScreen::update(float deltaTime)
 
 void GameScreen::draw(Graphics::ptr graphics)
 {
-	for (int i = 0; i < 100; i++)
-	{
-		graphics->drawModel(test[i]);
-	}
+	graphics->drawModel(test);
+	graphics->drawModel(groundPlane);
 
-	for (int i = 0; i < 100; i++)
-	{
-		graphics->drawModel(testBlocks[i]);
-	}
+	blockMap.drawBlocks(graphics);
 }
 
 Screen::ptr GameScreen::getNextScreen()

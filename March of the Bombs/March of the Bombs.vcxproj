@@ -55,6 +55,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_WIN32_WINNT=0x0501</PreprocessorDefinitions>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -71,6 +72,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_WIN32_WINNT=0x0501</PreprocessorDefinitions>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,6 +113,8 @@
     <ClCompile Include="MouseState.cpp" />
     <ClCompile Include="OptionScreen.cpp" />
     <ClCompile Include="PacketDispatchClient.cpp" />
+    <ClCompile Include="PathMap.cpp" />
+    <ClCompile Include="PathNode.cpp" />
     <ClCompile Include="PlaneModelData.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Rectanglef.cpp" />
@@ -151,6 +155,8 @@
     <ClInclude Include="MouseMoveEvent.h" />
     <ClInclude Include="MouseState.h" />
     <ClInclude Include="OptionScreen.h" />
+    <ClInclude Include="PathMap.h" />
+    <ClInclude Include="PathNode.h" />
     <ClInclude Include="PlaneModelData.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Rectanglef.h" />

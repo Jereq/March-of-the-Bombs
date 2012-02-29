@@ -1,11 +1,10 @@
 #include "HQBlock.h"
 
-
-HQBlock::HQBlock(void)
+HQBlock::HQBlock()
+	: Block(Model::ptr())
 {
 }
 
-
-HQBlock::~HQBlock(void)
+HQBlock::~HQBlock()
 {
 }

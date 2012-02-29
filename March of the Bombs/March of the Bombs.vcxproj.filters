@@ -55,6 +55,12 @@
     <Filter Include="Header Files\Graphics\Model">
       <UniqueIdentifier>{159cc572-093a-4f59-8d55-b878065955bf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game Logic\PathFinding">
+      <UniqueIdentifier>{40809701-655a-4923-901a-c7a0e4708255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Logic\PathFinding">
+      <UniqueIdentifier>{98029904-bbc7-43d5-9dc8-44f78514541b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="client.cpp">
@@ -177,6 +183,12 @@
     <ClCompile Include="StandardBombModelData.cpp">
       <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
+    <ClCompile Include="PathNode.cpp">
+      <Filter>Source Files\Game Logic\PathFinding</Filter>
+    </ClCompile>
+    <ClCompile Include="PathMap.cpp">
+      <Filter>Source Files\Game Logic\PathFinding</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -298,6 +310,12 @@
     </ClInclude>
     <ClInclude Include="StandardBombModelData.h">
       <Filter>Header Files\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="PathNode.h">
+      <Filter>Header Files\Game Logic\PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="PathMap.h">
+      <Filter>Header Files\Game Logic\PathFinding</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

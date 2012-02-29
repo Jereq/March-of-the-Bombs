@@ -4,7 +4,8 @@ using glm::vec2;
 using glm::vec3;
 
 const unsigned short BlockModelData::NUM_INDICES = 36;
-BlockModelData::ptr BlockModelData::instance;
+BlockModelData::ptr BlockModelData::hardInstance;
+BlockModelData::ptr BlockModelData::softInstance;
 
 void BlockModelData::createVBO()
 {
@@ -202,9 +203,9 @@ void BlockModelData::useMaterial(GLSLProgram const& prog) const
 	glBindTexture(GL_TEXTURE_2D, (GLuint) material.texture1_map.user_ptr);
 }
 
-BlockModelData::BlockModelData()
+BlockModelData::BlockModelData(GLTexture::ptr const& texture)
 	: vertexVBO(0), normalVBO(0), texCoordVBO(0), indexVBO(0), modelVAO(0),
-	texture(GLTexture::getTexture(L"Images/Hard Rock.png"))
+	texture(texture)
 {
 	createVBO();
 	setMaterial();
@@ -257,12 +258,22 @@ void BlockModelData::drawShadow() const
 	glBindVertexArray(0);
 }
 
-BlockModelData::ptr BlockModelData::getInstance()
+BlockModelData::ptr BlockModelData::getHardInstance()
 {
-	if (!instance)
+	if (!hardInstance)
 	{
-		instance = BlockModelData::ptr(new BlockModelData());
+		hardInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Hard Rock.png")));
 	}
 
-	return instance;
+	return hardInstance;
+}
+
+BlockModelData::ptr BlockModelData::getSoftInstance()
+{
+	if (!softInstance)
+	{
+		softInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Hard Rock.png")));
+	}
+
+	return softInstance;
 }

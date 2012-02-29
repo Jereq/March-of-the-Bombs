@@ -125,8 +125,7 @@ void Graphics::render()
 {
 	glCullFace(GL_FRONT);
 	glEnable(GL_POLYGON_OFFSET_FILL);
-	//glPolygonOffset(-1.1f, -4.f);
-	glPolygonOffset(-1.f, -3.f);
+	glPolygonOffset(-1.1f, -4.f);
 
 	BOOST_FOREACH(PointLight::ptr const& light, primaryLights)
 	{

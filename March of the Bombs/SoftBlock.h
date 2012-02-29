@@ -1,10 +1,11 @@
 #pragma once
-#include "block.h"
+
+#include "Block.h"
+
 class SoftBlock :
 	public Block
 {
 public:
-	SoftBlock(void);
-	~SoftBlock(void);
+	SoftBlock(glm::vec3 const& position);
+	~SoftBlock();
 };
-

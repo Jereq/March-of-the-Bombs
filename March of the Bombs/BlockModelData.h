@@ -15,7 +15,8 @@ public:
 private:
 	const static unsigned short NUM_INDICES;
 
-	static ptr instance;
+	static ptr hardInstance;
+	static ptr softInstance;
 
 	Lib3dsMaterial material;
 	GLTexture::ptr texture;
@@ -31,7 +32,7 @@ private:
 	virtual void useMaterial(GLSLProgram const& prog) const;
 
 protected:
-	BlockModelData();
+	BlockModelData(GLTexture::ptr const& texture);
 
 public:
 	virtual ~BlockModelData();
@@ -39,5 +40,6 @@ public:
 	virtual void draw(GLSLProgram const& prog) const;
 	virtual void drawShadow() const;
 
-	static ptr getInstance();
+	static ptr getHardInstance();
+	static ptr getSoftInstance();
 };

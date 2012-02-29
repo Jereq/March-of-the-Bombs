@@ -3,6 +3,7 @@
 #include "Screen.h"
 #include "Model.h"
 #include "Game.h"
+#include "MapHeader.h"
 
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"
@@ -14,17 +15,19 @@ class GameScreen :
 private:
 	Game::ptr game;
 	AttachmentPoint::ptr cameraPos;
+	Map blockMap;
 
 	float currentDeltaTime;
 	glm::vec3 cameraVelocity;
 	float rotationYSpeed;
 	float rotationXSpeed;
 
+	Model::ptr groundPlane;
 	std::vector<PointLight::ptr> primaryLights;
 
 public:
-	Model::ptr test[100];
-	Model::ptr testBlocks[100];
+	std::list<glm::vec3> testPath;
+	Model::ptr test;
 
 	GameScreen();
 

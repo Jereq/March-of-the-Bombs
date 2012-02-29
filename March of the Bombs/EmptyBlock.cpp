@@ -1,11 +1,10 @@
 #include "EmptyBlock.h"
 
-
-EmptyBlock::EmptyBlock(void)
+EmptyBlock::EmptyBlock()
+	: Block(Model::ptr())
 {
 }
 
-
-EmptyBlock::~EmptyBlock(void)
+EmptyBlock::~EmptyBlock()
 {
 }
