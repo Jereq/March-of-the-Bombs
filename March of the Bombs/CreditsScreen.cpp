@@ -79,7 +79,13 @@ Screen::ptr CreditsScreen::getNextScreen()
 
 void CreditsScreen::createButtons()
 {
-	//GLTexture::ptr TestButton1	=	GLTexture::loadTexture(L"images/skull.tga");
+	GLTexture::ptr LobbyButton		=	GLTexture::getTexture(L"images/ButtonBack.png");
+	
+	GLTexture::ptr LobbyButtonT		=	GLTexture::getTexture(L"images/ButtonBackT.png");
+
+	Button button0(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
+
+	buttons.push_back(button0);
 
 }
 
@@ -105,10 +111,10 @@ void CreditsScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 {
 	if (mbEvent->button == MouseButton::Left && mbEvent->state == MouseButtonState::Pressed)
 	{
-		//if (buttons[0].getState() == Hovered)
-		//{
-		//	nextScreen = Screen::ptr(new GameScreen());
-		//}
+		if (buttons[0].getState() == Hovered)
+		{
+			nextScreen = Screen::ptr(new MainMeny());
+		}
 	}
 }
 
