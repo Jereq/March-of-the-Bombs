@@ -1,16 +1,16 @@
 #include "MapHeader.h"
-
-#include <iostream>
-#include <fstream>
-using namespace std;
-
 #include "EmptyBlock.h"
 #include "HardBlock.h"
 #include "SoftBlock.h"
 #include "HQBlock.h"
 
 #include "PlaneModelData.h"
+#include <iostream>
+#include <fstream>
 #include <string>
+#include <boost/tokenizer.hpp>
+using namespace std;
+using namespace boost;
 
 void Map::loadDefaultMap()
 {
@@ -56,14 +56,13 @@ void Map::loadDefaultMap()
 
 void Map::loadMapFromFile()
 {
-	//char height[100], width[100];
+	string a;
 	std::string height;
 	ifstream mapFile;
 	mapFile.open ("defaultmapfile.txt", ios::in);
 	if(mapFile.is_open())
 	{
-		std::getline(mapFile, height);
-
+		std::getline(mapFile, a);
 	}
 
 
