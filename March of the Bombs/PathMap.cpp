@@ -38,7 +38,7 @@ void PathMap::resetUseCount() const
 
 float PathMap::getDistance(PathNode::nodeIndex const& pos1, PathNode::nodeIndex const& pos2) const
 {
-	return glm::distance(glm::vec2(pos1[0], pos1[1]), glm::vec2(pos2[0], pos2[1])) / nodesPerBlock;
+	return glm::distance(glm::vec2(pos1[0], pos1[1]), glm::vec2(pos2[0], pos2[1])) / nodesPerBlock * 10.f;
 }
 
 PathNode::nodeIndex PathMap::getClosestNode(glm::vec2 const& pos) const

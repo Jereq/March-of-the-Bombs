@@ -28,6 +28,36 @@ void Model3DS::MaterialGroup::use(GLSLProgram const& prog) const
 	}
 }
 
+void Model3DS::MaterialGroup::addInstanceToDraw(glm::mat4 const& modelMatrix)
+{
+	drawInst.push_back(DrawInstance(modelMatrix));
+}
+
+void Model3DS::MaterialGroup::clearInstancesToDraw()
+{
+	drawInst.clear();
+}
+
+void Model3DS::MaterialGroup::drawInstances(GLSLProgram const& prog) const
+{
+	use(prog);
+
+	BOOST_FOREACH(DrawInstance const& inst, drawInst)
+	{
+		prog.setUniform("modelMatrix", inst.modelMatrix);
+		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, reinterpret_cast<GLvoid*>(startIndex * sizeof(unsigned short)));
+	}
+}
+
+void Model3DS::MaterialGroup::drawInstancesShadow(GLSLProgram const& prog) const
+{
+	BOOST_FOREACH(DrawInstance const& inst, drawInst)
+	{
+		prog.setUniform("modelMatrix", inst.modelMatrix);
+		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, reinterpret_cast<GLvoid*>(startIndex * sizeof(unsigned short)));
+	}
+}
+
 Model3DS::Model3DS(std::string const& fileName)
 	: vertexVBO(0), normalVBO(0), texCoordVBO(0), indexVBO(0), modelVAO(0)
 {
@@ -68,31 +98,6 @@ Model3DS::~Model3DS()
 	{
 		glDeleteVertexArrays(1, &modelVAO);
 	}
-}
-
-void Model3DS::draw(GLSLProgram const& prog) const
-{
-	glBindVertexArray(modelVAO);
-
-	BOOST_FOREACH(MaterialGroup const& material, groups)
-	{
-		material.use(prog);
-		glDrawElements(GL_TRIANGLES, material.count, GL_UNSIGNED_SHORT, reinterpret_cast<GLvoid*>(material.startIndex * sizeof(unsigned short)));
-	}
-
-	glBindVertexArray(0);
-}
-
-void Model3DS::drawShadow() const
-{
-	glBindVertexArray(modelVAO);
-
-	BOOST_FOREACH(MaterialGroup const& material, groups)
-	{
-		glDrawElements(GL_TRIANGLES, material.count, GL_UNSIGNED_SHORT, reinterpret_cast<GLvoid*>(material.startIndex * sizeof(unsigned short)));
-	}
-
-	glBindVertexArray(0);
 }
 
 class compareVec3
@@ -237,4 +242,44 @@ void Model3DS::createVBO(Lib3dsFile* modelFile)
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void Model3DS::addInstanceToDraw(glm::mat4 const& modelMatrix)
+{
+	BOOST_FOREACH(MaterialGroup& group, groups)
+	{
+		group.addInstanceToDraw(modelMatrix);
+	}
+}
+
+void Model3DS::clearInstancesToDraw()
+{
+	BOOST_FOREACH(MaterialGroup& group, groups)
+	{
+		group.clearInstancesToDraw();
+	}
+}
+
+void Model3DS::drawInstances(GLSLProgram const& prog) const
+{
+	glBindVertexArray(modelVAO);
+
+	BOOST_FOREACH(MaterialGroup const& material, groups)
+	{
+		material.drawInstances(prog);
+	}
+
+	glBindVertexArray(0);
+}
+
+void Model3DS::drawInstancesShadow(GLSLProgram const& prog) const
+{
+	glBindVertexArray(modelVAO);
+
+	BOOST_FOREACH(MaterialGroup const& material, groups)
+	{
+		material.drawInstancesShadow(prog);
+	}
+
+	glBindVertexArray(0);
 }

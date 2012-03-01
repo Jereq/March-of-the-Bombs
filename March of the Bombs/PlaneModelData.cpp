@@ -3,6 +3,8 @@
 using glm::vec2;
 using glm::vec3;
 
+#include <boost/foreach.hpp>
+
 const unsigned short PlaneModelData::NUM_INDICES = 4;
 PlaneModelData::ptr PlaneModelData::instance;
 
@@ -147,21 +149,40 @@ PlaneModelData::~PlaneModelData()
 	}
 }
 
-void PlaneModelData::draw(GLSLProgram const& prog) const
+void PlaneModelData::addInstanceToDraw(glm::mat4 const& modelMatrix)
+{
+	drawInst.push_back(DrawInstance(modelMatrix));
+}
+
+void PlaneModelData::clearInstancesToDraw()
+{
+	drawInst.clear();
+}
+
+void PlaneModelData::drawInstances(GLSLProgram const& prog) const
 {
 	glBindVertexArray(modelVAO);
 
 	useMaterial(prog);
-	glDrawElements(GL_TRIANGLE_STRIP, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
+
+	BOOST_FOREACH(DrawInstance const& inst, drawInst)
+	{
+		prog.setUniform("modelMatrix", inst.modelMatrix);
+		glDrawElements(GL_TRIANGLE_STRIP, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
+	}
 
 	glBindVertexArray(0);
 }
 
-void PlaneModelData::drawShadow() const
+void PlaneModelData::drawInstancesShadow(GLSLProgram const& prog) const
 {
 	glBindVertexArray(modelVAO);
 
-	glDrawElements(GL_TRIANGLE_STRIP, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
+	BOOST_FOREACH(DrawInstance const& inst, drawInst)
+	{
+		prog.setUniform("modelMatrix", inst.modelMatrix);
+		glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
+	}
 
 	glBindVertexArray(0);
 }

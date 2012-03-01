@@ -195,7 +195,6 @@ void GLSLProgram::bindFragDataLocation(GLuint location, const char* name)
 
 void GLSLProgram::setUniform(const char* name, float x, float y, float z) const
 {
-	use();
 	int loc = getUniformLocation(name);
 	if (loc >= 0)
 	{
@@ -210,7 +209,6 @@ void GLSLProgram::setUniform(const char* name, const glm::vec3& v) const
 
 void GLSLProgram::setUniform(const char* name, const glm::vec4& v) const
 {
-	use();
 	int loc = getUniformLocation(name);
 	if (loc >= 0)
 	{
@@ -220,7 +218,6 @@ void GLSLProgram::setUniform(const char* name, const glm::vec4& v) const
 
 void GLSLProgram::setUniform(const char* name, const glm::mat3& m) const
 {
-	use();
 	int loc = getUniformLocation(name);
 	if (loc >= 0)
 	{
@@ -230,7 +227,6 @@ void GLSLProgram::setUniform(const char* name, const glm::mat3& m) const
 
 void GLSLProgram::setUniform(const char* name, const glm::mat4& m) const
 {
-	use();
 	int loc = getUniformLocation(name);
 	if (loc >= 0)
 	{
@@ -240,7 +236,6 @@ void GLSLProgram::setUniform(const char* name, const glm::mat4& m) const
 
 void GLSLProgram::setUniform(const char* name, float val) const
 {
-	use();
 	int loc = getUniformLocation(name);
 	if (loc >= 0)
 	{
@@ -250,7 +245,6 @@ void GLSLProgram::setUniform(const char* name, float val) const
 
 void GLSLProgram::setUniform(const char* name, GLint val) const
 {
-	use();
 	int loc = getUniformLocation(name);
 	if (loc >= 0)
 	{
@@ -260,7 +254,6 @@ void GLSLProgram::setUniform(const char* name, GLint val) const
 
 void GLSLProgram::setUniform(const char* name, GLuint val) const
 {
-	use();
 	int loc = getUniformLocation(name);
 	if (loc >= 0)
 	{
@@ -270,7 +263,6 @@ void GLSLProgram::setUniform(const char* name, GLuint val) const
 
 void GLSLProgram::setUniform(const char* name, bool val) const
 {
-	use();
 	int loc = getUniformLocation(name);
 	if (loc >= 0)
 	{

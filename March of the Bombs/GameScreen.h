@@ -26,8 +26,9 @@ private:
 	std::vector<PointLight::ptr> primaryLights;
 
 public:
-	std::list<glm::vec3> testPath;
-	Model::ptr test;
+	const static int testCount = 10;
+	Model::ptr test[testCount];
+	std::list<glm::vec3> testPath[testCount];
 
 	GameScreen();
 

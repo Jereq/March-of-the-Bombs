@@ -3,6 +3,9 @@
 #include <boost/foreach.hpp>
 
 #include "Game.h"
+#include "BlockModelData.h"
+#include "PlaneModelData.h"
+#include "StandardBombModelData.h"
 
 void Graphics::drawTextureInstance(TextureInstance const& texInst) const
 {
@@ -30,6 +33,13 @@ void Graphics::drawTextureInstance(TextureInstance const& texInst) const
 
 void Graphics::loadShaders()
 {
+	load2DShaders();
+	loadModelShadeShaders();
+	loadModelShadowShaders();
+}
+
+void Graphics::load2DShaders()
+{
 	using std::cout;
 	using std::cerr;
 	using std::endl;
@@ -56,7 +66,77 @@ void Graphics::loadShaders()
 	prog2D.printActiveAttribs();
 	printf("\n");
 
+	prog2D.use();
 	prog2D.setUniform("image", (GLint)0);
+}
+
+void Graphics::loadModelShadeShaders()
+{
+	if (!progModelShade.compileShaderFromFile("Shaders/model.vert", GLSLShader::VERTEX))
+	{
+		printf("Model vertex shader failed to compile!\n%s\n", progModelShade.log().c_str());
+		exit(EXIT_FAILURE);
+	}
+	if (!progModelShade.compileShaderFromFile("Shaders/model.frag", GLSLShader::FRAGMENT))
+	{
+		printf("Model fragment shader failed to compile!\n%s\n", progModelShade.log().c_str());
+		exit(EXIT_FAILURE);
+	}
+
+	progModelShade.bindAttribLocation(0, "vertexPosition");
+	progModelShade.bindAttribLocation(1, "vertexTextureCoordinate");
+	progModelShade.bindAttribLocation(2, "vertexNormal");
+
+	if (!progModelShade.link())
+	{
+		printf("Model shader program failed to link!\n%s\n", progModelShade.log().c_str());
+		exit(EXIT_FAILURE);
+	}
+
+	printf("Printing model shader program information...\n");
+	progModelShade.printActiveUniforms();
+	progModelShade.printActiveAttribs();
+	printf("\n");
+
+	progModelShade.use();
+	progModelShade.setUniform("lights[0].shadowMap", (GLint)0);
+	progModelShade.setUniform("lights[1].shadowMap", (GLint)1);
+	progModelShade.setUniform("lights[2].shadowMap", (GLint)2);
+	progModelShade.setUniform("lights[3].shadowMap", (GLint)3);
+	progModelShade.setUniform("lights[4].shadowMap", (GLint)4);
+	progModelShade.setUniform("diffuseMap", (GLint)5);
+}
+
+void Graphics::loadModelShadowShaders()
+{
+	if (progModelShadow.isLinked())
+	{
+		return;
+	}
+
+	if (!progModelShadow.compileShaderFromFile("Shaders/modelShadow.vert", GLSLShader::VERTEX))
+	{
+		printf("Model shadow vertex shader failed to compile!\n%s\n", progModelShadow.log().c_str());
+		exit(EXIT_FAILURE);
+	}
+	if (!progModelShadow.compileShaderFromFile("Shaders/modelShadow.frag", GLSLShader::FRAGMENT))
+	{
+		printf("Model shadow fragment shader failed to compile!\n%s\n", progModelShadow.log().c_str());
+		exit(EXIT_FAILURE);
+	}
+
+	progModelShadow.bindAttribLocation(0, "vertexPosition");
+
+	if (!progModelShadow.link())
+	{
+		printf("Model shadow shader program failed to link!\n%s\n", progModelShadow.log().c_str());
+		exit(EXIT_FAILURE);
+	}
+
+	printf("Printing model shadow shader program information...\n");
+	progModelShadow.printActiveUniforms();
+	progModelShadow.printActiveAttribs();
+	printf("\n");
 }
 
 void Graphics::prepareTextureBuffers()
@@ -96,6 +176,54 @@ void Graphics::prepareTextureBuffers()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+void Graphics::setupModelShader()
+{
+	glm::mat4 viewMatrix = camera->getViewMatrix();
+	glm::mat4 projectionMatrix = camera->getProjectionMatrix();
+
+	progModelShade.use();
+	progModelShade.setUniform("viewMatrix", viewMatrix);
+	progModelShade.setUniform("projectionMatrix", projectionMatrix);
+		
+	GLuint lightCount = 0;
+	const static GLuint MAX_LIGHTS = 5;
+	char uniformBuffer[128] = {0};
+
+	BOOST_FOREACH(PointLight::ptr const& light, getPrimaryLights())
+	{
+		sprintf_s(uniformBuffer, "lights[%d].position", lightCount);
+		progModelShade.setUniform(uniformBuffer, viewMatrix * light->getPosition());
+
+		sprintf_s(uniformBuffer, "lights[%d].intensity", lightCount);
+		progModelShade.setUniform(uniformBuffer, light->getIntensity());
+
+		sprintf_s(uniformBuffer, "shadowMatrices[%d]", lightCount);
+		progModelShade.setUniform(uniformBuffer, light->getViewProjectionMatrix());
+
+		sprintf_s(uniformBuffer, "lights[%d].shadowMap", lightCount);
+		progModelShade.setUniform(uniformBuffer, (GLint)lightCount);
+
+		glActiveTexture(GL_TEXTURE0 + lightCount);
+		glBindTexture(GL_TEXTURE_2D, light->getShadowTexture());
+
+		lightCount++;
+		if (lightCount >= MAX_LIGHTS)
+		{
+			break;
+		}
+	}
+	
+	progModelShade.setUniform("numLights", lightCount);
+}
+
+void Graphics::setupModelShadowShader(PointLight::ptr const& light)
+{
+	glm::mat4 viewProjectionMatrix = light->getProjectionMatrix() * light->getViewMatrix();
+
+	progModelShadow.use();
+	progModelShadow.setUniform("viewProjectionMatrix", viewProjectionMatrix);
+}
+
 Graphics::Graphics()
 {
 	AttachmentPoint::ptr attPoint = AttachmentPoint::ptr(new AttachmentPoint(glm::vec3(-20, 15, 20), glm::vec3(-30, -45, 0)));
@@ -103,6 +231,11 @@ Graphics::Graphics()
 
 	loadShaders();
 	prepareTextureBuffers();
+
+	modelDatas.insert(BlockModelData::getHardInstance());
+	modelDatas.insert(BlockModelData::getSoftInstance());
+	modelDatas.insert(PlaneModelData::getInstance());
+	modelDatas.insert(StandardBombModelData::getInstance());
 }
 
 Graphics::~Graphics()
@@ -118,14 +251,14 @@ void Graphics::drawTexture(GLTexture::ptr const& texture, Rectanglef const& targ
 
 void Graphics::drawModel(Model::ptr const& model)
 {
-	models.push_back(model);
+	model->addInstance();
 }
 
 void Graphics::render()
 {
 	glCullFace(GL_FRONT);
 	glEnable(GL_POLYGON_OFFSET_FILL);
-	glPolygonOffset(-1.1f, -4.f);
+	//glPolygonOffset(-1.1f, -4.f);
 
 	BOOST_FOREACH(PointLight::ptr const& light, primaryLights)
 	{
@@ -133,9 +266,10 @@ void Graphics::render()
 		glViewport(0, 0, light->getShadowResolution(), light->getShadowResolution());
 		glClear(GL_DEPTH_BUFFER_BIT);
 
-		BOOST_FOREACH(Model::ptr const& model, models)
+		setupModelShadowShader(light);
+		BOOST_FOREACH(ModelData::ptr const& data, modelDatas)
 		{
-			model->drawShadow(light);
+			data->drawInstancesShadow(progModelShadow);
 		}
 	}
 
@@ -151,12 +285,12 @@ void Graphics::render()
 
 	camera->updateViewMatrix();
 
-	BOOST_FOREACH(Model::ptr const& model, models)
+	setupModelShader();
+	BOOST_FOREACH(ModelData::ptr const& data, modelDatas)
 	{
-		model->draw(*this);
+		data->drawInstances(progModelShade);
+		data->clearInstancesToDraw();
 	}
-
-	models.clear();
 
 
 	glBindVertexArray(texture2DVAO);
@@ -164,6 +298,7 @@ void Graphics::render()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	prog2D.use();
 	BOOST_FOREACH(TextureInstance const& texInst, textureInstances)
 	{
 		drawTextureInstance(texInst);

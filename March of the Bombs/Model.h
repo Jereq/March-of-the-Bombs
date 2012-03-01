@@ -19,9 +19,6 @@ protected:
 	ModelData::ptr modelData;
 	std::vector<GLTexture::ptr> textures;
 
-	static GLSLProgram shadeProg;
-	static GLSLProgram shadowProg;
-
 	glm::vec3 position;
 	glm::vec3 rotation;
 	glm::vec3 scale;
@@ -38,8 +35,7 @@ public:
 	Model(ModelData::ptr const& model);
 	virtual ~Model();
 
-	virtual void draw(Graphics const& graphics) const;
-	virtual void drawShadow(PointLight::ptr const& light) const;
+	virtual void addInstance();
 
 	void setPosition(glm::vec3 const& position);
 	void setRotation(glm::vec3 const& rotation);

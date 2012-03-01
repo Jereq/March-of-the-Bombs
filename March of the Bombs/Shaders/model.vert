@@ -4,9 +4,9 @@ in vec3 vertexPosition;
 in vec2 vertexTextureCoordinates;
 in vec3 vertexNormal;
 
-uniform mat4 modelViewMatrix;
+uniform mat4 modelMatrix;
+uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
-uniform mat3 normalMatrix;
 
 uniform mat4 shadowMatrices[5];
 uniform uint numLights = 0U;
@@ -22,7 +22,10 @@ out VertexOut
 
 void main()
 {
-	vec4 eyeSpacePosition = modelViewMatrix * vec4(vertexPosition, 1);
+	mat4 modelViewMatrix = viewMatrix * modelMatrix;
+	mat3 normalMatrix = transpose(inverse(mat3(modelViewMatrix)));
+
+	vec4 eyeSpacePosition = viewMatrix * modelMatrix * vec4(vertexPosition, 1);
 
 	vOut.position = eyeSpacePosition;
 	vOut.textureCoordinates = vertexTextureCoordinates;
@@ -30,7 +33,7 @@ void main()
 
 	for (uint i = 0U; i < numLights; i++)
 	{
-		vOut.shadowCoordinates[i] = shadowMatrices[i] * vec4(vertexPosition, 1);
+		vOut.shadowCoordinates[i] = shadowMatrices[i] * modelMatrix * vec4(vertexPosition, 1);
 	}
 
 	gl_Position = projectionMatrix * eyeSpacePosition;

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <list>
 #include <boost/shared_ptr.hpp>
 
 #include <lib3ds/lib3ds.h>
@@ -23,6 +24,19 @@ public:
 protected:
 	class MaterialGroup
 	{
+	private:
+		class DrawInstance
+		{
+		public:
+			const glm::mat4 modelMatrix;
+
+			DrawInstance(glm::mat4 const& modelMatrix)
+				: modelMatrix(modelMatrix)
+			{
+			}
+		};
+		std::list<DrawInstance> drawInst;
+
 	public:
 		unsigned int count;
 		unsigned int startIndex;
@@ -32,8 +46,13 @@ protected:
 		MaterialGroup();
 
 		void use(GLSLProgram const& prog) const;
-	};
 
+		virtual void addInstanceToDraw(glm::mat4 const& modelMatrix);
+		virtual void clearInstancesToDraw();
+
+		virtual void drawInstances(GLSLProgram const& prog) const;
+		virtual void drawInstancesShadow(GLSLProgram const& prog) const;
+	};
 	std::vector<MaterialGroup> groups;
 
 	Model3DS(std::string const& fileName);
@@ -50,6 +69,9 @@ private:
 public:
 	virtual ~Model3DS();
 
-	virtual void draw(GLSLProgram const& prog) const;
-	virtual void drawShadow() const;
+	virtual void addInstanceToDraw(glm::mat4 const& modelMatrix);
+	virtual void clearInstancesToDraw();
+
+	virtual void drawInstances(GLSLProgram const& prog) const;
+	virtual void drawInstancesShadow(GLSLProgram const& prog) const;
 };

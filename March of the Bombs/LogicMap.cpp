@@ -9,7 +9,7 @@ using namespace std;
 
 void Map::loadDefaultMap()
 {
-	const static int size = 40;
+	const static int size = 70;
 
 	blockMap.resize(boost::extents[size][size]);
 	pathMap.resize(size, size);

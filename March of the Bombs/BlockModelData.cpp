@@ -1,5 +1,7 @@
 #include "BlockModelData.h"
 
+#include <boost/foreach.hpp>
+
 using glm::vec2;
 using glm::vec3;
 
@@ -239,21 +241,40 @@ BlockModelData::~BlockModelData()
 	}
 }
 
-void BlockModelData::draw(GLSLProgram const& prog) const
+void BlockModelData::addInstanceToDraw(glm::mat4 const& modelMatrix)
+{
+	drawInst.push_back(DrawInstance(modelMatrix));
+}
+
+void BlockModelData::clearInstancesToDraw()
+{
+	drawInst.clear();
+}
+
+void BlockModelData::drawInstances(GLSLProgram const& prog) const
 {
 	glBindVertexArray(modelVAO);
 
 	useMaterial(prog);
-	glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
+
+	BOOST_FOREACH(DrawInstance const& inst, drawInst)
+	{
+		prog.setUniform("modelMatrix", inst.modelMatrix);
+		glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
+	}
 
 	glBindVertexArray(0);
 }
 
-void BlockModelData::drawShadow() const
+void BlockModelData::drawInstancesShadow(GLSLProgram const& prog) const
 {
 	glBindVertexArray(modelVAO);
 
-	glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
+	BOOST_FOREACH(DrawInstance const& inst, drawInst)
+	{
+		prog.setUniform("modelMatrix", inst.modelMatrix);
+		glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
+	}
 
 	glBindVertexArray(0);
 }

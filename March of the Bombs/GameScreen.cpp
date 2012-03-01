@@ -8,36 +8,36 @@
 #include "StandardBombModelData.h"
 
 GameScreen::GameScreen()
-	: game(Game::getInstance()), cameraPos(new AttachmentPoint(glm::vec3(-20, 15, 20), glm::vec3(-30, -45, 0))),
+	: game(Game::getInstance()), cameraPos(new AttachmentPoint(glm::vec3(20, 15, 50), glm::vec3(-30, -45, 0))),
 	rotationYSpeed(0), rotationXSpeed(0)
 {
 	game->getGraphics()->getCamera()->setAttachmentPoint(cameraPos);
 
 	groundPlane = Model::ptr(new Model(PlaneModelData::getInstance()));
-	groundPlane->setPosition(glm::vec3(-100, 0, -100));
-	groundPlane->setScale(glm::vec3(200));
+	groundPlane->setScale(glm::vec3(70));
 
-	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(0, 20, -5, 1), glm::vec3(0.2f))));
-	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(0, 20, 0, 1), glm::vec3(0.2f))));
-	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(-5, 60, -5, 1), glm::vec3(0.7f))));
+	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(35, 150, 35, 1), glm::vec3(1.f))));
 	game->getGraphics()->setPrimaryLights(primaryLights);
 
 
 	blockMap.loadDefaultMap();
 
-	test = Model::ptr(new Model(StandardBombModelData::getInstance()));
-	test->setPosition(glm::vec3(0.f));
-	test->setScale(glm::vec3(0.3f));
-
-	std::list<glm::vec2> path;
-	bool success = blockMap.findPath(test->getPosition().swizzle(glm::X, glm::Z), glm::vec2(20.5f, 32.5f), path);
-
-	if (success)
+	for (int i = 0; i < testCount; i++)
 	{
-		BOOST_FOREACH(glm::vec2 const& pos, path)
-		{
-			testPath.push_back(glm::vec3(pos.x, 0, pos.y));
-		}
+		test[i] = Model::ptr(new Model(StandardBombModelData::getInstance()));
+		test[i]->setPosition(glm::vec3(i * 70.f / testCount, 0, 0));
+		test[i]->setScale(glm::vec3(0.3f));
+
+		//std::list<glm::vec2> path;
+		//bool success = blockMap.findPath(test[i]->getPosition().swizzle(glm::X, glm::Z), glm::vec2(20.5f, 32.5f), path);
+
+		//if (success)
+		//{
+		//	BOOST_FOREACH(glm::vec2 const& pos, path)
+		//	{
+		//		testPath[i].push_back(glm::vec3(pos.x, 0, pos.y));
+		//	}
+		//}
 	}
 }
 
@@ -82,31 +82,53 @@ void GameScreen::update(float deltaTime)
 		}
 	}
 
-	if (!testPath.empty())
+	static int pathCount = 0;
+
+	if (pathCount < testCount)
 	{
-		const static float speed = 3.f;
-		glm::vec3 pos = test->getPosition();
-		float distanceToGo = speed * deltaTime;
+		std::list<glm::vec2> path;
+		bool success = blockMap.findPath(test[pathCount]->getPosition().swizzle(glm::X, glm::Z), glm::vec2(20.5f, 32.5f), path);
 
-		while (distanceToGo > 0 && !testPath.empty())
+		if (success)
 		{
-			float distance = glm::distance(pos, testPath.front());
-
-			if (distanceToGo >= distance)
+			BOOST_FOREACH(glm::vec2 const& pos, path)
 			{
-				distanceToGo -= distance;
-				pos = testPath.front();
-				testPath.pop_front();
-			}
-			else
-			{
-				glm::vec3 direction = glm::normalize(testPath.front() - pos);
-				pos += direction * distanceToGo;
-				distanceToGo = 0;
+				testPath[pathCount].push_back(glm::vec3(pos.x, 0, pos.y));
 			}
 		}
 
-		test->setPosition(pos);
+		pathCount++;
+	}
+
+	for (int i = 0; i < testCount; i++)
+	{
+		if (!testPath[i].empty())
+		{
+			const static float speed = 3.f;
+			glm::vec3 pos = test[i]->getPosition();
+			float distanceToGo = speed * deltaTime;
+
+			while (distanceToGo > 0 && !testPath[i].empty())
+			{
+				float distance = glm::distance(pos, testPath[i].front());
+
+				if (distanceToGo >= distance)
+				{
+					distanceToGo -= distance;
+					pos = testPath[i].front();
+					testPath[i].pop_front();
+				}
+				else
+				{
+					glm::vec3 direction = glm::normalize(testPath[i].front() - pos);
+					pos += direction * distanceToGo;
+					test[i]->setRotation(glm::vec3(0, glm::degrees(glm::atan(-direction.z, direction.x)), 0));
+					distanceToGo = 0;
+				}
+			}
+
+			test[i]->setPosition(pos);
+		}
 	}
 
 	glm::vec3 rotation = cameraPos->getRotation();
@@ -129,7 +151,11 @@ void GameScreen::update(float deltaTime)
 
 void GameScreen::draw(Graphics::ptr graphics)
 {
-	graphics->drawModel(test);
+	for (int i = 0; i < testCount; i++)
+	{
+		graphics->drawModel(test[i]);
+	}
+
 	graphics->drawModel(groundPlane);
 
 	blockMap.drawBlocks(graphics);

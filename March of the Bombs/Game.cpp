@@ -136,6 +136,10 @@ void Game::updateFunc(int value)
 	float deltaTime = deltaTimeMS / 1000.f;
 	previousTime = runTimeMS;
 
+	if (deltaTime > 1.f / fpsCap * 10)
+	{
+		deltaTime = 1.f / fpsCap * 10;
+	}
 
 	int mouseDeltaX = currentMouseX - previousMouseX;
 	int mouseDeltaY = currentMouseY - previousMouseY;
@@ -268,6 +272,7 @@ void Game::update(float deltaTime)
 }
 
 Game::Game()
+	: fpsCap(60.f), paused(true), validUpdate(0), previousTime(glutGet(GLUT_ELAPSED_TIME))
 {
 	graphics = Graphics::ptr(new Graphics());
 }

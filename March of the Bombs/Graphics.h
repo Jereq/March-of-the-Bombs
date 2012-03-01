@@ -39,18 +39,29 @@ private:
 	};
 
 	GLSLProgram prog2D;
+	GLSLProgram progModelShade;
+	GLSLProgram progModelShadow;
+
 	Camera::ptr camera;
 	std::vector<PointLight::ptr> primaryLights;
 
-	std::list<Model::ptr> models;
+	std::set<ModelData::ptr> modelDatas;
 	std::set<TextureInstance> textureInstances;
 
 	GLuint textureBuffers2D[2];
 	GLuint texture2DVAO;
 
 	void drawTextureInstance(TextureInstance const& texInst) const;
+
 	void loadShaders();
+	void load2DShaders();
+	void loadModelShadeShaders();
+	void loadModelShadowShaders();
+
 	void prepareTextureBuffers();
+
+	void setupModelShader();
+	void setupModelShadowShader(PointLight::ptr const& light);
 
 public:
 	typedef boost::shared_ptr<Graphics> ptr;
