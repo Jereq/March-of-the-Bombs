@@ -1,5 +1,6 @@
 #include "Graphics.h"
 
+#include <iostream>
 #include <boost/foreach.hpp>
 
 #include "Game.h"

@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <list>
 #include <boost/shared_ptr.hpp>
 
 #include <lib3ds/lib3ds.h>
@@ -28,14 +27,14 @@ protected:
 		class DrawInstance
 		{
 		public:
-			const glm::mat4 modelMatrix;
+			glm::mat4 modelMatrix;
 
 			DrawInstance(glm::mat4 const& modelMatrix)
 				: modelMatrix(modelMatrix)
 			{
 			}
 		};
-		std::list<DrawInstance> drawInst;
+		std::vector<DrawInstance> drawInst;
 
 	public:
 		unsigned int count;

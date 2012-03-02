@@ -84,18 +84,9 @@ void GameScreen::update(float deltaTime)
 
 	static int pathCount = 0;
 
-	if (pathCount < testCount)
+	while (pathCount < testCount)
 	{
-		std::list<glm::vec2> path;
-		bool success = blockMap.findPath(test[pathCount]->getPosition().swizzle(glm::X, glm::Z), glm::vec2(20.5f, 32.5f), path);
-
-		if (success)
-		{
-			BOOST_FOREACH(glm::vec2 const& pos, path)
-			{
-				testPath[pathCount].push_back(glm::vec3(pos.x, 0, pos.y));
-			}
-		}
+		bool success = blockMap.findPath(test[pathCount]->getPosition().swizzle(glm::X, glm::Z), glm::vec2(20.5f, 32.5f), testPath[pathCount]);
 
 		pathCount++;
 	}

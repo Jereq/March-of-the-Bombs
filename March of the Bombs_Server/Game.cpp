@@ -1,5 +1,6 @@
 #include "Game.h"
 
+#include <iostream>
 #include <boost/foreach.hpp>
 
 Game::Game(PacketManager& packetManager)

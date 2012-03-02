@@ -9,7 +9,7 @@ using namespace std;
 
 void Map::loadDefaultMap()
 {
-	const static int size = 70;
+	const static int size = 100;
 
 	blockMap.resize(boost::extents[size][size]);
 	pathMap.resize(size, size);
@@ -22,26 +22,28 @@ void Map::loadDefaultMap()
 			{
 			case 0:
 				blockMap[i][j] = Block::ptr(new EmptyBlock());
-				pathMap.freePath(i, j);
+				pathMap.freePathLazy(i, j);
 				break;
 
 			case 1:
 				blockMap[i][j] = Block::ptr(new SoftBlock(glm::vec3(i, 0, j)));
-				pathMap.blockPath(i, j);
+				pathMap.blockPathLazy(i, j);
 				break;
 
 			case 2:
 				blockMap[i][j] = Block::ptr(new HardBlock(glm::vec3(i, 0, j)));
-				pathMap.blockPath(i, j);
+				pathMap.blockPathLazy(i, j);
 				break;
 
 			case 3:
 				blockMap[i][j] = Block::ptr(new HQBlock());
-				pathMap.blockPath(i, j);
+				pathMap.blockPathLazy(i, j);
 				break;
 			}
 		}
 	}
+
+	pathMap.calculateNeighbors();
 }
 
 void Map::loadMapFromFile()
@@ -55,7 +57,7 @@ void Map::loadMapFromFile()
 	mapFile.close();
 }
 
-bool Map::findPath(glm::vec2 const& start, glm::vec2 const& goal, std::list<glm::vec2>& path) const
+bool Map::findPath(glm::vec2 const& start, glm::vec2 const& goal, std::list<glm::vec3>& path) const
 {
 	return pathMap.findPath(start, goal, path);
 }

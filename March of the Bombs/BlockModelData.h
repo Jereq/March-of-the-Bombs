@@ -2,7 +2,7 @@
 
 #include "ModelData.h"
 
-#include <list>
+#include <vector>
 #include <lib3ds/lib3ds.h>
 
 #include "GLTexture.h"
@@ -22,14 +22,14 @@ private:
 	class DrawInstance
 	{
 	public:
-		const glm::mat4 modelMatrix;
+		glm::mat4 modelMatrix;
 
 		DrawInstance(glm::mat4 const& modelMatrix)
 			: modelMatrix(modelMatrix)
 		{
 		}
 	};
-	std::list<DrawInstance> drawInst;
+	std::vector<DrawInstance> drawInst;
 
 	Lib3dsMaterial material;
 	GLTexture::ptr texture;

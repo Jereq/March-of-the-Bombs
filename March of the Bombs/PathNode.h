@@ -9,17 +9,16 @@ class PathNode
 public:
 	bool free;
 	unsigned short useCount;
+	unsigned short openCount;
+	
+	typedef std::vector<PathNode>::size_type index_type;
+	index_type prevNode;
 
-	typedef boost::array<boost::multi_array<PathNode, 2>::index, 2> nodeIndex;
-	nodeIndex prevNode;
-
-	std::list<PathNode::nodeIndex> neighbors;
+	std::list<PathNode::index_type> neighbors;
 
 	float gScore;
 	float hScore;
 	float fScore;
-
-	bool isGoal;
 
 	PathNode();
 };

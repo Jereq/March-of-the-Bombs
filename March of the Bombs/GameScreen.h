@@ -26,7 +26,7 @@ private:
 	std::vector<PointLight::ptr> primaryLights;
 
 public:
-	const static int testCount = 50;
+	const static int testCount = 20;
 	Model::ptr test[testCount];
 	std::list<glm::vec3> testPath[testCount];
 

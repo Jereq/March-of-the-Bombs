@@ -5,6 +5,8 @@
 #endif
 #include <IL/ilut.h>
 
+#include <iostream>
+
 std::map<std::wstring, GLTexture::w_ptr> GLTexture::textureMap;
 
 GLTexture::GLTexture(GLuint handle)
