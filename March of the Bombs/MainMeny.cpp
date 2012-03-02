@@ -1,6 +1,5 @@
 #include "MainMeny.h"
 #include "Game.h"
-//#include <boost/foreach.hpp>
 #include "GameScreen.h"
 #include "OptionScreen.h"
 #include "CreditsScreen.h"
@@ -149,12 +148,12 @@ void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
 
 		if (buttons[1].getState() == Hovered)
 		{
-			nextScreen = Screen::ptr(new GameScreen());
+			nextScreen = Screen::ptr(new HtPScreen());
 		}
 
 		if (buttons[2].getState() == Hovered)
 		{
-			nextScreen = Screen::ptr(new GameScreen());
+			nextScreen = Screen::ptr(new OptionScreen());
 		}
 
 		if (buttons[3].getState() == Hovered)

@@ -7,7 +7,8 @@
 
 class Game;
 
-class HtPScreen
+class HtPScreen :
+	public Screen
 {
 private:
 	std::vector<Button> buttons;
