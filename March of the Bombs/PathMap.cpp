@@ -49,9 +49,15 @@ PathNode::nodeIndex PathMap::getClosestNode(glm::vec2 const& pos) const
 	return resNI;
 }
 
-std::list<PathNode::nodeIndex> PathMap::getNonClosedNeighbors(PathNode::nodeIndex const& node) const
+std::list<PathNode::nodeIndex> PathMap::getNeighbors(PathNode::nodeIndex const& node) const
 {
-	const static glm::ivec2 possibleNeighbors[16] =
+	if (!pathArray(node).free)
+	{
+		return std::list<PathNode::nodeIndex>();
+	}
+
+	const static int numNeighbors = 16;
+	const static glm::ivec2 possibleNeighbors[numNeighbors] =
 	{
 		glm::ivec2(-2, -1),
 		glm::ivec2(-2,  1),
@@ -73,7 +79,7 @@ std::list<PathNode::nodeIndex> PathMap::getNonClosedNeighbors(PathNode::nodeInde
 
 	std::list<PathNode::nodeIndex> res;
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < numNeighbors; i++)
 	{
 		glm::ivec2 const& offset = possibleNeighbors[i];
 
@@ -83,24 +89,60 @@ std::list<PathNode::nodeIndex> PathMap::getNonClosedNeighbors(PathNode::nodeInde
 			neighbor[0] >= (int)pathArray.shape()[0] ||
 			neighbor[1] < 0 ||
 			neighbor[1] >= (int)pathArray.shape()[1] ||
-			pathArray(neighbor).free == false ||
-			pathArray(neighbor).useCount == useCount)
+			pathArray(neighbor).free == false)
 		{
 			continue;
 		}
 
-		if (node[0] != neighbor[0] &&
-			node[1] != neighbor[1] &&
-			(!pathArray[node[0]][neighbor[1]].free ||
-			!pathArray[neighbor[0]][node[1]].free))
+		if (node[0] == neighbor[0] ||
+			node[1] == neighbor[1] ||
+			(pathArray[node[0]][neighbor[1]].free &&
+			pathArray[neighbor[0]][node[1]].free))
 		{
-			continue;
+			res.push_back(neighbor);
 		}
-
-		res.push_back(neighbor);
 	}
 
 	return res;
+}
+
+void PathMap::updateAllNeighbors(PathNode::nodeIndex const& pos)
+{
+	const static int numNeighbors = 13;
+	const static glm::ivec2 neighborOffsets[numNeighbors] =
+	{
+		glm::ivec2(-2,  0),
+		glm::ivec2(-1, -1),
+		glm::ivec2(-1,  0),
+		glm::ivec2(-1,  1),
+		glm::ivec2( 0, -2),
+		glm::ivec2( 0, -1),
+		glm::ivec2( 0,  0),
+		glm::ivec2( 0,  1),
+		glm::ivec2( 0,  2),
+		glm::ivec2( 1, -1),
+		glm::ivec2( 1,  0),
+		glm::ivec2( 1,  1),
+		glm::ivec2( 2,  0)
+	};
+
+	for (int i = 0; i < numNeighbors; i++)
+	{
+		glm::ivec2 const& offset = neighborOffsets[i];
+
+		PathNode::nodeIndex neighbor = {{pos[0] + offset.x, pos[1] + offset.y}};
+
+		if (neighbor[0] < 0 ||
+			neighbor[0] >= (int)pathArray.shape()[0] ||
+			neighbor[1] < 0 ||
+			neighbor[1] >= (int)pathArray.shape()[1])
+		{
+			continue;
+		}
+
+		PathNode& neighborNode = pathArray(neighbor);
+		neighborNode.neighbors = getNeighbors(neighbor);
+	}
 }
 
 glm::vec2 PathMap::toVec2(PathNode::nodeIndex const& nodeIndex) const
@@ -116,6 +158,19 @@ PathMap::PathMap()
 void PathMap::resize(unsigned int width, unsigned int height)
 {
 	pathArray.resize(boost::extents[width * nodesPerBlock][height * nodesPerBlock]);
+	
+	PathNode::nodeIndex index;
+	for (array_type::size_type i = 0; i < pathArray.shape()[0]; i++)
+	{
+		index[0] = i;
+
+		for (array_type::size_type j = 0; j < pathArray.shape()[1]; j++)
+		{
+			index[1] = j;
+
+			pathArray[i][j].neighbors = getNeighbors(index);
+		}
+	}
 }
 
 void PathMap::blockPath(unsigned int x, unsigned int z)
@@ -130,11 +185,26 @@ void PathMap::freePath(unsigned int x, unsigned int z)
 
 void PathMap::setPathFree(unsigned int x, unsigned int z, bool free)
 {
-	for (unsigned int dZ = 0; dZ < nodesPerBlock; dZ++)
+	if (x == 0 && z == 0)
 	{
-		for (unsigned int dX = 0; dX < nodesPerBlock; dX++)
+		free = free;
+	}
+
+	PathNode::nodeIndex index;
+	for (unsigned int dX = 0; dX < nodesPerBlock; dX++)
+	{
+		index[0] = x * nodesPerBlock + dX;
+
+		for (unsigned int dZ = 0; dZ < nodesPerBlock; dZ++)
 		{
-			pathArray[x * nodesPerBlock + dX][z * nodesPerBlock + dZ].free = free;
+			index[1] = z * nodesPerBlock + dZ;
+
+			PathNode& node = pathArray(index);
+			if (node.free != free)
+			{
+				node.free = free;
+				updateAllNeighbors(index);
+			}
 		}
 	}
 }
@@ -181,12 +251,17 @@ bool PathMap::findPath(glm::vec2 const& start, glm::vec2 const& goal, std::list<
 
 		pathArray(current).useCount = useCount;
 
-		BOOST_FOREACH(PathNode::nodeIndex const& neighbor, getNonClosedNeighbors(current))
+		BOOST_FOREACH(PathNode::nodeIndex const& neighbor, pathArray(current).neighbors)
 		{
+			PathNode& neighborNode = pathArray(neighbor);
+
+			if (neighborNode.useCount == useCount)
+			{
+				continue;
+			}
+
 			float tentativeGScore = pathArray(current).gScore + getDistance(current, neighbor);
 			bool tentativeIsBetter = false;
-
-			PathNode& neighborNode = pathArray(neighbor);
 
 			if (openSet.count(neighbor) == 0)
 			{

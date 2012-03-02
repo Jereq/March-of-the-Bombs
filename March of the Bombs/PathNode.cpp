@@ -1,6 +1,6 @@
 #include "PathNode.h"
 
 PathNode::PathNode()
-	: free(true), useCount(0)
+	: free(false), useCount(0)
 {
 }

@@ -33,7 +33,9 @@ protected:
 	void resetUseCount() const;
 	float getDistance(PathNode::nodeIndex const& pos1, PathNode::nodeIndex const& pos2) const;
 	PathNode::nodeIndex getClosestNode(glm::vec2 const& pos) const;
-	std::list<PathNode::nodeIndex> getNonClosedNeighbors(PathNode::nodeIndex const& node) const;
+	std::list<PathNode::nodeIndex> getNeighbors(PathNode::nodeIndex const& node) const;
+
+	void updateAllNeighbors(PathNode::nodeIndex const& pos);
 
 	glm::vec2 toVec2(PathNode::nodeIndex const& nodeIndex) const;
 

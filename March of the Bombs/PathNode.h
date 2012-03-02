@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include <boost/array.hpp>
 #include <boost/multi_array.hpp>
 
@@ -11,6 +12,8 @@ public:
 
 	typedef boost::array<boost::multi_array<PathNode, 2>::index, 2> nodeIndex;
 	nodeIndex prevNode;
+
+	std::list<PathNode::nodeIndex> neighbors;
 
 	float gScore;
 	float hScore;
