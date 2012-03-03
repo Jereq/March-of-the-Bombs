@@ -21,8 +21,6 @@ private:
 	glm::vec3 cameraVelocity;
 	float rotationYSpeed;
 	float rotationXSpeed;
-
-	Model::ptr groundPlane;
 	std::vector<PointLight::ptr> primaryLights;
 
 public:

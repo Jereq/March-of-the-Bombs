@@ -13,9 +13,6 @@ GameScreen::GameScreen()
 {
 	game->getGraphics()->getCamera()->setAttachmentPoint(cameraPos);
 
-	groundPlane = Model::ptr(new Model(PlaneModelData::getInstance()));
-	groundPlane->setScale(glm::vec3(70));
-
 	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(35, 150, 35, 1), glm::vec3(1.f))));
 	game->getGraphics()->setPrimaryLights(primaryLights);
 
@@ -28,16 +25,7 @@ GameScreen::GameScreen()
 		test[i]->setPosition(glm::vec3(i * 70.f / testCount, 0, 0));
 		test[i]->setScale(glm::vec3(0.3f));
 
-		//std::list<glm::vec2> path;
-		//bool success = blockMap.findPath(test[i]->getPosition().swizzle(glm::X, glm::Z), glm::vec2(20.5f, 32.5f), path);
-
-		//if (success)
-		//{
-		//	BOOST_FOREACH(glm::vec2 const& pos, path)
-		//	{
-		//		testPath[i].push_back(glm::vec3(pos.x, 0, pos.y));
-		//	}
-		//}
+		blockMap.findPath(test[i]->getPosition().swizzle(glm::X, glm::Z), glm::vec2(20.5f, 32.5f), testPath[i]);
 	}
 }
 
@@ -80,15 +68,6 @@ void GameScreen::update(float deltaTime)
 			}
 			break;
 		}
-	}
-
-	static int pathCount = 0;
-
-	while (pathCount < testCount)
-	{
-		bool success = blockMap.findPath(test[pathCount]->getPosition().swizzle(glm::X, glm::Z), glm::vec2(20.5f, 32.5f), testPath[pathCount]);
-
-		pathCount++;
 	}
 
 	for (int i = 0; i < testCount; i++)
@@ -147,9 +126,7 @@ void GameScreen::draw(Graphics::ptr graphics)
 		graphics->drawModel(test[i]);
 	}
 
-	graphics->drawModel(groundPlane);
-
-	blockMap.drawBlocks(graphics);
+	blockMap.draw(graphics);
 }
 
 Screen::ptr GameScreen::getNextScreen()

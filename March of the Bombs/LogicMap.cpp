@@ -1,11 +1,15 @@
 #include "MapHeader.h"
+
+#include <iostream>
+#include <fstream>
+using namespace std;
+
 #include "EmptyBlock.h"
 #include "HardBlock.h"
 #include "SoftBlock.h"
 #include "HQBlock.h"
-#include <iostream>
-#include <fstream>
-using namespace std;
+
+#include "PlaneModelData.h"
 
 void Map::loadDefaultMap()
 {
@@ -44,6 +48,9 @@ void Map::loadDefaultMap()
 	}
 
 	pathMap.calculateNeighbors();
+
+	groundPlane = Model::ptr(new Model(PlaneModelData::getInstance()));
+	groundPlane->setScale(glm::vec3(size));
 }
 
 void Map::loadMapFromFile()
@@ -62,7 +69,7 @@ bool Map::findPath(glm::vec2 const& start, glm::vec2 const& goal, std::list<glm:
 	return pathMap.findPath(start, goal, path);
 }
 
-void Map::drawBlocks(Graphics::ptr graphics)
+void Map::draw(Graphics::ptr graphics)
 {
 	for (unsigned int i = 0; i < blockMap.shape()[0]; i++)
 	{
@@ -71,4 +78,6 @@ void Map::drawBlocks(Graphics::ptr graphics)
 			blockMap[i][j]->draw(graphics);
 		}
 	}
+	
+	graphics->drawModel(groundPlane);
 }
