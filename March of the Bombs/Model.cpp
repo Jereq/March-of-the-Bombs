@@ -17,7 +17,8 @@ using glm::mat4;
 #include "Model3DS.h"
 
 Model::Model(ModelData::ptr const& model)
-	: modelData(model), validModelMatrix(false), scale(1.f)
+	: modelData(model), scale(1.f),
+	validModelMatrix(false), validInverseModelMatrix(false)
 {
 }
 
@@ -88,7 +89,29 @@ mat4 const& Model::getModelMatrix() const
 		modelMatrix = translateMatrix * rotateZ * rotateY * rotateX * scaleMatrix;
 
 		validModelMatrix = true;
+		validInverseModelMatrix = false;
 	}
 
 	return modelMatrix;
+}
+
+mat4 const& Model::getInverseModelMatrix() const
+{
+	if (!validInverseModelMatrix)
+	{
+		inverseModelMatrix = glm::inverse(getModelMatrix());
+
+		validInverseModelMatrix = true;
+	}
+
+	return inverseModelMatrix;
+}
+
+bool Model::rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const
+{
+	mat4 invMat = getInverseModelMatrix();
+	vec3 modelOrigin = vec3(invMat * glm::vec4(origin, 1));
+	vec3 modelDirection = vec3(invMat * glm::vec4(direction, 0));
+
+	return modelData->getBoundingBox().rayIntersect(modelOrigin, modelDirection, distance);
 }

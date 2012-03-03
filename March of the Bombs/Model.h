@@ -26,6 +26,9 @@ protected:
 	mutable bool validModelMatrix;
 	mutable glm::mat4 modelMatrix;
 
+	mutable bool validInverseModelMatrix;
+	mutable glm::mat4 inverseModelMatrix;
+
 	void loadShadeProg();
 	void loadShadowProg();
 
@@ -46,4 +49,7 @@ public:
 	glm::vec3 const& getScale() const;
 
 	glm::mat4 const& getModelMatrix() const;
+	glm::mat4 const& getInverseModelMatrix() const;
+
+	virtual bool rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const;
 };

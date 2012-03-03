@@ -189,6 +189,9 @@
     <ClCompile Include="PathMap.cpp">
       <Filter>Source Files\Game Logic\PathFinding</Filter>
     </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -316,6 +319,9 @@
     </ClInclude>
     <ClInclude Include="PathMap.h">
       <Filter>Header Files\Game Logic\PathFinding</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

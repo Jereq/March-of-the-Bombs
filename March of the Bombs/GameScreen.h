@@ -4,6 +4,7 @@
 #include "Model.h"
 #include "Game.h"
 #include "MapHeader.h"
+#include "BoundingBox.h"
 
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"

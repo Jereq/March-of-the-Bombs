@@ -207,7 +207,7 @@ void BlockModelData::useMaterial(GLSLProgram const& prog) const
 
 BlockModelData::BlockModelData(GLTexture::ptr const& texture)
 	: vertexVBO(0), normalVBO(0), texCoordVBO(0), indexVBO(0), modelVAO(0),
-	texture(texture)
+	texture(texture), boundingBox(glm::vec3(0.5f), glm::vec3(0.5f))
 {
 	createVBO();
 	setMaterial();
@@ -297,4 +297,9 @@ BlockModelData::ptr BlockModelData::getSoftInstance()
 	}
 
 	return softInstance;
+}
+
+BoundingBox BlockModelData::getBoundingBox() const
+{
+	return boundingBox;
 }

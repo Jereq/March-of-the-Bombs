@@ -39,6 +39,8 @@ private:
 	GLuint indexVBO;
 	GLuint modelVAO;
 
+	BoundingBox boundingBox;
+
 	virtual void createVBO();
 	virtual void setMaterial();
 	virtual void useMaterial(GLSLProgram const& prog) const;
@@ -56,4 +58,6 @@ public:
 	virtual void drawInstancesShadow(GLSLProgram const& prog) const;
 
 	static ptr getInstance();
+
+	BoundingBox getBoundingBox() const;
 };

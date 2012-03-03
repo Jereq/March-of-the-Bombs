@@ -221,6 +221,38 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 
 void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 {
+	if (mbEvent->state == MouseButtonState::Pressed)
+	{
+		Graphics::ptr graphics = game->getGraphics();
+
+		Camera::ptr camera = graphics->getCamera();
+		glm::mat4 viewProjectionMatrix = camera->getProjectionMatrix() * camera->getViewMatrix();
+
+		glm::mat4 pickingMatrix = glm::inverse(viewProjectionMatrix);
+
+		glm::vec4 nearPosition = pickingMatrix * glm::vec4(mbEvent->position.x * 2 - 1, mbEvent->position.y * 2 - 1, 0, 1);
+		nearPosition /= nearPosition.w;
+
+		glm::vec3 direction = glm::normalize(glm::vec3(nearPosition) - cameraPos->getPosition());
+
+		float distance = std::numeric_limits<float>::infinity();
+
+		int sel = -1;
+		for (int i = 0; i < testCount; i++)
+		{
+			bool hit = test[i]->rayIntersect(cameraPos->getPosition(), direction, distance);
+
+			if (hit)
+			{
+				sel = i;
+			}
+		}
+
+		if (sel != -1)
+		{
+			testPath[sel].clear();
+		}
+	}
 }
 
 void GameScreen::mouseMoveEventHandler(MouseMoveEvent const* mmEvent)

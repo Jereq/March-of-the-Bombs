@@ -58,8 +58,17 @@ void Model3DS::MaterialGroup::drawInstancesShadow(GLSLProgram const& prog) const
 	}
 }
 
+void Model3DS::fixBoundingBox(Lib3dsFile* modelFile)
+{
+	glm::vec3 pMin, pMax;
+	lib3ds_file_bounding_box_of_objects(modelFile, true, false, false, &pMin[0], &pMax[0]);
+
+	boundingBox.position = (pMin + pMax) * 0.5f;
+	boundingBox.halfSize = (pMax - pMin) * 0.5f;
+}
+
 Model3DS::Model3DS(std::string const& fileName)
-	: vertexVBO(0), normalVBO(0), texCoordVBO(0), indexVBO(0), modelVAO(0)
+	: vertexVBO(0), normalVBO(0), texCoordVBO(0), indexVBO(0), modelVAO(0), boundingBox(glm::vec3(0.5f), glm::vec3(0.5f))
 {
 	Lib3dsFile* modelFile = lib3ds_file_open(fileName.c_str());
 
@@ -69,6 +78,7 @@ Model3DS::Model3DS(std::string const& fileName)
 	}
 
 	createVBO(modelFile);
+	fixBoundingBox(modelFile);
 	lib3ds_file_free(modelFile);
 }
 
@@ -282,4 +292,9 @@ void Model3DS::drawInstancesShadow(GLSLProgram const& prog) const
 	}
 
 	glBindVertexArray(0);
+}
+
+BoundingBox Model3DS::getBoundingBox() const
+{
+	return boundingBox;
 }

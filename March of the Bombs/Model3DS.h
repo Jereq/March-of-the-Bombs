@@ -63,7 +63,11 @@ private:
 	GLuint indexVBO;
 	GLuint modelVAO;
 
+	BoundingBox boundingBox;
+
 	virtual void createVBO(Lib3dsFile* modelFile);
+	
+	void fixBoundingBox(Lib3dsFile* modelFile);
 
 public:
 	virtual ~Model3DS();
@@ -73,4 +77,6 @@ public:
 
 	virtual void drawInstances(GLSLProgram const& prog) const;
 	virtual void drawInstancesShadow(GLSLProgram const& prog) const;
+
+	virtual BoundingBox getBoundingBox() const;
 };

@@ -144,26 +144,31 @@ void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		if (buttons[0].getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new GameScreen());
+			game->getEvents().clear();
 		}
 
 		if (buttons[1].getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new HtPScreen());
+			game->getEvents().clear();
 		}
 
 		if (buttons[2].getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new OptionScreen());
+			game->getEvents().clear();
 		}
 
 		if (buttons[3].getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new CreditsScreen());
+			game->getEvents().clear();
 		}
 
 		if (buttons[4].getState() == Hovered)
 		{
 			game->close();
+			game->getEvents().clear();
 		}
 	}
 }
