@@ -84,17 +84,17 @@ Screen::ptr MainMeny::getNextScreen()
 void MainMeny::createButtons()
 {
 	//GLTexture::ptr TestButton1	=	GLTexture::loadTexture(L"images/skull.tga");
-	GLTexture::ptr LobbyButton		=	GLTexture::getTexture(L"images/ButtonLobby.png");
-	GLTexture::ptr HtPButton		=	GLTexture::getTexture(L"images/ButtonHtP.png");
-	GLTexture::ptr OptionButton		=	GLTexture::getTexture(L"images/ButtonOption.png");
-	GLTexture::ptr CreditsButton	=	GLTexture::getTexture(L"images/ButtonCredits.png");
-	GLTexture::ptr ExitButton		=	GLTexture::getTexture(L"images/ButtonExit.png");
+	GLTexture::ptr LobbyButton		=	GLTexture::getTexture(L"images/NewBI/NPBtn1.png");
+	GLTexture::ptr HtPButton		=	GLTexture::getTexture(L"images/NewBI/HtPBtn1.png");
+	GLTexture::ptr OptionButton		=	GLTexture::getTexture(L"images/NewBI/OBtn1.png");
+	GLTexture::ptr CreditsButton	=	GLTexture::getTexture(L"images/NewBI/CBtn1.png");
+	GLTexture::ptr ExitButton		=	GLTexture::getTexture(L"images/NewBI/ExitBtn1.png");
 
-	GLTexture::ptr LobbyButtonT		=	GLTexture::getTexture(L"images/ButtonLobbyT.png");
-	GLTexture::ptr HtPButtonT		=	GLTexture::getTexture(L"images/ButtonHtPT.png");
-	GLTexture::ptr OptionButtonT	=	GLTexture::getTexture(L"images/ButtonOptionT.png");
-	GLTexture::ptr CreditsButtonT	=	GLTexture::getTexture(L"images/ButtonCreditsT.png");
-	GLTexture::ptr ExitButtonT		=	GLTexture::getTexture(L"images/ButtonExitT.png");
+	GLTexture::ptr LobbyButtonT		=	GLTexture::getTexture(L"images/NewBI/NPBtn2.png");
+	GLTexture::ptr HtPButtonT		=	GLTexture::getTexture(L"images/NewBI/HtPBtn2.png");
+	GLTexture::ptr OptionButtonT	=	GLTexture::getTexture(L"images/NewBI/OBtn2.png");
+	GLTexture::ptr CreditsButtonT	=	GLTexture::getTexture(L"images/NewBI/CBtn2.png");
+	GLTexture::ptr ExitButtonT		=	GLTexture::getTexture(L"images/NewBI/ExitBtn2.png");
 
 	//class	 name	unpressed		pressed			rectangle	lower left corner		upper right corner
 	Button button0(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.30f,0.25f),glm::vec2(0.40f,0.15f)), 0.0f);
@@ -113,7 +113,7 @@ void MainMeny::createButtons()
 
 void MainMeny::createBackground()
 {
-	GLTexture::ptr Background = GLTexture::getTexture(L"images/MotBbackground.png");
+	GLTexture::ptr Background = GLTexture::getTexture(L"images/NewBI/Start.png");
 
 	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(1.00f,1.00f)), 0.99f);
 

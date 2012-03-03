@@ -78,9 +78,9 @@ Screen::ptr HtPScreen::getNextScreen()
 
 void HtPScreen::createButtons()
 {
-	GLTexture::ptr LobbyButton		=	GLTexture::getTexture(L"images/ButtonBack.png");
+	GLTexture::ptr LobbyButton		=	GLTexture::getTexture(L"images/NewBI/BackBtn1.png");
 	
-	GLTexture::ptr LobbyButtonT		=	GLTexture::getTexture(L"images/ButtonBackT.png");
+	GLTexture::ptr LobbyButtonT		=	GLTexture::getTexture(L"images/NewBI/BackBtn2.png");
 
 	Button button0(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
 
@@ -89,7 +89,7 @@ void HtPScreen::createButtons()
 
 void HtPScreen::createBackground()
 {
-	GLTexture::ptr Background = GLTexture::getTexture(L"images/MotBbackground.png");
+	GLTexture::ptr Background = GLTexture::getTexture(L"images/NewBI/HtP.png");
 
 	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(1.00f,1.00f)), 0.99f);
 
