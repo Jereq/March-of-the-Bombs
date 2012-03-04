@@ -28,9 +28,9 @@ void Model3DS::MaterialGroup::use(GLSLProgram const& prog) const
 	}
 }
 
-void Model3DS::MaterialGroup::addInstanceToDraw(glm::mat4 const& modelMatrix)
+void Model3DS::MaterialGroup::addInstanceToDraw(glm::mat4 const& modelMatrix, bool selected)
 {
-	drawInst.push_back(DrawInstance(modelMatrix));
+	drawInst.push_back(DrawInstance(modelMatrix, selected));
 }
 
 void Model3DS::MaterialGroup::clearInstancesToDraw()
@@ -45,6 +45,7 @@ void Model3DS::MaterialGroup::drawInstances(GLSLProgram const& prog) const
 	BOOST_FOREACH(DrawInstance const& inst, drawInst)
 	{
 		prog.setUniform("modelMatrix", inst.modelMatrix);
+		prog.setUniform("selected", inst.selected);
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, reinterpret_cast<GLvoid*>(startIndex * sizeof(unsigned short)));
 	}
 }
@@ -254,11 +255,11 @@ void Model3DS::createVBO(Lib3dsFile* modelFile)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void Model3DS::addInstanceToDraw(glm::mat4 const& modelMatrix)
+void Model3DS::addInstanceToDraw(glm::mat4 const& modelMatrix, bool selected)
 {
 	BOOST_FOREACH(MaterialGroup& group, groups)
 	{
-		group.addInstanceToDraw(modelMatrix);
+		group.addInstanceToDraw(modelMatrix, selected);
 	}
 }
 

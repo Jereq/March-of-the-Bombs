@@ -28,9 +28,10 @@ protected:
 		{
 		public:
 			glm::mat4 modelMatrix;
+			bool selected;
 
-			DrawInstance(glm::mat4 const& modelMatrix)
-				: modelMatrix(modelMatrix)
+			DrawInstance(glm::mat4 const& modelMatrix, bool selected)
+				: modelMatrix(modelMatrix), selected(selected)
 			{
 			}
 		};
@@ -46,7 +47,7 @@ protected:
 
 		void use(GLSLProgram const& prog) const;
 
-		virtual void addInstanceToDraw(glm::mat4 const& modelMatrix);
+		virtual void addInstanceToDraw(glm::mat4 const& modelMatrix, bool selected);
 		virtual void clearInstancesToDraw();
 
 		virtual void drawInstances(GLSLProgram const& prog) const;
@@ -72,7 +73,7 @@ private:
 public:
 	virtual ~Model3DS();
 
-	virtual void addInstanceToDraw(glm::mat4 const& modelMatrix);
+	virtual void addInstanceToDraw(glm::mat4 const& modelMatrix, bool selected);
 	virtual void clearInstancesToDraw();
 
 	virtual void drawInstances(GLSLProgram const& prog) const;

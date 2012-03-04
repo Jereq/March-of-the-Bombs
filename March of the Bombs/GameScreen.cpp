@@ -177,6 +177,16 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 		case 'f':
 			rotationXSpeed += -30;
 			break;
+
+		case 'h':
+			for (int i = 0; i < testCount; i++)
+			{
+				if (test[i]->isSelected())
+				{
+					testPath[i].clear();
+				}
+			}
+			break;
 		}
 	}
 
@@ -233,14 +243,15 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 		glm::vec4 nearPosition = pickingMatrix * glm::vec4(mbEvent->position.x * 2 - 1, mbEvent->position.y * 2 - 1, 0, 1);
 		nearPosition /= nearPosition.w;
 
-		glm::vec3 direction = glm::normalize(glm::vec3(nearPosition) - cameraPos->getPosition());
+		glm::vec3 origin = cameraPos->getPosition();
+		glm::vec3 direction = glm::normalize(glm::vec3(nearPosition) - origin);
 
 		float distance = std::numeric_limits<float>::infinity();
 
 		int sel = -1;
 		for (int i = 0; i < testCount; i++)
 		{
-			bool hit = test[i]->rayIntersect(cameraPos->getPosition(), direction, distance);
+			bool hit = test[i]->rayIntersect(origin, direction, distance);
 
 			if (hit)
 			{
@@ -250,7 +261,24 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 
 		if (sel != -1)
 		{
-			testPath[sel].clear();
+			test[sel]->setSelected(!test[sel]->isSelected());
+		}
+		else
+		{
+			bool hit = blockMap.intersectGround(origin, direction, distance);
+
+			if (hit)
+			{
+				glm::vec3 destination = origin + direction * distance;
+
+				for (int i = 0; i < testCount; i++)
+				{
+					if (test[i]->isSelected())
+					{
+						blockMap.findPath(test[i]->getPosition().swizzle(glm::X, glm::Z), destination.swizzle(glm::X, glm::Z), testPath[i]);
+					}
+				}
+			}
 		}
 	}
 }

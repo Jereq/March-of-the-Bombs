@@ -12,7 +12,7 @@ public:
 
 	virtual ~ModelData() {}
 
-	virtual void addInstanceToDraw(glm::mat4 const& modelMatrix) = 0;
+	virtual void addInstanceToDraw(glm::mat4 const& modelMatrix, bool selected) = 0;
 	virtual void clearInstancesToDraw() = 0;
 	
 	virtual void drawInstances(GLSLProgram const& prog) const = 0;

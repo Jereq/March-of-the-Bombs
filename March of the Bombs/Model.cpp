@@ -17,7 +17,7 @@ using glm::mat4;
 #include "Model3DS.h"
 
 Model::Model(ModelData::ptr const& model)
-	: modelData(model), scale(1.f),
+	: modelData(model), scale(1.f), selected(false),
 	validModelMatrix(false), validInverseModelMatrix(false)
 {
 }
@@ -28,7 +28,7 @@ Model::~Model()
 
 void Model::addInstance()
 {
-	modelData->addInstanceToDraw(getModelMatrix());
+	modelData->addInstanceToDraw(getModelMatrix(), isSelected());
 }
 
 void Model::setPosition(vec3 const& position)
@@ -105,6 +105,16 @@ mat4 const& Model::getInverseModelMatrix() const
 	}
 
 	return inverseModelMatrix;
+}
+
+void Model::setSelected(bool selected)
+{
+	this->selected = selected;
+}
+
+bool Model::isSelected() const
+{
+	return selected;
 }
 
 bool Model::rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const

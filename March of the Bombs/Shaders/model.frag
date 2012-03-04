@@ -20,6 +20,8 @@ struct Light
 uniform Light lights[5];
 uniform uint numLights = 0U;
 
+uniform bool selected = false;
+
 uniform struct Material
 {
 	vec3 ambient;
@@ -125,6 +127,13 @@ void main()
 	if (numLights == 0U)
 	{
 		result = diffColor * material.diffuse;
+	}
+
+	if (selected)
+	{
+		vec3 selectionColor = vec3(0.5, 0.5, 1);
+		float selectionBlend = 0.3;
+		result = mix(result, selectionColor, selectionBlend);
 	}
 
 	fragColor = vec4(result + material.ambient, 1.0);

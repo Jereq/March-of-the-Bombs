@@ -23,6 +23,8 @@ protected:
 	glm::vec3 rotation;
 	glm::vec3 scale;
 
+	bool selected;
+
 	mutable bool validModelMatrix;
 	mutable glm::mat4 modelMatrix;
 
@@ -50,6 +52,9 @@ public:
 
 	glm::mat4 const& getModelMatrix() const;
 	glm::mat4 const& getInverseModelMatrix() const;
+
+	void setSelected(bool select);
+	bool isSelected() const;
 
 	virtual bool rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const;
 };

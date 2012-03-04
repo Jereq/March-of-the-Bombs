@@ -81,3 +81,8 @@ void Map::draw(Graphics::ptr graphics)
 	
 	graphics->drawModel(groundPlane);
 }
+
+bool Map::intersectGround(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const
+{
+	return groundPlane->rayIntersect(origin, direction, distance);
+}

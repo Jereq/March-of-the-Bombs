@@ -150,9 +150,9 @@ PlaneModelData::~PlaneModelData()
 	}
 }
 
-void PlaneModelData::addInstanceToDraw(glm::mat4 const& modelMatrix)
+void PlaneModelData::addInstanceToDraw(glm::mat4 const& modelMatrix, bool selected)
 {
-	drawInst.push_back(DrawInstance(modelMatrix));
+	drawInst.push_back(DrawInstance(modelMatrix, selected));
 }
 
 void PlaneModelData::clearInstancesToDraw()
@@ -169,6 +169,7 @@ void PlaneModelData::drawInstances(GLSLProgram const& prog) const
 	BOOST_FOREACH(DrawInstance const& inst, drawInst)
 	{
 		prog.setUniform("modelMatrix", inst.modelMatrix);
+		prog.setUniform("selected", inst.selected);
 		glDrawElements(GL_TRIANGLE_STRIP, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
 	}
 

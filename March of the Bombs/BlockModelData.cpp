@@ -241,9 +241,9 @@ BlockModelData::~BlockModelData()
 	}
 }
 
-void BlockModelData::addInstanceToDraw(glm::mat4 const& modelMatrix)
+void BlockModelData::addInstanceToDraw(glm::mat4 const& modelMatrix, bool selected)
 {
-	drawInst.push_back(DrawInstance(modelMatrix));
+	drawInst.push_back(DrawInstance(modelMatrix, selected));
 }
 
 void BlockModelData::clearInstancesToDraw()
@@ -260,6 +260,7 @@ void BlockModelData::drawInstances(GLSLProgram const& prog) const
 	BOOST_FOREACH(DrawInstance const& inst, drawInst)
 	{
 		prog.setUniform("modelMatrix", inst.modelMatrix);
+		prog.setUniform("selected", inst.selected);
 		glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
 	}
 
