@@ -6,19 +6,16 @@ in VertexOut
 	vec2 textureCoordinates;
 	vec3 normal;
 
-	vec4 shadowCoordinates[5];
+	vec4 shadowCoordinates;
 } fragIn;
 
-struct Light
+uniform struct Light
 {
 	vec4 position;
 	vec3 intensity;
+} light;
 
-	sampler2DShadow shadowMap;
-};
-
-uniform Light lights[5];
-uniform uint numLights = 0U;
+uniform sampler2DShadow shadowMap;
 
 uniform bool selected = false;
 
@@ -34,7 +31,7 @@ uniform sampler2D diffuseMap;
 
 out vec4 fragColor;
 
-vec3 phongModelDiffAndSpec(in Light light, in vec3 normal, in vec3 view, in vec3 diffColor)
+vec3 phongModelDiffAndSpec(in vec3 normal, in vec3 view, in vec3 diffColor)
 {
 	vec3 s = normalize(vec3(light.position - fragIn.position));
 	vec3 r = reflect(-s, normal);
@@ -52,82 +49,16 @@ void main()
 	vec3 view = normalize(vec3(-fragIn.position));
 	vec3 diffColor = vec3(texture(diffuseMap, fragIn.textureCoordinates));
 
-	vec3 result = vec3(0);
+	float sum = 0;
+	sum += textureProjOffset(shadowMap, fragIn.shadowCoordinates, ivec2(-1, -1));
+	sum += textureProjOffset(shadowMap, fragIn.shadowCoordinates, ivec2(-1,  1));
+	sum += textureProjOffset(shadowMap, fragIn.shadowCoordinates, ivec2( 1, -1));
+	sum += textureProjOffset(shadowMap, fragIn.shadowCoordinates, ivec2( 1,  1));
 
-	if (numLights > 0U)
-	{
-		float sum = 0;
-		sum += textureProjOffset(lights[0].shadowMap, fragIn.shadowCoordinates[0], ivec2(-1, -1));
-		sum += textureProjOffset(lights[0].shadowMap, fragIn.shadowCoordinates[0], ivec2(-1,  1));
-		sum += textureProjOffset(lights[0].shadowMap, fragIn.shadowCoordinates[0], ivec2( 1, -1));
-		sum += textureProjOffset(lights[0].shadowMap, fragIn.shadowCoordinates[0], ivec2( 1,  1));
-
-		float shadow = sum / 4;
+	float shadow = sum / 4;
 		
-		vec3 diffAndSpec = phongModelDiffAndSpec(lights[0], normal, view, diffColor);
-		result += shadow * diffAndSpec;
-	}
-
-	if (numLights > 1U)
-	{
-		float sum = 0;
-		sum += textureProjOffset(lights[1].shadowMap, fragIn.shadowCoordinates[1], ivec2(-1, -1));
-		sum += textureProjOffset(lights[1].shadowMap, fragIn.shadowCoordinates[1], ivec2(-1,  1));
-		sum += textureProjOffset(lights[1].shadowMap, fragIn.shadowCoordinates[1], ivec2( 1, -1));
-		sum += textureProjOffset(lights[1].shadowMap, fragIn.shadowCoordinates[1], ivec2( 1,  1));
-		
-		float shadow = sum / 4;
-		
-		vec3 diffAndSpec = phongModelDiffAndSpec(lights[1], normal, view, diffColor);
-		result += shadow * diffAndSpec;
-	}
-
-	if (numLights > 2U)
-	{
-		float sum = 0;
-		sum += textureProjOffset(lights[2].shadowMap, fragIn.shadowCoordinates[2], ivec2(-1, -1));
-		sum += textureProjOffset(lights[2].shadowMap, fragIn.shadowCoordinates[2], ivec2(-1,  1));
-		sum += textureProjOffset(lights[2].shadowMap, fragIn.shadowCoordinates[2], ivec2( 1, -1));
-		sum += textureProjOffset(lights[2].shadowMap, fragIn.shadowCoordinates[2], ivec2( 1,  1));
-		
-		float shadow = sum / 4;
-		
-		vec3 diffAndSpec = phongModelDiffAndSpec(lights[2], normal, view, diffColor);
-		result += shadow * diffAndSpec;
-	}
-
-	if (numLights > 3U)
-	{
-		float sum = 0;
-		sum += textureProjOffset(lights[3].shadowMap, fragIn.shadowCoordinates[3], ivec2(-1, -1));
-		sum += textureProjOffset(lights[3].shadowMap, fragIn.shadowCoordinates[3], ivec2(-1,  1));
-		sum += textureProjOffset(lights[3].shadowMap, fragIn.shadowCoordinates[3], ivec2( 1, -1));
-		sum += textureProjOffset(lights[3].shadowMap, fragIn.shadowCoordinates[3], ivec2( 1,  1));
-		
-		float shadow = sum / 4;
-		
-		vec3 diffAndSpec = phongModelDiffAndSpec(lights[3], normal, view, diffColor);
-		result += shadow * diffAndSpec;
-	}
-
-	if (numLights > 4U)
-	{
-		float sum = 0;
-		sum += textureProjOffset(lights[4].shadowMap, fragIn.shadowCoordinates[4], ivec2(-1, -1));
-		sum += textureProjOffset(lights[4].shadowMap, fragIn.shadowCoordinates[4], ivec2(-1,  1));
-		sum += textureProjOffset(lights[4].shadowMap, fragIn.shadowCoordinates[4], ivec2( 1, -1));
-		sum += textureProjOffset(lights[4].shadowMap, fragIn.shadowCoordinates[4], ivec2( 1,  1));
-		
-		float shadow = sum / 4;
-		
-		vec3 diffAndSpec = phongModelDiffAndSpec(lights[4], normal, view, diffColor);
-		result += shadow * diffAndSpec;
-	}
-
-	if (numLights == 0U)
-	{
-		result = diffColor * material.diffuse;
-	}
+	vec3 diffAndSpec = phongModelDiffAndSpec(normal, view, diffColor);
+	vec3 result = shadow * diffAndSpec;
 
 	if (selected)
 	{

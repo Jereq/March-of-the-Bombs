@@ -11,10 +11,12 @@ GameScreen::GameScreen()
 	: game(Game::getInstance()), cameraPos(new AttachmentPoint(glm::vec3(20, 15, 50), glm::vec3(-30, -45, 0))),
 	rotationYSpeed(0), rotationXSpeed(0)
 {
-	game->getGraphics()->getCamera()->setAttachmentPoint(cameraPos);
+	Graphics::ptr graphics = game->getGraphics();
 
-	primaryLights.push_back(PointLight::ptr(new PointLight(glm::vec4(35, 150, 35, 1), glm::vec3(1.f))));
-	game->getGraphics()->setPrimaryLights(primaryLights);
+	graphics->getCamera()->setAttachmentPoint(cameraPos);
+
+	light = PointLight::ptr(new PointLight(glm::vec4(35, 150, 35, 1), glm::vec3(1.f)));
+	graphics->setLight(light);
 
 
 	blockMap.loadDefaultMap();

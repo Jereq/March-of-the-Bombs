@@ -43,7 +43,7 @@ private:
 	GLSLProgram progModelShadow;
 
 	Camera::ptr camera;
-	std::vector<PointLight::ptr> primaryLights;
+	PointLight::ptr light;
 
 	std::set<ModelData::ptr> modelDatas;
 	std::set<TextureInstance> textureInstances;
@@ -75,8 +75,8 @@ public:
 
 	Camera::ptr getCamera() const;
 
-	void setPrimaryLights(std::vector<PointLight::ptr> const& lights);
-	std::vector<PointLight::ptr> const& getPrimaryLights() const;
+	void setLight(PointLight::ptr const& light);
+	PointLight::ptr const& getLight() const;
 
 	void updateViewport();
 };

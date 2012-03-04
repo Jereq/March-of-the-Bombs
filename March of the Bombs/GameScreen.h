@@ -22,7 +22,7 @@ private:
 	glm::vec3 cameraVelocity;
 	float rotationYSpeed;
 	float rotationXSpeed;
-	std::vector<PointLight::ptr> primaryLights;
+	PointLight::ptr light;
 
 public:
 	const static int testCount = 20;

@@ -100,11 +100,7 @@ void Graphics::loadModelShadeShaders()
 	printf("\n");
 
 	progModelShade.use();
-	progModelShade.setUniform("lights[0].shadowMap", (GLint)0);
-	progModelShade.setUniform("lights[1].shadowMap", (GLint)1);
-	progModelShade.setUniform("lights[2].shadowMap", (GLint)2);
-	progModelShade.setUniform("lights[3].shadowMap", (GLint)3);
-	progModelShade.setUniform("lights[4].shadowMap", (GLint)4);
+	progModelShade.setUniform("shadowMap", (GLint)0);
 	progModelShade.setUniform("diffuseMap", (GLint)5);
 }
 
@@ -185,36 +181,16 @@ void Graphics::setupModelShader()
 	progModelShade.use();
 	progModelShade.setUniform("viewMatrix", viewMatrix);
 	progModelShade.setUniform("projectionMatrix", projectionMatrix);
-		
-	GLuint lightCount = 0;
-	const static GLuint MAX_LIGHTS = 5;
-	char uniformBuffer[128] = {0};
 
-	BOOST_FOREACH(PointLight::ptr const& light, getPrimaryLights())
+	if(light)
 	{
-		sprintf_s(uniformBuffer, "lights[%d].position", lightCount);
-		progModelShade.setUniform(uniformBuffer, viewMatrix * light->getPosition());
+		progModelShade.setUniform("light.position", viewMatrix * light->getPosition());
+		progModelShade.setUniform("light.intensity", light->getIntensity());
+		progModelShade.setUniform("shadowMatrix", light->getViewProjectionMatrix());
 
-		sprintf_s(uniformBuffer, "lights[%d].intensity", lightCount);
-		progModelShade.setUniform(uniformBuffer, light->getIntensity());
-
-		sprintf_s(uniformBuffer, "shadowMatrices[%d]", lightCount);
-		progModelShade.setUniform(uniformBuffer, light->getViewProjectionMatrix());
-
-		sprintf_s(uniformBuffer, "lights[%d].shadowMap", lightCount);
-		progModelShade.setUniform(uniformBuffer, (GLint)lightCount);
-
-		glActiveTexture(GL_TEXTURE0 + lightCount);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, light->getShadowTexture());
-
-		lightCount++;
-		if (lightCount >= MAX_LIGHTS)
-		{
-			break;
-		}
 	}
-	
-	progModelShade.setUniform("numLights", lightCount);
 }
 
 void Graphics::setupModelShadowShader(PointLight::ptr const& light)
@@ -257,12 +233,14 @@ void Graphics::drawModel(Model::ptr const& model)
 
 void Graphics::render()
 {
-	glCullFace(GL_FRONT);
-	glEnable(GL_POLYGON_OFFSET_FILL);
-	//glPolygonOffset(-1.1f, -4.f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	BOOST_FOREACH(PointLight::ptr const& light, primaryLights)
+	if(light)
 	{
+		glCullFace(GL_FRONT);
+		glEnable(GL_POLYGON_OFFSET_FILL);
+		//glPolygonOffset(-1.1f, -4.f);
+
 		glBindFramebuffer(GL_FRAMEBUFFER, light->getShadowBuffer());
 		glViewport(0, 0, light->getShadowResolution(), light->getShadowResolution());
 		glClear(GL_DEPTH_BUFFER_BIT);
@@ -272,25 +250,23 @@ void Graphics::render()
 		{
 			data->drawInstancesShadow(progModelShadow);
 		}
-	}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	Game::ptr const& game = Game::getInstance();
-	glViewport(0, 0, game->getWindowWidth(), game->getWindowHeight());
+		Game::ptr const& game = Game::getInstance();
+		glViewport(0, 0, game->getWindowWidth(), game->getWindowHeight());
 
-	glCullFace(GL_BACK);
-	glDisable(GL_POLYGON_OFFSET_FILL);
+		glCullFace(GL_BACK);
+		glDisable(GL_POLYGON_OFFSET_FILL);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		camera->updateViewMatrix();
 
-	camera->updateViewMatrix();
-
-	setupModelShader();
-	BOOST_FOREACH(ModelData::ptr const& data, modelDatas)
-	{
-		data->drawInstances(progModelShade);
-		data->clearInstancesToDraw();
+		setupModelShader();
+		BOOST_FOREACH(ModelData::ptr const& data, modelDatas)
+		{
+			data->drawInstances(progModelShade);
+			data->clearInstancesToDraw();
+		}
 	}
 
 
@@ -353,14 +329,14 @@ Camera::ptr Graphics::getCamera() const
 	return camera;
 }
 
-void Graphics::setPrimaryLights(std::vector<PointLight::ptr> const& lights)
+void Graphics::setLight(PointLight::ptr const& light)
 {
-	primaryLights = lights;
+	this->light = light;
 }
 
-std::vector<PointLight::ptr> const& Graphics::getPrimaryLights() const
+PointLight::ptr const& Graphics::getLight() const
 {
-	return primaryLights;
+	return light;
 }
 
 void Graphics::updateViewport()
