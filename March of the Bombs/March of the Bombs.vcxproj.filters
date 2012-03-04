@@ -11,7 +11,7 @@
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Source Files\GUIcpp">
       <UniqueIdentifier>{5a81d221-e80a-41c4-9b4d-6f0fec78cf9f}</UniqueIdentifier>
@@ -60,6 +60,12 @@
     </Filter>
     <Filter Include="Header Files\Game Logic\PathFinding">
       <UniqueIdentifier>{98029904-bbc7-43d5-9dc8-44f78514541b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Logic\Units">
+      <UniqueIdentifier>{0b1c54d5-88e9-4f7b-b5dd-638157b4c124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Logic\Units">
+      <UniqueIdentifier>{3509773a-c3fd-4aed-9e10-4721599738c9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -192,6 +198,9 @@
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Source Files\Game Logic\Units</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -323,6 +332,9 @@
     <ClInclude Include="BoundingBox.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Header Files\Game Logic\Units</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\standard2d.frag">
@@ -346,7 +358,6 @@
     <None Include="Models\StandardBomber1.3ds">
       <Filter>Resource Files\Models</Filter>
     </None>
-    <None Include="Images\skull.tga" />
     <None Include="Images\MotBBackground.png">
       <Filter>Resource Files\Images</Filter>
     </None>
@@ -364,6 +375,120 @@
     </None>
     <None Include="Images\ButtonOption.png">
       <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\skull.tga">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\BackBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\Start.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\BackBtn2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonBack.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonBackgound.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonBackgroundT.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonBackT.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonCredits.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonCreditsT.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonExit.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonExitT.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonHtP.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonHtPT.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonLobby.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonLobbyT.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonOption.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\ButtonOptionT.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\CBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\CBtn2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\Credits.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\ExitBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\ExitBtn2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\GroundPlane.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\Hard Rock.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\HtP.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\HtPBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\HtPBtn2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\MotBBackground.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\OldBI\MotBBackgroundCredits.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\NPBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\NPBtn2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\OBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\OBtn2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\Options.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Models\Standard.3ds">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Models\Standard.png">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="defaultmapfile.txt">
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
 </Project>

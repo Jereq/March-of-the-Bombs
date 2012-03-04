@@ -10,9 +10,3 @@ private:
 	void makeClusterBomb();
 	void makeDud();
 };
-class Bomb 
-{
-public:
-	virtual int bombType() = 0;
-	virtual int team() = 0;
-};

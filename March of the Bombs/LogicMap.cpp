@@ -64,7 +64,7 @@ void Map::loadMapFromFile()
 	mapFile.close();
 }
 
-bool Map::findPath(glm::vec2 const& start, glm::vec2 const& goal, std::list<glm::vec3>& path) const
+bool Map::findPath(glm::vec3 const& start, glm::vec3 const& goal, std::list<glm::vec3>& path) const
 {
 	return pathMap.findPath(start, goal, path);
 }

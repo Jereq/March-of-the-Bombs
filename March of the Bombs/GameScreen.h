@@ -1,10 +1,11 @@
 #pragma once
 
+#include <list>
+
 #include "Screen.h"
-#include "Model.h"
 #include "Game.h"
 #include "MapHeader.h"
-#include "BoundingBox.h"
+#include "Bomb.h"
 
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"
@@ -25,9 +26,7 @@ private:
 	PointLight::ptr light;
 
 public:
-	const static int testCount = 20;
-	Model::ptr test[testCount];
-	std::list<glm::vec3> testPath[testCount];
+	std::list<Bomb> bombs;
 
 	GameScreen();
 

@@ -24,7 +24,7 @@ public:
 	void loadDefaultMap();
 	void loadMapFromFile();
 
-	bool findPath(glm::vec2 const& start, glm::vec2 const& goal, std::list<glm::vec3>& path) const;
+	bool findPath(glm::vec3 const& start, glm::vec3 const& goal, std::list<glm::vec3>& path) const;
 
 	void draw(Graphics::ptr graphics);
 

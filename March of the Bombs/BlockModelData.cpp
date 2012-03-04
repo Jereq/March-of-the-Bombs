@@ -241,9 +241,9 @@ BlockModelData::~BlockModelData()
 	}
 }
 
-void BlockModelData::addInstanceToDraw(glm::mat4 const& modelMatrix, bool selected)
+void BlockModelData::addInstanceToDraw(glm::mat4 const& modelMatrix, glm::vec4 const& tint)
 {
-	drawInst.push_back(DrawInstance(modelMatrix, selected));
+	drawInst.push_back(DrawInstance(modelMatrix, tint));
 }
 
 void BlockModelData::clearInstancesToDraw()
@@ -260,7 +260,7 @@ void BlockModelData::drawInstances(GLSLProgram const& prog) const
 	BOOST_FOREACH(DrawInstance const& inst, drawInst)
 	{
 		prog.setUniform("modelMatrix", inst.modelMatrix);
-		prog.setUniform("selected", inst.selected);
+		prog.setUniform("tint", inst.tint);
 		glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
 	}
 

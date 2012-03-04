@@ -21,13 +21,14 @@ GameScreen::GameScreen()
 
 	blockMap.loadDefaultMap();
 
-	for (int i = 0; i < testCount; i++)
+	const static int numBombs = 40;
+	for (int i = 0; i < numBombs; i++)
 	{
-		test[i] = Model::ptr(new Model(StandardBombModelData::getInstance()));
-		test[i]->setPosition(glm::vec3(i * 70.f / testCount, 0, 0));
-		test[i]->setScale(glm::vec3(0.3f));
+		bombs.push_back(Bomb(0));
+		Bomb& addedBomb = bombs.back();
 
-		blockMap.findPath(test[i]->getPosition().swizzle(glm::X, glm::Z), glm::vec2(20.5f, 32.5f), testPath[i]);
+		addedBomb.setPosition(glm::vec3(i * 70.f / numBombs, 0, 0));
+		addedBomb.setTarget(blockMap, glm::vec3(20.5f, 0.f, 32.5f));
 	}
 }
 
@@ -72,35 +73,9 @@ void GameScreen::update(float deltaTime)
 		}
 	}
 
-	for (int i = 0; i < testCount; i++)
+	BOOST_FOREACH(Bomb& bomb, bombs)
 	{
-		if (!testPath[i].empty())
-		{
-			const static float speed = 3.f;
-			glm::vec3 pos = test[i]->getPosition();
-			float distanceToGo = speed * deltaTime;
-
-			while (distanceToGo > 0 && !testPath[i].empty())
-			{
-				float distance = glm::distance(pos, testPath[i].front());
-
-				if (distanceToGo >= distance)
-				{
-					distanceToGo -= distance;
-					pos = testPath[i].front();
-					testPath[i].pop_front();
-				}
-				else
-				{
-					glm::vec3 direction = glm::normalize(testPath[i].front() - pos);
-					pos += direction * distanceToGo;
-					test[i]->setRotation(glm::vec3(0, glm::degrees(glm::atan(-direction.z, direction.x)), 0));
-					distanceToGo = 0;
-				}
-			}
-
-			test[i]->setPosition(pos);
-		}
+		bomb.updatePosition(deltaTime);
 	}
 
 	glm::vec3 rotation = cameraPos->getRotation();
@@ -123,9 +98,9 @@ void GameScreen::update(float deltaTime)
 
 void GameScreen::draw(Graphics::ptr graphics)
 {
-	for (int i = 0; i < testCount; i++)
+	BOOST_FOREACH(Bomb& bomb, bombs)
 	{
-		graphics->drawModel(test[i]);
+		bomb.draw(graphics);
 	}
 
 	blockMap.draw(graphics);
@@ -181,14 +156,20 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 			break;
 
 		case 'h':
-			for (int i = 0; i < testCount; i++)
+			BOOST_FOREACH(Bomb& bomb, bombs)
 			{
-				if (test[i]->isSelected())
+				if (bomb.isSelected())
 				{
-					testPath[i].clear();
+					bomb.halt();
 				}
 			}
 			break;
+
+		case 'g':
+			BOOST_FOREACH(Bomb& bomb, bombs)
+			{
+				bomb.setSelected(false);
+			}
 		}
 	}
 
@@ -250,34 +231,32 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 
 		float distance = std::numeric_limits<float>::infinity();
 
-		int sel = -1;
-		for (int i = 0; i < testCount; i++)
+		Bomb* hitBomb = NULL;
+		BOOST_FOREACH(Bomb& bomb, bombs)
 		{
-			bool hit = test[i]->rayIntersect(origin, direction, distance);
-
-			if (hit)
+			if (bomb.rayIntersect(origin, direction, distance))
 			{
-				sel = i;
+				hitBomb = &bomb;
 			}
 		}
 
-		if (sel != -1)
+		if (hitBomb)
 		{
-			test[sel]->setSelected(!test[sel]->isSelected());
+			hitBomb->setSelected(!hitBomb->isSelected());
 		}
 		else
 		{
-			bool hit = blockMap.intersectGround(origin, direction, distance);
+			bool hitGround = blockMap.intersectGround(origin, direction, distance);
 
-			if (hit)
+			if (hitGround)
 			{
 				glm::vec3 destination = origin + direction * distance;
 
-				for (int i = 0; i < testCount; i++)
+				BOOST_FOREACH(Bomb& bomb, bombs)
 				{
-					if (test[i]->isSelected())
+					if (bomb.isSelected())
 					{
-						blockMap.findPath(test[i]->getPosition().swizzle(glm::X, glm::Z), destination.swizzle(glm::X, glm::Z), testPath[i]);
+						bomb.setTarget(blockMap, destination);
 					}
 				}
 			}

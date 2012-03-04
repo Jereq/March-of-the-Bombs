@@ -23,10 +23,10 @@ private:
 	{
 	public:
 		glm::mat4 modelMatrix;
-		bool selected;
+		glm::vec4 tint;
 
-		DrawInstance(glm::mat4 const& modelMatrix, bool selected)
-			: modelMatrix(modelMatrix), selected(selected)
+		DrawInstance(glm::mat4 const& modelMatrix, glm::vec4 const& tint)
+			: modelMatrix(modelMatrix), tint(tint)
 		{
 		}
 	};
@@ -53,7 +53,7 @@ protected:
 public:
 	virtual ~BlockModelData();
 
-	virtual void addInstanceToDraw(glm::mat4 const& modelMatrix, bool selected);
+	virtual void addInstanceToDraw(glm::mat4 const& modelMatrix, glm::vec4 const& tint);
 	virtual void clearInstancesToDraw();
 
 	virtual void drawInstances(GLSLProgram const& prog) const;

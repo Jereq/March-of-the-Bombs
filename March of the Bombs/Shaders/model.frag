@@ -17,7 +17,7 @@ uniform struct Light
 
 uniform sampler2DShadow shadowMap;
 
-uniform bool selected = false;
+uniform vec4 tint = vec4(0, 0, 0, 0);
 
 uniform struct Material
 {
@@ -60,12 +60,7 @@ void main()
 	vec3 diffAndSpec = phongModelDiffAndSpec(normal, view, diffColor);
 	vec3 result = shadow * diffAndSpec;
 
-	if (selected)
-	{
-		vec3 selectionColor = vec3(0.5, 0.5, 1);
-		float selectionBlend = 0.3;
-		result = mix(result, selectionColor, selectionBlend);
-	}
+	result = mix(result, tint.xyz, tint.w);
 
 	fragColor = vec4(result + material.ambient, 1.0);
 }

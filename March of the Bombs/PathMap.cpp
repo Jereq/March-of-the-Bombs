@@ -248,7 +248,7 @@ void move_forward_heap(iter root, iter end, baseType const& target, compare cons
 	std::push_heap(root, std::find(root, end, target) + 1, comparator);
 }
 
-bool PathMap::findPath(glm::vec2 const& start, glm::vec2 const& goal, std::list<glm::vec3>& path) const
+bool PathMap::findPath(glm::vec3 const& start, glm::vec3 const& goal, std::list<glm::vec3>& path) const
 {
 	if (useCount == std::numeric_limits<unsigned short>::max())
 	{
@@ -258,8 +258,8 @@ bool PathMap::findPath(glm::vec2 const& start, glm::vec2 const& goal, std::list<
 
 	path.clear();
 
-	PathNode::index_type startIdx = getClosestNode(start);
-	PathNode::index_type goalIdx = getClosestNode(goal);
+	PathNode::index_type startIdx = getClosestNode(start.swizzle(glm::X, glm::Z));
+	PathNode::index_type goalIdx = getClosestNode(goal.swizzle(glm::X, glm::Z));
 
 	PathNode& startNode = pathArray[startIdx];
 	PathNode& goalNode = pathArray[goalIdx];

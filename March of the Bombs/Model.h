@@ -24,6 +24,7 @@ protected:
 	glm::vec3 scale;
 
 	bool selected;
+	glm::vec4 tint;
 
 	mutable bool validModelMatrix;
 	mutable glm::mat4 modelMatrix;
@@ -55,6 +56,9 @@ public:
 
 	void setSelected(bool select);
 	bool isSelected() const;
+
+	void setTint(glm::vec4 const& tint);
+	glm::vec4 const& getTint() const;
 
 	virtual bool rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const;
 };

@@ -57,5 +57,5 @@ public:
 	void setPathFreeLazy(size_t x, size_t z, bool free);
 	void calculateNeighbors();
 
-	bool findPath(glm::vec2 const& start, glm::vec2 const& goal, std::list<glm::vec3>& path) const;
+	bool findPath(glm::vec3 const& start, glm::vec3 const& goal, std::list<glm::vec3>& path) const;
 };
