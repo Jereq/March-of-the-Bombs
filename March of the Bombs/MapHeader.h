@@ -29,4 +29,6 @@ public:
 	void draw(Graphics::ptr graphics);
 
 	bool intersectGround(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const;
+	int height;
+	int width;
 };

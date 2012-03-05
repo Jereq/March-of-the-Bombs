@@ -9,8 +9,11 @@
 #include <fstream>
 #include <string>
 #include <boost/tokenizer.hpp>
+#include <boost/lexical_cast.hpp>
 using namespace std;
 using namespace boost;
+using boost::lexical_cast;
+using boost::bad_lexical_cast;
 
 void Map::loadDefaultMap()
 {
@@ -57,12 +60,21 @@ void Map::loadDefaultMap()
 void Map::loadMapFromFile()
 {
 	string a;
-	std::string height;
 	ifstream mapFile;
 	mapFile.open ("defaultmapfile.txt", ios::in);
 	if(mapFile.is_open())
 	{
 		std::getline(mapFile, a);
+		tokenizer<> tok(a);
+		tokenizer<>::iterator beg=tok.begin();
+		height = lexical_cast<int>(*beg);
+		tokenizer<>::iterator beg=tok.begin();
+		width = lexical_cast<int>(*beg);
+		for(int k = 0; k < height; k++)
+		{
+
+		}
+
 	}
 
 
