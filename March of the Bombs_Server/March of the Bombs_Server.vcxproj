@@ -80,16 +80,17 @@
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameServer.cpp" />
+    <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="PacketDispatchServer.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerSession.cpp" />
     <ClCompile Include="server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Context.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameServer.h" />
+    <ClInclude Include="Lobby.h" />
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerSession.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

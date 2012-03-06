@@ -2,17 +2,19 @@
 
 #include "Context.h"
 
-class Game
+#include <set>
+
+#include "Player.h"
+
+class Lobby
 	: public Context
 {
 private:
-	const static int gameSize = 2;
-
 	boost::shared_ptr<PacketManager> packetManager;
-	std::set<Player::ptr> players;
+	std::set<Player::ptr> newPlayers;
 
 public:
-	Game(boost::shared_ptr<PacketManager> const& packetManager);
+	Lobby(boost::shared_ptr<PacketManager> const& packetManager);
 
 	virtual void join(Player::ptr& player);
 	virtual void leave(Player::ptr& player);
@@ -20,4 +22,6 @@ public:
 
 	virtual boost::shared_ptr<PacketManager> getPacketManager();
 	virtual std::set<Player::ptr> const& getPlayers() const;
+
+	virtual void addNewPlayer(Player::ptr const& newPlayer);
 };

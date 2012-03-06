@@ -3,46 +3,48 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 
-Game::Game(PacketManager& packetManager)
+Game::Game(boost::shared_ptr<PacketManager> const& packetManager)
 	: packetManager(packetManager)
 {
 }
 
-void Game::join(Player::ptr player)
+void Game::join(Player::ptr& player)
 {
-	std::cout << "Player joined" << std::endl;
+	if (players.size() < gameSize)
+	{
+		std::cout << "Player joined" << std::endl;
 
-	players.insert(player);
-
-	//// Deliver history
-	//BOOST_FOREACH(Packet::const_ptr packet, packetQueue)
-	//{
-	//	player->deliver(packet);
-	//}
+		players.insert(player);
+	}
 }
 
-void Game::leave(Player::ptr player)
+void Game::leave(Player::ptr& player)
 {
 	std::cout << "Player left" << std::endl;
 
 	players.erase(player);
+
+	if (players.size() == 1)
+	{
+		// TODO: Send good bye message
+		players.clear();
+	}
 }
 
-void Game::deliver(Packet::const_ptr packet)
+void Game::deliver(Packet::const_ptr& packet)
 {
-	packetQueue.push_back(packet);
-	while (packetQueue.size() > maxRecentPackets)
-	{
-		packetQueue.pop_front();
-	}
-
 	BOOST_FOREACH(Player::ptr const& player, players)
 	{
 		player->deliver(packet);
 	}
 }
 
-PacketManager& Game::getPacketManager()
+boost::shared_ptr<PacketManager> Game::getPacketManager()
 {
 	return packetManager;
+}
+
+std::set<Player::ptr> const& Game::getPlayers() const
+{
+	return players;
 }

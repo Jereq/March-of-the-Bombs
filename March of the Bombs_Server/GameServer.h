@@ -3,16 +3,18 @@
 #include <boost/asio.hpp>
 
 #include "Game.h"
-#include "PlayerSession.h"
+#include "Player.h"
+#include "Lobby.h"
 
 class GameServer
 {
 private:
 	boost::asio::io_service& io_service;
 	boost::asio::ip::tcp::acceptor acceptor;
-	PacketManager packetManager;
+	boost::shared_ptr<PacketManager> packetManager;
 
-	Game game;
+	Game::ptr game;
+	Lobby& lobby;
 
 	void registerPackets();
 
@@ -20,8 +22,8 @@ public:
 	typedef boost::shared_ptr<GameServer> ptr;
 	typedef std::list<ptr> list;
 
-	GameServer(boost::asio::io_service& io_service, boost::asio::ip::tcp::endpoint const& endpoint);
+	GameServer(boost::asio::io_service& io_service, boost::asio::ip::tcp::endpoint const& endpoint, Lobby& lobby);
 
 	void startAccept();
-	void handleAccept(PlayerSession::ptr session, boost::system::error_code const& error);
+	void handleAccept(Player::ptr session, boost::system::error_code const& error);
 };

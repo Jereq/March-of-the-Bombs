@@ -27,10 +27,10 @@
     <ClCompile Include="PacketDispatchServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="Lobby.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerSession.cpp">
+    <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -41,10 +41,13 @@
     <ClInclude Include="GameServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Lobby.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerSession.h">
+    <ClInclude Include="Context.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

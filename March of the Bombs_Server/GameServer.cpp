@@ -8,13 +8,13 @@
 
 void GameServer::registerPackets()
 {
-	packetManager.addPacketPrototype(Packet::ptr(new Packet1SimpleMessage()));
-	packetManager.addPacketPrototype(Packet::ptr(new Packet2Blob()));
-	packetManager.addPacketPrototype(Packet::ptr(new Packet3Login()));
+	packetManager->addPacketPrototype(Packet::ptr(new Packet1SimpleMessage()));
+	packetManager->addPacketPrototype(Packet::ptr(new Packet2Blob()));
+	packetManager->addPacketPrototype(Packet::ptr(new Packet3Login()));
 }
 
-GameServer::GameServer(boost::asio::io_service& io_service, boost::asio::ip::tcp::endpoint const& endpoint)
-	: io_service(io_service), acceptor(io_service, endpoint), game(packetManager)
+GameServer::GameServer(boost::asio::io_service& io_service, boost::asio::ip::tcp::endpoint const& endpoint, Lobby& lobby)
+	: io_service(io_service), acceptor(io_service, endpoint), game(new Game(packetManager)), lobby(lobby)
 {
 	registerPackets();
 	startAccept();
@@ -22,18 +22,18 @@ GameServer::GameServer(boost::asio::io_service& io_service, boost::asio::ip::tcp
 
 void GameServer::startAccept()
 {
-	PlayerSession::ptr newSession(new PlayerSession(io_service, game));
+	Player::ptr newSession(new Player(io_service));
 	acceptor.async_accept(newSession->getSocket(),
 		boost::bind(&GameServer::handleAccept, this, newSession,
 			boost::asio::placeholders::error));
 }
 
-void GameServer::handleAccept(PlayerSession::ptr session,
+void GameServer::handleAccept(Player::ptr session,
 	boost::system::error_code const& error)
 {
 	if (!error)
 	{
-		session->start();
+		lobby.addNewPlayer(session);
 	}
 
 	startAccept();
