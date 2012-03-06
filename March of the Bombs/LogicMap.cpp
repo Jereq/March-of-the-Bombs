@@ -68,7 +68,7 @@ void Map::loadMapFromFile()
 		tokenizer<> tok(a);
 		tokenizer<>::iterator beg=tok.begin();
 		height = lexical_cast<int>(*beg);
-		tokenizer<>::iterator beg=tok.begin();
+		//tokenizer<>::iterator beg=tok.
 		width = lexical_cast<int>(*beg);
 		for(int k = 0; k < height; k++)
 		{
