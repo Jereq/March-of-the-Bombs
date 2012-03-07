@@ -1,0 +1,33 @@
+prioritetsordning!
+
+1. Intersection test mellan box och frustum (Johny)
+2. servern (Larsson)
+3. base class (Roffe)
+4. sätt ut basen på banan (Roffe)
+5. Lobby (Fredrik) -> Lista på nuvarande games, ip-address till host, join/back/refresh-knappar
+6. producera bomber från bas
+7. flaggmodell
+8. flaggklass
+9. victory condition klass
+10. producer bomber från base
+11. explosionsklass(?)
+12. animeringsklass
+13. göra en explosions animeringsbild
+14. bomber explodera -> ta bort närliggande terräng om tillräckligt nära
+15. 
+16. Basernas liv-mätare
+17. Flagtimer mätare
+18. 
+19. 
+20. credits meny -> bibliotek, add-ons och personer som har hjälpt
+21. 
+22. 
+23. 
+24. Swarming
+25. 
+26. 
+27. 
+28. How-to-play meny
+29. Options meny
+30. 
+31. 
