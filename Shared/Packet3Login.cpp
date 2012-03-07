@@ -64,7 +64,7 @@ Packet3Login::Packet3Login(char const* data, uint16_t length)
 Packet3Login::Packet3Login(string const& name)
 	: Packet(mId)
 {
-	if (name.size() > MAX_NAME_LENGHT)
+	if (name.size() > MAX_NAME_LENGTH)
 	{
 		throw InvalidSizeException("Name to long", shared_from_this());
 	}

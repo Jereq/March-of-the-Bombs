@@ -146,6 +146,33 @@ void Player::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& p
 	}
 }
 
+void Player::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket5EntityMove(packet, shared_from_this());
+	}
+}
+
+void Player::handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket6CreateGame(packet, shared_from_this());
+	}
+}
+
+void Player::handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket7JoinGame(packet, shared_from_this());
+	}
+}
+
 std::string const& Player::getName() const
 {
 	return name;

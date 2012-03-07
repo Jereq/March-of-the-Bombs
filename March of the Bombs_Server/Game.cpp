@@ -3,19 +3,24 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 
-Game::Game(boost::shared_ptr<PacketManager> const& packetManager, Player::ptr const& creator)
+Game::Game(boost::shared_ptr<PacketManager> const& packetManager)
 	: packetManager(packetManager)
 {
-	join(creator);
 }
 
 void Game::join(Player::ptr const& player)
 {
 	if (players.size() < gameSize)
 	{
-		std::cout << "Player joined" << std::endl;
+		std::cout << player->getName() << " joined game" << std::endl;
 
+		player->changeContext(shared_from_this());
 		players.insert(player);
+
+		if (players.size() == gameSize)
+		{
+			std::cout << "Game filled, starting..." << std::endl;
+		}
 	}
 }
 
@@ -76,5 +81,19 @@ void Game::handlePacket3Login(Packet3Login::const_ptr const& packet, Player::ptr
 
 void Game::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet, Player::ptr const& sender)
 {
+}
 
+void Game::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender)
+{
+	deliver(packet);
+
+	Packet5EntityMove const* packet5 = static_cast<Packet5EntityMove const*>(packet.get());
+}
+
+void Game::handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet, Player::ptr const& sender)
+{
+}
+
+void Game::handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Player::ptr const& sender)
+{
 }

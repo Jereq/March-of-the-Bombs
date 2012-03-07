@@ -49,3 +49,18 @@ void GUIMain::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& 
 {
 	screen->handlePacket4LoginAccepted(packet);
 }
+
+void GUIMain::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet)
+{
+	screen->handlePacket5EntityMove(packet);
+}
+
+void GUIMain::handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet)
+{
+	screen->handlePacket6CreateGame(packet);
+}
+
+void GUIMain::handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet)
+{
+	screen->handlePacket7JoinGame(packet);
+}

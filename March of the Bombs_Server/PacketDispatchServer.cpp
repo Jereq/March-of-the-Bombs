@@ -2,6 +2,9 @@
 #include <Packet2Blob.h>
 #include <Packet3Login.h>
 #include <Packet4LoginAccepted.h>
+#include <Packet5EntityMove.h>
+#include <Packet6CreateGame.h>
+#include <Packet7JoinGame.h>
 
 #include <iostream>
 
@@ -29,4 +32,22 @@ void Packet4LoginAccepted::dispatch(void* context) const
 {
 	Player::ptr cont = *static_cast<Player::ptr*>(context);
 	cont->handlePacket4LoginAccepted(shared_from_this());
+}
+
+void Packet5EntityMove::dispatch(void* context) const
+{
+	Player::ptr cont = *static_cast<Player::ptr*>(context);
+	cont->handlePacket5EntityMove(shared_from_this());
+}
+
+void Packet6CreateGame::dispatch(void* context) const
+{
+	Player::ptr cont = *static_cast<Player::ptr*>(context);
+	cont->handlePacket6CreateGame(shared_from_this());
+}
+
+void Packet7JoinGame::dispatch(void* context) const
+{
+	Player::ptr cont = *static_cast<Player::ptr*>(context);
+	cont->handlePacket7JoinGame(shared_from_this());
 }

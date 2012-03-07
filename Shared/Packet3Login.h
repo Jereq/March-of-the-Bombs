@@ -9,7 +9,7 @@ class Packet3Login :
 {
 private:
 	const static uint16_t mId = 3;
-	const static int MAX_NAME_LENGHT = 16;
+	const static int MAX_NAME_LENGTH = 16;
 
 	Packet3Login(Packet3Login& that);
 	Packet3Login& operator=(Packet3Login& tmp);

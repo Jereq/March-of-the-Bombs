@@ -3,8 +3,7 @@
 #include "Context.h"
 
 #include <set>
-
-#include "Player.h"
+#include <map>
 
 class Lobby
 	: public Context
@@ -12,8 +11,13 @@ class Lobby
 private:
 	boost::shared_ptr<PacketManager> packetManager;
 	std::set<Player::ptr> newPlayers;
-	std::set<Context::ptr> openGames;
+	std::map<unsigned short, Context::ptr> openGames;
 	std::set<Context::ptr> runningGames;
+
+	unsigned short nextPlayerID;
+	unsigned short nextGameID;
+
+	const static size_t MAX_OPEN_GAMES = USHRT_MAX + 1;
 
 public:
 	Lobby(boost::shared_ptr<PacketManager> const& packetManager);
@@ -31,4 +35,7 @@ public:
 	virtual void handlePacket2Blob(Packet2Blob::const_ptr const& packet, Player::ptr const& sender);
 	virtual void handlePacket3Login(Packet3Login::const_ptr const& packet, Player::ptr const& sender);
 	virtual void handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet, Player::ptr const& sender);
+	virtual void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender);
+	virtual void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet, Player::ptr const& sender);
+	virtual void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Player::ptr const& sender);
 };

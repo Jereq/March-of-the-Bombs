@@ -5,7 +5,7 @@
 #include "Game.h"
 
 Lobby::Lobby(boost::shared_ptr<PacketManager> const& packetManager)
-	: packetManager(packetManager)
+	: packetManager(packetManager), nextPlayerID(1), nextGameID(0)
 {
 }
 
@@ -43,8 +43,22 @@ std::set<Player::ptr> const& Lobby::getPlayers() const
 
 void Lobby::createGame(Player::ptr const& player)
 {
-	newPlayers.erase(player);
-	openGames.insert(Context::ptr(new Game(packetManager, player)));
+	if (openGames.size() < MAX_OPEN_GAMES)
+	{
+		newPlayers.erase(player);
+
+		Context::ptr newGame(new Game(packetManager));
+		newGame->join(player);
+
+		while (openGames.count(nextGameID) == 1)
+		{
+			nextGameID++;
+		}
+
+		openGames[nextGameID++] = newGame;
+
+		std::cout << "Game " << nextGameID - 1 << " created" << std::endl;
+	}
 }
 
 void Lobby::handlePacket1SimpleMessage(Packet1SimpleMessage::const_ptr const& packet, Player::ptr const& sender)
@@ -68,14 +82,44 @@ void Lobby::handlePacket3Login(Packet3Login::const_ptr const& packet, Player::pt
 	Packet3Login const* packet3 = static_cast<Packet3Login const*>(packet.get());
 
 	sender->setName(packet3->getName());
-	sender->setID(1);
+	sender->setID(nextPlayerID++);
 
 	std::cout << "[Lobby] " << sender->getName() << " logged in with ID: " << sender->getID() << std::endl;
 
-	sender->deliver(Packet::ptr(new Packet4LoginAccepted(1)));
+	sender->deliver(Packet::ptr(new Packet4LoginAccepted(sender->getID())));
 }
 
 void Lobby::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet, Player::ptr const& sender)
 {
 
+}
+
+void Lobby::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender)
+{
+	std::cout << "[Lobby] Received Packet5EntityMove from a player" << std::endl;
+}
+
+void Lobby::handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet, Player::ptr const& sender)
+{
+	Packet6CreateGame const* packet6 = static_cast<Packet6CreateGame const*>(packet.get());
+
+	createGame(sender);
+}
+
+void Lobby::handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Player::ptr const& sender)
+{
+	Packet7JoinGame const* packet7 = static_cast<Packet7JoinGame const*>(packet.get());
+
+	unsigned short gameID = packet7->getGameID();
+
+	if (openGames.count(gameID) == 1)
+	{
+		Game::ptr game = openGames[gameID];
+		game->join(sender);
+
+		newPlayers.erase(sender);
+
+		openGames.erase(gameID);
+		runningGames.insert(game);
+	}
 }

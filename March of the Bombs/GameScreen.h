@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <map>
 
 #include "Screen.h"
 #include "Game.h"
@@ -16,8 +17,18 @@ class GameScreen :
 {
 private:
 	Game::ptr game;
+	GameClient::ptr client;
 	AttachmentPoint::ptr cameraPos;
 	Map blockMap;
+
+	unsigned short myID;
+	unsigned short opponentID;
+
+	unsigned short myEntityCount;
+
+	typedef std::map<unsigned short, Bomb> entity_map;
+	entity_map myEntities;
+	entity_map opponentEntities;
 
 	std::vector<Button> buttons;
 	std::vector<SimpleImage> Backgrounds;
@@ -30,8 +41,6 @@ private:
 	PointLight::ptr light;
 
 public:
-	std::list<Bomb> bombs;
-
 	GameScreen();
 
 	void update(float deltaTime);
@@ -43,4 +52,6 @@ public:
 	void keyboardEventHandler(KeyboardEvent const* kbEvent);
 	void mouseButtonEventHandler(MouseButtonEvent const* mbEvent);
 	void mouseMoveEventHandler(MouseMoveEvent const* mmEvent);
+	
+	virtual void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet);
 };

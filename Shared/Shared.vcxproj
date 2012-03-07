@@ -16,16 +16,23 @@
     <ClCompile Include="Packet2Blob.cpp" />
     <ClCompile Include="Packet3Login.cpp" />
     <ClCompile Include="Packet4LoginAccepted.cpp" />
+    <ClCompile Include="Packet5EntityMove.cpp" />
+    <ClCompile Include="Packet6CreateGame.cpp" />
+    <ClCompile Include="Packet7JoinGame.cpp" />
     <ClCompile Include="PacketException.cpp" />
     <ClCompile Include="PacketManager.cpp" />
     <ClCompile Include="Packet1SimpleMessage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InvalidSizeException.h" />
+    <ClInclude Include="Pack.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="Packet2Blob.h" />
     <ClInclude Include="Packet3Login.h" />
     <ClInclude Include="Packet4LoginAccepted.h" />
+    <ClInclude Include="Packet5EntityMove.h" />
+    <ClInclude Include="Packet6CreateGame.h" />
+    <ClInclude Include="Packet7JoinGame.h" />
     <ClInclude Include="PacketException.h" />
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="Packet1SimpleMessage.h" />

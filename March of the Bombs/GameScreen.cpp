@@ -9,8 +9,8 @@
 #include "StandardBombModelData.h"
 
 GameScreen::GameScreen()
-	: game(Game::getInstance()), cameraPos(new AttachmentPoint(glm::vec3(20, 15, 50), glm::vec3(-30, -45, 0))),
-	rotationYSpeed(0), rotationXSpeed(0)
+	: game(Game::getInstance()), client(game->getClient()), cameraPos(new AttachmentPoint(glm::vec3(20, 15, 50), glm::vec3(-30, -45, 0))),
+	rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0)
 {
 	Graphics::ptr graphics = game->getGraphics();
 
@@ -28,11 +28,11 @@ GameScreen::GameScreen()
 	const static int numBombs = 40;
 	for (int i = 0; i < numBombs; i++)
 	{
-		bombs.push_back(Bomb(0));
-		Bomb& addedBomb = bombs.back();
+		Bomb newBomb(myID);
+		newBomb.setPosition(glm::vec3(i * 70.f / numBombs, 0, 0));
+		newBomb.setTarget(blockMap, glm::vec3(20.5f, 0.f, 32.5f));
 
-		addedBomb.setPosition(glm::vec3(i * 70.f / numBombs, 0, 0));
-		addedBomb.setTarget(blockMap, glm::vec3(20.5f, 0.f, 32.5f));
+		myEntities[myEntityCount++] = newBomb;
 	}
 }
 
@@ -77,9 +77,18 @@ void GameScreen::update(float deltaTime)
 		}
 	}
 
-	BOOST_FOREACH(Bomb& bomb, bombs)
+	BOOST_FOREACH(entity_map::value_type& entry, myEntities)
 	{
+		Bomb& bomb = entry.second;
 		bomb.updatePosition(deltaTime);
+
+		if (bomb.hasNewHeading())
+		{
+			Packet5EntityMove::ptr packet(new Packet5EntityMove(myID, entry.first, bomb.getPosition(), bomb.getRotation(), bomb.getVelocity()));
+			client->write(packet);
+
+			bomb.setHasNewHeading(false);
+		}
 	}
 
 	glm::vec3 rotation = cameraPos->getRotation();
@@ -102,9 +111,9 @@ void GameScreen::update(float deltaTime)
 
 void GameScreen::draw(Graphics::ptr graphics)
 {
-	BOOST_FOREACH(Bomb& bomb, bombs)
+	BOOST_FOREACH(entity_map::value_type& entry, myEntities)
 	{
-		bomb.draw(graphics);
+		entry.second.draw(graphics);
 	}
 
 	blockMap.draw(graphics);
@@ -174,19 +183,19 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 			break;
 
 		case 'h':
-			BOOST_FOREACH(Bomb& bomb, bombs)
+			BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
 			{
-				if (bomb.isSelected())
+				if (bomb.second.isSelected())
 				{
-					bomb.halt();
+					bomb.second.halt();
 				}
 			}
 			break;
 
 		case 'g':
-			BOOST_FOREACH(Bomb& bomb, bombs)
+			BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
 			{
-				bomb.setSelected(false);
+				bomb.second.setSelected(false);
 			}
 		}
 	}
@@ -250,11 +259,11 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 		float distance = std::numeric_limits<float>::infinity();
 
 		Bomb* hitBomb = NULL;
-		BOOST_FOREACH(Bomb& bomb, bombs)
+		BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
 		{
-			if (bomb.rayIntersect(origin, direction, distance))
+			if (bomb.second.rayIntersect(origin, direction, distance))
 			{
-				hitBomb = &bomb;
+				hitBomb = &bomb.second;
 			}
 		}
 
@@ -270,11 +279,11 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 			{
 				glm::vec3 destination = origin + direction * distance;
 
-				BOOST_FOREACH(Bomb& bomb, bombs)
+				BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
 				{
-					if (bomb.isSelected())
+					if (bomb.second.isSelected())
 					{
-						bomb.setTarget(blockMap, destination);
+						bomb.second.setTarget(blockMap, destination);
 					}
 				}
 			}
@@ -322,4 +331,25 @@ void GameScreen::createButtons()
 	Button button0(BackButton,		BackButtonT,	Rectanglef(glm::vec2(0.05f,0.05f),glm::vec2(0.10f,0.05f)), 0.0f);
 
 	buttons.push_back(button0);
+}
+
+void GameScreen::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet)
+{
+	Packet5EntityMove const* packet5 = static_cast<Packet5EntityMove const*>(packet.get());
+
+	unsigned short playerID = packet5->getPlayerID();
+
+	if (playerID == myID)
+	{
+		unsigned short entityID = packet5->getEntityID();
+
+		if (myEntities.count(entityID) == 1)
+		{
+			Bomb& entity = myEntities[entityID];
+
+			entity.setPosition(packet5->getPosition());
+			entity.setRotation(packet5->getRotation());
+			entity.setVelocity(packet5->getVelocity());
+		}
+	}
 }

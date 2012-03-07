@@ -406,6 +406,24 @@ void Game::sendLogin(std::string const& name)
 	}
 }
 
+void Game::sendCreateGame(std::string const& mapName)
+{
+	if (client)
+	{
+		Packet::ptr packet = Packet::ptr(new Packet6CreateGame(mapName));
+		client->write(packet);
+	}
+}
+
+void Game::sendJoinGame(unsigned short gameID)
+{
+	if (client)
+	{
+		Packet::ptr packet = Packet::ptr(new Packet7JoinGame(gameID));
+		client->write(packet);
+	}
+}
+
 int Game::getWindowWidth() const
 {
 	return windowWidth;
@@ -419,4 +437,9 @@ int Game::getWindowHeight() const
 Graphics::ptr const& Game::getGraphics() const
 {
 	return graphics;
+}
+
+GameClient::ptr const& Game::getClient() const
+{
+	return client;
 }

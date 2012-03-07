@@ -43,7 +43,16 @@
       <Filter>Source Files\Packet</Filter>
     </ClCompile>
     <ClCompile Include="Packet4LoginAccepted.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet5EntityMove.cpp">
+      <Filter>Source Files\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet6CreateGame.cpp">
+      <Filter>Source Files\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet7JoinGame.cpp">
+      <Filter>Source Files\Packet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,7 +78,19 @@
       <Filter>Header Files\Packet</Filter>
     </ClInclude>
     <ClInclude Include="Packet4LoginAccepted.h">
+      <Filter>Header Files\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet5EntityMove.h">
+      <Filter>Header Files\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Pack.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet6CreateGame.h">
+      <Filter>Header Files\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet7JoinGame.h">
+      <Filter>Header Files\Packet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

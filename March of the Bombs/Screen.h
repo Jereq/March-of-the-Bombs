@@ -12,6 +12,9 @@
 #include <Packet2Blob.h>
 #include <Packet3Login.h>
 #include <Packet4LoginAccepted.h>
+#include <Packet5EntityMove.h>
+#include <Packet6CreateGame.h>
+#include <Packet7JoinGame.h>
 
 class Screen
 {
@@ -27,4 +30,7 @@ public:
 	virtual void handlePacket2Blob(Packet2Blob::const_ptr const& packet) {}
 	virtual void handlePacket3Login(Packet3Login::const_ptr const& packet) {}
 	virtual void handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet) {}
+	virtual void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet) {}
+	virtual void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet) {}
+	virtual void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet) {}
 };

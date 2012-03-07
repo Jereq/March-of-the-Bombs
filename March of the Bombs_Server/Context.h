@@ -4,9 +4,6 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include <PacketManager.h>
-#include <Packet1SimpleMessage.h>
-#include <Packet2Blob.h>
-#include <Packet3Login.h>
 
 #include "Player.h"
 
@@ -28,4 +25,7 @@ public:
 	virtual void handlePacket2Blob(Packet2Blob::const_ptr const& packet, Player::ptr const& sender) = 0;
 	virtual void handlePacket3Login(Packet3Login::const_ptr const& packet, Player::ptr const& sender) = 0;
 	virtual void handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet, Player::ptr const& sender) = 0;
+	virtual void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender) = 0;
+	virtual void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet, Player::ptr const& sender) = 0;
+	virtual void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Player::ptr const& sender) = 0;
 };
