@@ -5,6 +5,10 @@
 #include <boost/enable_shared_from_this.hpp>
 
 #include <PacketManager.h>
+#include <Packet1SimpleMessage.h>
+#include <Packet2Blob.h>
+#include <Packet3Login.h>
+#include <Packet4LoginAccepted.h>
 
 class Context;
 
@@ -13,7 +17,7 @@ class Player
 {
 private:
 	boost::asio::ip::tcp::socket socket;
-	boost::shared_ptr<Context> context;
+	boost::weak_ptr<Context> context;
 	boost::shared_ptr<PacketManager> packetManager;
 
 	char readBuffer[Packet::MAX_SIZE];
@@ -21,16 +25,33 @@ private:
 	uint16_t packetId;
 	std::deque<Packet::const_ptr> writePackets;
 
+	std::string name;
+	unsigned int ID;
+
 public:
 	typedef boost::shared_ptr<Player> ptr;
 
 	Player(boost::asio::io_service& io_service);
 
 	boost::asio::ip::tcp::socket& getSocket();
-	void start(boost::shared_ptr<Context> const& context);
+	void start(boost::weak_ptr<Context> const& context);
 	void deliver(Packet::const_ptr packet);
 
 	void handleReadHeader(boost::system::error_code const& error);
 	void handleReadBody(boost::system::error_code const& error);
 	void handleWrite(boost::system::error_code const& error);
+
+	boost::weak_ptr<Context> getContext() const;
+	void changeContext(boost::weak_ptr<Context> const& constext);
+	
+	void handlePacket1SimpleMessage(Packet1SimpleMessage::const_ptr const& packet);
+	void handlePacket2Blob(Packet2Blob::const_ptr const& packet);
+	void handlePacket3Login(Packet3Login::const_ptr const& packet);
+	void handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet);
+
+	std::string const& getName() const;
+	void setName(std::string const& newName);
+
+	unsigned int getID() const;
+	void setID(unsigned int newID);
 };

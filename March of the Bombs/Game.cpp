@@ -15,6 +15,7 @@
 #include "MouseMoveEvent.h"
 
 #include <Packet2Blob.h>
+#include <Packet3Login.h>
 
 Game::ptr Game::instance = Game::ptr();
 
@@ -264,7 +265,7 @@ void Game::update(float deltaTime)
 		while (client->hasReceivedPackets())
 		{
 			Packet::ptr packet = client->popReceivedPacket();
-			packet->dispatch(NULL);
+			packet->dispatch(&gui);
 		}
 	}
 
@@ -392,6 +393,15 @@ void Game::sendBlob()
 		char data[Packet::MAX_LOAD_SIZE];
 		Packet::ptr packet = Packet::ptr(new Packet2Blob(data, Packet::MAX_LOAD_SIZE));
 
+		client->write(packet);
+	}
+}
+
+void Game::sendLogin(std::string const& name)
+{
+	if (client)
+	{
+		Packet::ptr packet = Packet::ptr(new Packet3Login(name));
 		client->write(packet);
 	}
 }

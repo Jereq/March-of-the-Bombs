@@ -85,6 +85,7 @@ public:
 
 	void connect();
 	void sendBlob();
+	void sendLogin(std::string const& name);
 
 	int getWindowWidth() const;
 	int getWindowHeight() const;

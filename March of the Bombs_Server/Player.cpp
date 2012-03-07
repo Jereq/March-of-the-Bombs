@@ -15,10 +15,10 @@ tcp::socket& Player::getSocket()
 	return socket;
 }
 
-void Player::start(Context::ptr const& context)
+void Player::start(Context::w_ptr const& context)
 {
 	this->context = context;
-	packetManager = context->getPacketManager();
+	packetManager = context.lock()->getPacketManager();
 
 	boost::asio::async_read(socket,
 		boost::asio::buffer(readBuffer, Packet::MIN_SIZE),
@@ -54,7 +54,7 @@ void Player::handleReadHeader(boost::system::error_code const& error)
 	}
 	else
 	{
-		context->leave(shared_from_this());
+		context.lock()->leave(shared_from_this());
 	}
 }
 
@@ -66,7 +66,7 @@ void Player::handleReadBody(boost::system::error_code const& error)
 
 		if (packet)
 		{
-			packet->dispatch(&context);
+			packet->dispatch(&shared_from_this());
 		}
 
 		boost::asio::async_read(socket,
@@ -76,7 +76,7 @@ void Player::handleReadBody(boost::system::error_code const& error)
 	}
 	else
 	{
-		context->leave(shared_from_this());
+		context.lock()->leave(shared_from_this());
 	}
 }
 
@@ -96,6 +96,72 @@ void Player::handleWrite(boost::system::error_code const& error)
 	}
 	else
 	{
-		context->leave(shared_from_this());
+		context.lock()->leave(shared_from_this());
 	}
+}
+
+void Player::changeContext(Context::w_ptr const& context)
+{
+	this->context = context;
+}
+
+Context::w_ptr Player::getContext() const
+{
+	return context;
+}
+
+void Player::handlePacket1SimpleMessage(Packet1SimpleMessage::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket1SimpleMessage(packet, shared_from_this());
+	}
+}
+
+void Player::handlePacket2Blob(Packet2Blob::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket2Blob(packet, shared_from_this());
+	}
+}
+
+void Player::handlePacket3Login(Packet3Login::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket3Login(packet, shared_from_this());
+	}
+}
+
+void Player::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket4LoginAccepted(packet, shared_from_this());
+	}
+}
+
+std::string const& Player::getName() const
+{
+	return name;
+}
+
+void Player::setName(std::string const& newName)
+{
+	name = newName;
+}
+
+unsigned int Player::getID() const
+{
+	return ID;
+}
+
+void Player::setID(unsigned int newID)
+{
+	ID = newID;
 }

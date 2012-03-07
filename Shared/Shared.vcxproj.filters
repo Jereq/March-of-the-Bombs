@@ -42,6 +42,9 @@
     <ClCompile Include="Packet1SimpleMessage.cpp">
       <Filter>Source Files\Packet</Filter>
     </ClCompile>
+    <ClCompile Include="Packet4LoginAccepted.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketException.h">
@@ -64,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="Packet1SimpleMessage.h">
       <Filter>Header Files\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet4LoginAccepted.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

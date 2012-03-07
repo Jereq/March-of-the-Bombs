@@ -15,6 +15,7 @@
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="Packet2Blob.cpp" />
     <ClCompile Include="Packet3Login.cpp" />
+    <ClCompile Include="Packet4LoginAccepted.cpp" />
     <ClCompile Include="PacketException.cpp" />
     <ClCompile Include="PacketManager.cpp" />
     <ClCompile Include="Packet1SimpleMessage.cpp" />
@@ -24,6 +25,7 @@
     <ClInclude Include="Packet.h" />
     <ClInclude Include="Packet2Blob.h" />
     <ClInclude Include="Packet3Login.h" />
+    <ClInclude Include="Packet4LoginAccepted.h" />
     <ClInclude Include="PacketException.h" />
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="Packet1SimpleMessage.h" />

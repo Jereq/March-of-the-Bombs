@@ -79,7 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameServer.cpp" />
+    <ClCompile Include="Acceptor.cpp" />
     <ClCompile Include="Lobby.cpp" />
     <ClCompile Include="PacketDispatchServer.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -88,7 +88,7 @@
   <ItemGroup>
     <ClInclude Include="Context.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameServer.h" />
+    <ClInclude Include="Acceptor.h" />
     <ClInclude Include="Lobby.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>

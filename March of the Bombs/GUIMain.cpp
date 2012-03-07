@@ -29,3 +29,23 @@ void GUIMain::draw(Graphics::ptr graphics)
 {
 	screen->draw(graphics);								//Pointing this funktion to use the pointers targets draw
 }
+	
+void GUIMain::handlePacket1SimpleMessage(Packet1SimpleMessage::const_ptr const& packet)
+{
+	screen->handlePacket1SimpleMessage(packet);
+}
+
+void GUIMain::handlePacket2Blob(Packet2Blob::const_ptr const& packet)
+{
+	screen->handlePacket2Blob(packet);
+}
+
+void GUIMain::handlePacket3Login(Packet3Login::const_ptr const& packet)
+{
+	screen->handlePacket3Login(packet);
+}
+
+void GUIMain::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet)
+{
+	screen->handlePacket4LoginAccepted(packet);
+}

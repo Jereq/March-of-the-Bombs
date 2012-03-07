@@ -3,8 +3,23 @@
 #include <boost/asio.hpp>
 using boost::asio::ip::tcp;
 
-#include "GameServer.h"
+#include <boost/lexical_cast.hpp>
+
+#include "Acceptor.h"
 #include "Lobby.h"
+
+#include <Packet1SimpleMessage.h>
+#include <Packet2Blob.h>
+#include <Packet3Login.h>
+#include <Packet4LoginAccepted.h>
+
+void registerPackets(boost::shared_ptr<PacketManager> const& packetManager)
+{
+	packetManager->addPacketPrototype(Packet::ptr(new Packet1SimpleMessage()));
+	packetManager->addPacketPrototype(Packet::ptr(new Packet2Blob()));
+	packetManager->addPacketPrototype(Packet::ptr(new Packet3Login()));
+	packetManager->addPacketPrototype(Packet::ptr(new Packet4LoginAccepted()));
+}
 
 int main(int argc, char* argv[])
 {
@@ -19,16 +34,34 @@ int main(int argc, char* argv[])
 		boost::asio::io_service io_service;
 
 		boost::shared_ptr<PacketManager> packetManager(new PacketManager());
-		GameServer::list servers;
-		Lobby lobby(packetManager);
+		registerPackets(packetManager);
+
+		Acceptor::list acceptors;
+		Lobby::ptr lobby(new Lobby(packetManager));
 		for (int i = 1; i < argc; ++i)
 		{
-			tcp::endpoint endpoint(tcp::v4(), std::atoi(argv[i]));
-			GameServer::ptr server(new GameServer(io_service, endpoint, lobby));
-			servers.push_back(server);
+			unsigned short port = boost::lexical_cast<unsigned short>(argv[i]);
+
+			tcp::endpoint endpoint(tcp::v4(), port);
+			Acceptor::ptr acceptor(new Acceptor(io_service, endpoint, lobby));
+			acceptors.push_back(acceptor);
+
+			endpoint = tcp::endpoint(tcp::v6(), port);
+			acceptor = Acceptor::ptr(new Acceptor(io_service, endpoint, lobby));
+			acceptors.push_back(acceptor);
 		}
 
-		io_service.run();
+		while (true)
+		{
+			try
+			{
+				io_service.run();
+			}
+			catch (PacketException& ex)
+			{
+				std::cerr << ex.what << std::endl;
+			}
+		}
 	}
 	catch (std::exception& ex)
 	{

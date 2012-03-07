@@ -5,12 +5,14 @@
 #include <Packet1SimpleMessage.h>
 #include <Packet2Blob.h>
 #include <Packet3Login.h>
+#include <Packet4LoginAccepted.h>
 
 void GameClient::registerPackets()
 {
 	packetManager.addPacketPrototype(Packet::ptr(new Packet1SimpleMessage()));
 	packetManager.addPacketPrototype(Packet::ptr(new Packet2Blob()));
 	packetManager.addPacketPrototype(Packet::ptr(new Packet3Login()));
+	packetManager.addPacketPrototype(Packet::ptr(new Packet4LoginAccepted()));
 }
 
 void GameClient::handleConnect(boost::system::error_code const& error)

@@ -134,6 +134,10 @@ void MainMeny::KeyboardEventMethod(KeyboardEvent* keyEvent)
 	{
 		game->sendBlob();
 	}
+	else if (keyEvent->key == 'l' && keyEvent->eventType == KeyboardEventType::Released)
+	{
+		game->sendLogin("foo");
+	}
 }
 
 void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
@@ -184,5 +188,20 @@ void MainMeny::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 		{
 			button.setState(Unused);
 		}
+	}
+}
+
+void MainMeny::handlePacket2Blob(Packet2Blob::const_ptr const& packet)
+{
+	game->close();
+}
+
+void MainMeny::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet)
+{
+	Packet4LoginAccepted const* packet4 = static_cast<Packet4LoginAccepted const*>(packet.get());
+
+	if (packet4->getPlayerID() == 1)
+	{
+		game->close();
 	}
 }

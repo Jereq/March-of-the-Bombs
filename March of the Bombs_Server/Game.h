@@ -12,12 +12,17 @@ private:
 	std::set<Player::ptr> players;
 
 public:
-	Game(boost::shared_ptr<PacketManager> const& packetManager);
+	Game(boost::shared_ptr<PacketManager> const& packetManager, Player::ptr const& creator);
 
-	virtual void join(Player::ptr& player);
-	virtual void leave(Player::ptr& player);
-	virtual void deliver(Packet::const_ptr& packet);
+	virtual void join(Player::ptr const& player);
+	virtual void leave(Player::ptr const& player);
+	virtual void deliver(Packet::const_ptr const& packet);
 
 	virtual boost::shared_ptr<PacketManager> getPacketManager();
 	virtual std::set<Player::ptr> const& getPlayers() const;
+
+	virtual void handlePacket1SimpleMessage(Packet1SimpleMessage::const_ptr const& packet, Player::ptr const& sender);
+	virtual void handlePacket2Blob(Packet2Blob::const_ptr const& packet, Player::ptr const& sender);
+	virtual void handlePacket3Login(Packet3Login::const_ptr const& packet, Player::ptr const& sender);
+	virtual void handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet, Player::ptr const& sender);
 };
