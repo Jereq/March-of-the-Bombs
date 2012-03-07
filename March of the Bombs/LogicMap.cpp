@@ -3,8 +3,8 @@
 #include "HardBlock.h"
 #include "SoftBlock.h"
 #include "HQBlock.h"
-
 #include "PlaneModelData.h"
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -17,64 +17,119 @@ using boost::bad_lexical_cast;
 
 void Map::loadDefaultMap()
 {
-	const static int size = 100;
-
-	blockMap.resize(boost::extents[size][size]);
-	pathMap.resize(size, size);
-	
-	for(int i = 0; i < size; i++)
-	{
-		for(int j = 0; j < size; j++)
-		{
-			switch ((j * i) % 4)
-			{
-			case 0:
-				blockMap[i][j] = Block::ptr(new EmptyBlock());
-				pathMap.freePathLazy(i, j);
-				break;
-
-			case 1:
-				blockMap[i][j] = Block::ptr(new SoftBlock(glm::vec3(i, 0, j)));
-				pathMap.blockPathLazy(i, j);
-				break;
-
-			case 2:
-				blockMap[i][j] = Block::ptr(new HardBlock(glm::vec3(i, 0, j)));
-				pathMap.blockPathLazy(i, j);
-				break;
-
-			case 3:
-				blockMap[i][j] = Block::ptr(new HQBlock());
-				pathMap.blockPathLazy(i, j);
-				break;
-			}
-		}
-	}
-
-	pathMap.calculateNeighbors();
-
-	groundPlane = Model::ptr(new Model(PlaneModelData::getInstance()));
-	groundPlane->setScale(glm::vec3(size));
-}
-
-void Map::loadMapFromFile()
-{
 	string a;
+	string b = "defaultmapfile";
 	ifstream mapFile;
-	mapFile.open ("defaultmapfile.txt", ios::in);
+	mapFile.open (b+".txt", ios::in);
 	if(mapFile.is_open())
 	{
 		std::getline(mapFile, a);
 		tokenizer<> tok(a);
 		tokenizer<>::iterator beg=tok.begin();
 		height = lexical_cast<int>(*beg);
-		//tokenizer<>::iterator beg=tok.
+		beg++;
 		width = lexical_cast<int>(*beg);
+		blockMap.resize(boost::extents[height][width]);
+		pathMap.resize(height, width);
 		for(int k = 0; k < height; k++)
 		{
+			std::getline(mapFile, a);
+			tokenizer<> tok(a);
+			tokenizer<>::iterator saz=tok.begin();
+			for(int g = 0; g < width; g++)
+			{
+				int blockSlotType = lexical_cast<int>(*saz);
+				switch (blockSlotType)
+				{
+				case 0:
+					blockMap[k][g] = Block::ptr(new EmptyBlock());
+					pathMap.freePathLazy(k, g);
+					break;
 
+				case 1:
+					blockMap[k][g] = Block::ptr(new SoftBlock(glm::vec3(k, 0, g)));
+					pathMap.blockPathLazy(k, g);
+					break;
+
+				case 2:
+					blockMap[k][g] = Block::ptr(new HardBlock(glm::vec3(k, 0, g)));
+					pathMap.blockPathLazy(k, g);
+					break;
+
+				case 3:
+					blockMap[k][g] = Block::ptr(new HQBlock());
+					pathMap.blockPathLazy(k, g);
+					break;
+				}
+				saz++;
+			}
 		}
+		pathMap.calculateNeighbors();
 
+	groundPlane = Model::ptr(new Model(PlaneModelData::getInstance()));
+	groundPlane->setScale(glm::vec3(width, 0, height));
+		
+	}
+
+
+
+	mapFile.close();
+	//loadMapFromFile();
+}
+
+void Map::loadMapFromFile(string c)
+{
+	string a;
+	ifstream mapFile;
+	mapFile.open (c+".txt", ios::in);
+	if(mapFile.is_open())
+	{
+		std::getline(mapFile, a);
+		tokenizer<> tok(a);
+		tokenizer<>::iterator beg=tok.begin();
+		height = lexical_cast<int>(*beg);
+		beg++;
+		width = lexical_cast<int>(*beg);
+		blockMap.resize(boost::extents[height][width]);
+		pathMap.resize(height, width);
+		for(int k = 0; k < height; k++)
+		{
+			std::getline(mapFile, a);
+			tokenizer<> tok(a);
+			tokenizer<>::iterator saz=tok.begin();
+			for(int g = 0; g < width; g++)
+			{
+				int blockSlotType = lexical_cast<int>(*saz);
+				switch (blockSlotType)
+				{
+				case 0:
+					blockMap[k][g] = Block::ptr(new EmptyBlock());
+					pathMap.freePathLazy(k, g);
+					break;
+
+				case 1:
+					blockMap[k][g] = Block::ptr(new SoftBlock(glm::vec3(k, 0, g)));
+					pathMap.blockPathLazy(k, g);
+					break;
+
+				case 2:
+					blockMap[k][g] = Block::ptr(new HardBlock(glm::vec3(k, 0, g)));
+					pathMap.blockPathLazy(k, g);
+					break;
+
+				case 3:
+					blockMap[k][g] = Block::ptr(new HQBlock());
+					pathMap.blockPathLazy(k, g);
+					break;
+				}
+				saz++;
+			}
+		}
+		pathMap.calculateNeighbors();
+
+	groundPlane = Model::ptr(new Model(PlaneModelData::getInstance()));
+	groundPlane->setScale(glm::vec3(width, 0, height));
+		
 	}
 
 

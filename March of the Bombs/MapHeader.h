@@ -22,7 +22,7 @@ private:
 
 public:
 	void loadDefaultMap();
-	void loadMapFromFile();
+	void loadMapFromFile(string);
 
 	bool findPath(glm::vec3 const& start, glm::vec3 const& goal, std::list<glm::vec3>& path) const;
 
