@@ -201,6 +201,9 @@
     <ClCompile Include="Bomb.cpp">
       <Filter>Source Files\Game Logic\Units</Filter>
     </ClCompile>
+    <ClCompile Include="Lobbyscreen.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="Bomb.h">
       <Filter>Header Files\Game Logic\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="Lobbyscreen.h">
+      <Filter>Header Files\GUIh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
