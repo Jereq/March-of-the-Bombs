@@ -19,6 +19,10 @@ private:
 	AttachmentPoint::ptr cameraPos;
 	Map blockMap;
 
+	std::vector<Button> buttons;
+	std::vector<SimpleImage> Backgrounds;
+	Screen::ptr nextScreen;
+
 	float currentDeltaTime;
 	glm::vec3 cameraVelocity;
 	float rotationYSpeed;
@@ -34,6 +38,8 @@ public:
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
 
+	void createButtons();
+	void createBackground();
 	void keyboardEventHandler(KeyboardEvent const* kbEvent);
 	void mouseButtonEventHandler(MouseButtonEvent const* mbEvent);
 	void mouseMoveEventHandler(MouseMoveEvent const* mmEvent);

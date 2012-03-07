@@ -78,11 +78,11 @@ Screen::ptr OptionScreen::getNextScreen()
 
 void OptionScreen::createButtons()
 {
-	GLTexture::ptr LobbyButton		=	GLTexture::getTexture(L"images/NewBI/BackBtn1.png");
+	GLTexture::ptr BackButton		=	GLTexture::getTexture(L"images/NewBI/BackBtn1.png");
 	
-	GLTexture::ptr LobbyButtonT		=	GLTexture::getTexture(L"images/NewBI/BackBtn2.png");
+	GLTexture::ptr BackButtonT		=	GLTexture::getTexture(L"images/NewBI/BackBtn2.png");
 
-	Button button0(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
+	Button button0(BackButton,		BackButtonT,	Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
 
 	buttons.push_back(button0);
 

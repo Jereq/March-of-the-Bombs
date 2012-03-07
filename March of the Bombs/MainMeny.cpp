@@ -103,7 +103,6 @@ void MainMeny::createButtons()
 	Button button3(CreditsButton,	CreditsButtonT,	Rectanglef(glm::vec2(0.80f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f);
 	Button button4(ExitButton,		ExitButtonT,	Rectanglef(glm::vec2(0.05f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f);
 
-
 	buttons.push_back(button0);
 	buttons.push_back(button1);
 	buttons.push_back(button2);

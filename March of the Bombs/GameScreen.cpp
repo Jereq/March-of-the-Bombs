@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Game.h"
+#include "MainMeny.h"
 #include "BlockModelData.h"
 #include "PlaneModelData.h"
 #include "StandardBombModelData.h"
@@ -20,6 +21,9 @@ GameScreen::GameScreen()
 
 
 	blockMap.loadDefaultMap();
+
+	GameScreen::createBackground();
+	GameScreen::createButtons();
 
 	const static int numBombs = 40;
 	for (int i = 0; i < numBombs; i++)
@@ -104,11 +108,25 @@ void GameScreen::draw(Graphics::ptr graphics)
 	}
 
 	blockMap.draw(graphics);
+
+	//starts to render all the backgrounds
+	for(unsigned int i = 0; i < Backgrounds.size(); i++)
+	{
+		Backgrounds[i].render(graphics);
+	}
+
+	//starts to render all the buttons
+	for(unsigned int i = 0; i < buttons.size(); i++)
+	{
+		buttons[i].render(graphics);
+	}
 }
 
 Screen::ptr GameScreen::getNextScreen()
 {
-	return Screen::ptr();
+	Screen::ptr screen;
+	screen.swap(nextScreen);
+	return screen;
 }
 
 void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
@@ -261,9 +279,47 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 				}
 			}
 		}
+
+		//testbutton
+		if (buttons[0].getState() == Hovered)
+		{
+			nextScreen = Screen::ptr(new MainMeny());
+			game->getEvents().clear();
+		}
 	}
 }
 
 void GameScreen::mouseMoveEventHandler(MouseMoveEvent const* mmEvent)
 {
+	BOOST_FOREACH(Button& button, buttons)
+	{
+		if(button.intersects(mmEvent->position))
+		{
+			button.setState(Hovered);
+		}
+		else
+		{
+			button.setState(Unused);
+		}
+	}
+}
+
+void GameScreen::createBackground()
+{
+	GLTexture::ptr Background = GLTexture::getTexture(L"images/NewBI/Start.png");
+
+	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(0.20f,0.20f)), 0.10f);
+
+	Backgrounds.push_back(Background1);
+}
+
+void GameScreen::createButtons()
+{
+	GLTexture::ptr BackButton		=	GLTexture::getTexture(L"images/NewBI/BackBtn1.png");
+
+	GLTexture::ptr BackButtonT		=	GLTexture::getTexture(L"images/NewBI/BackBtn2.png");
+
+	Button button0(BackButton,		BackButtonT,	Rectanglef(glm::vec2(0.05f,0.05f),glm::vec2(0.10f,0.05f)), 0.0f);
+
+	buttons.push_back(button0);
 }
