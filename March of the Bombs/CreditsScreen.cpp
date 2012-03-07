@@ -114,6 +114,7 @@ void CreditsScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		if (buttons[0].getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new MainMeny());
+			game->getEvents().clear();
 		}
 	}
 }

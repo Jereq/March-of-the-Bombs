@@ -1,6 +1,6 @@
 #include "MainMeny.h"
 #include "Game.h"
-#include "GameScreen.h"
+#include "LobbyScreen.h"
 #include "OptionScreen.h"
 #include "CreditsScreen.h"
 #include "HtPScreen.h"
@@ -142,7 +142,7 @@ void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
 	{
 		if (buttons[0].getState() == Hovered)
 		{
-			nextScreen = Screen::ptr(new GameScreen());
+			nextScreen = Screen::ptr(new LobbyScreen());
 			game->getEvents().clear();
 		}
 

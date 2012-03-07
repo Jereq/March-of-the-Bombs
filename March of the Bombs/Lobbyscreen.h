@@ -1,8 +1,33 @@
 #pragma once
-class Lobbyscreen
+
+#include "Screen.h"
+#include "KeyboardEvent.h"
+#include "MouseMoveEvent.h"
+#include "MouseButtonEvent.h"
+
+class Game;
+
+class LobbyScreen :
+	public Screen
 {
+private:
+	std::vector<Button> buttons;
+	std::vector<SimpleImage> Backgrounds;
+	Screen::ptr nextScreen;
+	boost::shared_ptr<Game> game;
+
 public:
-	Lobbyscreen(void);
-	~Lobbyscreen(void);
+	LobbyScreen();
+	~LobbyScreen();
+
+	void update(float deltaTime);
+	void draw(Graphics::ptr graphics);
+	Screen::ptr getNextScreen();
+
+	void createButtons();
+	void createBackground();
+	void KeyboardEventMethod(KeyboardEvent* keyEvent);
+	void MousePressEventMethod(MouseButtonEvent* mbEvent);
+	void MouseTouchEventMethod(MouseMoveEvent* mmEvent);
 };
 
