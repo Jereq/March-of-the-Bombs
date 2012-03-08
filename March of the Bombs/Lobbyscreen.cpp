@@ -92,15 +92,28 @@ void LobbyScreen::createButtons()
 {
 	TextureSection BackButton(L"images/NewBI/BackBtn1.png");
 	TextureSection NPButton(L"images/NewBI/NPBtn1.png");
+	TextureSection JGButton(L"images/NewBI/JGBtn1.png");
+	TextureSection CGButton(L"images/NewBI/CGBtn1.png");
+	TextureSection SInButton(L"images/NewBI/SignInBtn1.png");
 
 	TextureSection BackButtonT(L"images/NewBI/BackBtn2.png");
 	TextureSection NPButtonT(L"images/NewBI/NPBtn2.png");
+	TextureSection JGButtonT(L"images/NewBI/JGBtn2.png");
+	TextureSection CGButtonT(L"images/NewBI/CGBtn2.png");
+	TextureSection SInButtonT(L"images/NewBI/SignInBtn2.png");
 
 	Button button0(BackButton,		BackButtonT,	Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
 	Button button1(NPButton,		NPButtonT,		Rectanglef(glm::vec2(0.40f,0.20f),glm::vec2(0.20f,0.10f)), 0.0f);
+	Button button2(JGButton,		JGButtonT,		Rectanglef(glm::vec2(0.10f,0.10f),glm::vec2(0.20f,0.10f)), 0.0f);
+	Button button3(CGButton,		CGButtonT,		Rectanglef(glm::vec2(0.10f,0.30f),glm::vec2(0.20f,0.10f)), 0.0f);
+	Button button4(SInButton,		SInButtonT,		Rectanglef(glm::vec2(0.10f,0.50f),glm::vec2(0.20f,0.10f)), 0.0f);
+
 
 	buttons.push_back(button0);
 	buttons.push_back(button1);
+	buttons.push_back(button2);
+	buttons.push_back(button3);
+	buttons.push_back(button4);
 }
 
 void LobbyScreen::createBackground()
