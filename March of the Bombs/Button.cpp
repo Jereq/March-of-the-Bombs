@@ -3,14 +3,14 @@
 bool pressed = false;
 
 //constructor without changing the vec4 color
-Button::Button(GLTexture::ptr texture1, GLTexture::ptr texture2, Rectanglef rectangle, float depth)
+Button::Button(TextureSection texture1, TextureSection texture2, Rectanglef rectangle, float depth)
 	: unpressedTexture(texture1), pressedTexture(texture2), posSizeRectangle(rectangle), depth(depth), color(glm::vec4(1)), buttonState(Unused)
 {
 
 }
 
 //constructor changing the vec4 color
-Button::Button(GLTexture::ptr texture1, GLTexture::ptr texture2, Rectanglef rectangle, float depth, glm::vec4 color)
+Button::Button(TextureSection texture1, TextureSection texture2, Rectanglef rectangle, float depth, glm::vec4 color)
 	: unpressedTexture(texture1), pressedTexture(texture2),posSizeRectangle(rectangle), depth(depth), color(color), buttonState(Unused)
 {
 

@@ -324,7 +324,7 @@ void GameScreen::mouseMoveEventHandler(MouseMoveEvent const* mmEvent)
 
 void GameScreen::createBackground()
 {
-	GLTexture::ptr Background = GLTexture::getTexture(L"images/NewBI/Start.png");
+	TextureSection Background(L"images/NewBI/Start.png");
 
 	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(0.20f,0.20f)), 0.10f);
 
@@ -333,9 +333,8 @@ void GameScreen::createBackground()
 
 void GameScreen::createButtons()
 {
-	GLTexture::ptr BackButton		=	GLTexture::getTexture(L"images/NewBI/BackBtn1.png");
-
-	GLTexture::ptr BackButtonT		=	GLTexture::getTexture(L"images/NewBI/BackBtn2.png");
+	TextureSection BackButton(L"images/NewBI/BackBtn1.png");
+	TextureSection BackButtonT(L"images/NewBI/BackBtn2.png");
 
 	Button button0(BackButton,		BackButtonT,	Rectanglef(glm::vec2(0.05f,0.05f),glm::vec2(0.10f,0.05f)), 0.0f);
 

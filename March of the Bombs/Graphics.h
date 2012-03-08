@@ -6,7 +6,7 @@
 #include <list>
 #include <set>
 
-#include "GLTexture.h"
+#include "TextureSection.h"
 #include "GLSLProgram.h"
 #include "Rectanglef.h"
 #include "Camera.h"
@@ -18,11 +18,11 @@ class Graphics
 private:
 	struct TextureInstance
 	{
-		const GLTexture::ptr texture;
+		const TextureSection texture;
 		const Rectanglef target;
 		const float depth;
 
-		TextureInstance(GLTexture::ptr const& texture, Rectanglef const& target, float depth)
+		TextureInstance(TextureSection const& texture, Rectanglef const& target, float depth)
 			: texture(texture), target(target), depth(depth)
 		{
 		}
@@ -69,7 +69,7 @@ public:
 	Graphics();
 	~Graphics();
 
-	void drawTexture(GLTexture::ptr const& texture, Rectanglef const& target, float depth);
+	void drawTexture(TextureSection const& texture, Rectanglef const& target, float depth);
 	void drawModel(Model::ptr const& model);
 	void render();
 

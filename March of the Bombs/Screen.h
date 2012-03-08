@@ -5,7 +5,6 @@
 #include "Graphics.h"
 #include "Button.h"
 #include "SimpleImage.h"
-#include "GLTexture.h"
 #include <vector>
 
 #include <Packet1SimpleMessage.h>

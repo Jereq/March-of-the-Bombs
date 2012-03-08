@@ -14,6 +14,10 @@ void Graphics::drawTextureInstance(TextureInstance const& texInst) const
 	glm::vec2 size = texInst.target.getSize();
 	float depth = texInst.depth;
 
+	Rectanglef source = texInst.texture.getSection();
+	glm::vec2 sourcePos = source.getPosition();
+	glm::vec2 sourceSize = source.getSize();
+
 	glm::vec3 positionData[] =
 	{
 		glm::vec3(pos.x         , pos.y         , depth),
@@ -22,13 +26,24 @@ void Graphics::drawTextureInstance(TextureInstance const& texInst) const
 		glm::vec3(pos.x + size.x, pos.y + size.y, depth)
 	};
 
+	glm::vec2 textureData[] =
+	{
+		glm::vec2(sourcePos.x               , sourcePos.y               ),
+		glm::vec2(sourcePos.x + sourceSize.x, sourcePos.y               ),
+		glm::vec2(sourcePos.x               , sourcePos.y + sourceSize.y),
+		glm::vec2(sourcePos.x + sourceSize.x, sourcePos.y + sourceSize.y)
+	};
+
 	GLuint positionBufferHandle = textureBuffers2D[0];
 	GLuint textureBufferHandle = textureBuffers2D[1];
 
 	glBindBuffer(GL_ARRAY_BUFFER, positionBufferHandle);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, 4 * sizeof(glm::vec3), positionData);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(positionData), positionData);
 
-	texInst.texture->use(0);
+	glBindBuffer(GL_ARRAY_BUFFER, textureBufferHandle);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(textureData), textureData);
+
+	texInst.texture.getTexture()->use(0);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
@@ -138,14 +153,6 @@ void Graphics::loadModelShadowShaders()
 
 void Graphics::prepareTextureBuffers()
 {
-	const static glm::vec2 textureData[] =
-	{
-		glm::vec2(0, 0),
-		glm::vec2(1, 0),
-		glm::vec2(0, 1),
-		glm::vec2(1, 1)
-	};
-
 	glGenBuffers(2, textureBuffers2D);
 
 	GLuint positionBufferHandle = textureBuffers2D[0];
@@ -155,7 +162,7 @@ void Graphics::prepareTextureBuffers()
 	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(glm::vec3), NULL, GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ARRAY_BUFFER, textureBufferHandle);
-	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(glm::vec2), textureData, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(glm::vec2), NULL, GL_STATIC_DRAW);
 
 	glGenVertexArrays(1, &texture2DVAO);
 	glBindVertexArray(texture2DVAO);
@@ -221,7 +228,7 @@ Graphics::~Graphics()
 	glDeleteVertexArrays(1, &texture2DVAO);
 }
 
-void Graphics::drawTexture(GLTexture::ptr const& texture, Rectanglef const& target, float depth)
+void Graphics::drawTexture(TextureSection const& texture, Rectanglef const& target, float depth)
 {
 	textureInstances.insert(TextureInstance(texture, target, depth));
 }

@@ -207,6 +207,9 @@
     <ClCompile Include="BoundingVolume.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="TextureSection.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -345,6 +348,9 @@
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
     <ClInclude Include="BoundingVolume.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureSection.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
