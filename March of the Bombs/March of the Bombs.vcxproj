@@ -126,6 +126,7 @@
     <ClCompile Include="SoftBlock.cpp" />
     <ClCompile Include="StandardBombModelData.cpp" />
     <ClCompile Include="TextureSection.cpp" />
+    <ClCompile Include="TextField.cpp" />
     <ClCompile Include="UnitActions.cpp" />
     <ClCompile Include="UnitFactory.cpp" />
     <ClCompile Include="UnitMovement.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="SoftBlock.h" />
     <ClInclude Include="StandardBombModelData.h" />
     <ClInclude Include="TextureSection.h" />
+    <ClInclude Include="TextField.h" />
     <ClInclude Include="UnitActionsHeader.h" />
     <ClInclude Include="UnitFactoryHeader.h" />
     <ClInclude Include="UnitMovementHeader.h" />
