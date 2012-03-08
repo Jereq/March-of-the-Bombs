@@ -109,15 +109,22 @@ void GameClient::startRead()
 		boost::asio::placeholders::error));
 }
 
-GameClient::GameClient(boost::asio::io_service& io_service,
-	boost::asio::ip::tcp::resolver::iterator endpointIterator)
-	: io_service(io_service), socket(io_service)
+GameClient::GameClient(std::string const& host, std::string const& port)
+	: socket(io_service)
 {
 	registerPackets();
+
+	using boost::asio::ip::tcp;
+
+	tcp::resolver resolver(io_service);
+	tcp::resolver::query query(host, port);
+	tcp::resolver::iterator endpointIterator = resolver.resolve(query);
 
 	boost::asio::async_connect(socket, endpointIterator,
 		boost::bind(&GameClient::handleConnect, this,
 			boost::asio::placeholders::error));
+
+	start();
 }
 
 GameClient::~GameClient()

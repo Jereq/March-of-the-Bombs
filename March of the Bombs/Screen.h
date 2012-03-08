@@ -1,6 +1,6 @@
 #pragma once
 
-#include <boost\shared_ptr.hpp>							//include a boost smartpointer
+#include <boost/enable_shared_from_this.hpp>							//include a boost smartpointer
 #include <boost/foreach.hpp>
 #include "Graphics.h"
 #include "Button.h"
@@ -17,8 +17,8 @@
 #include <Packet7JoinGame.h>
 
 class Screen
+	: public boost::enable_shared_from_this<Screen>
 {
-
 public:
 	typedef boost::shared_ptr<Screen> ptr;				//A smartpointer
 

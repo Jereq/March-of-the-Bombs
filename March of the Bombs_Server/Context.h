@@ -21,11 +21,11 @@ public:
 	virtual boost::shared_ptr<PacketManager> getPacketManager() = 0;
 	virtual std::set<Player::ptr> const& getPlayers() const = 0;
 	
-	virtual void handlePacket1SimpleMessage(Packet1SimpleMessage::const_ptr const& packet, Player::ptr const& sender) = 0;
-	virtual void handlePacket2Blob(Packet2Blob::const_ptr const& packet, Player::ptr const& sender) = 0;
-	virtual void handlePacket3Login(Packet3Login::const_ptr const& packet, Player::ptr const& sender) = 0;
-	virtual void handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet, Player::ptr const& sender) = 0;
-	virtual void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender) = 0;
-	virtual void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet, Player::ptr const& sender) = 0;
-	virtual void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Player::ptr const& sender) = 0;
+	virtual void handlePacket1SimpleMessage(Packet1SimpleMessage::const_ptr const& packet, Player::ptr const& sender) {};
+	virtual void handlePacket2Blob(Packet2Blob::const_ptr const& packet, Player::ptr const& sender) {};
+	virtual void handlePacket3Login(Packet3Login::const_ptr const& packet, Player::ptr const& sender) {};
+	virtual void handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet, Player::ptr const& sender) {};
+	virtual void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender) {};
+	virtual void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet, Player::ptr const& sender) {};
+	virtual void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Player::ptr const& sender) {};
 };

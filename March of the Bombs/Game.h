@@ -23,7 +23,6 @@ private:
 	std::deque<Event::ptr> events;
 
 	boost::asio::io_service ioService;
-	GameClient::ptr client;
 
 	bool paused;
 	int validUpdate;
@@ -83,15 +82,8 @@ public:
 
 	void close();
 
-	void connect();
-	void sendBlob();
-	void sendLogin(std::string const& name);
-	void sendCreateGame(std::string const& mapName);
-	void sendJoinGame(unsigned short gameID);
-
 	int getWindowWidth() const;
 	int getWindowHeight() const;
 
 	Graphics::ptr const& getGraphics() const;
-	GameClient::ptr const& getClient() const;
 };

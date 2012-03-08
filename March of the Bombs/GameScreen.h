@@ -41,7 +41,7 @@ private:
 	PointLight::ptr light;
 
 public:
-	GameScreen();
+	GameScreen(GameClient::ptr const& client);
 
 	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);

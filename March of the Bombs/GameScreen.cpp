@@ -8,8 +8,8 @@
 #include "PlaneModelData.h"
 #include "StandardBombModelData.h"
 
-GameScreen::GameScreen()
-	: game(Game::getInstance()), client(game->getClient()), cameraPos(new AttachmentPoint(glm::vec3(20, 15, 50), glm::vec3(-30, -45, 0))),
+GameScreen::GameScreen(GameClient::ptr const& client)
+	: game(Game::getInstance()), client(client), cameraPos(new AttachmentPoint(glm::vec3(20, 15, 50), glm::vec3(-30, -45, 0))),
 	rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0)
 {
 	Graphics::ptr graphics = game->getGraphics();
@@ -38,6 +38,15 @@ GameScreen::GameScreen()
 
 void GameScreen::update(float deltaTime)
 {
+	if (client && client->isRunning())
+	{
+		while (client->hasReceivedPackets())
+		{
+			Packet::ptr packet = client->popReceivedPacket();
+			packet->dispatch(&shared_from_this());
+		}
+	}
+
 	currentDeltaTime = deltaTime;
 
 	std::deque<Event::ptr>& events = game->getEvents();

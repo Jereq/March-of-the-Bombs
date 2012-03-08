@@ -126,22 +126,6 @@ void MainMeny::KeyboardEventMethod(KeyboardEvent* keyEvent)
 	{
 		game->close();
 	}
-	else if (keyEvent->key == 'c' && keyEvent->eventType == KeyboardEventType::Released)
-	{
-		game->connect();
-	}
-	else if (keyEvent->key == 'v' && keyEvent->eventType == KeyboardEventType::Released)
-	{
-		game->sendCreateGame("foo game");
-	}
-	else if (keyEvent->key == 'b' && keyEvent->eventType == KeyboardEventType::Released)
-	{
-		game->sendJoinGame(0);
-	}
-	else if (keyEvent->key == 'l' && keyEvent->eventType == KeyboardEventType::Released)
-	{
-		game->sendLogin("foo");
-	}
 }
 
 void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
@@ -193,14 +177,4 @@ void MainMeny::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 			button.setState(Unused);
 		}
 	}
-}
-
-void MainMeny::handlePacket2Blob(Packet2Blob::const_ptr const& packet)
-{
-	game->close();
-}
-
-void MainMeny::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet)
-{
-	Packet4LoginAccepted const* packet4 = static_cast<Packet4LoginAccepted const*>(packet.get());
 }

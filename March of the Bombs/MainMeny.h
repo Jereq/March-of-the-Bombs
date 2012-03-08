@@ -29,7 +29,4 @@ public:
 	void KeyboardEventMethod(KeyboardEvent* keyEvent);
 	void MousePressEventMethod(MouseButtonEvent* mbEvent);
 	void MouseTouchEventMethod(MouseMoveEvent* mmEvent);
-	
-	virtual void handlePacket2Blob(Packet2Blob::const_ptr const& packet);
-	virtual void handlePacket4LoginAccepted(Packet2Blob::const_ptr const& packet);
 };

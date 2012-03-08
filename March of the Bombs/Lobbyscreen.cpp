@@ -8,6 +8,8 @@ LobbyScreen::LobbyScreen()
 {
 	LobbyScreen::createBackground();
 	LobbyScreen::createButtons();
+
+	playerName = "foo";
 }
 
 
@@ -17,6 +19,15 @@ LobbyScreen::~LobbyScreen()
 
 void LobbyScreen::update(float deltaTime)
 {
+	if (client && client->isRunning())
+	{
+		while (client->hasReceivedPackets())
+		{
+			Packet::ptr packet = client->popReceivedPacket();
+			packet->dispatch(&shared_from_this());
+		}
+	}
+
 	std::deque<Event::ptr>& events = game->getEvents();
 	std::deque<Event::ptr>::size_type numEvents = events.size();
 	std::deque<Event::ptr>::size_type eventsHandled = 0;
@@ -104,9 +115,47 @@ void LobbyScreen::createBackground()
 void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
 {
 	const static char ESC = 0x1B;
-	if (keyEvent->key == ESC && keyEvent->eventType == KeyboardEventType::Pressed)
+
+	if (keyEvent->eventType == KeyboardEventType::Pressed)
 	{
-		game->close();
+		switch (keyEvent->key)
+		{
+		case ESC:
+			game->close();
+			break;
+
+		case 'c':
+			{
+				client.reset();
+				client.reset(new GameClient("localhost", "1694"));
+
+				Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
+				client->write(packet);
+			}
+			break;
+
+		case 'v':
+			if (client)
+			{
+				Packet::ptr packet = Packet::ptr(new Packet6CreateGame("defaultmapfile"));
+				client->write(packet);
+				
+				nextScreen = Screen::ptr(new GameScreen(client));
+				game->getEvents().clear();
+			}
+			break;
+
+		case 'b':
+			if (client)
+			{
+				Packet::ptr packet = Packet::ptr(new Packet7JoinGame(0));
+				client->write(packet);
+				
+				nextScreen = Screen::ptr(new GameScreen(client));
+				game->getEvents().clear();
+			}
+			break;
+		}
 	}
 }
 
@@ -121,7 +170,7 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		}
 		if (buttons[1].getState() == Hovered)
 		{
-			nextScreen = Screen::ptr(new GameScreen());
+			nextScreen = Screen::ptr(new GameScreen(client));
 			game->getEvents().clear();
 		}
 	}
@@ -140,4 +189,9 @@ void LobbyScreen::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 			button.setState(Unused);
 		}
 	}
+}
+
+void LobbyScreen::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet)
+{
+	Packet4LoginAccepted const* packet4 = static_cast<Packet4LoginAccepted const*>(packet.get());
 }

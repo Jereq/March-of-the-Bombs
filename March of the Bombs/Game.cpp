@@ -260,15 +260,6 @@ void Game::keyUpFunc(unsigned char key, int x, int y)
 
 void Game::update(float deltaTime)
 {
-	if (client && client->isRunning())
-	{
-		while (client->hasReceivedPackets())
-		{
-			Packet::ptr packet = client->popReceivedPacket();
-			packet->dispatch(&gui);
-		}
-	}
-
 	gui->update(deltaTime);
 }
 
@@ -368,62 +359,6 @@ void Game::close()
 	glutLeaveMainLoop();
 }
 
-void Game::connect()
-{
-	if (client)
-	{
-		client.reset();
-		ioService.reset();
-	}
-
-	using boost::asio::ip::tcp;
-
-	tcp::resolver resolver(ioService);
-	tcp::resolver::query query("localhost", "1694");
-	tcp::resolver::iterator endpointIterator = resolver.resolve(query);
-
-	client = GameClient::ptr(new GameClient(ioService, endpointIterator));
-	client->start();
-}
-
-void Game::sendBlob()
-{
-	if (client)
-	{
-		char data[Packet::MAX_LOAD_SIZE];
-		Packet::ptr packet = Packet::ptr(new Packet2Blob(data, Packet::MAX_LOAD_SIZE));
-
-		client->write(packet);
-	}
-}
-
-void Game::sendLogin(std::string const& name)
-{
-	if (client)
-	{
-		Packet::ptr packet = Packet::ptr(new Packet3Login(name));
-		client->write(packet);
-	}
-}
-
-void Game::sendCreateGame(std::string const& mapName)
-{
-	if (client)
-	{
-		Packet::ptr packet = Packet::ptr(new Packet6CreateGame(mapName));
-		client->write(packet);
-	}
-}
-
-void Game::sendJoinGame(unsigned short gameID)
-{
-	if (client)
-	{
-		Packet::ptr packet = Packet::ptr(new Packet7JoinGame(gameID));
-		client->write(packet);
-	}
-}
-
 int Game::getWindowWidth() const
 {
 	return windowWidth;
@@ -437,9 +372,4 @@ int Game::getWindowHeight() const
 Graphics::ptr const& Game::getGraphics() const
 {
 	return graphics;
-}
-
-GameClient::ptr const& Game::getClient() const
-{
-	return client;
 }
