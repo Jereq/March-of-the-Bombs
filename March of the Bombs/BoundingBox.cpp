@@ -80,15 +80,15 @@ bool BoundingBox::rayIntersect(glm::vec3 origin, glm::vec3 direction, float& dis
 	return true;
 }
 
-void BoundingBox::selectionBox(glm::vec3 TLN, glm::vec3 BRN, glm::vec3 TLF, glm::vec3 BRF, BoundingBox& BoundingBox)
-{
-	// TLN = TopLeftNear, BRN = BottomRightNear
-	// TLF = TopLeftFar, BRF = BottomRightFar
-	glm::vec3 vTLN, vBRN, vTLF, vBRF;
-	glm::vec3 v1, v2, v3, v4;
-	vTLN = TLN;
-	vBRN = BRN;
-	vTLF = TLF;
-	vBRF = BRF;
-
-}
+//void BoundingBox::selectionBox(glm::vec3 TLN, glm::vec3 BRN, glm::vec3 TLF, glm::vec3 BRF, BoundingBox& BoundingBox)
+//{
+//	// TLN = TopLeftNear, BRN = BottomRightNear
+//	// TLF = TopLeftFar, BRF = BottomRightFar
+//	glm::vec3 vTLN, vBRN, vTLF, vBRF;
+//	glm::vec3 v1, v2, v3, v4;
+//	vTLN = TLN;
+//	vBRN = BRN;
+//	vTLF = TLF;
+//	vBRF = BRF;
+//
+//}
