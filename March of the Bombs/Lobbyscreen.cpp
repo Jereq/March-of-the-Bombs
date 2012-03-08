@@ -124,10 +124,20 @@ void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
 			game->close();
 			break;
 
-		case 'c':
+		case '0':
 			{
 				client.reset();
 				client.reset(new GameClient("localhost", "1694"));
+
+				Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
+				client->write(packet);
+			}
+			break;
+
+		case '1':
+			{
+				client.reset();
+				client.reset(new GameClient("192.168.1.20", "1694"));
 
 				Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
 				client->write(packet);
