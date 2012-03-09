@@ -84,6 +84,7 @@ bool Bomb::setTarget(Map const& map, glm::vec3 const& targetPos)
 void Bomb::halt()
 {
 	path.clear();
+	setVelocity(glm::vec3(0.f));
 }
 
 bool Bomb::rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance)

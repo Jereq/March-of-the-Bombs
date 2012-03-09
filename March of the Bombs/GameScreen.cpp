@@ -192,11 +192,15 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 			break;
 
 		case 'h':
-			BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
+			BOOST_FOREACH(entity_map::value_type& entry, myEntities)
 			{
-				if (bomb.second.isSelected())
+				Bomb& bomb = entry.second;
+				if (bomb.isSelected())
 				{
-					bomb.second.halt();
+					bomb.halt();
+					
+					Packet::ptr packet(new Packet5EntityMove(myID, entry.first, bomb.getPosition(), bomb.getRotation(), bomb.getVelocity()));
+					client->write(packet);
 				}
 			}
 			break;
