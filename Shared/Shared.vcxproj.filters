@@ -57,6 +57,12 @@
     <ClCompile Include="Packet8SetupGame.cpp">
       <Filter>Source Files\Packet</Filter>
     </ClCompile>
+    <ClCompile Include="Packet9SpawnBomb.cpp">
+      <Filter>Source Files\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet10PlayerReady.cpp">
+      <Filter>Source Files\Packet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketException.h">
@@ -96,6 +102,12 @@
       <Filter>Header Files\Packet</Filter>
     </ClInclude>
     <ClInclude Include="Packet8SetupGame.h">
+      <Filter>Header Files\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet9SpawnBomb.h">
+      <Filter>Header Files\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet10PlayerReady.h">
       <Filter>Header Files\Packet</Filter>
     </ClInclude>
   </ItemGroup>

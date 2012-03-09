@@ -49,3 +49,15 @@ void Packet8SetupGame::dispatch(void* context) const
 	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
 	cont->handlePacket8SetupGame(shared_from_this());
 }
+
+void Packet9SpawnBomb::dispatch(void* context) const
+{
+	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
+	cont->handlePacket9SpawnBomb(shared_from_this());
+}
+
+void Packet10PlayerReady::dispatch(void* context) const
+{
+	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
+	cont->handlePacket10PlayerReady(shared_from_this());
+}

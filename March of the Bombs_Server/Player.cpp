@@ -182,6 +182,24 @@ void Player::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet)
 	}
 }
 
+void Player::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket9SpawnBomb(packet, shared_from_this());
+	}
+}
+
+void Player::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket10PlayerReady(packet, shared_from_this());
+	}
+}
+
 std::string const& Player::getName() const
 {
 	return name;

@@ -14,12 +14,16 @@
 #include <Packet6CreateGame.h>
 #include <Packet7JoinGame.h>
 #include <Packet8SetupGame.h>
+#include <Packet9SpawnBomb.h>
+#include <Packet10PlayerReady.h>
 
 class Screen
 	: public boost::enable_shared_from_this<Screen>
 {
 public:
 	typedef boost::shared_ptr<Screen> ptr;				//A smartpointer
+
+	virtual void atEntry() {}
 
 	virtual void update(float deltaTime) = 0;			//Makes the other classes aware of the function, here they are abstract and not used
 	virtual void draw(Graphics::ptr graphics) = 0;		//Same as for update-function
@@ -33,4 +37,6 @@ public:
 	virtual void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet) {}
 	virtual void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet) {}
 	virtual void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet) {}
+	virtual void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet) {}
+	virtual void handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet) {}
 };

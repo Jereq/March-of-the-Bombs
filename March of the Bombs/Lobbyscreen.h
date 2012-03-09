@@ -26,6 +26,7 @@ private:
 
 	std::string playerName;
 	unsigned short playerID;
+	Screen::ptr newGame;
 
 public:
 	LobbyScreen();
@@ -43,5 +44,6 @@ public:
 
 	virtual void handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet);
 	virtual void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet);
+	virtual void handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet);
 };
 

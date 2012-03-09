@@ -13,6 +13,8 @@
 #include <Packet6CreateGame.h>
 #include <Packet7JoinGame.h>
 #include <Packet8SetupGame.h>
+#include <Packet9SpawnBomb.h>
+#include <Packet10PlayerReady.h>
 
 class Context;
 
@@ -56,6 +58,8 @@ public:
 	void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet);
 	void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet);
 	void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet);
+	void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet);
+	void handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet);
 
 	std::string const& getName() const;
 	void setName(std::string const& newName);

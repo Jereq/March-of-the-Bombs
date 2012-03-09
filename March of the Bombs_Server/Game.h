@@ -25,4 +25,6 @@ public:
 	virtual std::string const& getMapName() const;
 
 	virtual void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender);
+	virtual void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet, Player::ptr const& sender);
+	virtual void handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet, Player::ptr const& sender);
 };

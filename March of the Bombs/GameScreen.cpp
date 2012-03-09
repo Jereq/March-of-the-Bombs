@@ -8,6 +8,15 @@
 #include "PlaneModelData.h"
 #include "StandardBombModelData.h"
 
+void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity)
+{
+	if (client)
+	{
+		Packet::ptr packet = Packet::ptr(new Packet9SpawnBomb(myID, myEntityCount++, position, rotation, velocity));
+		client->write(packet);
+	}
+}
+
 GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
 		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor)
 	: game(Game::getInstance()), client(client), cameraPos(new AttachmentPoint(glm::vec3(20, 15, 50), glm::vec3(-30, -45, 0))),
@@ -23,15 +32,14 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 
 	GameScreen::createBackground();
 	GameScreen::createButtons();
+}
 
+void GameScreen::atEntry()
+{
 	const static int numBombs = 40;
 	for (int i = 0; i < numBombs; i++)
 	{
-		Bomb newBomb(myID);
-		newBomb.setPosition(glm::vec3(i * 70.f / numBombs, 0, 0));
-		newBomb.setTarget(blockMap, glm::vec3(20.5f, 0.f, 32.5f));
-
-		myEntities[myEntityCount++] = newBomb;
+		spawnBomb(glm::vec3(i * 70.f / numBombs, 0, 0), glm::vec3(0.f), glm::vec3(0.f));
 	}
 }
 
@@ -95,22 +103,13 @@ void GameScreen::update(float deltaTime)
 			Packet5EntityMove::ptr packet(new Packet5EntityMove(myID, entry.first, bomb.getPosition(), bomb.getRotation(), bomb.getVelocity()));
 			client->write(packet);
 
-			Packet5EntityMove* packet5 = reinterpret_cast<Packet5EntityMove*>(packet.get());
-			Packet5EntityMove test(packet->getData(), packet->getDataLength());
-
-			if (test.getDataLength() != packet5->getDataLength() ||
-				test.getId() != packet5->getId() ||
-				test.getPlayerID() != packet5->getPlayerID() ||
-				test.getEntityID() != packet5->getEntityID() ||
-				test.getPosition() != packet5->getPosition() ||
-				test.getRotation() != packet5->getRotation() ||
-				test.getVelocity() != packet5->getVelocity())
-			{
-				std::cerr << "Packet packing/unpacking failed!" << std::endl;
-			}
-
 			bomb.setHasNewHeading(false);
 		}
+	}
+
+	BOOST_FOREACH(entity_map::value_type& entry, opponentEntities)
+	{
+		entry.second.updatePosition(deltaTime);
 	}
 
 	glm::vec3 rotation = cameraPos->getRotation();
@@ -134,6 +133,11 @@ void GameScreen::update(float deltaTime)
 void GameScreen::draw(Graphics::ptr graphics)
 {
 	BOOST_FOREACH(entity_map::value_type& entry, myEntities)
+	{
+		entry.second.draw(graphics);
+	}
+
+	BOOST_FOREACH(entity_map::value_type& entry, opponentEntities)
 	{
 		entry.second.draw(graphics);
 	}
@@ -389,6 +393,40 @@ void GameScreen::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& pac
 			entity.setRotation(packet5->getRotation());
 			entity.setVelocity(packet5->getVelocity());
 		}
+	}
+	else
+	{
+		std::cerr << "Error: Received packet with unknown player ID" << std::endl;
+	}
+}
+
+void GameScreen::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet)
+{
+	Packet9SpawnBomb const* packet9 = static_cast<Packet9SpawnBomb const*>(packet.get());
+
+	unsigned short playerID = packet9->getPlayerID();
+
+	if (playerID == myID)
+	{
+		unsigned short entityID = packet9->getEntityID();
+
+		Bomb newBomb(myID);
+		newBomb.setPosition(packet9->getPosition());
+		newBomb.setRotation(packet9->getRotation());
+		newBomb.setVelocity(packet9->getVelocity());
+
+		myEntities[entityID] = newBomb;
+	}
+	else if (playerID == opponentID)
+	{
+		unsigned short entityID = packet9->getEntityID();
+
+		Bomb newBomb(myID);
+		newBomb.setPosition(packet9->getPosition());
+		newBomb.setRotation(packet9->getRotation());
+		newBomb.setVelocity(packet9->getVelocity());
+
+		opponentEntities[entityID] = newBomb;
 	}
 	else
 	{

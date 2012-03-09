@@ -42,10 +42,13 @@ private:
 	float rotationXSpeed;
 	PointLight::ptr light;
 
+	void spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity);
+
 public:
 	GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
 		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor);
 
+	void atEntry();
 	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
@@ -56,5 +59,6 @@ public:
 	void mouseButtonEventHandler(MouseButtonEvent const* mbEvent);
 	void mouseMoveEventHandler(MouseMoveEvent const* mmEvent);
 	
-	virtual void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet);
+	void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet);
+	void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet);
 };

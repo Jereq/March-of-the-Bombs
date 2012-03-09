@@ -3,8 +3,6 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 
-#include <Packet8SetupGame.h>
-
 Game::Game(boost::shared_ptr<PacketManager> const& packetManager, std::string const& mapName)
 	: packetManager(packetManager), mapName(mapName)
 {
@@ -69,6 +67,20 @@ std::string const& Game::getMapName() const
 void Game::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender)
 {
 	deliver(packet);
+}
 
-	Packet5EntityMove const* packet5 = static_cast<Packet5EntityMove const*>(packet.get());
+void Game::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet, Player::ptr const& sender)
+{
+	deliver(packet);
+}
+
+void Game::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet, Player::ptr const& sender)
+{
+	BOOST_FOREACH(Player::ptr const& player, players)
+	{
+		if (player != sender)
+		{
+			player->deliver(packet);
+		}
+	}
 }

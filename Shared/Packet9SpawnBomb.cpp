@@ -1,8 +1,8 @@
-#include "Packet5EntityMove.h"
+#include "Packet9SpawnBomb.h"
 
 #include "Pack.h"
 
-void Packet5EntityMove::pack() const
+void Packet9SpawnBomb::pack() const
 {
 	if (!packedData)
 	{
@@ -22,7 +22,7 @@ void Packet5EntityMove::pack() const
 	packed = true;
 }
 
-void Packet5EntityMove::unpack() const
+void Packet9SpawnBomb::unpack() const
 {
 	if (!packedData)
 	{
@@ -45,17 +45,17 @@ void Packet5EntityMove::unpack() const
 	unpacked = true;
 }
 
-Packet5EntityMove::Packet5EntityMove()
+Packet9SpawnBomb::Packet9SpawnBomb()
 	: Packet(mId)
 {
 }
 
-Packet5EntityMove::Packet5EntityMove(char const* data, uint16_t length)
+Packet9SpawnBomb::Packet9SpawnBomb(char const* data, uint16_t length)
 	: Packet(mId, data, length)
 {
 }
 
-Packet5EntityMove::Packet5EntityMove(unsigned short playerID, unsigned short entityID,
+Packet9SpawnBomb::Packet9SpawnBomb(unsigned short playerID, unsigned short entityID,
 	glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity)
 	: Packet(mId), playerID(playerID), entityID(entityID), position(position), rotation(rotation), velocity(velocity)
 {
@@ -65,12 +65,12 @@ Packet5EntityMove::Packet5EntityMove(unsigned short playerID, unsigned short ent
 	unpacked = true;
 }
 
-Packet::ptr Packet5EntityMove::createPacket(char const* data, uint16_t length) const
+Packet::ptr Packet9SpawnBomb::createPacket(char const* data, uint16_t length) const
 {
-	return Packet::ptr(new Packet5EntityMove(data, length));
+	return Packet::ptr(new Packet9SpawnBomb(data, length));
 }
 
-unsigned short Packet5EntityMove::getPlayerID() const
+unsigned short Packet9SpawnBomb::getPlayerID() const
 {
 	if (!unpacked)
 	{
@@ -80,7 +80,7 @@ unsigned short Packet5EntityMove::getPlayerID() const
 	return playerID;
 }
 
-unsigned short Packet5EntityMove::getEntityID() const
+unsigned short Packet9SpawnBomb::getEntityID() const
 {
 	if (!unpacked)
 	{
@@ -90,7 +90,7 @@ unsigned short Packet5EntityMove::getEntityID() const
 	return entityID;
 }
 
-glm::vec3 const& Packet5EntityMove::getPosition() const
+glm::vec3 const& Packet9SpawnBomb::getPosition() const
 {
 	if (!unpacked)
 	{
@@ -100,7 +100,7 @@ glm::vec3 const& Packet5EntityMove::getPosition() const
 	return position;
 }
 
-glm::vec3 const& Packet5EntityMove::getRotation() const
+glm::vec3 const& Packet9SpawnBomb::getRotation() const
 {
 	if (!unpacked)
 	{
@@ -110,7 +110,7 @@ glm::vec3 const& Packet5EntityMove::getRotation() const
 	return rotation;
 }
 
-glm::vec3 const& Packet5EntityMove::getVelocity() const
+glm::vec3 const& Packet9SpawnBomb::getVelocity() const
 {
 	if (!unpacked)
 	{

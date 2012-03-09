@@ -24,4 +24,6 @@ public:
 	void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet);
 	void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet);
 	void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet);
+	void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet);
+	void handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet);
 };

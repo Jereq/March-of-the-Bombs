@@ -19,7 +19,7 @@ void LobbyScreen::update(float deltaTime)
 {
 	if (client && client->isRunning())
 	{
-		while (client->hasReceivedPackets())
+		while (client->hasReceivedPackets() && !nextScreen)
 		{
 			Packet::ptr packet = client->popReceivedPacket();
 			packet->dispatch(&shared_from_this());
@@ -209,7 +209,15 @@ void LobbyScreen::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& pack
 {
 	Packet8SetupGame const* packet8 = static_cast<Packet8SetupGame const*>(packet.get());
 
-	nextScreen = Screen::ptr(new GameScreen(client, packet8->getMapName(), playerID,
+	newGame = Screen::ptr(new GameScreen(client, packet8->getMapName(), playerID,
 		packet8->getOpponentID(), packet8->getBaseID(), packet8->getOpponentColor()));
+
+	Packet::ptr packetReady(new Packet10PlayerReady(playerID));
+	client->write(packetReady);
+}
+
+void LobbyScreen::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet)
+{
+	nextScreen = newGame;
 	game->getEvents().clear();
 }

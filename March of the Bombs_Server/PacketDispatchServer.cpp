@@ -1,12 +1,3 @@
-#include <Packet1SimpleMessage.h>
-#include <Packet2Blob.h>
-#include <Packet3Login.h>
-#include <Packet4LoginAccepted.h>
-#include <Packet5EntityMove.h>
-#include <Packet6CreateGame.h>
-#include <Packet7JoinGame.h>
-#include <Packet8SetupGame.h>
-
 #include <iostream>
 
 #include "Context.h"
@@ -57,4 +48,16 @@ void Packet8SetupGame::dispatch(void* context) const
 {
 	Player::ptr cont = *static_cast<Player::ptr*>(context);
 	cont->handlePacket8SetupGame(shared_from_this());
+}
+
+void Packet9SpawnBomb::dispatch(void* context) const
+{
+	Player::ptr cont = *static_cast<Player::ptr*>(context);
+	cont->handlePacket9SpawnBomb(shared_from_this());
+}
+
+void Packet10PlayerReady::dispatch(void* context) const
+{
+	Player::ptr cont = *static_cast<Player::ptr*>(context);
+	cont->handlePacket10PlayerReady(shared_from_this());
 }

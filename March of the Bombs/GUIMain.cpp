@@ -20,6 +20,9 @@ void GUIMain::update(float deltaTime)
 	while (next)
 	{
 		screen = next;
+
+		screen->atEntry();
+
 		next = screen->getNextScreen();
 	}
 }
@@ -68,4 +71,14 @@ void GUIMain::handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet)
 void GUIMain::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet)
 {
 	screen->handlePacket8SetupGame(packet);
+}
+
+void GUIMain::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet)
+{
+	screen->handlePacket9SpawnBomb(packet);
+}
+
+void GUIMain::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet)
+{
+	screen->handlePacket10PlayerReady(packet);
 }
