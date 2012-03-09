@@ -1,11 +1,6 @@
 #include "Packet7JoinGame.h"
 
-#include <WinSock2.h>
-
-#include <iterator>
-#include <algorithm>
-using std::copy;
-
+#include "Pack.h"
 #include "InvalidSizeException.h"
 
 void Packet7JoinGame::pack() const
@@ -36,41 +31,21 @@ Packet7JoinGame::Packet7JoinGame()
 }
 
 Packet7JoinGame::Packet7JoinGame(char const* data, uint16_t length)
-	: Packet(mId), gameID(NULL)
+	: Packet(mId, data, length), gameID(NULL)
 {
-	uint16_t const* lengthP = reinterpret_cast<uint16_t const*>(&data[OFFSET_LENGTH]);
-	uint16_t totalLength = ntohs(*lengthP);
-
-	if (totalLength < MIN_SIZE)
-	{
-		return;
-	}
-
-	uint16_t const* idP = reinterpret_cast<uint16_t const*>(&data[OFFSET_ID]);
-	
-	if(id != ntohs(*idP))
-	{
-		return;
-	}
-
-	packedData = new char[totalLength];
-	copy(data, data + totalLength, stdext::checked_array_iterator<char*>(packedData, totalLength));
-
-	dataLength = totalLength;
-
-	packed = true;
 }
 
 Packet7JoinGame::Packet7JoinGame(unsigned short gameID)
 	: Packet(mId)
 {
-	dataLength = Packet::MIN_SIZE + sizeof(uint16_t);
+	dataLength = sizeof(uint16_t) + OFFSET_DATA;
 	packedData = new char[dataLength];
 
-	this->gameID = reinterpret_cast<uint16_t*>(packedData + OFFSET_DATA);
+	this->gameID = reinterpret_cast<uint16_t*>(&packedData[OFFSET_DATA]);
 
 	packHeader();
-	*this->gameID = htons(gameID);
+	uint16_t tId = gameID;
+	util::pack(&tId, 1, &packedData[OFFSET_DATA]);
 
 	packed = true;
 	unpacked = true;

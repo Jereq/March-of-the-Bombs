@@ -21,6 +21,8 @@ private:
 	Model::ptr groundPlane;
 
 public:
+	Map(std::string const& fileName);
+
 	void loadDefaultMap();
 	void loadMapFromFile(string);
 

@@ -9,6 +9,7 @@
 #include <Packet5EntityMove.h>
 #include <Packet6CreateGame.h>
 #include <Packet7JoinGame.h>
+#include <Packet8SetupGame.h>
 
 void GameClient::registerPackets()
 {
@@ -19,6 +20,7 @@ void GameClient::registerPackets()
 	packetManager.addPacketPrototype(Packet::ptr(new Packet5EntityMove()));
 	packetManager.addPacketPrototype(Packet::ptr(new Packet6CreateGame()));
 	packetManager.addPacketPrototype(Packet::ptr(new Packet7JoinGame()));
+	packetManager.addPacketPrototype(Packet::ptr(new Packet8SetupGame()));
 }
 
 void GameClient::handleConnect(boost::system::error_code const& error)

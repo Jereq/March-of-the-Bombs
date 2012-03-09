@@ -64,3 +64,8 @@ void GUIMain::handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet)
 {
 	screen->handlePacket7JoinGame(packet);
 }
+
+void GUIMain::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet)
+{
+	screen->handlePacket8SetupGame(packet);
+}

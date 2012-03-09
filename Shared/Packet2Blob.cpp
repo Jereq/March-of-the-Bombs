@@ -1,11 +1,6 @@
 #include "Packet2Blob.h"
 
-#include <WinSock2.h>
-
-#include <iterator>
-#include <algorithm>
-using std::copy;
-
+#include "Pack.h"
 #include "InvalidSizeException.h"
 
 void Packet2Blob::pack() const
@@ -39,25 +34,25 @@ Packet2Blob::Packet2Blob()
 Packet2Blob::Packet2Blob(char const* data)
 	: Packet(mId), blob(NULL), blobLength(0)
 {
-	uint16_t const* lengthP = reinterpret_cast<uint16_t const*>(&data[OFFSET_LENGTH]);
-	uint16_t totalLength = ntohs(*lengthP);
+	uint16_t totalLength;
+	util::unpack(&totalLength, 1, &data[OFFSET_LENGTH]);
 
 	if (totalLength < MIN_SIZE)
 	{
 		return;
 	}
 
-	uint16_t const* idP = reinterpret_cast<uint16_t const*>(&data[OFFSET_ID]);
+	uint16_t tId;
+	util::unpack(&tId, 1, &data[OFFSET_ID]);
 	
-	if(id != ntohs(*idP))
+	if(id != tId)
 	{
 		return;
 	}
 
-	packedData = new char[totalLength];
-	copy(data, data + totalLength, stdext::checked_array_iterator<char*>(packedData, totalLength));
-
 	dataLength = totalLength;
+	packedData = new char[dataLength];
+	util::unpack(packedData, dataLength, data);
 
 	packed = true;
 }
@@ -67,18 +62,16 @@ Packet2Blob::Packet2Blob(char const* blob, uint16_t length)
 {
 	if (length > Packet::MAX_LOAD_SIZE)
 	{
-		throw InvalidSizeException("Blob to big", shared_from_this());
+		throw InvalidSizeException("Blob to big", Packet::ptr());
 	}
 
-	uint16_t totalLength = blobLength + Packet::MIN_SIZE;
-	packedData = new char[totalLength];
-	dataLength = totalLength;
+	dataLength = blobLength + Packet::MIN_SIZE;
+	packedData = new char[dataLength];
 	
 	this->blob = packedData + OFFSET_DATA;
 
 	packHeader();
-
-	copy(blob, blob + blobLength, stdext::make_checked_array_iterator<char*>(this->blob, blobLength));
+	util::pack(blob, dataLength, this->blob);
 
 	packed = true;
 	unpacked = true;

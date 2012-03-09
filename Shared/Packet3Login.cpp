@@ -1,29 +1,21 @@
 #include "Packet3Login.h"
 
-#include <WinSock2.h>
-
-#include <iterator>
-#include <algorithm>
-using std::copy;
-
 #include <string>
 using std::string;
+
+#include "Pack.h"
 
 #include "InvalidSizeException.h"
 
 void Packet3Login::pack() const
 {
-	uint16_t length = getDataLength();
-
 	if (!packedData)
 	{
-		packedData = new char[length];
+		packedData = new char[getDataLength()];
 	}
 
 	packHeader();
-
-	char* dataP = &packedData[OFFSET_DATA];
-	copy(name.begin(), name.end(), stdext::checked_array_iterator<char*>(dataP, length - OFFSET_DATA));
+	util::pack(&name, 1, &packedData[OFFSET_DATA]);
 
 	packed = true;
 }
@@ -40,7 +32,7 @@ void Packet3Login::unpack() const
 		return;
 	}
 
-	name = string(&packedData[OFFSET_DATA], getDataLength() - OFFSET_DATA);
+	util::unpack(&name, 1, &packedData[OFFSET_DATA]);
 
 	unpacked = true;
 }
@@ -51,14 +43,8 @@ Packet3Login::Packet3Login()
 }
 
 Packet3Login::Packet3Login(char const* data, uint16_t length)
-	: Packet(mId)
+	: Packet(mId, data, length)
 {
-	packedData = new char[length];
-	dataLength = length;
-
-	copy(data, data + length, stdext::checked_array_iterator<char*>(packedData, length));
-
-	packed = true;
 }
 
 Packet3Login::Packet3Login(string const& name)
@@ -66,12 +52,12 @@ Packet3Login::Packet3Login(string const& name)
 {
 	if (name.size() > MAX_NAME_LENGTH)
 	{
-		throw InvalidSizeException("Name to long", shared_from_this());
+		throw InvalidSizeException("Name to long", Packet::ptr());
 	}
 
 	this->name = name;
 	unpacked = true;
-	dataLength = name.size() + OFFSET_DATA;
+	dataLength = util::packedSize(name) + OFFSET_DATA;
 }
 
 Packet::ptr Packet3Login::createPacket(char const* data, uint16_t length) const

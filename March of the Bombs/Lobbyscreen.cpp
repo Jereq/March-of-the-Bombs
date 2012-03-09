@@ -8,8 +8,6 @@ LobbyScreen::LobbyScreen()
 {
 	LobbyScreen::createBackground();
 	LobbyScreen::createButtons();
-
-	playerName = "foo";
 }
 
 
@@ -142,6 +140,7 @@ void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
 				client.reset();
 				client.reset(new GameClient("localhost", "1694"));
 
+				playerName = "foo";
 				Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
 				client->write(packet);
 			}
@@ -152,6 +151,7 @@ void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
 				client.reset();
 				client.reset(new GameClient("192.168.1.20", "1694"));
 
+				playerName = "bar";
 				Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
 				client->write(packet);
 			}
@@ -162,9 +162,6 @@ void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
 			{
 				Packet::ptr packet = Packet::ptr(new Packet6CreateGame("defaultmapfile"));
 				client->write(packet);
-				
-				nextScreen = Screen::ptr(new GameScreen(client));
-				game->getEvents().clear();
 			}
 			break;
 
@@ -173,9 +170,6 @@ void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
 			{
 				Packet::ptr packet = Packet::ptr(new Packet7JoinGame(0));
 				client->write(packet);
-				
-				nextScreen = Screen::ptr(new GameScreen(client));
-				game->getEvents().clear();
 			}
 			break;
 		}
@@ -189,11 +183,6 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		if (buttons[0].getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new MainMeny());
-			game->getEvents().clear();
-		}
-		if (buttons[1].getState() == Hovered)
-		{
-			nextScreen = Screen::ptr(new GameScreen(client));
 			game->getEvents().clear();
 		}
 	}
@@ -217,4 +206,15 @@ void LobbyScreen::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 void LobbyScreen::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet)
 {
 	Packet4LoginAccepted const* packet4 = static_cast<Packet4LoginAccepted const*>(packet.get());
+
+	playerID = packet4->getPlayerID();
+}
+
+void LobbyScreen::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet)
+{
+	Packet8SetupGame const* packet8 = static_cast<Packet8SetupGame const*>(packet.get());
+
+	nextScreen = Screen::ptr(new GameScreen(client, packet8->getMapName(), playerID,
+		packet8->getOpponentID(), packet8->getBaseID(), packet8->getOpponentColor()));
+	game->getEvents().clear();
 }

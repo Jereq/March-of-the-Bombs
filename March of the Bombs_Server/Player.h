@@ -12,6 +12,7 @@
 #include <Packet5EntityMove.h>
 #include <Packet6CreateGame.h>
 #include <Packet7JoinGame.h>
+#include <Packet8SetupGame.h>
 
 class Context;
 
@@ -54,6 +55,7 @@ public:
 	void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet);
 	void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet);
 	void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet);
+	void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet);
 
 	std::string const& getName() const;
 	void setName(std::string const& newName);

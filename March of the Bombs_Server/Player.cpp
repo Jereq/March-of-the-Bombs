@@ -173,6 +173,15 @@ void Player::handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet)
 	}
 }
 
+void Player::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket8SetupGame(packet, shared_from_this());
+	}
+}
+
 std::string const& Player::getName() const
 {
 	return name;

@@ -22,6 +22,7 @@ protected:
 	mutable bool unpacked;
 
 	Packet(uint16_t id);
+	Packet(uint16_t id, char const* data, uint16_t length);
 
 	virtual void pack() const = 0;
 	virtual void unpack() const = 0;

@@ -8,14 +8,6 @@ using boost::asio::ip::tcp;
 #include "Acceptor.h"
 #include "Lobby.h"
 
-#include <Packet1SimpleMessage.h>
-#include <Packet2Blob.h>
-#include <Packet3Login.h>
-#include <Packet4LoginAccepted.h>
-#include <Packet5EntityMove.h>
-#include <Packet6CreateGame.h>
-#include <Packet7JoinGame.h>
-
 void registerPackets(boost::shared_ptr<PacketManager> const& packetManager)
 {
 	packetManager->addPacketPrototype(Packet::ptr(new Packet1SimpleMessage()));
@@ -25,6 +17,7 @@ void registerPackets(boost::shared_ptr<PacketManager> const& packetManager)
 	packetManager->addPacketPrototype(Packet::ptr(new Packet5EntityMove()));
 	packetManager->addPacketPrototype(Packet::ptr(new Packet6CreateGame()));
 	packetManager->addPacketPrototype(Packet::ptr(new Packet7JoinGame()));
+	packetManager->addPacketPrototype(Packet::ptr(new Packet8SetupGame()));
 }
 
 int main(int argc, char* argv[])

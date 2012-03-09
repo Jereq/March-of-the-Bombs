@@ -19,6 +19,7 @@
     <ClCompile Include="Packet5EntityMove.cpp" />
     <ClCompile Include="Packet6CreateGame.cpp" />
     <ClCompile Include="Packet7JoinGame.cpp" />
+    <ClCompile Include="Packet8SetupGame.cpp" />
     <ClCompile Include="PacketException.cpp" />
     <ClCompile Include="PacketManager.cpp" />
     <ClCompile Include="Packet1SimpleMessage.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="Packet5EntityMove.h" />
     <ClInclude Include="Packet6CreateGame.h" />
     <ClInclude Include="Packet7JoinGame.h" />
+    <ClInclude Include="Packet8SetupGame.h" />
     <ClInclude Include="PacketException.h" />
     <ClInclude Include="PacketManager.h" />
     <ClInclude Include="Packet1SimpleMessage.h" />

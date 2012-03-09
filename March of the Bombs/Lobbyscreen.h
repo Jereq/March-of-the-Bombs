@@ -19,6 +19,7 @@ private:
 	GameClient::ptr client;
 
 	std::string playerName;
+	unsigned short playerID;
 
 public:
 	LobbyScreen();
@@ -35,5 +36,6 @@ public:
 	void MouseTouchEventMethod(MouseMoveEvent* mmEvent);
 
 	virtual void handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet);
+	virtual void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet);
 };
 

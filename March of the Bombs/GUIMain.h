@@ -3,14 +3,6 @@
 #include "Screen.h"
 #include "Graphics.h"
 
-#include <Packet1SimpleMessage.h>
-#include <Packet2Blob.h>
-#include <Packet3Login.h>
-#include <Packet4LoginAccepted.h>
-#include <Packet5EntityMove.h>
-#include <Packet6CreateGame.h>
-#include <Packet7JoinGame.h>
-
 class GUIMain
 {
 private:
@@ -30,5 +22,6 @@ public:
 	void handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet);
 	void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet);
 	void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet);
-	void handlePacket7JoinGame(Packet6CreateGame::const_ptr const& packet);
+	void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet);
+	void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet);
 };

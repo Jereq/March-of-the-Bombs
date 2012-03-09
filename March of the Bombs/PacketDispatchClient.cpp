@@ -1,11 +1,3 @@
-#include <Packet1SimpleMessage.h>
-#include <Packet2Blob.h>
-#include <Packet3Login.h>
-#include <Packet4LoginAccepted.h>
-#include <Packet5EntityMove.h>
-#include <Packet6CreateGame.h>
-#include <Packet7JoinGame.h>
-
 #include <iostream>
 
 #include "Game.h"
@@ -50,4 +42,10 @@ void Packet7JoinGame::dispatch(void* context) const
 {
 	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
 	cont->handlePacket7JoinGame(shared_from_this());
+}
+
+void Packet8SetupGame::dispatch(void* context) const
+{
+	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
+	cont->handlePacket8SetupGame(shared_from_this());
 }

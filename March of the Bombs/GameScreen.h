@@ -22,7 +22,9 @@ private:
 	Map blockMap;
 
 	unsigned short myID;
+	unsigned short myBaseID;
 	unsigned short opponentID;
+	glm::vec3 opponentColor;
 
 	unsigned short myEntityCount;
 
@@ -41,7 +43,8 @@ private:
 	PointLight::ptr light;
 
 public:
-	GameScreen(GameClient::ptr const& client);
+	GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
+		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor);
 
 	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);

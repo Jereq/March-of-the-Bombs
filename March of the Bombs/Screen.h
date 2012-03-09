@@ -5,7 +5,6 @@
 #include "Graphics.h"
 #include "Button.h"
 #include "SimpleImage.h"
-#include <vector>
 
 #include <Packet1SimpleMessage.h>
 #include <Packet2Blob.h>
@@ -14,6 +13,7 @@
 #include <Packet5EntityMove.h>
 #include <Packet6CreateGame.h>
 #include <Packet7JoinGame.h>
+#include <Packet8SetupGame.h>
 
 class Screen
 	: public boost::enable_shared_from_this<Screen>
@@ -32,4 +32,5 @@ public:
 	virtual void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet) {}
 	virtual void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet) {}
 	virtual void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet) {}
+	virtual void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet) {}
 };

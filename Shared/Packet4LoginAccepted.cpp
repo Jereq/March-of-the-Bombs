@@ -1,12 +1,7 @@
 #include "Packet4LoginAccepted.h"
 
-#include <WinSock2.h>
-
-#include <iterator>
-#include <algorithm>
-using std::copy;
-
 #include "InvalidSizeException.h"
+#include "Pack.h"
 
 void Packet4LoginAccepted::pack() const
 {
@@ -25,7 +20,7 @@ void Packet4LoginAccepted::unpack() const
 		return;
 	}
 
-	playerID = reinterpret_cast<uint16_t*>(packedData + OFFSET_DATA);
+	playerID = reinterpret_cast<uint16_t*>(&packedData[OFFSET_DATA]);
 
 	unpacked = true;
 }
@@ -36,29 +31,8 @@ Packet4LoginAccepted::Packet4LoginAccepted()
 }
 
 Packet4LoginAccepted::Packet4LoginAccepted(char const* data, uint16_t length)
-	: Packet(mId), playerID(NULL)
+	: Packet(mId, data, length), playerID(NULL)
 {
-	uint16_t const* lengthP = reinterpret_cast<uint16_t const*>(&data[OFFSET_LENGTH]);
-	uint16_t totalLength = ntohs(*lengthP);
-
-	if (totalLength < MIN_SIZE)
-	{
-		return;
-	}
-
-	uint16_t const* idP = reinterpret_cast<uint16_t const*>(&data[OFFSET_ID]);
-	
-	if(id != ntohs(*idP))
-	{
-		return;
-	}
-
-	packedData = new char[totalLength];
-	copy(data, data + totalLength, stdext::checked_array_iterator<char*>(packedData, totalLength));
-
-	dataLength = totalLength;
-
-	packed = true;
 }
 
 Packet4LoginAccepted::Packet4LoginAccepted(unsigned int playerID)
@@ -66,16 +40,18 @@ Packet4LoginAccepted::Packet4LoginAccepted(unsigned int playerID)
 {
 	if (playerID > UINT16_MAX)
 	{
-		throw InvalidSizeException("Player ID to great", shared_from_this());
+		throw InvalidSizeException("Player ID to great", Packet::ptr());
 	}
 
-	dataLength = Packet::MIN_SIZE + sizeof(uint16_t);
+	dataLength = sizeof(uint16_t) + OFFSET_DATA;
 	packedData = new char[dataLength];
 
-	this->playerID = reinterpret_cast<uint16_t*>(packedData + OFFSET_DATA);
-
 	packHeader();
-	*this->playerID = htons(playerID);
+
+	this->playerID = reinterpret_cast<uint16_t*>(&packedData[OFFSET_DATA]);
+
+	uint16_t tId = playerID;
+	util::pack(&tId, 1, &packedData[OFFSET_DATA]);
 
 	packed = true;
 	unpacked = true;

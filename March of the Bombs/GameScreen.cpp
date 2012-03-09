@@ -8,9 +8,11 @@
 #include "PlaneModelData.h"
 #include "StandardBombModelData.h"
 
-GameScreen::GameScreen(GameClient::ptr const& client)
+GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
+		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor)
 	: game(Game::getInstance()), client(client), cameraPos(new AttachmentPoint(glm::vec3(20, 15, 50), glm::vec3(-30, -45, 0))),
-	rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0)
+	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap(mapName + ".txt"),
+	myID(myID), opponentID(opponentID), myBaseID(myBaseID), opponentColor(opponentColor)
 {
 	Graphics::ptr graphics = game->getGraphics();
 
@@ -18,9 +20,6 @@ GameScreen::GameScreen(GameClient::ptr const& client)
 
 	light = PointLight::ptr(new PointLight(glm::vec4(35, 150, 35, 1), glm::vec3(1.f)));
 	graphics->setLight(light);
-
-
-	blockMap.loadDefaultMap();
 
 	GameScreen::createBackground();
 	GameScreen::createButtons();
@@ -95,6 +94,20 @@ void GameScreen::update(float deltaTime)
 		{
 			Packet5EntityMove::ptr packet(new Packet5EntityMove(myID, entry.first, bomb.getPosition(), bomb.getRotation(), bomb.getVelocity()));
 			client->write(packet);
+
+			Packet5EntityMove* packet5 = reinterpret_cast<Packet5EntityMove*>(packet.get());
+			Packet5EntityMove test(packet->getData(), packet->getDataLength());
+
+			if (test.getDataLength() != packet5->getDataLength() ||
+				test.getId() != packet5->getId() ||
+				test.getPlayerID() != packet5->getPlayerID() ||
+				test.getEntityID() != packet5->getEntityID() ||
+				test.getPosition() != packet5->getPosition() ||
+				test.getRotation() != packet5->getRotation() ||
+				test.getVelocity() != packet5->getVelocity())
+			{
+				std::cerr << "Packet packing/unpacking failed!" << std::endl;
+			}
 
 			bomb.setHasNewHeading(false);
 		}
@@ -363,5 +376,22 @@ void GameScreen::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& pac
 			entity.setRotation(packet5->getRotation());
 			entity.setVelocity(packet5->getVelocity());
 		}
+	}
+	else if (playerID == opponentID)
+	{
+		unsigned short entityID = packet5->getEntityID();
+
+		if (opponentEntities.count(entityID) == 1)
+		{
+			Bomb& entity = opponentEntities[entityID];
+
+			entity.setPosition(packet5->getPosition());
+			entity.setRotation(packet5->getRotation());
+			entity.setVelocity(packet5->getVelocity());
+		}
+	}
+	else
+	{
+		std::cerr << "Error: Received packet with unknown player ID" << std::endl;
 	}
 }

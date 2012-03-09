@@ -11,14 +11,12 @@ Lobby::Lobby(boost::shared_ptr<PacketManager> const& packetManager)
 
 void Lobby::join(Player::ptr const& player)
 {
-	std::cout << "Player joined lobby" << std::endl;
-
 	newPlayers.insert(player);
 }
 
 void Lobby::leave(Player::ptr const& player)
 {
-	std::cout << "Player left lobby" << std::endl;
+	std::cout << "[Lobby] " << player->getName() << " left the lobby" << std::endl;
 
 	newPlayers.erase(player);
 }
@@ -41,13 +39,13 @@ std::set<Player::ptr> const& Lobby::getPlayers() const
 	return newPlayers;
 }
 
-void Lobby::createGame(Player::ptr const& player)
+void Lobby::createGame(Player::ptr const& player, std::string const& mapName)
 {
 	if (openGames.size() < MAX_OPEN_GAMES)
 	{
 		newPlayers.erase(player);
 
-		Context::ptr newGame(new Game(packetManager));
+		Context::ptr newGame(new Game(packetManager, mapName));
 		newGame->join(player);
 
 		while (openGames.count(nextGameID) == 1)
@@ -57,7 +55,7 @@ void Lobby::createGame(Player::ptr const& player)
 
 		openGames[nextGameID++] = newGame;
 
-		std::cout << "Game " << nextGameID - 1 << " created" << std::endl;
+		std::cout << "[Lobby] Game created with ID: " << nextGameID - 1 << std::endl;
 	}
 }
 
@@ -77,7 +75,7 @@ void Lobby::handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet, 
 {
 	Packet6CreateGame const* packet6 = static_cast<Packet6CreateGame const*>(packet.get());
 
-	createGame(sender);
+	createGame(sender, packet6->getMapName());
 }
 
 void Lobby::handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Player::ptr const& sender)

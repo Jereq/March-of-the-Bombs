@@ -28,4 +28,5 @@ public:
 	virtual void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender) {};
 	virtual void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet, Player::ptr const& sender) {};
 	virtual void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Player::ptr const& sender) {};
+	virtual void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet, Player::ptr const& sender) {};
 };

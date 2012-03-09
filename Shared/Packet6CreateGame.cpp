@@ -1,14 +1,9 @@
 #include "Packet6CreateGame.h"
 
-#include <WinSock2.h>
-
-#include <iterator>
-#include <algorithm>
-using std::copy;
-
 #include <string>
 using std::string;
 
+#include "Pack.h"
 #include "InvalidSizeException.h"
 
 void Packet6CreateGame::pack() const
@@ -21,9 +16,7 @@ void Packet6CreateGame::pack() const
 	}
 
 	packHeader();
-
-	char* dataP = &packedData[OFFSET_DATA];
-	copy(mapName.begin(), mapName.end(), stdext::checked_array_iterator<char*>(dataP, length - OFFSET_DATA));
+	util::pack(&mapName, 1, &packedData[OFFSET_DATA]);
 
 	packed = true;
 }
@@ -40,7 +33,7 @@ void Packet6CreateGame::unpack() const
 		return;
 	}
 
-	mapName = string(&packedData[OFFSET_DATA], getDataLength() - OFFSET_DATA);
+	util::unpack(&mapName, 1, &packedData[OFFSET_DATA]);
 
 	unpacked = true;
 }
@@ -51,27 +44,20 @@ Packet6CreateGame::Packet6CreateGame()
 }
 
 Packet6CreateGame::Packet6CreateGame(char const* data, uint16_t length)
-	: Packet(mId)
+	: Packet(mId, data, length)
 {
-	packedData = new char[length];
-	dataLength = length;
-
-	copy(data, data + length, stdext::checked_array_iterator<char*>(packedData, length));
-
-	packed = true;
 }
 
 Packet6CreateGame::Packet6CreateGame(string const& mapName)
-	: Packet(mId)
+	: Packet(mId), mapName(mapName)
 {
 	if (mapName.size() > MAX_MAP_NAME_LENGTH)
 	{
-		throw InvalidSizeException("Name to long", shared_from_this());
+		throw InvalidSizeException("Name to long", Packet::ptr());
 	}
 
-	this->mapName = mapName;
 	unpacked = true;
-	dataLength = mapName.size() + OFFSET_DATA;
+	dataLength = util::packedSize(mapName) + OFFSET_DATA;
 }
 
 Packet::ptr Packet6CreateGame::createPacket(char const* data, uint16_t length) const

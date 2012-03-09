@@ -15,6 +15,11 @@ using namespace boost;
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
+Map::Map(std::string const& fileName)
+{
+	loadMapFromFile(fileName);
+}
+
 void Map::loadDefaultMap()
 {
 	loadMapFromFile("defaultmapfile.txt");

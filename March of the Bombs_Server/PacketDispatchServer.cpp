@@ -5,6 +5,7 @@
 #include <Packet5EntityMove.h>
 #include <Packet6CreateGame.h>
 #include <Packet7JoinGame.h>
+#include <Packet8SetupGame.h>
 
 #include <iostream>
 
@@ -50,4 +51,10 @@ void Packet7JoinGame::dispatch(void* context) const
 {
 	Player::ptr cont = *static_cast<Player::ptr*>(context);
 	cont->handlePacket7JoinGame(shared_from_this());
+}
+
+void Packet8SetupGame::dispatch(void* context) const
+{
+	Player::ptr cont = *static_cast<Player::ptr*>(context);
+	cont->handlePacket8SetupGame(shared_from_this());
 }

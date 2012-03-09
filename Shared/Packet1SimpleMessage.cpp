@@ -1,12 +1,9 @@
 #include "Packet1SimpleMessage.h"
 
-#include <WinSock2.h>
-#include <iterator>
 #include <string>
 using std::string;
 
-#include <algorithm>
-using std::copy;
+#include "Pack.h"
 
 void Packet1SimpleMessage::pack() const
 {
@@ -18,9 +15,7 @@ void Packet1SimpleMessage::pack() const
 	}
 
 	packHeader();
-
-	char* dataP = &packedData[OFFSET_DATA];
-	copy(msg.begin(), msg.end(), stdext::checked_array_iterator<char*>(dataP, length - OFFSET_DATA));
+	util::pack(&msg, 1, &packedData[OFFSET_DATA]);
 
 	packed = true;
 }
@@ -37,7 +32,7 @@ void Packet1SimpleMessage::unpack() const
 		return;
 	}
 
-	msg = string(&packedData[OFFSET_DATA], getDataLength() - OFFSET_DATA);
+	util::unpack(&msg, 1, &packedData[OFFSET_DATA]);
 
 	unpacked = true;
 }
@@ -48,21 +43,15 @@ Packet1SimpleMessage::Packet1SimpleMessage()
 }
 
 Packet1SimpleMessage::Packet1SimpleMessage(char const* data, uint16_t length)
-	: Packet(mId)
+	: Packet(mId, data, length)
 {
-	dataLength = length;
-	packedData = new char[length];
-
-	copy(data, data + length, stdext::checked_array_iterator<char*>(packedData, length));
-
-	packed = true;
 }
 
 Packet1SimpleMessage::Packet1SimpleMessage(string const& msg)
 	: Packet(mId), msg(msg)
 {
 	unpacked = true;
-	dataLength = msg.size() + OFFSET_DATA;
+	dataLength = util::packedSize(msg) + OFFSET_DATA;
 }
 
 Packet::ptr Packet1SimpleMessage::createPacket(char const* data, uint16_t length) const
