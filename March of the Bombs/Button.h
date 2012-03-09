@@ -23,6 +23,8 @@ private:
 	float depth;
 
 public:
+	typedef boost::shared_ptr<Button> ptr;
+
 	Button(TextureSection texture1, TextureSection texture2, Rectanglef rectangle, float depth);
 	Button(TextureSection texture1, TextureSection texture2, Rectanglef rectangle, float depth, glm::vec4 color);
 	virtual ~Button();

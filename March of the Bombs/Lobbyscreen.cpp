@@ -75,7 +75,7 @@ void LobbyScreen::draw(Graphics::ptr graphics)
 	//starts to render all the buttons
 	for(unsigned int i = 0; i < buttons.size(); i++)
 	{
-		buttons[i].render(graphics);
+		buttons[i]->render(graphics);
 	}
 }
 
@@ -100,18 +100,17 @@ void LobbyScreen::createButtons()
 	TextureSection CGButtonT(L"images/NewBI/CGBtn2.png");
 	TextureSection SInButtonT(L"images/NewBI/SignInBtn2.png");
 
-	Button button0(BackButton,		BackButtonT,	Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
-	Button button1(NPButton,		NPButtonT,		Rectanglef(glm::vec2(0.40f,0.20f),glm::vec2(0.20f,0.10f)), 0.0f);
-	Button button2(JGButton,		JGButtonT,		Rectanglef(glm::vec2(0.10f,0.10f),glm::vec2(0.20f,0.10f)), 0.0f);
-	Button button3(CGButton,		CGButtonT,		Rectanglef(glm::vec2(0.10f,0.30f),glm::vec2(0.20f,0.10f)), 0.0f);
-	Button button4(SInButton,		SInButtonT,		Rectanglef(glm::vec2(0.10f,0.50f),glm::vec2(0.20f,0.10f)), 0.0f);
-
-
-	buttons.push_back(button0);
-	buttons.push_back(button1);
-	buttons.push_back(button2);
-	buttons.push_back(button3);
-	buttons.push_back(button4);
+	backButton			= Button::ptr(new Button(BackButton,	BackButtonT,	Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
+	networkPlayButton	= Button::ptr(new Button(NPButton,		NPButtonT,		Rectanglef(glm::vec2(0.40f,0.20f),glm::vec2(0.20f,0.10f)), 0.0f));
+	joinGameButton		= Button::ptr(new Button(JGButton,		JGButtonT,		Rectanglef(glm::vec2(0.10f,0.10f),glm::vec2(0.20f,0.10f)), 0.0f));
+	createGameButton	= Button::ptr(new Button(CGButton,		CGButtonT,		Rectanglef(glm::vec2(0.10f,0.30f),glm::vec2(0.20f,0.10f)), 0.0f));
+	signInButton		= Button::ptr(new Button(SInButton,		SInButtonT,		Rectanglef(glm::vec2(0.10f,0.50f),glm::vec2(0.20f,0.10f)), 0.0f));
+	
+	buttons.push_back(backButton);
+	buttons.push_back(networkPlayButton);
+	buttons.push_back(joinGameButton);
+	buttons.push_back(createGameButton);
+	buttons.push_back(signInButton);
 }
 
 void LobbyScreen::createBackground()
@@ -134,44 +133,6 @@ void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
 		case ESC:
 			game->close();
 			break;
-
-		case '0':
-			{
-				client.reset();
-				client.reset(new GameClient("localhost", "1694"));
-
-				playerName = "foo";
-				Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
-				client->write(packet);
-			}
-			break;
-
-		case '1':
-			{
-				client.reset();
-				client.reset(new GameClient("192.168.1.20", "1694"));
-
-				playerName = "bar";
-				Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
-				client->write(packet);
-			}
-			break;
-
-		case 'v':
-			if (client)
-			{
-				Packet::ptr packet = Packet::ptr(new Packet6CreateGame("defaultmapfile"));
-				client->write(packet);
-			}
-			break;
-
-		case 'b':
-			if (client)
-			{
-				Packet::ptr packet = Packet::ptr(new Packet7JoinGame(0));
-				client->write(packet);
-			}
-			break;
 		}
 	}
 }
@@ -180,25 +141,59 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 {
 	if (mbEvent->button == MouseButton::Left && mbEvent->state == MouseButtonState::Pressed)
 	{
-		if (buttons[0].getState() == Hovered)
+		if (backButton->getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new MainMeny());
 			game->getEvents().clear();
+		}
+		else if (networkPlayButton->getState() == Hovered)
+		{
+			client.reset();
+			client.reset(new GameClient("localhost", "1694"));
+
+			playerName = "foo";
+			Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
+			client->write(packet);
+		}
+		else if (signInButton->getState() == Hovered)
+		{
+			client.reset();
+			client.reset(new GameClient("192.168.1.20", "1694"));
+
+			playerName = "bar";
+			Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
+			client->write(packet);
+		}
+		else if (createGameButton->getState() == Hovered)
+		{
+			if (client)
+			{
+				Packet::ptr packet = Packet::ptr(new Packet6CreateGame("defaultmapfile"));
+				client->write(packet);
+			}
+		}
+		else if (joinGameButton->getState() == Hovered)
+		{
+			if (client)
+			{
+				Packet::ptr packet = Packet::ptr(new Packet7JoinGame(0));
+				client->write(packet);
+			}
 		}
 	}
 }
 
 void LobbyScreen::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 {
-	BOOST_FOREACH(Button& button, buttons)
+	BOOST_FOREACH(Button::ptr& button, buttons)
 	{
-		if(button.intersects(mmEvent->position))
+		if(button->intersects(mmEvent->position))
 		{
-			button.setState(Hovered);
+			button->setState(Hovered);
 		}
 		else
 		{
-			button.setState(Unused);
+			button->setState(Unused);
 		}
 	}
 }

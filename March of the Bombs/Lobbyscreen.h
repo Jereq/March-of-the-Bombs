@@ -12,7 +12,13 @@ class LobbyScreen :
 	public Screen
 {
 private:
-	std::vector<Button> buttons;
+	std::vector<Button::ptr> buttons;
+	Button::ptr backButton;
+	Button::ptr networkPlayButton;
+	Button::ptr joinGameButton;
+	Button::ptr createGameButton;
+	Button::ptr signInButton;
+
 	std::vector<SimpleImage> Backgrounds;
 	Screen::ptr nextScreen;
 	boost::shared_ptr<Game> game;
