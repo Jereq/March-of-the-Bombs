@@ -78,7 +78,14 @@ void Bomb::setHasNewHeading(bool newHead)
 
 bool Bomb::setTarget(Map const& map, glm::vec3 const& targetPos)
 {
-	return map.findPath(getPosition(), targetPos, path);
+	bool result = map.findPath(getPosition(), targetPos, path);
+
+	if (!result)
+	{
+		setVelocity(glm::vec3(0.f));
+	}
+
+	return result;
 }
 
 void Bomb::halt()

@@ -288,42 +288,58 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 
 		float distance = std::numeric_limits<float>::infinity();
 
-		Bomb* hitBomb = NULL;
-		BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
+		switch (mbEvent->button)
 		{
-			if (bomb.second.rayIntersect(origin, direction, distance))
+		case MouseButton::Left:
 			{
-				hitBomb = &bomb.second;
-			}
-		}
-
-		if (hitBomb)
-		{
-			hitBomb->setSelected(!hitBomb->isSelected());
-		}
-		else
-		{
-			bool hitGround = blockMap.intersectGround(origin, direction, distance);
-
-			if (hitGround)
-			{
-				glm::vec3 destination = origin + direction * distance;
-
+				Bomb* hitBomb = NULL;
 				BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
 				{
-					if (bomb.second.isSelected())
+					bomb.second.setSelected(false);
+
+					if (bomb.second.rayIntersect(origin, direction, distance))
 					{
-						bomb.second.setTarget(blockMap, destination);
+						hitBomb = &bomb.second;
+					}
+				}
+
+				if (hitBomb)
+				{
+					hitBomb->setSelected(true);
+				}
+
+				//testbutton
+				if (buttons[0].getState() == Hovered)
+				{
+					nextScreen = Screen::ptr(new MainMeny());
+					game->getEvents().clear();
+				}
+			}
+			break;
+
+		case  MouseButton::Right:
+			{
+				bool hitGround = blockMap.intersectGround(origin, direction, distance);
+
+				if (hitGround)
+				{
+					glm::vec3 destination = origin + direction * distance;
+
+					BOOST_FOREACH(entity_map::value_type& entry, myEntities)
+					{
+						Bomb& bomb = entry.second;
+
+						if (bomb.isSelected())
+						{
+							bomb.setTarget(blockMap, destination);
+					
+							Packet::ptr packet(new Packet5EntityMove(myID, entry.first, bomb.getPosition(), bomb.getRotation(), bomb.getVelocity()));
+							client->write(packet);
+						}
 					}
 				}
 			}
-		}
-
-		//testbutton
-		if (buttons[0].getState() == Hovered)
-		{
-			nextScreen = Screen::ptr(new MainMeny());
-			game->getEvents().clear();
+			break;
 		}
 	}
 }
