@@ -47,6 +47,7 @@ private:
 
 	std::set<ModelData::ptr> modelDatas;
 	std::set<TextureInstance> textureInstances;
+	TextureSection::ptr backgroundTexture;
 
 	GLuint textureBuffers2D[2];
 	GLuint texture2DVAO;
@@ -75,8 +76,11 @@ public:
 
 	Camera::ptr getCamera() const;
 
-	void setLight(PointLight::ptr const& light);
 	PointLight::ptr const& getLight() const;
+	void setLight(PointLight::ptr const& light);
+
+	TextureSection::ptr const& getBackground() const;
+	void setBackground(TextureSection::ptr const& background);
 
 	void updateViewport();
 };
