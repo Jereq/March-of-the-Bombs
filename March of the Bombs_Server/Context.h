@@ -31,4 +31,6 @@ public:
 	virtual void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet, Player::ptr const& sender) {};
 	virtual void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet, Player::ptr const& sender) {};
 	virtual void handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet, Player::ptr const& sender) {};
+	virtual void handlePacket11RequestOpenGames(Packet11RequestOpenGames::const_ptr const& packet, Player::ptr const& sender) {};
+	virtual void handlePacket12OpenGames(Packet12OpenGames::const_ptr const& packet, Player::ptr const& sender) {};
 };

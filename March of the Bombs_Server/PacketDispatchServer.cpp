@@ -61,3 +61,15 @@ void Packet10PlayerReady::dispatch(void* context) const
 	Player::ptr cont = *static_cast<Player::ptr*>(context);
 	cont->handlePacket10PlayerReady(shared_from_this());
 }
+
+void Packet11RequestOpenGames::dispatch(void* context) const
+{
+	Player::ptr cont = *static_cast<Player::ptr*>(context);
+	cont->handlePacket11RequestOpenGames(shared_from_this());
+}
+
+void Packet12OpenGames::dispatch(void* context) const
+{
+	Player::ptr cont = *static_cast<Player::ptr*>(context);
+	cont->handlePacket12OpenGames(shared_from_this());
+}

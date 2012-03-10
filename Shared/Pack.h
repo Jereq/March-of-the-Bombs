@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iterator>
 #include <stdint.h>
+#include <vector>
 
 namespace util
 {
@@ -106,6 +107,52 @@ namespace util
 		}
 
 		return currSource - source;
+	}
+
+	template <class val_type>
+	size_t pack(std::vector<val_type> const values[], size_t count, char destination[])
+	{
+		char* currDest = destination;
+
+		for (size_t i = 0; i < count; i++)
+		{
+			uint16_t vectorSize = values[i].size();
+			currDest += pack(&vectorSize, 1, currDest);
+
+			currDest += pack(values[i].data(), vectorSize, currDest);
+		}
+
+		return currDest - destination;
+	}
+
+	template <class val_type>
+	size_t unpack(std::vector<val_type> values[], size_t count, char const source[])
+	{
+		char const* currSource = source;
+
+		for (size_t i = 0; i < count; i++)
+		{
+			uint16_t vectorSize;
+			currSource += unpack(&vectorSize, 1, currSource);
+			values[i].resize(vectorSize);
+
+			currSource += unpack(values[i].data(), vectorSize, currSource);
+		}
+
+		return currSource - source;
+	}
+
+	template <class val_type>
+	size_t packedSize(std::vector<val_type> const& val)
+	{
+		size_t res = sizeof(uint16_t);
+
+		for (size_t i = 0; i < val.size(); i++)
+		{
+			res += val[i].packedSize();
+		}
+
+		return res;
 	}
 
 	inline size_t packedSize(std::string const& str)

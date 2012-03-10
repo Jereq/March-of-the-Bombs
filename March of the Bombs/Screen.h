@@ -16,6 +16,8 @@
 #include <Packet8SetupGame.h>
 #include <Packet9SpawnBomb.h>
 #include <Packet10PlayerReady.h>
+#include <Packet11RequestOpenGames.h>
+#include <Packet12OpenGames.h>
 
 class Screen
 	: public boost::enable_shared_from_this<Screen>
@@ -39,4 +41,6 @@ public:
 	virtual void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet) {}
 	virtual void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet) {}
 	virtual void handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet) {}
+	virtual void handlePacket11RequestOpenGames(Packet11RequestOpenGames::const_ptr const& packet) {}
+	virtual void handlePacket12OpenGames(Packet12OpenGames::const_ptr const& packet) {}
 };

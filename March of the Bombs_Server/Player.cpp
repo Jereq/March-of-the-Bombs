@@ -54,7 +54,11 @@ void Player::handleReadHeader(boost::system::error_code const& error)
 	}
 	else
 	{
-		context.lock()->leave(shared_from_this());
+		Context::ptr conLock(context);
+		if (conLock)
+		{
+			conLock->leave(shared_from_this());
+		}
 	}
 }
 
@@ -76,7 +80,11 @@ void Player::handleReadBody(boost::system::error_code const& error)
 	}
 	else
 	{
-		context.lock()->leave(shared_from_this());
+		Context::ptr conLock(context);
+		if (conLock)
+		{
+			conLock->leave(shared_from_this());
+		}
 	}
 }
 
@@ -96,7 +104,11 @@ void Player::handleWrite(boost::system::error_code const& error)
 	}
 	else
 	{
-		context.lock()->leave(shared_from_this());
+		Context::ptr conLock(context);
+		if (conLock)
+		{
+			conLock->leave(shared_from_this());
+		}
 	}
 }
 
@@ -197,6 +209,24 @@ void Player::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& pac
 	if (con)
 	{
 		con->handlePacket10PlayerReady(packet, shared_from_this());
+	}
+}
+
+void Player::handlePacket11RequestOpenGames(Packet11RequestOpenGames::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket11RequestOpenGames(packet, shared_from_this());
+	}
+}
+
+void Player::handlePacket12OpenGames(Packet12OpenGames::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket12OpenGames(packet, shared_from_this());
 	}
 }
 

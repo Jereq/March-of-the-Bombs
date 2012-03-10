@@ -45,18 +45,27 @@ void Lobby::createGame(Player::ptr const& player, std::string const& mapName)
 	{
 		newPlayers.erase(player);
 
-		Context::ptr newGame(new Game(packetManager, mapName));
-		newGame->join(player);
-
 		while (openGames.count(nextGameID) == 1)
 		{
 			nextGameID++;
 		}
 
+		Context::ptr newGame(new Game(shared_from_this(), nextGameID, mapName));
+		newGame->join(player);
+
 		openGames[nextGameID++] = newGame;
+		openGamesPacket.reset();
 
 		std::cout << "[Lobby] Game created with ID: " << nextGameID - 1 << std::endl;
 	}
+}
+
+void Lobby::removeGame(Context::ptr const& game)
+{
+	Game* gameP = dynamic_cast<Game*>(game.get());
+
+	openGames.erase(gameP->getGameID());
+	runningGames.erase(game);
 }
 
 void Lobby::handlePacket3Login(Packet3Login::const_ptr const& packet, Player::ptr const& sender)
@@ -92,6 +101,30 @@ void Lobby::handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Play
 		newPlayers.erase(sender);
 
 		openGames.erase(gameID);
+		openGamesPacket.reset();
 		runningGames.insert(game);
 	}
+}
+
+void Lobby::handlePacket11RequestOpenGames(Packet11RequestOpenGames::const_ptr const& packet, Player::ptr const& sender)
+{
+	if (!openGamesPacket)
+	{
+		std::vector<OpenGame> games;
+
+		BOOST_FOREACH(context_map::value_type const& entry, openGames)
+		{
+			Game const* game = dynamic_cast<Game const*>(entry.second.get());
+			std::set<Player::ptr> const& players = game->getPlayers();
+
+			assert(players.size() > 0);
+
+			Player::ptr const& onlyPlayer = *players.begin();
+			games.push_back(OpenGame(entry.first, game->getMapName(), onlyPlayer->getName()));
+		}
+
+		openGamesPacket.reset(new Packet12OpenGames(games));
+	}
+
+	sender->deliver(openGamesPacket);
 }

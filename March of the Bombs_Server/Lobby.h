@@ -11,8 +11,12 @@ class Lobby
 private:
 	boost::shared_ptr<PacketManager> packetManager;
 	std::set<Player::ptr> newPlayers;
-	std::map<unsigned short, Context::ptr> openGames;
+
+	typedef std::map<unsigned short, Context::ptr> context_map;
+	context_map openGames;
 	std::set<Context::ptr> runningGames;
+
+	Packet12OpenGames::ptr openGamesPacket;
 
 	unsigned short nextPlayerID;
 	unsigned short nextGameID;
@@ -30,8 +34,10 @@ public:
 	virtual std::set<Player::ptr> const& getPlayers() const;
 
 	virtual void createGame(Player::ptr const& player, std::string const& mapName);
+	virtual void removeGame(Context::ptr const& game);
 
 	virtual void handlePacket3Login(Packet3Login::const_ptr const& packet, Player::ptr const& sender);
 	virtual void handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet, Player::ptr const& sender);
 	virtual void handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Player::ptr const& sender);
+	virtual void handlePacket11RequestOpenGames(Packet11RequestOpenGames::const_ptr const& packet, Player::ptr const& sender);
 };

@@ -12,6 +12,8 @@
 #include <Packet8SetupGame.h>
 #include <Packet9SpawnBomb.h>
 #include <Packet10PlayerReady.h>
+#include <Packet11RequestOpenGames.h>
+#include <Packet12OpenGames.h>
 
 void GameClient::registerPackets()
 {
@@ -25,6 +27,8 @@ void GameClient::registerPackets()
 	packetManager.addPacketPrototype(Packet::ptr(new Packet8SetupGame()));
 	packetManager.addPacketPrototype(Packet::ptr(new Packet9SpawnBomb()));
 	packetManager.addPacketPrototype(Packet::ptr(new Packet10PlayerReady()));
+	packetManager.addPacketPrototype(Packet::ptr(new Packet11RequestOpenGames()));
+	packetManager.addPacketPrototype(Packet::ptr(new Packet12OpenGames()));
 }
 
 void GameClient::handleConnect(boost::system::error_code const& error)

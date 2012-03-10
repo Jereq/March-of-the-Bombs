@@ -20,6 +20,8 @@ void registerPackets(boost::shared_ptr<PacketManager> const& packetManager)
 	packetManager->addPacketPrototype(Packet::ptr(new Packet8SetupGame()));
 	packetManager->addPacketPrototype(Packet::ptr(new Packet9SpawnBomb()));
 	packetManager->addPacketPrototype(Packet::ptr(new Packet10PlayerReady()));
+	packetManager->addPacketPrototype(Packet::ptr(new Packet11RequestOpenGames()));
+	packetManager->addPacketPrototype(Packet::ptr(new Packet12OpenGames()));
 }
 
 int main(int argc, char* argv[])

@@ -3,8 +3,10 @@
 #include <iostream>
 #include <boost/foreach.hpp>
 
-Game::Game(boost::shared_ptr<PacketManager> const& packetManager, std::string const& mapName)
-	: packetManager(packetManager), mapName(mapName)
+#include "Lobby.h"
+
+Game::Game(Context::ptr const& parentLobby, unsigned short gameID, std::string const& mapName)
+	: parentLobby(parentLobby), packetManager(parentLobby->getPacketManager()), mapName(mapName), gameID(gameID)
 {
 }
 
@@ -35,10 +37,22 @@ void Game::join(Player::ptr const& player)
 void Game::leave(Player::ptr const& player)
 {
 	std::cout << "[Game] " << player->getName() << " left the game" << std::endl;
+	players.erase(player);
 
 	// TODO: Send good bye message
 	std::cout << "[Game] Disconnecting last remaining player" << std::endl;
+	BOOST_FOREACH(Player::ptr const& lastPlayer, players)
+	{
+		lastPlayer->getSocket().close();
+	}
 	players.clear();
+
+	Context::ptr parLock(parentLobby);
+	Lobby* lobby = dynamic_cast<Lobby*>(parLock.get());
+	if (lobby)
+	{
+		lobby->removeGame(shared_from_this());
+	}
 }
 
 void Game::deliver(Packet::const_ptr const& packet)
@@ -62,6 +76,11 @@ std::set<Player::ptr> const& Game::getPlayers() const
 std::string const& Game::getMapName() const
 {
 	return mapName;
+}
+
+unsigned short Game::getGameID() const
+{
+	return gameID;
 }
 
 void Game::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender)

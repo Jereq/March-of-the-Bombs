@@ -63,6 +63,15 @@
     <ClCompile Include="Packet10PlayerReady.cpp">
       <Filter>Source Files\Packet</Filter>
     </ClCompile>
+    <ClCompile Include="Packet11RequestOpenGames.cpp">
+      <Filter>Source Files\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="Packet12OpenGames.cpp">
+      <Filter>Source Files\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketException.h">
@@ -109,6 +118,15 @@
     </ClInclude>
     <ClInclude Include="Packet10PlayerReady.h">
       <Filter>Header Files\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet11RequestOpenGames.h">
+      <Filter>Header Files\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet12OpenGames.h">
+      <Filter>Header Files\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGame.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

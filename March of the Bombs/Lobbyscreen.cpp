@@ -174,9 +174,9 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		}
 		else if (joinGameButton->getState() == Hovered)
 		{
-			if (client)
+			if (client && !openGames.empty())
 			{
-				Packet::ptr packet = Packet::ptr(new Packet7JoinGame(0));
+				Packet::ptr packet = Packet::ptr(new Packet7JoinGame(openGames[0].getGameID()));
 				client->write(packet);
 			}
 		}
@@ -203,6 +203,9 @@ void LobbyScreen::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr con
 	Packet4LoginAccepted const* packet4 = static_cast<Packet4LoginAccepted const*>(packet.get());
 
 	playerID = packet4->getPlayerID();
+
+	Packet::ptr packet11(new Packet11RequestOpenGames());
+	client->write(packet11);
 }
 
 void LobbyScreen::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet)
@@ -220,4 +223,11 @@ void LobbyScreen::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const
 {
 	nextScreen = newGame;
 	game->getEvents().clear();
+}
+
+void LobbyScreen::handlePacket12OpenGames(Packet12OpenGames::const_ptr const& packet)
+{
+	Packet12OpenGames const* packet12 = static_cast<Packet12OpenGames const*>(packet.get());
+
+	openGames = packet12->getOpenGames();
 }

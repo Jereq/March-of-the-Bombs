@@ -82,3 +82,13 @@ void GUIMain::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& pa
 {
 	screen->handlePacket10PlayerReady(packet);
 }
+
+void GUIMain::handlePacket11RequestOpenGames(Packet11RequestOpenGames::const_ptr const& packet)
+{
+	screen->handlePacket11RequestOpenGames(packet);
+}
+
+void GUIMain::handlePacket12OpenGames(Packet12OpenGames::const_ptr const& packet)
+{
+	screen->handlePacket12OpenGames(packet);
+}
