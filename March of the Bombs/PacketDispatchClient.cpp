@@ -73,3 +73,9 @@ void Packet12OpenGames::dispatch(void* context) const
 	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
 	cont->handlePacket12OpenGames(shared_from_this());
 }
+
+void Packet13RemoveBomb::dispatch(void* context) const
+{
+	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
+	cont->handlePacket13RemoveBomb(shared_from_this());
+}

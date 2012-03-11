@@ -103,3 +103,8 @@ void Game::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packe
 		}
 	}
 }
+
+void Game::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet, Player::ptr const& sender)
+{
+	deliver(packet);
+}

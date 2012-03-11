@@ -17,6 +17,7 @@
     <ClCompile Include="Packet10PlayerReady.cpp" />
     <ClCompile Include="Packet11RequestOpenGames.cpp" />
     <ClCompile Include="Packet12OpenGames.cpp" />
+    <ClCompile Include="Packet13RemoveBomb.cpp" />
     <ClCompile Include="Packet2Blob.cpp" />
     <ClCompile Include="Packet3Login.cpp" />
     <ClCompile Include="Packet4LoginAccepted.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Packet10PlayerReady.h" />
     <ClInclude Include="Packet11RequestOpenGames.h" />
     <ClInclude Include="Packet12OpenGames.h" />
+    <ClInclude Include="Packet13RemoveBomb.h" />
     <ClInclude Include="Packet2Blob.h" />
     <ClInclude Include="Packet3Login.h" />
     <ClInclude Include="Packet4LoginAccepted.h" />

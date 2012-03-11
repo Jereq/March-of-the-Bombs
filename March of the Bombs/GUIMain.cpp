@@ -92,3 +92,8 @@ void GUIMain::handlePacket12OpenGames(Packet12OpenGames::const_ptr const& packet
 {
 	screen->handlePacket12OpenGames(packet);
 }
+
+void GUIMain::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet)
+{
+	screen->handlePacket13RemoveBomb(packet);
+}

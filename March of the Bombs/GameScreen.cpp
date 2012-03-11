@@ -239,6 +239,19 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 			{
 				bomb.second.setSelected(false);
 			}
+			break;
+
+		case ' ':
+			BOOST_FOREACH(entity_map::value_type& entry, myEntities)
+			{
+				Bomb& bomb = entry.second;
+				if (bomb.isSelected())
+				{
+					Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
+					client->write(packet);
+				}
+			}
+			break;
 		}
 	}
 
@@ -459,6 +472,27 @@ void GameScreen::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packe
 		newBomb.setVelocity(packet9->getVelocity());
 
 		opponentEntities[entityID] = newBomb;
+	}
+	else
+	{
+		std::cerr << "Error: Received packet with unknown player ID" << std::endl;
+	}
+}
+
+void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet)
+{
+	Packet13RemoveBomb const* packet13 = static_cast<Packet13RemoveBomb const*>(packet.get());
+
+	unsigned short playerID = packet13->getPlayerID();
+	unsigned short entityID = packet13->getEntityID();
+
+	if (playerID == myID)
+	{
+		myEntities.erase(entityID);
+	}
+	else if (playerID == opponentID)
+	{
+		opponentEntities.erase(entityID);
 	}
 	else
 	{

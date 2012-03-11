@@ -72,6 +72,9 @@
     <ClCompile Include="OpenGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Packet13RemoveBomb.cpp">
+      <Filter>Source Files\Packet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketException.h">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="OpenGame.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet13RemoveBomb.h">
+      <Filter>Header Files\Packet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

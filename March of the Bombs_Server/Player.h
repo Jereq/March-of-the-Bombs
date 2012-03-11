@@ -17,6 +17,7 @@
 #include <Packet10PlayerReady.h>
 #include <Packet11RequestOpenGames.h>
 #include <Packet12OpenGames.h>
+#include <Packet13RemoveBomb.h>
 
 class Context;
 
@@ -64,6 +65,7 @@ public:
 	void handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet);
 	void handlePacket11RequestOpenGames(Packet11RequestOpenGames::const_ptr const& packet);
 	void handlePacket12OpenGames(Packet12OpenGames::const_ptr const& packet);
+	void handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet);
 
 	std::string const& getName() const;
 	void setName(std::string const& newName);
