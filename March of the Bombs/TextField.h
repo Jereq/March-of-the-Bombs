@@ -14,7 +14,9 @@ private:
 	Rectanglef PosRect;
 	float depth;
 	std::string Text;
-	static std::map<char,TextureSection> keyMap;
+
+	typedef std::map<char,TextureSection> image_map;
+	static image_map keyMap;
 
 public:
 	

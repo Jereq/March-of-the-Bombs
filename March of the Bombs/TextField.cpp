@@ -1,5 +1,6 @@
 #include "TextField.h"
 
+TextField::image_map TextField::keyMap;
 
 TextField::TextField(TextureSection Background, Rectanglef PosRect, float depth)
 	: Background(Background), PosRect(PosRect), depth(depth)

@@ -28,4 +28,6 @@ public:
 
 	// BRF = BottomRightFar
 	glm::vec3 BRF;
+
+	Frustum();
 };

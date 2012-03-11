@@ -1,5 +1,9 @@
 #include "TextureSection.h"
 
+TextureSection::TextureSection()
+{
+}
+
 TextureSection::TextureSection(std::wstring const& fileName)
 	: texture(GLTexture::getTexture(fileName)), section(Rectanglef(glm::vec2(0), glm::vec2(1)))
 {
