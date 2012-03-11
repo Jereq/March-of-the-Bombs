@@ -22,9 +22,9 @@ private:
 	Map blockMap;
 
 	unsigned short myID;
-	unsigned short myBaseID;
 	unsigned short opponentID;
 	glm::vec3 opponentColor;
+	glm::ivec2 basePosition;
 
 	unsigned short myEntityCount;
 

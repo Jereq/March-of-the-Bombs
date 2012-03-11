@@ -38,8 +38,11 @@ void Map::loadMapFromFile(string c)
 		height = lexical_cast<int>(*beg);
 		beg++;
 		width = lexical_cast<int>(*beg);
+
 		blockMap.resize(boost::extents[height][width]);
 		pathMap.resize(height, width);
+		bases.clear();
+
 		for(int k = 0; k < height; k++)
 		{
 			std::getline(mapFile, a);
@@ -68,6 +71,7 @@ void Map::loadMapFromFile(string c)
 				case 3:
 					blockMap[k][g] = Block::ptr(new HQBlock());
 					pathMap.blockPathLazy(k, g);
+					bases.push_back(glm::ivec2(k, g));
 					break;
 				}
 				saz++;
@@ -79,8 +83,6 @@ void Map::loadMapFromFile(string c)
 	groundPlane->setScale(glm::vec3(width, 1, height));
 		
 	}
-
-
 
 	mapFile.close();
 }
@@ -108,4 +110,7 @@ bool Map::intersectGround(glm::vec3 const& origin, glm::vec3 const& direction, f
 	return groundPlane->rayIntersect(origin, direction, distance);
 }
 
-//getline
+std::vector<glm::ivec2> const& Map::getBases() const
+{
+	return bases;
+}
