@@ -106,6 +106,7 @@
     <ClCompile Include="HQBlock.cpp" />
     <ClCompile Include="HtPScreen.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
+    <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Lobbyscreen.cpp" />
     <ClCompile Include="LogicMap.cpp" />
     <ClCompile Include="MainGameLogic.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="HQBlock.h" />
     <ClInclude Include="HtPScreen.h" />
     <ClInclude Include="KeyboardEvent.h" />
+    <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="Lobbyscreen.h" />
     <ClInclude Include="MainGameLogicHeader.h" />
     <ClInclude Include="MainMeny.h" />
