@@ -8,4 +8,6 @@ class SoftBlock :
 public:
 	SoftBlock(glm::vec3 const& position);
 	~SoftBlock();
+
+	virtual bool isDestructible() const;
 };

@@ -79,3 +79,9 @@ void Packet13RemoveBomb::dispatch(void* context) const
 	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
 	cont->handlePacket13RemoveBomb(shared_from_this());
 }
+
+void Packet14RemoveBlocks::dispatch(void* context) const
+{
+	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
+	cont->handlePacket14RemoveBlocks(shared_from_this());
+}

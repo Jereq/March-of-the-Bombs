@@ -6,6 +6,8 @@
 #include <stdint.h>
 #include <vector>
 
+#include <glm/glm.hpp>
+
 namespace util
 {
 	template <class val_type>
@@ -76,6 +78,58 @@ namespace util
 	}
 
 	template <> inline
+	size_t pack<int16_t>(int16_t const values[], size_t count, char destination[])
+	{
+		return pack<uint16_t>(reinterpret_cast<uint16_t const*>(values), count, destination);
+	}
+
+	template <> inline
+	size_t unpack<int16_t>(int16_t values[], size_t count, char const source[])
+	{
+		return unpack<uint16_t>(reinterpret_cast<uint16_t*>(values), count, source);
+	}
+
+	template <> inline
+	size_t pack<int32_t>(int32_t const values[], size_t count, char destination[])
+	{
+		return pack<uint32_t>(reinterpret_cast<uint32_t const*>(values), count, destination);
+	}
+
+	template <> inline
+	size_t unpack<int32_t>(int32_t values[], size_t count, char const source[])
+	{
+		return unpack<uint32_t>(reinterpret_cast<uint32_t*>(values), count, source);
+	}
+
+	template <> inline
+	size_t pack<glm::ivec2>(glm::ivec2 const values[], size_t count, char destination[])
+	{
+		char* destP = destination;
+
+		for (size_t i = 0; i < count; i++)
+		{
+			destP += pack(&values[i].x, 1, destP);
+			destP += pack(&values[i].y, 1, destP);
+		}
+
+		return destP - destination;
+	}
+
+	template <> inline
+	size_t unpack<glm::ivec2>(glm::ivec2 values[], size_t count, char const source[])
+	{
+		char const* sourceP = source;
+		
+		for (size_t i = 0; i < count; ++i)
+		{
+			sourceP += unpack(&values[i].x, 1, sourceP);
+			sourceP += unpack(&values[i].y, 1, sourceP);
+		}
+
+		return sourceP - source;
+	}
+
+	template <> inline
 	size_t pack<std::string>(std::string const values[], size_t count, char destination[])
 	{
 		char* currDest = destination;
@@ -143,20 +197,26 @@ namespace util
 	}
 
 	template <class val_type>
+	size_t packedSize(val_type const& val)
+	{
+		return sizeof(val_type);
+	}
+
+	inline size_t packedSize(std::string const& str)
+	{
+		return str.size() + sizeof(uint16_t);
+	}
+
+	template <class val_type>
 	size_t packedSize(std::vector<val_type> const& val)
 	{
 		size_t res = sizeof(uint16_t);
 
 		for (size_t i = 0; i < val.size(); i++)
 		{
-			res += val[i].packedSize();
+			res += packedSize(val[i]);
 		}
 
 		return res;
-	}
-
-	inline size_t packedSize(std::string const& str)
-	{
-		return str.size() + sizeof(uint16_t);
 	}
 }

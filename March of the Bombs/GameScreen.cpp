@@ -249,6 +249,35 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 				{
 					Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
 					client->write(packet);
+
+					glm::ivec2 pos(glm::round(bomb.getPosition().swizzle(glm::X, glm::Z)));
+
+					const static glm::ivec2 offsets[4] =
+					{
+						glm::ivec2(-1, -1),
+						glm::ivec2(-1,  0),
+						glm::ivec2( 0, -1),
+						glm::ivec2( 0,  0)
+					};
+
+					std::vector<glm::ivec2> blocks;
+
+					BOOST_FOREACH(glm::ivec2 const& offset, offsets)
+					{
+						glm::ivec2 oPos(pos + offset);
+						Block::ptr block = blockMap.getBlock(oPos);
+
+						if (block && block->isDestructible())
+						{
+							blocks.push_back(oPos);
+						}
+					}
+
+					if (!blocks.empty())
+					{
+						packet.reset(new Packet14RemoveBlocks(blocks));
+						client->write(packet);
+					}
 				}
 			}
 			break;
@@ -497,5 +526,17 @@ void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& p
 	else
 	{
 		std::cerr << "Error: Received packet with unknown player ID" << std::endl;
+	}
+}
+
+void GameScreen::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet)
+{
+	Packet14RemoveBlocks const* packet14 = static_cast<Packet14RemoveBlocks const*>(packet.get());
+
+	std::vector<glm::ivec2> const& blocks = packet14->getBlocks();
+
+	BOOST_FOREACH(glm::ivec2 const& block, blocks)
+	{
+		blockMap.removeBlock(block);
 	}
 }

@@ -20,4 +20,6 @@ public:
 
 	virtual void update(float deltaTime);
 	virtual void draw(Graphics::ptr graphics);
+
+	virtual bool isDestructible() const;
 };

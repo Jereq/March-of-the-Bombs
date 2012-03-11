@@ -114,3 +114,22 @@ std::vector<glm::ivec2> const& Map::getBases() const
 {
 	return bases;
 }
+
+Block::ptr Map::getBlock(glm::ivec2 const& pos) const
+{
+	if (pos.x >= 0 && pos.x < height &&
+		pos.y >= 0 && pos.y < width)
+	{
+		return blockMap[pos.x][pos.y];
+	}
+	else
+	{
+		return Block::ptr();
+	}
+}
+
+void Map::removeBlock(glm::ivec2 const& block)
+{
+	blockMap[block.x][block.y].reset(new EmptyBlock());
+	pathMap.freePath(block.x, block.y);
+}

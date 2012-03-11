@@ -65,4 +65,5 @@ public:
 	void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet);
 	void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet);
 	void handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet);
+	void handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet);
 };

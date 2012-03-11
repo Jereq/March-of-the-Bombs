@@ -26,13 +26,6 @@ std::string const& OpenGame::getPlayerName() const
 	return playerName;
 }
 
-size_t OpenGame::packedSize() const
-{
-	return sizeof(uint16_t) +
-		util::packedSize(mapName) +
-		util::packedSize(playerName);
-}
-
 size_t OpenGame::pack(char destination[]) const
 {
 	char* currDest = destination;
@@ -53,6 +46,13 @@ size_t OpenGame::unpack(char const source[])
 	currSource += util::unpack(&playerName, 1, currSource);
 
 	return currSource - source;
+}
+
+size_t packedSize(OpenGame const& val)
+{
+	return sizeof(uint16_t) +
+		util::packedSize(val.getMapName()) +
+		util::packedSize(val.getPlayerName());
 }
 
 size_t pack(OpenGame const values[], size_t count, char destination[])

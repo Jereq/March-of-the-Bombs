@@ -20,3 +20,8 @@ void Block::draw(Graphics::ptr graphics)
 		graphics->drawModel(model);
 	}
 }
+
+bool Block::isDestructible() const
+{
+	return false;
+}

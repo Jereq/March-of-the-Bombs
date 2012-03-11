@@ -97,3 +97,8 @@ void GUIMain::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& pack
 {
 	screen->handlePacket13RemoveBomb(packet);
 }
+
+void GUIMain::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet)
+{
+	screen->handlePacket14RemoveBlocks(packet);
+}

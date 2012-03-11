@@ -239,6 +239,15 @@ void Player::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packe
 	}
 }
 
+void Player::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket14RemoveBlocks(packet, shared_from_this());
+	}
+}
+
 std::string const& Player::getName() const
 {
 	return name;

@@ -9,3 +9,8 @@ SoftBlock::SoftBlock(glm::vec3 const& position)
 SoftBlock::~SoftBlock()
 {
 }
+
+bool SoftBlock::isDestructible() const
+{
+	return true;
+}

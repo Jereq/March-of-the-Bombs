@@ -18,11 +18,11 @@ public:
 	std::string const& getMapName() const;
 	std::string const& getPlayerName() const;
 
-	size_t packedSize() const;
-
 	size_t pack(char destination[]) const;
 	size_t unpack(char const source[]);
 };
+
+size_t packedSize(OpenGame const& val);
 
 size_t pack(OpenGame const values[], size_t count, char destination[]);
 size_t unpack(OpenGame values[], size_t count, char const source[]);

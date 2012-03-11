@@ -36,4 +36,7 @@ public:
 	bool intersectGround(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const;
 
 	std::vector<glm::ivec2> const& getBases() const;
+
+	Block::ptr getBlock(glm::ivec2 const& pos) const;
+	void removeBlock(glm::ivec2 const& block);
 };

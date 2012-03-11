@@ -108,3 +108,8 @@ void Game::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet,
 {
 	deliver(packet);
 }
+
+void Game::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet, Player::ptr const& sender)
+{
+	deliver(packet);
+}
