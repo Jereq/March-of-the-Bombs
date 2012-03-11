@@ -24,6 +24,8 @@ void TextField::render(Graphics::ptr graphics)
 		graphics->drawTexture(keyMap[Text[i]],tempRect,depth);
 		tempRect.setPosition(glm::vec2((tempRect.getPosition().x + letterWidth),tempRect.getPosition().y));
 	}
+
+	graphics->drawTexture(Background,PosRect,0.50f);
 }
 
 void TextField::keyMapping()

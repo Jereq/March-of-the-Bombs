@@ -8,7 +8,7 @@ LobbyScreen::LobbyScreen()
 {
 	createBackground();
 	createButtons();
-	createBackground();
+	createTextFields();
 }
 
 LobbyScreen::~LobbyScreen()
