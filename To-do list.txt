@@ -9,15 +9,15 @@ prioritetsordning!
 7. flaggmodell
 8. flaggklass
 9. victory condition klass
-10. producer bomber från base
+10. 
 11. explosionsklass(?)
 12. animeringsklass
-13. göra en explosions animeringsbild
+13. göra en explosionsanimeringsbild
 14. bomber explodera -> ta bort närliggande terräng om tillräckligt nära
 15. 
 16. Basernas liv-mätare
 17. Flagtimer mätare
-18. 
+18. ändra texturen för terrängen så man ser skillnad på hårda och mjuka
 19. 
 20. credits meny -> bibliotek, add-ons och personer som har hjälpt
 21. 
