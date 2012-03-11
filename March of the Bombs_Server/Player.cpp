@@ -54,7 +54,7 @@ void Player::handleReadHeader(boost::system::error_code const& error)
 	}
 	else
 	{
-		Context::ptr conLock(context);
+		Context::ptr conLock = context.lock();
 		if (conLock)
 		{
 			conLock->leave(shared_from_this());
@@ -80,7 +80,7 @@ void Player::handleReadBody(boost::system::error_code const& error)
 	}
 	else
 	{
-		Context::ptr conLock(context);
+		Context::ptr conLock = context.lock();
 		if (conLock)
 		{
 			conLock->leave(shared_from_this());
@@ -104,7 +104,7 @@ void Player::handleWrite(boost::system::error_code const& error)
 	}
 	else
 	{
-		Context::ptr conLock(context);
+		Context::ptr conLock = context.lock();
 		if (conLock)
 		{
 			conLock->leave(shared_from_this());
