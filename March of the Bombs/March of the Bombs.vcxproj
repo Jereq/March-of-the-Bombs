@@ -94,6 +94,7 @@
     <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="EmptyBlock.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClient.cpp" />
     <ClCompile Include="GameScreen.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="EmptyBlock.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClient.h" />
     <ClInclude Include="GameScreen.h" />

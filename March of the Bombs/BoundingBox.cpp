@@ -79,3 +79,8 @@ bool BoundingBox::rayIntersect(glm::vec3 origin, glm::vec3 direction, float& dis
 
 	return true;
 }
+
+void frustumIntersect(Frustum& Frustum, BoundingBox& BoundingBox)
+{
+
+}
