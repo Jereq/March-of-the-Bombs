@@ -349,6 +349,8 @@ bool PathMap::findPath(glm::vec3 const& start, glm::vec3 const& goal, std::list<
 		return false;
 	}
 
+	path.push_front(goal);
+
 	for (PathNode::index_type ind = goalIdx; ind != startIdx; ind = pathArray[ind].prevNode)
 	{
 		glm::vec2 res = toVec2(ind);

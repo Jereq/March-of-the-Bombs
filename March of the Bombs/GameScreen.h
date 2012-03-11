@@ -32,6 +32,9 @@ private:
 	entity_map myEntities;
 	entity_map opponentEntities;
 
+	const static float TIME_PER_BOMB;
+	float timeToNextBomb;
+
 	std::vector<Button> buttons;
 	std::vector<SimpleImage> Backgrounds;
 	Screen::ptr nextScreen;

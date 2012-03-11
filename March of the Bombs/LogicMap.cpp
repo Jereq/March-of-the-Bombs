@@ -70,7 +70,7 @@ void Map::loadMapFromFile(string c)
 
 				case 3:
 					blockMap[k][g] = Block::ptr(new HQBlock());
-					pathMap.blockPathLazy(k, g);
+					pathMap.freePathLazy(k, g);
 					bases.push_back(glm::ivec2(k, g));
 					break;
 				}

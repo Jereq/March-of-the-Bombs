@@ -1,12 +1,15 @@
 #include "GameScreen.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/random.hpp>
 
 #include "Game.h"
 #include "MainMeny.h"
 #include "BlockModelData.h"
 #include "PlaneModelData.h"
 #include "StandardBombModelData.h"
+
+const float GameScreen::TIME_PER_BOMB = 3.f;
 
 void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity)
 {
@@ -19,7 +22,7 @@ void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation,
 
 GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
 		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor)
-	: game(Game::getInstance()), client(client), cameraPos(new AttachmentPoint(glm::vec3(20, 15, 50), glm::vec3(-30, -45, 0))),
+	: game(Game::getInstance()), client(client),
 	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap(mapName + ".txt"),
 	myID(myID), opponentID(opponentID), opponentColor(opponentColor)
 {
@@ -27,6 +30,7 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 	assert(bases.size() > myBaseID);
 	basePosition = bases[myBaseID];
 
+	cameraPos.reset(new AttachmentPoint(glm::vec3(basePosition.x - 20, 15, basePosition.y + 20), glm::vec3(-30, -45, 0)));
 	Graphics::ptr graphics = game->getGraphics();
 
 	graphics->getCamera()->setAttachmentPoint(cameraPos);
@@ -40,11 +44,7 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 
 void GameScreen::atEntry()
 {
-	const static int numBombs = 40;
-	for (int i = 0; i < numBombs; i++)
-	{
-		spawnBomb(glm::vec3(i * 70.f / numBombs, 0, 0), glm::vec3(0.f), glm::vec3(0.f));
-	}
+	timeToNextBomb = TIME_PER_BOMB;
 }
 
 void GameScreen::update(float deltaTime)
@@ -95,6 +95,14 @@ void GameScreen::update(float deltaTime)
 			}
 			break;
 		}
+	}
+
+	timeToNextBomb -= deltaTime;
+	while (timeToNextBomb <= 0)
+	{
+		spawnBomb(glm::vec3(basePosition.x, 0, basePosition.y), glm::vec3(0), glm::vec3(0));
+
+		timeToNextBomb += TIME_PER_BOMB;
 	}
 
 	BOOST_FOREACH(entity_map::value_type& entry, myEntities)
@@ -435,6 +443,9 @@ void GameScreen::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packe
 		newBomb.setPosition(packet9->getPosition());
 		newBomb.setRotation(packet9->getRotation());
 		newBomb.setVelocity(packet9->getVelocity());
+
+		glm::vec2 offset = glm::circularRand(1.5f) + glm::diskRand(0.6f);
+		newBomb.setTarget(blockMap, newBomb.getPosition() + glm::vec3(offset.x, 0, offset.y));
 
 		myEntities[entityID] = newBomb;
 	}
