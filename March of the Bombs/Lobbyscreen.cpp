@@ -101,10 +101,10 @@ void LobbyScreen::createButtons()
 	TextureSection SInButtonT(L"images/NewBI/SignInBtn2.png");
 
 	backButton			= Button::ptr(new Button(BackButton,	BackButtonT,	Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
-	networkPlayButton	= Button::ptr(new Button(NPButton,		NPButtonT,		Rectanglef(glm::vec2(0.40f,0.20f),glm::vec2(0.20f,0.10f)), 0.0f));
-	joinGameButton		= Button::ptr(new Button(JGButton,		JGButtonT,		Rectanglef(glm::vec2(0.10f,0.10f),glm::vec2(0.20f,0.10f)), 0.0f));
-	createGameButton	= Button::ptr(new Button(CGButton,		CGButtonT,		Rectanglef(glm::vec2(0.10f,0.30f),glm::vec2(0.20f,0.10f)), 0.0f));
-	signInButton		= Button::ptr(new Button(SInButton,		SInButtonT,		Rectanglef(glm::vec2(0.10f,0.50f),glm::vec2(0.20f,0.10f)), 0.0f));
+	networkPlayButton	= Button::ptr(new Button(NPButton,		NPButtonT,		Rectanglef(glm::vec2(0.70f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
+	joinGameButton		= Button::ptr(new Button(JGButton,		JGButtonT,		Rectanglef(glm::vec2(0.05f,0.20f),glm::vec2(0.20f,0.10f)), 0.0f));
+	createGameButton	= Button::ptr(new Button(CGButton,		CGButtonT,		Rectanglef(glm::vec2(0.05f,0.40f),glm::vec2(0.20f,0.10f)), 0.0f));
+	signInButton		= Button::ptr(new Button(SInButton,		SInButtonT,		Rectanglef(glm::vec2(0.05f,0.60f),glm::vec2(0.20f,0.10f)), 0.0f));
 	
 	buttons.push_back(backButton);
 	buttons.push_back(networkPlayButton);

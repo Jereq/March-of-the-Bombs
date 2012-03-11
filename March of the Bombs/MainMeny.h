@@ -12,10 +12,19 @@ class MainMeny :
 {
 
 private:
-	std::vector<Button> buttons;
+	//Button variables
+	std::vector<Button::ptr> buttons;
+	Button::ptr lobbyButton;
+	Button::ptr htPButton;
+	Button::ptr optionButton;
+	Button::ptr creditsButton;
+	Button::ptr exitButton;
+
 	std::vector<SimpleImage> Backgrounds;
 	Screen::ptr nextScreen;
 	boost::shared_ptr<Game> game;
+
+
 
 public:
 	MainMeny();

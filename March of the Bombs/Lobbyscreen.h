@@ -12,6 +12,7 @@ class LobbyScreen :
 	public Screen
 {
 private:
+	//Button variables
 	std::vector<Button::ptr> buttons;
 	Button::ptr backButton;
 	Button::ptr networkPlayButton;

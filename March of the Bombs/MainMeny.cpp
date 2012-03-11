@@ -70,7 +70,7 @@ void MainMeny::draw(Graphics::ptr graphics)
 	//starts to render all the buttons
 	for(unsigned int i = 0; i < buttons.size(); i++)
 	{
-		buttons[i].render(graphics);
+		buttons[i]->render(graphics);
 	}
 }
 
@@ -95,18 +95,17 @@ void MainMeny::createButtons()
 	TextureSection CreditsButtonT	(L"images/NewBI/CBtn2.png");
 	TextureSection ExitButtonT		(L"images/NewBI/ExitBtn2.png");
 
-	//class	 name	unpressed		pressed			rectangle	lower left corner		upper right corner
-	Button button0(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.30f,0.25f),glm::vec2(0.40f,0.15f)), 0.0f);
-	Button button1(HtPButton,		HtPButtonT,		Rectanglef(glm::vec2(0.53f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
-	Button button2(OptionButton,	OptionButtonT,	Rectanglef(glm::vec2(0.27f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f);
-	Button button3(CreditsButton,	CreditsButtonT,	Rectanglef(glm::vec2(0.80f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f);
-	Button button4(ExitButton,		ExitButtonT,	Rectanglef(glm::vec2(0.05f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f);
+	lobbyButton		= Button::ptr(new Button(LobbyButton,	LobbyButtonT,	Rectanglef(glm::vec2(0.30f,0.25f),glm::vec2(0.40f,0.15f)), 0.0f));
+	htPButton		= Button::ptr(new Button(HtPButton,		HtPButtonT,		Rectanglef(glm::vec2(0.53f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
+	optionButton	= Button::ptr(new Button(OptionButton,	OptionButtonT,	Rectanglef(glm::vec2(0.27f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
+	creditsButton	= Button::ptr(new Button(CreditsButton,	CreditsButtonT,	Rectanglef(glm::vec2(0.80f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f));
+	exitButton		= Button::ptr(new Button(ExitButton,		ExitButtonT,	Rectanglef(glm::vec2(0.05f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f));
 
-	buttons.push_back(button0);
-	buttons.push_back(button1);
-	buttons.push_back(button2);
-	buttons.push_back(button3);
-	buttons.push_back(button4);
+	buttons.push_back(lobbyButton);
+	buttons.push_back(htPButton);
+	buttons.push_back(optionButton);
+	buttons.push_back(creditsButton);
+	buttons.push_back(exitButton);
 }
 
 void MainMeny::createBackground()
@@ -131,31 +130,31 @@ void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
 {
 	if (mbEvent->button == MouseButton::Left && mbEvent->state == MouseButtonState::Pressed)
 	{
-		if (buttons[0].getState() == Hovered)
+		if (lobbyButton->getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new LobbyScreen());
 			game->getEvents().clear();
 		}
 
-		if (buttons[1].getState() == Hovered)
+		if (htPButton->getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new HtPScreen());
 			game->getEvents().clear();
 		}
 
-		if (buttons[2].getState() == Hovered)
+		if (optionButton->getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new OptionScreen());
 			game->getEvents().clear();
 		}
 
-		if (buttons[3].getState() == Hovered)
+		if (creditsButton->getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new CreditsScreen());
 			game->getEvents().clear();
 		}
 
-		if (buttons[4].getState() == Hovered)
+		if (exitButton->getState() == Hovered)
 		{
 			game->close();
 			game->getEvents().clear();
@@ -165,15 +164,15 @@ void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
 
 void MainMeny::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 {
-	BOOST_FOREACH(Button& button, buttons)
+	BOOST_FOREACH(Button::ptr& button, buttons)
 	{
-		if(button.intersects(mmEvent->position))
+		if(button->intersects(mmEvent->position))
 		{
-			button.setState(Hovered);
+			button->setState(Hovered);
 		}
 		else
 		{
-			button.setState(Unused);
+			button->setState(Unused);
 		}
 	}
 }
