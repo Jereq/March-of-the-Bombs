@@ -6,8 +6,9 @@
 LobbyScreen::LobbyScreen()
 	: game(Game::getInstance())
 {
-	LobbyScreen::createBackground();
-	LobbyScreen::createButtons();
+	createBackground();
+	createButtons();
+	createBackground();
 }
 
 LobbyScreen::~LobbyScreen()
@@ -76,6 +77,12 @@ void LobbyScreen::draw(Graphics::ptr graphics)
 	{
 		buttons[i]->render(graphics);
 	}
+
+	//starts to render all the TextFields
+	for(unsigned int i = 0; i < textfields.size(); i++)
+	{
+		textfields[i]->render(graphics);
+	}
 }
 
 Screen::ptr LobbyScreen::getNextScreen()
@@ -119,6 +126,17 @@ void LobbyScreen::createBackground()
 	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(1.00f,1.00f)), 0.99f);
 
 	Backgrounds.push_back(Background1);
+}
+
+void LobbyScreen::createTextFields()
+{
+	TextureSection Background(L"images/NewBI/Start.png");
+
+	SignInTF	= TextField::ptr(new TextField(Background,Rectanglef(glm::vec2(0.30f,0.60f),glm::vec2(0.40f,0.10f)),0.0f));
+	IPTF		= TextField::ptr(new TextField(Background,Rectanglef(glm::vec2(0.30f,0.20f),glm::vec2(0.40f,0.10f)),0.0f));
+
+	textfields.push_back(SignInTF);
+	textfields.push_back(IPTF);
 }
 
 void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)

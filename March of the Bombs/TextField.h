@@ -19,11 +19,12 @@ private:
 	static image_map keyMap;
 
 public:
-	
+	typedef boost::shared_ptr<TextField> ptr;
+
 	TextField(TextureSection Background, Rectanglef PosRect, float depth);
 	~TextField();
 
-	void draw(Graphics::ptr graphics);
+	void render(Graphics::ptr graphics);
 	void static keyMapping();
 	void updateString(KeyboardEvent* keyEvent);
 };

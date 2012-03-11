@@ -20,6 +20,11 @@ private:
 	Button::ptr createGameButton;
 	Button::ptr signInButton;
 
+	//TextFeild
+	std::vector<TextField::ptr> textfields;
+	TextField::ptr IPTF;
+	TextField::ptr SignInTF;
+
 	std::vector<SimpleImage> Backgrounds;
 	Screen::ptr nextScreen;
 	boost::shared_ptr<Game> game;
@@ -41,6 +46,7 @@ public:
 
 	void createButtons();
 	void createBackground();
+	void createTextFields();
 	void KeyboardEventMethod(KeyboardEvent* keyEvent);
 	void MousePressEventMethod(MouseButtonEvent* mbEvent);
 	void MouseTouchEventMethod(MouseMoveEvent* mmEvent);

@@ -4,6 +4,7 @@
 #include <boost/foreach.hpp>
 #include "Graphics.h"
 #include "Button.h"
+#include "TextField.h"
 #include "SimpleImage.h"
 
 #include <Packet1SimpleMessage.h>
