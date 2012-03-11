@@ -10,7 +10,6 @@ LobbyScreen::LobbyScreen()
 	LobbyScreen::createButtons();
 }
 
-
 LobbyScreen::~LobbyScreen()
 {
 }
@@ -163,6 +162,7 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 			playerName = "bar";
 			Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
 			client->write(packet);
+			signInButton->setState(Disable);
 		}
 		else if (createGameButton->getState() == Hovered)
 		{
@@ -187,7 +187,7 @@ void LobbyScreen::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 {
 	BOOST_FOREACH(Button::ptr& button, buttons)
 	{
-		if(button->intersects(mmEvent->position))
+		if(button->intersects(mmEvent->position) && button->getState() != Disable)
 		{
 			button->setState(Hovered);
 		}

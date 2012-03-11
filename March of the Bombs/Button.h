@@ -9,7 +9,8 @@ enum ButtonState
 {
 	Unused,
 	Hovered,
-	Used
+	Used,
+	Disable
 };
 
 class Button

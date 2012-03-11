@@ -41,6 +41,11 @@ void Button::render(Graphics::ptr graphics)
 			graphics->drawTexture(pressedTexture,posSizeRectangle, depth);
 		}
 		break;
+	case Disable:
+		{
+			graphics->drawTexture(unpressedTexture,posSizeRectangle,depth);
+		}
+		break;
 	}
 }
 
