@@ -88,7 +88,6 @@
     <ClCompile Include="BlockModelData.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
-    <ClCompile Include="BoundingVolume.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="client.cpp" />
@@ -139,7 +138,6 @@
     <ClInclude Include="BlockModelData.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BoundingBox.h" />
-    <ClInclude Include="BoundingVolume.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CreditsScreen.h" />
