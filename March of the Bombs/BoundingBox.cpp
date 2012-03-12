@@ -80,6 +80,14 @@ bool BoundingBox::rayIntersect(glm::vec3 origin, glm::vec3 direction, float& dis
 	return true;
 }
 
-void frustumIntersect(Frustum& Frustum, BoundingBox& BoundingBox)
+void BoundingBox::frustumIntersect(Frustum& Frustum, BoundingBox& BoundingBox)
 {
+	glm::vec4 clippingPlanes[6];
+
+	clippingPlanes[0] = Frustum.getLeftPlane();
+	clippingPlanes[1] = Frustum.getRightPlane();
+	clippingPlanes[2] = Frustum.getBottomPlane();
+	clippingPlanes[3] = Frustum.getTopPlane();
+	clippingPlanes[4] = Frustum.getBackPlane();
+	clippingPlanes[5] = Frustum.getFrontPlane();
 }
