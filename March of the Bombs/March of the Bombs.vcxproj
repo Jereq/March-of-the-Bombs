@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AttachmentPoint.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="BlockModelData.cpp" />
@@ -134,6 +135,7 @@
     <ClCompile Include="Units.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="AttachmentPoint.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="BlockModelData.h" />

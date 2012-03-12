@@ -219,6 +219,9 @@
     <ClCompile Include="Frustum.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -366,6 +369,9 @@
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
     <ClInclude Include="Frustum.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>

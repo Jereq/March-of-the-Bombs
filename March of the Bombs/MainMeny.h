@@ -4,6 +4,7 @@
 #include "KeyboardEvent.h"
 #include "MouseMoveEvent.h"
 #include "MouseButtonEvent.h"
+#include "Animation.h"
 
 class Game;
 
@@ -20,11 +21,8 @@ private:
 	Button::ptr creditsButton;
 	Button::ptr exitButton;
 
-	std::vector<SimpleImage> Backgrounds;
 	Screen::ptr nextScreen;
 	boost::shared_ptr<Game> game;
-
-
 
 public:
 	MainMeny();

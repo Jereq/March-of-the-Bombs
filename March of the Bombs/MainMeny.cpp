@@ -8,8 +8,8 @@
 MainMeny::MainMeny()
 	: game(Game::getInstance())
 {
-	MainMeny::createBackground();				//creates the vector holding all the backgrounds for this screen
-	MainMeny::createButtons();					//creates the vector holding all the buttons for this screen
+	MainMeny::createBackground();
+	MainMeny::createButtons();			//creates the vector holding all the buttons for this screen
 }
 
 MainMeny::~MainMeny()
@@ -60,12 +60,7 @@ void MainMeny::update(float deltaTime)
 //MainMenys drawinfo
 void MainMeny::draw(Graphics::ptr graphics)
 {
-	
-	//starts to render all the backgrounds
-	for(unsigned int i = 0; i < Backgrounds.size(); i++)
-	{
-		Backgrounds[i].render(graphics);
-	}
+	game->getGraphics()->setBackground(TextureSection::ptr(new TextureSection(test.getFrame())));
 
 	//starts to render all the buttons
 	for(unsigned int i = 0; i < buttons.size(); i++)
@@ -110,11 +105,8 @@ void MainMeny::createButtons()
 
 void MainMeny::createBackground()
 {
-	TextureSection Background(L"images/NewBI/Start.png");
-
-	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(1.00f,1.00f)), 0.99f);
-
-	Backgrounds.push_back(Background1);
+	TextureSection::ptr background(new TextureSection(L"Images/NewBI/Start.png"));
+	game->getGraphics()->setBackground(background);
 }
 
 void MainMeny::KeyboardEventMethod(KeyboardEvent* keyEvent)
