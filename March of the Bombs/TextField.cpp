@@ -3,11 +3,12 @@
 TextField::image_map TextField::keyMap;
 
 
-TextField::TextField(TextureSection Background, Rectanglef PosRect, float depth)
-	: Background(Background), PosRect(PosRect), depth(depth)
+TextField::TextField(TextureSection activeBackground, TextureSection deactiveBackground, Rectanglef PosRect, float depth)
+	: activeBackground(activeBackground),deactiveBackground(deactiveBackground), PosRect(PosRect), depth(depth), textfieldState(NotTargeted)
 {
 	keyMapping();
-	bool target = false;
+	active = false;
+	targeted = false;
 }
 
 
@@ -27,7 +28,14 @@ void TextField::render(Graphics::ptr graphics)
 		tempRect.setPosition(glm::vec2((tempRect.getPosition().x + letterWidth),tempRect.getPosition().y));
 	}
 
-	graphics->drawTexture(Background,PosRect,0.50f);
+	if(!active)
+	{
+		graphics->drawTexture(deactiveBackground,PosRect,0.50f);
+	}
+	else
+	{
+		graphics->drawTexture(activeBackground,PosRect,0.50f);
+	}
 }
 
 void TextField::keyMapping()
@@ -147,20 +155,38 @@ void TextField::keyMapping()
 		//special tokens
 		keyMap['.'] = BitFont.cut(Rectanglef(glm::vec2(4 * sizef, 3 * sizef), lettersize));
 
+		keyMap[','] = BitFont.cut(Rectanglef(glm::vec2(5 * sizef, 3 * sizef), lettersize));
+
+		keyMap[':'] = BitFont.cut(Rectanglef(glm::vec2(6 * sizef, 3 * sizef), lettersize));
+
 		keyMap[' '] = BitFont.cut(Rectanglef(glm::vec2(7 * sizef, 0 * sizef), lettersize));
 	}
 }
 
 void TextField::updateString(KeyboardEvent* keyEvent)
 {
-	char eventKey = keyEvent->key;
+	if (!active)
+	{
+		return;
+	}
 
-	if (keyMap.count(eventKey) == 1)
+	char eventKey = keyEvent->key;
+	const static char BackSpace = 8;
+
+	if (keyMap.count(eventKey) == 1 && keyEvent->key != BackSpace)
 	{
 		Text += eventKey;
 	}
-	//else
+	else if (keyEvent->key == BackSpace && Text.empty() == false)
+	{
+		//MAKE FISK!
+	}
+
+
+
+	//else if (****************)
 	//{
+	//eventuelt här ska koden för att ta bort tecken i strängen
 	//Johnyproblem!
 	//}
 }
@@ -180,7 +206,15 @@ bool TextField::intersects(glm::vec2 const& point) const
 	return PosRect.intersects(point);
 }
 
-bool TextField::istarget() const
+bool TextField::istargeted() const
 {
-	return target;
+	return targeted;
+}
+
+void TextField::setactive()
+{
+	if (!active)
+	active = true;
+	else
+	active = false;
 }

@@ -9,17 +9,17 @@
 
 enum TFState
 {
-	NotInUse,
-	InUse
+	NotTargeted,
+	Targeted
 };
 
 class TextField
 {
 private:
-	TextureSection Background;
+	TextureSection deactiveBackground, activeBackground;
 	Rectanglef PosRect;
 	float depth;
-	bool target;
+	bool active, targeted;
 	std::string Text;
 	TFState textfieldState;
 
@@ -29,7 +29,7 @@ private:
 public:
 	typedef boost::shared_ptr<TextField> ptr;
 
-	TextField(TextureSection Background, Rectanglef PosRect, float depth);
+	TextField(TextureSection activeBackground, TextureSection deactiveBackground, Rectanglef PosRect, float depth);
 	~TextField();
 
 	TFState getState();
@@ -39,6 +39,6 @@ public:
 	void updateString(KeyboardEvent* keyEvent);
 
 	bool intersects(glm::vec2 const& point) const;
-	bool istarget() const;
+	bool istargeted() const;
+	void setactive();
 };
-

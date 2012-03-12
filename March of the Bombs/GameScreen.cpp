@@ -415,7 +415,7 @@ void GameScreen::mouseMoveEventHandler(MouseMoveEvent const* mmEvent)
 
 void GameScreen::createBackground()
 {
-	TextureSection Background(L"images/Pokemonball.jpg");
+	TextureSection Background(L"images/NewBI/Start.png");
 	game->getGraphics()->setBackground(TextureSection::ptr(new TextureSection(Background)));
 
 	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(0.20f,0.20f)), 0.10f);

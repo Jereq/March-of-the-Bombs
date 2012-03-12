@@ -131,9 +131,10 @@ void LobbyScreen::createBackground()
 void LobbyScreen::createTextFields()
 {
 	TextureSection TFBackground(L"Images/TFBackground.png");
+	TextureSection DTFBackground(L"Images/DTFBackground.png");
 
-	SignInTF	= TextField::ptr(new TextField(TFBackground,Rectanglef(glm::vec2(0.30f,0.60f),glm::vec2(0.40f,0.10f)),0.0f));
-	IPTF		= TextField::ptr(new TextField(TFBackground,Rectanglef(glm::vec2(0.30f,0.20f),glm::vec2(0.40f,0.10f)),0.0f));
+	SignInTF	= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.30f,0.60f),glm::vec2(0.40f,0.10f)),0.0f));
+	IPTF		= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.30f,0.20f),glm::vec2(0.40f,0.10f)),0.0f));
 
 	textfields.push_back(SignInTF);
 	textfields.push_back(IPTF);
@@ -149,6 +150,13 @@ void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
 		{
 		case ESC:
 			game->close();
+			break;
+
+		default:
+			{
+				SignInTF->updateString(keyEvent);
+				IPTF->updateString(keyEvent);
+			}
 			break;
 		}
 	}
@@ -198,6 +206,14 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 				client->write(packet);
 			}
 		}
+		else if (SignInTF->getState() == Targeted)
+		{
+			SignInTF->setactive();
+		}
+		else if (IPTF->getState() == Targeted)
+		{
+			IPTF->setactive();
+		}
 	}
 }
 
@@ -212,6 +228,18 @@ void LobbyScreen::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 		else
 		{
 			button->setState(Unused);
+		}
+	}
+
+	BOOST_FOREACH(TextField::ptr& textfield, textfields)
+	{
+		if(textfield->intersects(mmEvent->position))
+		{
+			textfield->setState(Targeted);
+		}
+		else
+		{
+			textfield->setState(NotTargeted);
 		}
 	}
 }
