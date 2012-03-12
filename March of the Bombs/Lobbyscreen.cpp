@@ -130,7 +130,7 @@ void LobbyScreen::createBackground()
 
 void LobbyScreen::createTextFields()
 {
-	TextureSection Background(L"images/NewBI/Start.png");
+	TextureSection Background(L"images/NewBI/TFBackground");
 
 	SignInTF	= TextField::ptr(new TextField(Background,Rectanglef(glm::vec2(0.30f,0.60f),glm::vec2(0.40f,0.10f)),0.0f));
 	IPTF		= TextField::ptr(new TextField(Background,Rectanglef(glm::vec2(0.30f,0.20f),glm::vec2(0.40f,0.10f)),0.0f));
