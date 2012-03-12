@@ -95,6 +95,7 @@
     <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="EmptyBlock.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClient.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="EmptyBlock.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="Explosion.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClient.h" />
@@ -187,6 +189,9 @@
     <ClInclude Include="UnitsHeader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shaders\billboard.frag" />
+    <None Include="Shaders\billboard.geom" />
+    <None Include="Shaders\billboard.vert" />
     <None Include="defaultmapfile.txt" />
     <None Include="Images\ButtonCredits.png" />
     <None Include="Images\ButtonExit.png" />

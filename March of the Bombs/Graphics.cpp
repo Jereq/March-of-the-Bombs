@@ -47,9 +47,96 @@ void Graphics::drawTextureInstance(TextureInstance const& texInst) const
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
+void Graphics::drawBillboardBatch(std::vector<BillboardInstance const*> const& batch) const
+{
+	if (batch.empty())
+	{
+		return;
+	}
+
+	size_t amount = batch.size();
+
+	std::vector<glm::vec3> centerData;
+	centerData.reserve(amount);
+
+	std::vector<glm::vec2> halfSizeData;
+	halfSizeData.reserve(amount);
+
+	std::vector<glm::vec2> llCoord;
+	llCoord.reserve(amount);
+
+	std::vector<glm::vec2> urCoord;
+	urCoord.reserve(amount);
+
+	BOOST_FOREACH(BillboardInstance const* billInst, batch)
+	{
+		centerData.push_back(billInst->position);
+		halfSizeData.push_back(billInst->size * 0.5f);
+
+		Rectanglef const& sourceSec = billInst->texture.getSection();
+		glm::vec2 texPos = sourceSec.getPosition();
+		llCoord.push_back(texPos);
+		urCoord.push_back(texPos + sourceSec.getSize());
+	}
+
+	GLuint centerBufferHandle = billboardBuffers[0];
+	GLuint halfSizeBufferHandle = billboardBuffers[1];
+	GLuint texLLBufferHandle = billboardBuffers[2];
+	GLuint texURBufferHandle = billboardBuffers[3];
+	
+	glBindBuffer(GL_ARRAY_BUFFER, centerBufferHandle);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, amount * sizeof(glm::vec3), centerData.data());
+
+	glBindBuffer(GL_ARRAY_BUFFER, halfSizeBufferHandle);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, amount * sizeof(glm::vec2), halfSizeData.data());
+	
+	glBindBuffer(GL_ARRAY_BUFFER, texLLBufferHandle);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, amount * sizeof(glm::vec2), llCoord.data());
+
+	glBindBuffer(GL_ARRAY_BUFFER, texURBufferHandle);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, amount * sizeof(glm::vec2), urCoord.data());
+
+	batch[0]->texture.getTexture()->use(0);
+	glDrawArrays(GL_POINTS, 0, amount);
+}
+
+void Graphics::drawBillboardInstances()
+{
+	glBindVertexArray(billboardVAO);
+
+	progBillboard.use();
+	progBillboard.setUniform("viewMatrix", camera->getViewMatrix());
+	progBillboard.setUniform("projectionMatrix", camera->getProjectionMatrix());
+
+	GLTexture::ptr currentTexture;
+	std::vector<BillboardInstance const*> batch;
+
+	BOOST_FOREACH(BillboardInstance const& billInst, billboardInstances)
+	{
+		if (currentTexture != billInst.texture.getTexture() || batch.size() >= MAX_BILLBOARD_BUFFER_SIZE)
+		{
+			if (!batch.empty())
+			{
+				drawBillboardBatch(batch);
+				batch.clear();
+			}
+
+			currentTexture = billInst.texture.getTexture();
+		}
+
+		batch.push_back(&billInst);
+	}
+	drawBillboardBatch(batch);
+
+	glBindVertexArray(0);
+
+	billboardInstances.clear();
+}
+
 void Graphics::loadShaders()
 {
 	load2DShaders();
+	loadBillboardShaders();
 	loadModelShadeShaders();
 	loadModelShadowShaders();
 }
@@ -84,6 +171,44 @@ void Graphics::load2DShaders()
 
 	prog2D.use();
 	prog2D.setUniform("image", (GLint)0);
+}
+
+void Graphics::loadBillboardShaders()
+{
+	using std::cout;
+	using std::cerr;
+	using std::endl;
+
+	if (!progBillboard.compileShaderFromFile("Shaders/billboard.vert", GLSLShader::VERTEX))
+	{
+		cerr << "billboard vertex shader failed to compile!" << endl << progBillboard.log() << endl;
+	}
+	if (!progBillboard.compileShaderFromFile("Shaders/billboard.geom", GLSLShader::GEOMETRY))
+	{
+		cerr << "billboard geometry shader failed to compile!" << endl << progBillboard.log() << endl;
+	}
+	if (!progBillboard.compileShaderFromFile("Shaders/billboard.frag", GLSLShader::FRAGMENT))
+	{
+		cerr << "billboard fragment shader failed to compile!" << endl << progBillboard.log() << endl;
+	}
+
+	progBillboard.bindAttribLocation(0, "centerPosition");
+	progBillboard.bindAttribLocation(1, "halfSize");
+	progBillboard.bindAttribLocation(2, "textureLowerLeft");
+	progBillboard.bindAttribLocation(3, "textureUpperRight");
+
+	if (!progBillboard.link())
+	{
+		cerr << "billboard shader program failed to link!" << endl << progBillboard.log() << endl;
+	}
+
+	cout << "Printing billboard shader program information..." << endl;
+	progBillboard.printActiveUniforms();
+	progBillboard.printActiveAttribs();
+	printf("\n");
+
+	progBillboard.use();
+	progBillboard.setUniform("image", (GLint)0);
 }
 
 void Graphics::loadModelShadeShaders()
@@ -178,6 +303,49 @@ void Graphics::prepareTextureBuffers()
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+
+	glGenBuffers(4, billboardBuffers);
+
+	GLuint centerBufferHandle = billboardBuffers[0];
+	GLuint halfSizeBufferHandle = billboardBuffers[1];
+	GLuint texLLBufferHandle = billboardBuffers[2];
+	GLuint texURBufferHandle = billboardBuffers[3];
+
+	glBindBuffer(GL_ARRAY_BUFFER, centerBufferHandle);
+	glBufferData(GL_ARRAY_BUFFER, MAX_BILLBOARD_BUFFER_SIZE * sizeof(glm::vec3), NULL, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, halfSizeBufferHandle);
+	glBufferData(GL_ARRAY_BUFFER, MAX_BILLBOARD_BUFFER_SIZE * sizeof(glm::vec2), NULL, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, texLLBufferHandle);
+	glBufferData(GL_ARRAY_BUFFER, MAX_BILLBOARD_BUFFER_SIZE * sizeof(glm::vec2), NULL, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ARRAY_BUFFER, texURBufferHandle);
+	glBufferData(GL_ARRAY_BUFFER, MAX_BILLBOARD_BUFFER_SIZE * sizeof(glm::vec2), NULL, GL_STATIC_DRAW);
+
+	glGenVertexArrays(1, &billboardVAO);
+	glBindVertexArray(billboardVAO);
+
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+	glEnableVertexAttribArray(3);
+
+	glBindBuffer(GL_ARRAY_BUFFER, centerBufferHandle);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	glBindBuffer(GL_ARRAY_BUFFER, halfSizeBufferHandle);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	glBindBuffer(GL_ARRAY_BUFFER, texLLBufferHandle);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	glBindBuffer(GL_ARRAY_BUFFER, texURBufferHandle);
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void Graphics::setupModelShader()
@@ -226,11 +394,19 @@ Graphics::~Graphics()
 {
 	glDeleteBuffers(2, textureBuffers2D);
 	glDeleteVertexArrays(1, &texture2DVAO);
+
+	glDeleteBuffers(4, billboardBuffers);
+	glDeleteVertexArrays(1, &billboardVAO);
 }
 
 void Graphics::drawTexture(TextureSection const& texture, Rectanglef const& target, float depth)
 {
 	textureInstances.insert(TextureInstance(texture, target, depth));
+}
+
+void Graphics::drawBillboard(TextureSection const& texture, glm::vec3 const& position, glm::vec2 const& size)
+{
+	billboardInstances.insert(BillboardInstance(texture, position, size));
 }
 
 void Graphics::drawModel(Model::ptr const& model)
@@ -240,6 +416,8 @@ void Graphics::drawModel(Model::ptr const& model)
 
 void Graphics::render()
 {
+	camera->updateViewMatrix();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (backgroundTexture)
@@ -280,8 +458,6 @@ void Graphics::render()
 		glCullFace(GL_BACK);
 		glDisable(GL_POLYGON_OFFSET_FILL);
 
-		camera->updateViewMatrix();
-
 		setupModelShader();
 		BOOST_FOREACH(ModelData::ptr const& data, modelDatas)
 		{
@@ -290,13 +466,14 @@ void Graphics::render()
 		}
 	}
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	drawBillboardInstances();
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 
 	glBindVertexArray(texture2DVAO);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	prog2D.use();
 	BOOST_FOREACH(TextureInstance const& texInst, textureInstances)

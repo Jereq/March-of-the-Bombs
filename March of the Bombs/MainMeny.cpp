@@ -60,8 +60,6 @@ void MainMeny::update(float deltaTime)
 //MainMenys drawinfo
 void MainMeny::draw(Graphics::ptr graphics)
 {
-	game->getGraphics()->setBackground(TextureSection::ptr(new TextureSection(test.getFrame())));
-
 	//starts to render all the buttons
 	for(unsigned int i = 0; i < buttons.size(); i++)
 	{

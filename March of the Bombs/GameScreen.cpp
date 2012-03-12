@@ -20,11 +20,16 @@ void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation,
 	}
 }
 
+void GameScreen::preloadTextures()
+{
+	preloadedTextures.insert(TextureSection::ptr(new TextureSection(L"Images/explosion.png")));
+}
+
 GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
 		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor)
 	: game(Game::getInstance()), client(client),
 	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap(mapName + ".txt"),
-	myID(myID), opponentID(opponentID), opponentColor(opponentColor)
+	  myID(myID), opponentID(opponentID), opponentColor(opponentColor)
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
 	assert(bases.size() > myBaseID);
@@ -37,6 +42,8 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 
 	light = PointLight::ptr(new PointLight(glm::vec4(35, 150, 35, 1), glm::vec3(1.f)));
 	graphics->setLight(light);
+
+	preloadTextures();
 
 	GameScreen::createBackground();
 	GameScreen::createButtons();
@@ -124,6 +131,21 @@ void GameScreen::update(float deltaTime)
 		entry.second.updatePosition(deltaTime);
 	}
 
+	std::list<Explosion>::iterator it = explosions.begin();
+	while (it != explosions.end())
+	{
+		it->update(deltaTime);
+
+		if (it->isDone())
+		{
+			it = explosions.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+
 	glm::vec3 rotation = cameraPos->getRotation();
 	rotation.y += rotationYSpeed * deltaTime;
 	rotation.x += rotationXSpeed * deltaTime;
@@ -152,6 +174,11 @@ void GameScreen::draw(Graphics::ptr graphics)
 	BOOST_FOREACH(entity_map::value_type& entry, opponentEntities)
 	{
 		entry.second.draw(graphics);
+	}
+
+	BOOST_FOREACH(Explosion& exp, explosions)
+	{
+		exp.draw(graphics);
 	}
 
 	blockMap.draw(graphics);
@@ -506,13 +533,35 @@ void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& p
 	unsigned short playerID = packet13->getPlayerID();
 	unsigned short entityID = packet13->getEntityID();
 
+	const static glm::vec3 EXPLOSION_OFFSET(0, 0.3f, 0);
+	const static glm::vec2 EXPLOSION_SIZE(3.f);
+	const static float EXPLOSION_DURATION = 0.3f;
+
 	if (playerID == myID)
 	{
-		myEntities.erase(entityID);
+		if (myEntities.count(entityID) == 1)
+		{
+			if (packet13->getExplode())
+			{
+				Bomb const& bomb = myEntities[entityID];
+				explosions.push_back(Explosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION));
+			}
+
+			myEntities.erase(entityID);
+		}
 	}
 	else if (playerID == opponentID)
 	{
-		opponentEntities.erase(entityID);
+		if (opponentEntities.count(entityID) == 1)
+		{
+			if (packet13->getExplode())
+			{
+				Bomb const& bomb = opponentEntities[entityID];
+				explosions.push_back(Explosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION));
+			}
+
+			opponentEntities.erase(entityID);
+		}
 	}
 	else
 	{

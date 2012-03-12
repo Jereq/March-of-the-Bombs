@@ -38,7 +38,36 @@ private:
 		}
 	};
 
+	struct BillboardInstance
+	{
+		const TextureSection texture;
+		const glm::vec3 position;
+		const glm::vec2 size;
+
+		BillboardInstance(TextureSection const& texture, glm::vec3 const& position, glm::vec2 size)
+			: texture(texture), position(position), size(size)
+		{
+		}
+
+		bool operator<(BillboardInstance const& rhs) const
+		{
+			if (texture < rhs.texture) return true;
+			if (rhs.texture < texture) return false;
+			if (position.x < rhs.position.x) return true;
+			if (position.x > rhs.position.x) return false;
+			if (position.y < rhs.position.y) return true;
+			if (position.y > rhs.position.y) return false;
+			if (position.z < rhs.position.z) return true;
+			if (position.z > rhs.position.z) return false;
+			if (size.x < rhs.size.x) return true;
+			if (size.x > rhs.size.x) return false;
+			if (size.y < rhs.size.y) return true;
+			return false;
+		}
+	};
+
 	GLSLProgram prog2D;
+	GLSLProgram progBillboard;
 	GLSLProgram progModelShade;
 	GLSLProgram progModelShadow;
 
@@ -47,15 +76,23 @@ private:
 
 	std::set<ModelData::ptr> modelDatas;
 	std::set<TextureInstance> textureInstances;
+	std::set<BillboardInstance> billboardInstances;
 	TextureSection::ptr backgroundTexture;
 
 	GLuint textureBuffers2D[2];
 	GLuint texture2DVAO;
 
+	const static size_t MAX_BILLBOARD_BUFFER_SIZE = 64;
+	GLuint billboardBuffers[4];
+	GLuint billboardVAO;
+
 	void drawTextureInstance(TextureInstance const& texInst) const;
+	void drawBillboardBatch(std::vector<BillboardInstance const*> const& batch) const;
+	void drawBillboardInstances();
 
 	void loadShaders();
 	void load2DShaders();
+	void loadBillboardShaders();
 	void loadModelShadeShaders();
 	void loadModelShadowShaders();
 
@@ -71,6 +108,7 @@ public:
 	~Graphics();
 
 	void drawTexture(TextureSection const& texture, Rectanglef const& target, float depth);
+	void drawBillboard(TextureSection const& texture, glm::vec3 const& position, glm::vec2 const& size);
 	void drawModel(Model::ptr const& model);
 	void render();
 

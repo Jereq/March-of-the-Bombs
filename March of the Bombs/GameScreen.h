@@ -2,11 +2,13 @@
 
 #include <list>
 #include <map>
+#include <set>
 
 #include "Screen.h"
 #include "Game.h"
 #include "MapHeader.h"
 #include "Bomb.h"
+#include "Explosion.h"
 
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"
@@ -45,7 +47,13 @@ private:
 	float rotationXSpeed;
 	PointLight::ptr light;
 
+	std::list<Explosion> explosions;
+
+	std::set<TextureSection::ptr> preloadedTextures;
+
 	void spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity);
+
+	void preloadTextures();
 
 public:
 	GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
