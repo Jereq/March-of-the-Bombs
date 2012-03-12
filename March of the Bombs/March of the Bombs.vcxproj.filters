@@ -225,6 +225,9 @@
     <ClCompile Include="Explosion.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="HQModelData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -311,9 +314,6 @@
     <ClInclude Include="HardBlock.h">
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
-    <ClInclude Include="HQBlock.h">
-      <Filter>Header Files\Game Logic</Filter>
-    </ClInclude>
     <ClInclude Include="SoftBlock.h">
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
@@ -376,6 +376,12 @@
     </ClInclude>
     <ClInclude Include="Animation.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="HQBlock.h">
+      <Filter>Header Files\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="HQModelData.h">
+      <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
     <ClInclude Include="Explosion.h">
       <Filter>Header Files\Graphics</Filter>

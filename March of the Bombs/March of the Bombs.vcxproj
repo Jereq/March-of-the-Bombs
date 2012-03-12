@@ -106,6 +106,7 @@
     <ClCompile Include="GUIMain.cpp" />
     <ClCompile Include="HardBlock.cpp" />
     <ClCompile Include="HQBlock.cpp" />
+    <ClCompile Include="HQModelData.cpp" />
     <ClCompile Include="HtPScreen.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="GUIMain.h" />
     <ClInclude Include="HardBlock.h" />
     <ClInclude Include="HQBlock.h" />
+    <ClInclude Include="HQModelData.h" />
     <ClInclude Include="HtPScreen.h" />
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="LoadingScreen.h" />
