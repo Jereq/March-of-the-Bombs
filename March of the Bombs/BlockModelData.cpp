@@ -294,7 +294,7 @@ BlockModelData::ptr BlockModelData::getSoftInstance()
 {
 	if (!softInstance)
 	{
-		softInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Hard Rock.png")));
+		softInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Soft Rock.png")));
 	}
 
 	return softInstance;
