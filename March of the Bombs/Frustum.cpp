@@ -42,6 +42,6 @@ glm::vec3 Frustum::getFrontPlane()
 glm::vec3 Frustum::getBackPlane()
 {
 	p1p2 = TRF - TLF;
-	p1p3 = BLN - TLF;
+	p1p3 = BLF - TLF;
 	Normal = glm::cross(p1p2, p1p3);
 }
