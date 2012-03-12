@@ -29,5 +29,14 @@ public:
 	// BRF = BottomRightFar
 	glm::vec3 BRF;
 
+	glm::vec3 p1p2, p1p3, Normal;
+
 	Frustum();
+
+	glm::vec3 getLeftPlane();
+	glm::vec3 getRightPlane();
+	glm::vec3 getLowerPlane();
+	glm::vec3 getTopPlane();
+	glm::vec3 getFrontPlane();
+	glm::vec3 getBackPlane();
 };
