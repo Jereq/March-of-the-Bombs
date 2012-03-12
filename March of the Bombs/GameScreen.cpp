@@ -441,16 +441,7 @@ void GameScreen::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& pac
 
 	if (playerID == myID)
 	{
-		unsigned short entityID = packet5->getEntityID();
-
-		if (myEntities.count(entityID) == 1)
-		{
-			Bomb& entity = myEntities[entityID];
-
-			entity.setPosition(packet5->getPosition());
-			entity.setRotation(packet5->getRotation());
-			entity.setVelocity(packet5->getVelocity());
-		}
+		// No need to move my bombs... :)
 	}
 	else if (playerID == opponentID)
 	{
