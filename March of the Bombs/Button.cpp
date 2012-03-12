@@ -1,12 +1,12 @@
 #include "Button.h"
 
-bool pressed = false;
+
 
 //constructor without changing the vec4 color
 Button::Button(TextureSection texture1, TextureSection texture2, Rectanglef rectangle, float depth)
 	: unpressedTexture(texture1), pressedTexture(texture2), posSizeRectangle(rectangle), depth(depth), color(glm::vec4(1)), buttonState(Unused)
 {
-
+	bool pressed = false;
 }
 
 //constructor changing the vec4 color

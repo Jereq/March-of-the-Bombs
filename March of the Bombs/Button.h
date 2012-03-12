@@ -22,6 +22,7 @@ private:
 	Rectanglef posSizeRectangle;				//position- and size- rectangle 
 	ButtonState buttonState;
 	float depth;
+	bool pressed;
 
 public:
 	typedef boost::shared_ptr<Button> ptr;

@@ -2,10 +2,12 @@
 
 TextField::image_map TextField::keyMap;
 
+
 TextField::TextField(TextureSection Background, Rectanglef PosRect, float depth)
 	: Background(Background), PosRect(PosRect), depth(depth)
 {
 	keyMapping();
+	bool target = false;
 }
 
 
@@ -161,4 +163,24 @@ void TextField::updateString(KeyboardEvent* keyEvent)
 	//{
 	//Johnyproblem!
 	//}
+}
+
+void TextField::setState(TFState TFS)
+{
+	textfieldState = TFS;
+}
+
+TFState TextField::getState()
+{
+	return textfieldState;
+}
+
+bool TextField::intersects(glm::vec2 const& point) const
+{
+	return PosRect.intersects(point);
+}
+
+bool TextField::istarget() const
+{
+	return target;
 }
