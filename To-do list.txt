@@ -2,35 +2,20 @@ prioritetsordning!
 
 1. base class (Roffe)
 2. sätt ut basen på banan (Roffe)
-3. flaggmodell (Johny)
-4. flaggklass (Johny)
-5. flaggan på banan (Johny)
+3. ljud (fmod?) (Sebastian)
+4. fixa att flaggan funkar som den ska på banan (Johny)
+5. Bomber kan attackera fiende bas och enheter
 6. Lobby (Fredrik) -> Lista på nuvarande games, ip-address till host, join/back/refresh-knappar
-7. victory condition klass
+7. Basernas liv-mätare
 8. 
-9. 
-10. Flagtimer mätare
-11. Basernas liv-mätare
-12. 
+9. servern (Larsson)
+10. Swarming
+11. 
+12. credits meny -> bibliotek, add-ons och personer som har hjälpt
 13. 
-14. servern (Larsson)
-15. 
-16. 
-17. 
-18. 
-19. 
-20. ljud (fmod?)
-21. 
-22. credits meny -> bibliotek, add-ons och personer som har hjälpt
-23. 
-24. Swarming
-25. 
-26. 
-27. 
-28. How-to-play meny
-29. Options meny
-30. 
-31. 
+14. How-to-play meny
+15. Options meny
+
 
 Done!
 * bomber explodera -> ta bort närliggande terräng om tillräckligt nära
@@ -40,3 +25,6 @@ Done!
 * explosionsklass
 * ändra texturen för terrängen så man ser skillnad på hårda och mjuka
 * Intersection test mellan box och frustum (Johny)
+* flaggan på banan (Johny)
+* flagg klass (Johny)
+* flagg modell med textur (Johny)
