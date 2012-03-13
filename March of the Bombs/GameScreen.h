@@ -49,6 +49,9 @@ private:
 	float rotationXSpeed;
 	PointLight::ptr light;
 
+	glm::vec2 selectionPosition;
+	bool selecting;
+
 	std::list<Explosion> explosions;
 
 	std::set<TextureSection::ptr> preloadedTextures;
@@ -56,6 +59,8 @@ private:
 	void spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity);
 
 	void preloadTextures();
+	void selectBombsBox(glm::vec2 const& pos1, glm::vec2 const& pos2);
+	void selectBombRay(glm::vec2 const& pos);
 
 public:
 	GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,

@@ -25,11 +25,52 @@ void GameScreen::preloadTextures()
 	preloadedTextures.insert(TextureSection::ptr(new TextureSection(L"Images/explosion.png")));
 }
 
+void GameScreen::selectBombsBox(glm::vec2 const& pos1, glm::vec2 const& pos2)
+{
+
+}
+
+void GameScreen::selectBombRay(glm::vec2 const& pos)
+{
+	Graphics::ptr graphics = game->getGraphics();
+
+	Camera::ptr camera = graphics->getCamera();
+	glm::mat4 viewProjectionMatrix = camera->getProjectionMatrix() * camera->getViewMatrix();
+
+	glm::mat4 pickingMatrix = glm::inverse(viewProjectionMatrix);
+
+	glm::vec4 nearPosition = pickingMatrix * glm::vec4(pos.x * 2 - 1, pos.y * 2 - 1, 0, 1);
+	nearPosition /= nearPosition.w;
+
+	glm::vec3 origin = cameraPos->getPosition();
+	glm::vec3 direction = glm::normalize(glm::vec3(nearPosition) - origin);
+
+	float distance = std::numeric_limits<float>::infinity();
+
+	Bomb* hitBomb = NULL;
+	BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
+	{
+		bomb.second.setSelected(false);
+
+		if (bomb.second.rayIntersect(origin, direction, distance))
+		{
+			hitBomb = &bomb.second;
+		}
+	}
+
+	if (hitBomb)
+	{
+		hitBomb->setSelected(true);
+	}
+}
+
 GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
 		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor)
 	: game(Game::getInstance()), client(client),
 	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap(mapName + ".txt"),
-	  myID(myID), opponentID(opponentID), opponentColor(opponentColor), cameraSpeed(20.f), cameraRotationSpeed(45.f)
+	  myID(myID), opponentID(opponentID), opponentColor(opponentColor),
+	  cameraSpeed(20.f), cameraRotationSpeed(45.f),
+	  selecting(false)
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
 	assert(bases.size() > myBaseID);
@@ -380,40 +421,12 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 {
 	if (mbEvent->state == MouseButtonState::Pressed)
 	{
-		Graphics::ptr graphics = game->getGraphics();
-
-		Camera::ptr camera = graphics->getCamera();
-		glm::mat4 viewProjectionMatrix = camera->getProjectionMatrix() * camera->getViewMatrix();
-
-		glm::mat4 pickingMatrix = glm::inverse(viewProjectionMatrix);
-
-		glm::vec4 nearPosition = pickingMatrix * glm::vec4(mbEvent->position.x * 2 - 1, mbEvent->position.y * 2 - 1, 0, 1);
-		nearPosition /= nearPosition.w;
-
-		glm::vec3 origin = cameraPos->getPosition();
-		glm::vec3 direction = glm::normalize(glm::vec3(nearPosition) - origin);
-
-		float distance = std::numeric_limits<float>::infinity();
-
 		switch (mbEvent->button)
 		{
 		case MouseButton::Left:
 			{
-				Bomb* hitBomb = NULL;
-				BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
-				{
-					bomb.second.setSelected(false);
-
-					if (bomb.second.rayIntersect(origin, direction, distance))
-					{
-						hitBomb = &bomb.second;
-					}
-				}
-
-				if (hitBomb)
-				{
-					hitBomb->setSelected(true);
-				}
+				selectionPosition = mbEvent->position;
+				selecting = true;
 
 				//testbutton
 				if (buttons[0].getState() == Hovered)
@@ -426,6 +439,21 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 
 		case  MouseButton::Right:
 			{
+				Graphics::ptr graphics = game->getGraphics();
+
+				Camera::ptr camera = graphics->getCamera();
+				glm::mat4 viewProjectionMatrix = camera->getProjectionMatrix() * camera->getViewMatrix();
+
+				glm::mat4 pickingMatrix = glm::inverse(viewProjectionMatrix);
+
+				glm::vec4 nearPosition = pickingMatrix * glm::vec4(mbEvent->position.x * 2 - 1, mbEvent->position.y * 2 - 1, 0, 1);
+				nearPosition /= nearPosition.w;
+
+				glm::vec3 origin = cameraPos->getPosition();
+				glm::vec3 direction = glm::normalize(glm::vec3(nearPosition) - origin);
+
+				float distance = std::numeric_limits<float>::infinity();
+
 				bool hitGround = blockMap.intersectGround(origin, direction, distance);
 
 				if (hitGround)
@@ -447,6 +475,26 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 				}
 			}
 			break;
+		}
+	}
+	else
+	{
+		if (mbEvent->button == MouseButton::Left)
+		{
+			if (selecting)
+			{
+				float selectionSize = glm::distance(selectionPosition, mbEvent->position);
+				if (selectionSize > 0.001f)
+				{
+					selectBombsBox(selectionPosition, mbEvent->position);
+				}
+				else
+				{
+					selectBombRay(mbEvent->position);
+				}
+
+				selecting = false;
+			}
 		}
 	}
 }
