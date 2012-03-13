@@ -8,6 +8,7 @@
 #include "BlockModelData.h"
 #include "PlaneModelData.h"
 #include "StandardBombModelData.h"
+#include "FlagModelData.h"
 
 const float GameScreen::TIME_PER_BOMB = 3.f;
 
@@ -117,6 +118,8 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor)
 	: game(Game::getInstance()), client(client),
 	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap(mapName + ".txt"),
+	  myID(myID), opponentID(opponentID), opponentColor(opponentColor), cameraSpeed(20.f), cameraRotationSpeed(45.f),
+	  flag(glm::vec3(0))
 	  myID(myID), opponentID(opponentID), opponentColor(opponentColor),
 	  cameraSpeed(20.f), cameraRotationSpeed(45.f),
 	  selecting(false)
@@ -289,6 +292,7 @@ void GameScreen::draw(Graphics::ptr graphics)
 		exp.draw(graphics);
 	}
 
+	flag.draw(graphics);
 	blockMap.draw(graphics);
 
 	//starts to render all the backgrounds

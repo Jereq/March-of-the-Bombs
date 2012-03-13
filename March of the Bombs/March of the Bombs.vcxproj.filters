@@ -225,8 +225,12 @@
     <ClCompile Include="Explosion.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="FlagModelData.cpp">
     <ClCompile Include="HQModelData.cpp">
       <Filter>Source Files\Graphics\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Flag.cpp">
+      <Filter>Source Files\Game Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -385,6 +389,12 @@
     </ClInclude>
     <ClInclude Include="Explosion.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="FlagModelData.h">
+      <Filter>Header Files\Graphics\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Flag.h">
+      <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

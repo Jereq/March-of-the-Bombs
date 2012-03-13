@@ -7,6 +7,7 @@
 #include "BlockModelData.h"
 #include "PlaneModelData.h"
 #include "StandardBombModelData.h"
+#include "FlagModelData.h"
 
 void Graphics::drawTextureInstance(TextureInstance const& texInst) const
 {
@@ -388,6 +389,7 @@ Graphics::Graphics()
 	modelDatas.insert(BlockModelData::getSoftInstance());
 	modelDatas.insert(PlaneModelData::getInstance());
 	modelDatas.insert(StandardBombModelData::getInstance());
+	modelDatas.insert(FlagModelData::getInstance());
 }
 
 Graphics::~Graphics()

@@ -96,6 +96,8 @@
     <ClCompile Include="EmptyBlock.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="Flag.cpp" />
+    <ClCompile Include="FlagModelData.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameClient.cpp" />
@@ -149,6 +151,8 @@
     <ClInclude Include="EmptyBlock.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="Flag.h" />
+    <ClInclude Include="FlagModelData.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameClient.h" />
