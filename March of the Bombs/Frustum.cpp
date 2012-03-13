@@ -47,17 +47,6 @@ glm::vec4 Frustum::getTopPlane()
 	return glm::vec4(Normal, d);
 }
 
-glm::vec4 Frustum::getFrontPlane()
-{
-	p1p2 = TLN - TRN;
-	p1p3 = BRN - TRN;
-	Normal = glm::cross(p1p2, p1p3);
-	// Insert point 1 for d
-	d = -((Normal.x * TRN.x) + (Normal.y * TRN.y) + (Normal.z * TRN.z));
-
-	return glm::vec4(Normal, d);
-}
-
 glm::vec4 Frustum::getBackPlane()
 {
 	p1p2 = TRF - TLF;
@@ -65,6 +54,17 @@ glm::vec4 Frustum::getBackPlane()
 	Normal = glm::cross(p1p2, p1p3);
 	// Insert point 1 for d
 	d = -((Normal.x * TLF.x) + (Normal.y * TLF.y) + (Normal.z * TLF.z));
+
+	return glm::vec4(Normal, d);
+}
+
+glm::vec4 Frustum::getFrontPlane()
+{
+	p1p2 = TLN - TRN;
+	p1p3 = BRN - TRN;
+	Normal = glm::cross(p1p2, p1p3);
+	// Insert point 1 for d
+	d = -((Normal.x * TRN.x) + (Normal.y * TRN.y) + (Normal.z * TRN.z));
 
 	return glm::vec4(Normal, d);
 }

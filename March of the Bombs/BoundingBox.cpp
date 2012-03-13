@@ -80,7 +80,7 @@ bool BoundingBox::rayIntersect(glm::vec3 origin, glm::vec3 direction, float& dis
 	return true;
 }
 
-void BoundingBox::frustumIntersect(Frustum& Frustum, BoundingBox& BoundingBox)
+bool BoundingBox::frustumIntersect(Frustum& Frustum, BoundingBox& BoundingBox)
 {
 	glm::vec4 clippingPlanes[6];
 
@@ -90,4 +90,30 @@ void BoundingBox::frustumIntersect(Frustum& Frustum, BoundingBox& BoundingBox)
 	clippingPlanes[3] = Frustum.getTopPlane();
 	clippingPlanes[4] = Frustum.getBackPlane();
 	clippingPlanes[5] = Frustum.getFrontPlane();
+
+	for (int p = 0; p < 6; p++)
+	{
+		// leftplane
+		if ((clippingPlanes[p].x * Frustum.TLN.x + clippingPlanes[p].y 
+			* Frustum.TLN.y + clippingPlanes[p].z * Frustum.TLN.z + clippingPlanes[p].w) > 0) continue;
+		// right plane
+		if ((clippingPlanes[p].x * Frustum.TRN.x + clippingPlanes[p].y 
+			* Frustum.TRN.y + clippingPlanes[p].z * Frustum.TRN.z + clippingPlanes[p].w) > 0) continue;
+		// bottom plane
+		if ((clippingPlanes[p].x * Frustum.BLN.x + clippingPlanes[p].y 
+			* Frustum.BLN.y + clippingPlanes[p].z * Frustum.BLN.z + clippingPlanes[p].w) > 0) continue;
+		// top plane
+		if ((clippingPlanes[p].x * Frustum.TRF.x + clippingPlanes[p].y 
+			* Frustum.TRF.y + clippingPlanes[p].z * Frustum.TRF.z + clippingPlanes[p].w) > 0) continue;
+		// back plane
+		if ((clippingPlanes[p].x * Frustum.TLF.x + clippingPlanes[p].y 
+			* Frustum.TLF.y + clippingPlanes[p].z * Frustum.TLF.z + clippingPlanes[p].w) > 0) continue;
+		// front plane
+		if ((clippingPlanes[p].x * Frustum.TRN.x + clippingPlanes[p].y 
+			* Frustum.TRN.y + clippingPlanes[p].z * Frustum.TRN.z + clippingPlanes[p].w) > 0) continue;
+		
+		//If we are still here, something was outside the frustum...
+		
+		return false;
+	}
 }
