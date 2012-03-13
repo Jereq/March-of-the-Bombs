@@ -133,3 +133,8 @@ void Map::removeBlock(glm::ivec2 const& block)
 	blockMap[block.x][block.y].reset(new EmptyBlock());
 	pathMap.freePath(block.x, block.y);
 }
+
+glm::ivec2 Map::getSize() const
+{
+	return glm::ivec2(width, height);
+}

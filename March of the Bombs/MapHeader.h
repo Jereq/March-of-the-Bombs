@@ -39,4 +39,6 @@ public:
 
 	Block::ptr getBlock(glm::ivec2 const& pos) const;
 	void removeBlock(glm::ivec2 const& block);
+
+	glm::ivec2 getSize() const;
 };

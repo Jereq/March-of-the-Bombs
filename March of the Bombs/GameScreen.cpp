@@ -40,7 +40,25 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 
 	graphics->getCamera()->setAttachmentPoint(cameraPos);
 
-	light = PointLight::ptr(new PointLight(glm::vec4(35, 150, 35, 1), glm::vec3(1.f)));
+	glm::ivec2 mapSize = blockMap.getSize();
+
+	light = PointLight::ptr(
+		new PointLight(
+			glm::vec4(mapSize.x / 2.f, 70, mapSize.y / 2.f, 1),
+			glm::vec4(0, -1, 0, 0),
+			glm::vec3(1.f)));
+
+	std::vector<glm::vec3> mapPoints;
+	mapPoints.push_back(glm::vec3(      0.f, 0.f,       0.f));
+	mapPoints.push_back(glm::vec3(      0.f, 1.f,       0.f));
+	mapPoints.push_back(glm::vec3(      0.f, 0.f, mapSize.y));
+	mapPoints.push_back(glm::vec3(      0.f, 1.f, mapSize.y));
+	mapPoints.push_back(glm::vec3(mapSize.x, 0.f,       0.f));
+	mapPoints.push_back(glm::vec3(mapSize.x, 1.f,       0.f));
+	mapPoints.push_back(glm::vec3(mapSize.x, 0.f, mapSize.y));
+	mapPoints.push_back(glm::vec3(mapSize.x, 1.f, mapSize.y));
+	light->setPoints(mapPoints);
+
 	graphics->setLight(light);
 
 	preloadTextures();
