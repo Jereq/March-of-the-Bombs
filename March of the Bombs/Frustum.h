@@ -29,16 +29,12 @@ public:
 	// BRF = BottomRightFar
 	glm::vec3 BRF;
 
-	glm::vec3 p1p2, p1p3, Normal;
-	glm::vec4 planeEq;
-	float a, b, c, d;
-
 	Frustum();
 
-	glm::vec4 getLeftPlane();
-	glm::vec4 getRightPlane();
-	glm::vec4 getBottomPlane();
-	glm::vec4 getTopPlane();
-	glm::vec4 getFrontPlane();
-	glm::vec4 getBackPlane();
+	glm::vec4 getLeftPlane() const;
+	glm::vec4 getRightPlane() const;
+	glm::vec4 getBottomPlane() const;
+	glm::vec4 getTopPlane() const;
+	glm::vec4 getFrontPlane() const;
+	glm::vec4 getBackPlane() const;
 };
