@@ -44,11 +44,10 @@ private:
 	BoundingBox boundingBox;
 
 	virtual void createVBO();
-	virtual void setMaterial();
 	virtual void useMaterial(GLSLProgram const& prog) const;
 
 protected:
-	BlockModelData(GLTexture::ptr const& texture);
+	BlockModelData(GLTexture::ptr const& texture, Lib3dsMaterial const& material);
 
 public:
 	virtual ~BlockModelData();

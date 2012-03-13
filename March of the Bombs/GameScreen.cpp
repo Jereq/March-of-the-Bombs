@@ -29,13 +29,13 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor)
 	: game(Game::getInstance()), client(client),
 	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap(mapName + ".txt"),
-	  myID(myID), opponentID(opponentID), opponentColor(opponentColor)
+	  myID(myID), opponentID(opponentID), opponentColor(opponentColor), cameraSpeed(20.f), cameraRotationSpeed(45.f)
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
 	assert(bases.size() > myBaseID);
 	basePosition = bases[myBaseID];
 
-	cameraPos.reset(new AttachmentPoint(glm::vec3(basePosition.x - 20, 15, basePosition.y + 20), glm::vec3(-30, -45, 0)));
+	cameraPos.reset(new AttachmentPoint(glm::vec3(basePosition.x - 20, 30, basePosition.y + 20), glm::vec3(-40, -45, 0)));
 	Graphics::ptr graphics = game->getGraphics();
 
 	graphics->getCamera()->setAttachmentPoint(cameraPos);
@@ -234,35 +234,35 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 			break;
 
 		case 'a':
-			cameraVelocity.x += -10;
+			cameraVelocity.x += -cameraSpeed;
 			break;
 
 		case 'd':
-			cameraVelocity.x += 10;
+			cameraVelocity.x += cameraSpeed;
 			break;
 
 		case 'w':
-			cameraVelocity.z += -10;
+			cameraVelocity.z += -cameraSpeed;
 			break;
 
 		case 's':
-			cameraVelocity.z += 10;
+			cameraVelocity.z += cameraSpeed;
 			break;
 
 		case 'q':
-			rotationYSpeed += 30;
+			rotationYSpeed += cameraRotationSpeed;
 			break;
 
 		case 'e':
-			rotationYSpeed += -30;
+			rotationYSpeed += -cameraRotationSpeed;
 			break;
 
 		case 'r':
-			rotationXSpeed += 30;
+			rotationXSpeed += cameraRotationSpeed;
 			break;
 
 		case 'f':
-			rotationXSpeed += -30;
+			rotationXSpeed += -cameraRotationSpeed;
 			break;
 
 		case 'h':
@@ -326,6 +326,14 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 				}
 			}
 			break;
+
+		case '+':
+			cameraRotationSpeed += 5;
+			break;
+
+		case '-':
+			cameraRotationSpeed -= 5;
+			break;
 		}
 	}
 
@@ -334,35 +342,35 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 		switch (kbEvent->key)
 		{
 		case 'a':
-			cameraVelocity.x -= -10;
+			cameraVelocity.x -= -cameraSpeed;
 			break;
 
 		case 'd':
-			cameraVelocity.x -= 10;
+			cameraVelocity.x -= cameraSpeed;
 			break;
 
 		case 'w':
-			cameraVelocity.z -= -10;
+			cameraVelocity.z -= -cameraSpeed;
 			break;
 
 		case 's':
-			cameraVelocity.z -= 10;
+			cameraVelocity.z -= cameraSpeed;
 			break;
 
 		case 'q':
-			rotationYSpeed -= 30;
+			rotationYSpeed -= cameraRotationSpeed;
 			break;
 
 		case 'e':
-			rotationYSpeed -= -30;
+			rotationYSpeed -= -cameraRotationSpeed;
 			break;
 
 		case 'r':
-			rotationXSpeed -= 30;
+			rotationXSpeed -= cameraRotationSpeed;
 			break;
 
 		case 'f':
-			rotationXSpeed -= -30;
+			rotationXSpeed -= -cameraRotationSpeed;
 			break;
 		}
 	}

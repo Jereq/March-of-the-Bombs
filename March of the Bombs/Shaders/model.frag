@@ -62,5 +62,5 @@ void main()
 
 	result = mix(result, tint.xyz, tint.w);
 
-	fragColor = vec4(result + material.ambient, 1.0);
+	fragColor = vec4(result + material.ambient * diffColor, 1.0);
 }

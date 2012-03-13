@@ -21,6 +21,8 @@ private:
 	Game::ptr game;
 	GameClient::ptr client;
 	AttachmentPoint::ptr cameraPos;
+	float cameraSpeed;
+	float cameraRotationSpeed;
 	Map blockMap;
 
 	unsigned short myID;

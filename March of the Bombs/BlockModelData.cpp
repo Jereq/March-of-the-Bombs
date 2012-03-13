@@ -175,25 +175,6 @@ void BlockModelData::createVBO()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void BlockModelData::setMaterial()
-{
-	material.ambient[0] = 0;
-	material.ambient[1] = 0;
-	material.ambient[2] = 0;
-
-	material.diffuse[0] = 0.6f;
-	material.diffuse[1] = 0.6f;
-	material.diffuse[2] = 0.6f;
-
-	material.specular[0] = 0.4f;
-	material.specular[1] = 0.4f;
-	material.specular[2] = 0.4f;
-
-	material.shininess = 40.f;
-
-	material.texture1_map.user_ptr = (void*)texture->getHandle();
-}
-
 void BlockModelData::useMaterial(GLSLProgram const& prog) const
 {
 	prog.setUniform("material.ambient", *reinterpret_cast<glm::vec3 const*>(material.ambient));
@@ -205,12 +186,12 @@ void BlockModelData::useMaterial(GLSLProgram const& prog) const
 	glBindTexture(GL_TEXTURE_2D, (GLuint) material.texture1_map.user_ptr);
 }
 
-BlockModelData::BlockModelData(GLTexture::ptr const& texture)
+BlockModelData::BlockModelData(GLTexture::ptr const& texture, Lib3dsMaterial const& material)
 	: vertexVBO(0), normalVBO(0), texCoordVBO(0), indexVBO(0), modelVAO(0),
-	texture(texture), boundingBox(glm::vec3(0.5f), glm::vec3(0.5f))
+	texture(texture), boundingBox(glm::vec3(0.5f), glm::vec3(0.5f)), material(material)
 {
 	createVBO();
-	setMaterial();
+	this->material.texture1_map.user_ptr = (void*)texture->getHandle();
 }
 
 BlockModelData::~BlockModelData()
@@ -284,7 +265,22 @@ BlockModelData::ptr BlockModelData::getHardInstance()
 {
 	if (!hardInstance)
 	{
-		hardInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Hard Rock.png")));
+		Lib3dsMaterial mat;
+		mat.ambient[0] = 0.2f;
+		mat.ambient[1] = 0.2f;
+		mat.ambient[2] = 0.2f;
+
+		mat.diffuse[0] = 0.7f;
+		mat.diffuse[1] = 0.7f;
+		mat.diffuse[2] = 0.7f;
+
+		mat.specular[0] = 0.2f;
+		mat.specular[1] = 0.2f;
+		mat.specular[2] = 0.2f;
+
+		mat.shininess = 40.f;
+
+		hardInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Hard Rock.png"), mat));
 	}
 
 	return hardInstance;
@@ -294,7 +290,22 @@ BlockModelData::ptr BlockModelData::getSoftInstance()
 {
 	if (!softInstance)
 	{
-		softInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Soft Rock.png")));
+		Lib3dsMaterial mat;
+		mat.ambient[0] = 0.2f;
+		mat.ambient[1] = 0.2f;
+		mat.ambient[2] = 0.2f;
+
+		mat.diffuse[0] = 0.8f;
+		mat.diffuse[1] = 0.8f;
+		mat.diffuse[2] = 0.8f;
+
+		mat.specular[0] = 0.1f;
+		mat.specular[1] = 0.1f;
+		mat.specular[2] = 0.1f;
+
+		mat.shininess = 10.f;
+
+		softInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Soft Rock.png"), mat));
 	}
 
 	return softInstance;

@@ -85,13 +85,13 @@ void PlaneModelData::createVBO()
 
 void PlaneModelData::setMaterial()
 {
-	material.ambient[0] = 0;
-	material.ambient[1] = 0;
-	material.ambient[2] = 0;
+	material.ambient[0] = 0.2f;
+	material.ambient[1] = 0.2f;
+	material.ambient[2] = 0.2f;
 
-	material.diffuse[0] = 0.9f;
-	material.diffuse[1] = 0.9f;
-	material.diffuse[2] = 0.9f;
+	material.diffuse[0] = 0.7f;
+	material.diffuse[1] = 0.7f;
+	material.diffuse[2] = 0.7f;
 
 	material.specular[0] = 0.1f;
 	material.specular[1] = 0.1f;
