@@ -135,3 +135,8 @@ bool Model::rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, fl
 
 	return modelData->getBoundingBox().rayIntersect(modelOrigin, modelDirection, distance);
 }
+
+bool Model::frustumIntersect(Frustum const& frustum) const
+{
+	return modelData->getBoundingBox().frustumIntersect(frustum.mul(getModelMatrix()));
+}

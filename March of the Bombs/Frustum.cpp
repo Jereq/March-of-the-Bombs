@@ -4,6 +4,38 @@ Frustum::Frustum()
 {
 }
 
+Frustum::Frustum(
+		glm::vec3 const& bottomLeftNear,
+		glm::vec3 const& bottomRightNear,
+		glm::vec3 const& topLeftNear,
+		glm::vec3 const& topRightNear,
+		glm::vec3 const& bottomLeftFar,
+		glm::vec3 const& bottomRightFar,
+		glm::vec3 const& topLeftFar,
+		glm::vec3 const& topRightFar)
+	: BLN(bottomLeftNear),
+	  BRN(bottomRightNear),
+	  TLN(topLeftNear),
+	  TRN(topRightNear),
+	  BLF(bottomLeftFar),
+	  BRF(bottomRightFar),
+	  TLF(topLeftFar),
+	  TRF(topRightFar)
+{
+}
+
+Frustum Frustum::mul(glm::mat4 const& matrix) const
+{
+	return Frustum(glm::vec3(matrix * glm::vec4(BLN, 1.f)),
+		glm::vec3(matrix * glm::vec4(BRN, 1.f)),
+		glm::vec3(matrix * glm::vec4(TLN, 1.f)),
+		glm::vec3(matrix * glm::vec4(TRN, 1.f)),
+		glm::vec3(matrix * glm::vec4(BLF, 1.f)),
+		glm::vec3(matrix * glm::vec4(BRF, 1.f)),
+		glm::vec3(matrix * glm::vec4(TLF, 1.f)),
+		glm::vec3(matrix * glm::vec4(TRF, 1.f)));
+}
+
 glm::vec4 Frustum::getLeftPlane() const
 {
 	glm::vec3 p1p2 = TLF - TLN;

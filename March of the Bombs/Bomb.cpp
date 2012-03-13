@@ -94,9 +94,14 @@ void Bomb::halt()
 	setVelocity(glm::vec3(0.f));
 }
 
-bool Bomb::rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance)
+bool Bomb::rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const
 {
 	return model->rayIntersect(origin, direction, distance);
+}
+
+bool Bomb::frustumIntersect(Frustum const& frustum) const
+{
+	return model->frustumIntersect(frustum);
 }
 
 void Bomb::updatePosition(float deltaTime)

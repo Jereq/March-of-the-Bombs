@@ -61,4 +61,5 @@ public:
 	glm::vec4 const& getTint() const;
 
 	virtual bool rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const;
+	virtual bool frustumIntersect(Frustum const& frustum) const;
 };

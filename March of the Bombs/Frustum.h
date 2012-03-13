@@ -30,6 +30,17 @@ public:
 	glm::vec3 BRF;
 
 	Frustum();
+	Frustum(
+		glm::vec3 const& bottomLeftNear,
+		glm::vec3 const& bottomRightNear,
+		glm::vec3 const& topLeftNear,
+		glm::vec3 const& topRightNear,
+		glm::vec3 const& bottomLeftFar,
+		glm::vec3 const& bottomRightFar,
+		glm::vec3 const& topLeftFar,
+		glm::vec3 const& topRightFar);
+
+	Frustum mul(glm::mat4 const& matrix) const;
 
 	glm::vec4 getLeftPlane() const;
 	glm::vec4 getRightPlane() const;

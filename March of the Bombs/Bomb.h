@@ -41,7 +41,8 @@ public:
 	bool setTarget(Map const& map, glm::vec3 const& targetPos);
 	void halt();
 
-	bool rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance);
+	bool rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const;
+	bool frustumIntersect(Frustum const& frustum) const;
 
 	void updatePosition(float deltaTime);
 
