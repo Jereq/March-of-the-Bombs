@@ -133,8 +133,8 @@ void LobbyScreen::createTextFields()
 	TextureSection TFBackground(L"Images/TFBackground.png");
 	TextureSection DTFBackground(L"Images/DTFBackground.png");
 
-	SignInTF	= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.30f,0.60f),glm::vec2(0.40f,0.10f)),0.0f));
-	IPTF		= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.30f,0.20f),glm::vec2(0.40f,0.10f)),0.0f));
+	SignInTF	= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.30f,0.60f),glm::vec2(0.40f,0.05f)),0.0f));
+	IPTF		= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.30f,0.20f),glm::vec2(0.40f,0.05f)),0.0f));
 
 	textfields.push_back(SignInTF);
 	textfields.push_back(IPTF);
@@ -171,16 +171,7 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 			nextScreen = Screen::ptr(new MainMeny());
 			game->getEvents().clear();
 		}
-		//else if (networkPlayButton->getState() == Hovered)
-		//{
-		//	client.reset();
-		//	client.reset(new GameClient("localhost", "1694"));
-		//
-		//	playerName = "foo";
-		//	Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
-		//	client->write(packet);
-		//}
-		else if (signInButton->getState() == Hovered)
+		else if (signInButton->getState() == Hovered && signInButton->disabled == false)
 		{
 			client.reset();
 			client.reset(new GameClient(IPTF->getString(), "1694"));
@@ -189,7 +180,8 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 			playerName = SignInTF->getString();
 			Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
 			client->write(packet);
-			signInButton->setState(Disable);
+			signInButton->disabled = true;
+			signInButton->setState(Unused);
 		}
 		else if (createGameButton->getState() == Hovered)
 		{
@@ -227,13 +219,16 @@ void LobbyScreen::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 {
 	BOOST_FOREACH(Button::ptr& button, buttons)
 	{
-		if(button->intersects(mmEvent->position) && button->getState() != Disable)
+		if(button->disabled == false)
 		{
-			button->setState(Hovered);
-		}
-		else
-		{
-			button->setState(Unused);
+			if(button->intersects(mmEvent->position))
+			{
+				button->setState(Hovered);
+			}
+			else
+			{
+				button->setState(Unused);
+			}
 		}
 	}
 

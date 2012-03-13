@@ -9,8 +9,7 @@ enum ButtonState
 {
 	Unused,
 	Hovered,
-	Used,
-	Disable
+	Used
 };
 
 class Button
@@ -27,6 +26,7 @@ private:
 public:
 	typedef boost::shared_ptr<Button> ptr;
 
+	bool disabled;
 	Button(TextureSection texture1, TextureSection texture2, Rectanglef rectangle, float depth);
 	Button(TextureSection texture1, TextureSection texture2, Rectanglef rectangle, float depth, glm::vec4 color);
 	virtual ~Button();

@@ -1,12 +1,11 @@
 #include "Button.h"
 
-
-
 //constructor without changing the vec4 color
 Button::Button(TextureSection texture1, TextureSection texture2, Rectanglef rectangle, float depth)
 	: unpressedTexture(texture1), pressedTexture(texture2), posSizeRectangle(rectangle), depth(depth), color(glm::vec4(1)), buttonState(Unused)
 {
-	bool pressed = false;
+	pressed = false;
+	disabled = false;
 }
 
 //constructor changing the vec4 color
@@ -22,30 +21,32 @@ Button::~Button()
 
 void Button::render(Graphics::ptr graphics)
 {
-	switch (buttonState)
+	if (!disabled)
 	{
-	case Unused:
+		switch (buttonState)
 		{
-			graphics->drawTexture(unpressedTexture,posSizeRectangle, depth);
-		}
-		break;
+		case Unused:
+			{
+				graphics->drawTexture(unpressedTexture,posSizeRectangle, depth);
+			}
+			break;
 
-	case Hovered:
-		{
-			graphics->drawTexture(pressedTexture,posSizeRectangle, depth);
-		}
-		break;
+		case Hovered:
+			{
+				graphics->drawTexture(pressedTexture,posSizeRectangle, depth);
+			}
+			break;
 
-	case Used:
-		{
-			graphics->drawTexture(pressedTexture,posSizeRectangle, depth);
+		case Used:
+			{
+				graphics->drawTexture(pressedTexture,posSizeRectangle, depth);
+			}
+			break;
 		}
-		break;
-	case Disable:
-		{
-			graphics->drawTexture(unpressedTexture,posSizeRectangle,depth);
-		}
-		break;
+	}
+	else if (disabled)
+	{
+		graphics->drawTexture(unpressedTexture,posSizeRectangle, depth);
 	}
 }
 
