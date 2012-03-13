@@ -93,24 +93,55 @@ bool BoundingBox::frustumIntersect(Frustum const& frustum)
 
 	for (int p = 0; p < 6; p++)
 	{
-		// leftplane
-		if ((clippingPlanes[p].x * frustum.TLN.x + clippingPlanes[p].y 
-			* frustum.TLN.y + clippingPlanes[p].z * frustum.TLN.z + clippingPlanes[p].w) > 0) continue;
-		// right plane
-		if ((clippingPlanes[p].x * frustum.TRN.x + clippingPlanes[p].y 
-			* frustum.TRN.y + clippingPlanes[p].z * frustum.TRN.z + clippingPlanes[p].w) > 0) continue;
-		// bottom plane
-		if ((clippingPlanes[p].x * frustum.BLN.x + clippingPlanes[p].y 
-			* frustum.BLN.y + clippingPlanes[p].z * frustum.BLN.z + clippingPlanes[p].w) > 0) continue;
-		// top plane
-		if ((clippingPlanes[p].x * frustum.TRF.x + clippingPlanes[p].y 
-			* frustum.TRF.y + clippingPlanes[p].z * frustum.TRF.z + clippingPlanes[p].w) > 0) continue;
-		// back plane
-		if ((clippingPlanes[p].x * frustum.TLF.x + clippingPlanes[p].y 
-			* frustum.TLF.y + clippingPlanes[p].z * frustum.TLF.z + clippingPlanes[p].w) > 0) continue;
-		// front plane
-		if ((clippingPlanes[p].x * frustum.TRN.x + clippingPlanes[p].y 
-			* frustum.TRN.y + clippingPlanes[p].z * frustum.TRN.z + clippingPlanes[p].w) > 0) continue;
+		glm::vec4& plane = clippingPlanes[p];
+
+		if (plane.x * (position.x - halfSize.x) +
+			plane.y * (position.y - halfSize.y) +
+			plane.z * (position.z - halfSize.z) +
+			plane.w < 0)
+			continue;
+
+		if (plane.x * (position.x - halfSize.x) +
+			plane.y * (position.y - halfSize.y) +
+			plane.z * (position.z + halfSize.z) +
+			plane.w < 0)
+			continue;
+
+		if (plane.x * (position.x - halfSize.x) +
+			plane.y * (position.y + halfSize.y) +
+			plane.z * (position.z - halfSize.z) +
+			plane.w < 0)
+			continue;
+
+		if (plane.x * (position.x - halfSize.x) +
+			plane.y * (position.y + halfSize.y) +
+			plane.z * (position.z + halfSize.z) +
+			plane.w < 0)
+			continue;
+
+		if (plane.x * (position.x + halfSize.x) +
+			plane.y * (position.y - halfSize.y) +
+			plane.z * (position.z - halfSize.z) +
+			plane.w < 0)
+			continue;
+
+		if (plane.x * (position.x + halfSize.x) +
+			plane.y * (position.y - halfSize.y) +
+			plane.z * (position.z + halfSize.z) +
+			plane.w < 0)
+			continue;
+
+		if (plane.x * (position.x + halfSize.x) +
+			plane.y * (position.y + halfSize.y) +
+			plane.z * (position.z - halfSize.z) +
+			plane.w < 0)
+			continue;
+
+		if (plane.x * (position.x + halfSize.x) +
+			plane.y * (position.y + halfSize.y) +
+			plane.z * (position.z + halfSize.z) +
+			plane.w < 0)
+			continue;
 		
 		//If we are still here, something was outside the frustum...
 		
