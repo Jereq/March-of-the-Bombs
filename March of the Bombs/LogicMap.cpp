@@ -50,6 +50,7 @@ void Map::loadMapFromFile(string c)
 			tokenizer<>::iterator saz=tok.begin();
 			for(int g = 0; g < width; g++)
 			{
+				unsigned short playerAssignment = 1;
 				int blockSlotType = lexical_cast<int>(*saz);
 				switch (blockSlotType)
 				{
@@ -69,9 +70,10 @@ void Map::loadMapFromFile(string c)
 					break;
 
 				case 3:
-					blockMap[k][g] = Block::ptr(new HQBlock());
+					blockMap[k][g] = Block::ptr(new HQBlock(playerAssignment));
 					pathMap.freePathLazy(k, g);
 					bases.push_back(glm::ivec2(k, g));
+					playerAssignment++;
 					break;
 				}
 				saz++;

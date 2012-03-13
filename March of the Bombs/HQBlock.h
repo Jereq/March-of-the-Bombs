@@ -8,17 +8,19 @@ class HQBlock :
 	public Block
 {
 private:
-	Model::ptr model;
 	unsigned short ownerAtTheMax;
 
 public:
-	HQBlock(void);
+	
+	HQBlock(unsigned short owner);
 	~HQBlock(void);
 
 	
+	unsigned short getOwner() const;
 	void setPosition();
 	unsigned short setPlayer(/*player*/);
 	int hitPoints;
-	void drawHQ(Graphics::ptr graphics);
+	/*void drawHQ(Graphics::ptr graphics);*/
+
 };
 

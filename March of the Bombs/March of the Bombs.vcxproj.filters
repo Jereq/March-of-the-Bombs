@@ -226,7 +226,7 @@
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="HQModelData.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
