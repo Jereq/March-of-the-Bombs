@@ -94,26 +94,26 @@ Screen::ptr LobbyScreen::getNextScreen()
 
 void LobbyScreen::createButtons()
 {
-	TextureSection BackButton(L"images/NewBI/BackBtn1.png");
-	TextureSection NPButton(L"images/NewBI/NPBtn1.png");
-	TextureSection JGButton(L"images/NewBI/JGBtn1.png");
-	TextureSection CGButton(L"images/NewBI/CGBtn1.png");
-	TextureSection SInButton(L"images/NewBI/SignInBtn1.png");
+	TextureSection BackButton	(L"images/NewBI/BackBtn1.png");
+	TextureSection JGButton		(L"images/NewBI/JGBtn1.png");
+	TextureSection CGButton		(L"images/NewBI/CGBtn1.png");
+	TextureSection SInButton	(L"images/NewBI/SignInBtn1.png");
+	TextureSection RButton		(L"images/NewBI/RefreshBtn1.png");
 
-	TextureSection BackButtonT(L"images/NewBI/BackBtn2.png");
-	TextureSection NPButtonT(L"images/NewBI/NPBtn2.png");
-	TextureSection JGButtonT(L"images/NewBI/JGBtn2.png");
-	TextureSection CGButtonT(L"images/NewBI/CGBtn2.png");
-	TextureSection SInButtonT(L"images/NewBI/SignInBtn2.png");
+	TextureSection BackButtonT	(L"images/NewBI/BackBtn2.png");
+	TextureSection JGButtonT	(L"images/NewBI/JGBtn2.png");
+	TextureSection CGButtonT	(L"images/NewBI/CGBtn2.png");
+	TextureSection SInButtonT	(L"images/NewBI/SignInBtn2.png");
+	TextureSection RButtonT		(L"images/NewBI/RefreshBtn2.png");
 
 	backButton			= Button::ptr(new Button(BackButton,	BackButtonT,	Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
-	networkPlayButton	= Button::ptr(new Button(NPButton,		NPButtonT,		Rectanglef(glm::vec2(0.70f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
 	joinGameButton		= Button::ptr(new Button(JGButton,		JGButtonT,		Rectanglef(glm::vec2(0.05f,0.20f),glm::vec2(0.20f,0.10f)), 0.0f));
 	createGameButton	= Button::ptr(new Button(CGButton,		CGButtonT,		Rectanglef(glm::vec2(0.05f,0.40f),glm::vec2(0.20f,0.10f)), 0.0f));
 	signInButton		= Button::ptr(new Button(SInButton,		SInButtonT,		Rectanglef(glm::vec2(0.05f,0.60f),glm::vec2(0.20f,0.10f)), 0.0f));
+	refreshButton		= Button::ptr(new Button(RButton,		RButtonT,		Rectanglef(glm::vec2(0.70f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
 	
 	buttons.push_back(backButton);
-	buttons.push_back(networkPlayButton);
+	buttons.push_back(refreshButton);
 	buttons.push_back(joinGameButton);
 	buttons.push_back(createGameButton);
 	buttons.push_back(signInButton);
@@ -171,19 +171,20 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 			nextScreen = Screen::ptr(new MainMeny());
 			game->getEvents().clear();
 		}
-		else if (networkPlayButton->getState() == Hovered)
-		{
-			client.reset();
-			client.reset(new GameClient("localhost", "1694"));
-
-			playerName = "foo";
-			Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
-			client->write(packet);
-		}
+		//else if (networkPlayButton->getState() == Hovered)
+		//{
+		//	client.reset();
+		//	client.reset(new GameClient("localhost", "1694"));
+		//
+		//	playerName = "foo";
+		//	Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
+		//	client->write(packet);
+		//}
 		else if (signInButton->getState() == Hovered)
 		{
 			client.reset();
 			client.reset(new GameClient(IPTF->getString(), "1694"));
+
 
 			playerName = SignInTF->getString();
 			Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
@@ -200,15 +201,16 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		}
 		else if (joinGameButton->getState() == Hovered)
 		{
-
-
-
-
 			if (client && !openGames.empty())
 			{
 				Packet::ptr packet = Packet::ptr(new Packet7JoinGame(openGames[0].getGameID()));
 				client->write(packet);
 			}
+		}
+		else if (refreshButton->getState() == Hovered)
+		{
+			Packet::ptr packet11(new Packet11RequestOpenGames());
+			client->write(packet11);
 		}
 		else if (SignInTF->getState() == Targeted)
 		{

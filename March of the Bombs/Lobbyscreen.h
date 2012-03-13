@@ -15,7 +15,7 @@ private:
 	//Button variables
 	std::vector<Button::ptr> buttons;
 	Button::ptr backButton;
-	Button::ptr networkPlayButton;
+	Button::ptr refreshButton;
 	Button::ptr joinGameButton;
 	Button::ptr createGameButton;
 	Button::ptr signInButton;
@@ -24,7 +24,6 @@ private:
 	std::vector<TextField::ptr> textfields;
 	TextField::ptr IPTF;
 	TextField::ptr SignInTF;
-	std::string IPText,SignInText;
 
 	std::vector<SimpleImage> Backgrounds;
 	Screen::ptr nextScreen;
