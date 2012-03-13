@@ -24,6 +24,7 @@ private:
 	std::vector<TextField::ptr> textfields;
 	TextField::ptr IPTF;
 	TextField::ptr SignInTF;
+	std::string IPText,SignInText;
 
 	std::vector<SimpleImage> Backgrounds;
 	Screen::ptr nextScreen;

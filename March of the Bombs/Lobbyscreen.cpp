@@ -183,9 +183,9 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		else if (signInButton->getState() == Hovered)
 		{
 			client.reset();
-			client.reset(new GameClient("192.168.1.20", "1694"));
+			client.reset(new GameClient(IPTF->getString(), "1694"));
 
-			playerName = "bar";
+			playerName = SignInTF->getString();
 			Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
 			client->write(packet);
 			signInButton->setState(Disable);
@@ -200,6 +200,10 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		}
 		else if (joinGameButton->getState() == Hovered)
 		{
+
+
+
+
 			if (client && !openGames.empty())
 			{
 				Packet::ptr packet = Packet::ptr(new Packet7JoinGame(openGames[0].getGameID()));

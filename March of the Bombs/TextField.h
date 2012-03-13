@@ -38,6 +38,8 @@ public:
 	void static keyMapping();
 	void updateString(KeyboardEvent* keyEvent);
 
+	string getString();
+
 	bool intersects(glm::vec2 const& point) const;
 	bool istargeted() const;
 	void setactive();

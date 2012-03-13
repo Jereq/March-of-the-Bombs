@@ -181,14 +181,6 @@ void TextField::updateString(KeyboardEvent* keyEvent)
 	{
 		Text.erase(Text.length()-1);
 	}
-
-
-
-	//else if (****************)
-	//{
-	//eventuelt här ska koden för att ta bort tecken i strängen
-	//Johnyproblem!
-	//}
 }
 
 void TextField::setState(TFState TFS)
@@ -217,4 +209,9 @@ void TextField::setactive()
 	active = true;
 	else
 	active = false;
+}
+
+string TextField::getString()
+{
+	return Text;
 }
