@@ -179,7 +179,7 @@ void TextField::updateString(KeyboardEvent* keyEvent)
 	}
 	else if (keyEvent->key == BackSpace && Text.empty() == false)
 	{
-		//MAKE FISK!
+		Text.erase(Text.length()-1);
 	}
 
 
