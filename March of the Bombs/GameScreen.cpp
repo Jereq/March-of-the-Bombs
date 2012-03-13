@@ -119,11 +119,9 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor)
 	: game(Game::getInstance()), client(client),
 	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap(mapName + ".txt"),
-	  myID(myID), opponentID(opponentID), opponentColor(opponentColor), cameraSpeed(20.f), cameraRotationSpeed(45.f),
-	  flag(glm::vec3(0))
 	  myID(myID), opponentID(opponentID), opponentColor(opponentColor),
 	  cameraSpeed(20.f), cameraRotationSpeed(45.f),
-	  selecting(false)
+	  selecting(false), flag(glm::vec3(0))
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
 	assert(bases.size() > myBaseID);
