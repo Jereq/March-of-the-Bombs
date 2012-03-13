@@ -19,7 +19,7 @@ private:
 	TextureSection deactiveBackground, activeBackground;
 	Rectanglef PosRect;
 	float depth;
-	bool active, targeted;
+	bool targeted;
 	std::string Text;
 	TFState textfieldState;
 
@@ -28,6 +28,8 @@ private:
 
 public:
 	typedef boost::shared_ptr<TextField> ptr;
+
+	bool active;
 
 	TextField(TextureSection activeBackground, TextureSection deactiveBackground, Rectanglef PosRect, float depth);
 	~TextField();
@@ -42,5 +44,4 @@ public:
 
 	bool intersects(glm::vec2 const& point) const;
 	bool istargeted() const;
-	void setactive();
 };

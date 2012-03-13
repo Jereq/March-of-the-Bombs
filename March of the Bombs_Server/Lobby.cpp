@@ -1,7 +1,7 @@
 #include "Lobby.h"
 
 #include <boost/foreach.hpp>
-
+#include <iostream>
 #include "Game.h"
 
 Lobby::Lobby(boost::shared_ptr<PacketManager> const& packetManager)

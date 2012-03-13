@@ -204,13 +204,10 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 			Packet::ptr packet11(new Packet11RequestOpenGames());
 			client->write(packet11);
 		}
-		else if (SignInTF->getState() == Targeted)
+
+		for(unsigned int i = 0; i < textfields.size(); i++)
 		{
-			SignInTF->setactive();
-		}
-		else if (IPTF->getState() == Targeted)
-		{
-			IPTF->setactive();
+			textfields[i]->active = (textfields[i]->getState() == Targeted);
 		}
 	}
 }

@@ -203,14 +203,6 @@ bool TextField::istargeted() const
 	return targeted;
 }
 
-void TextField::setactive()
-{
-	if (!active)
-	active = true;
-	else
-	active = false;
-}
-
 string TextField::getString()
 {
 	return Text;
