@@ -261,6 +261,14 @@ void Game::keyUpFunc(unsigned char key, int x, int y)
 void Game::update(float deltaTime)
 {
 	gui->update(deltaTime);
+
+	Camera::ptr camera(graphics->getCamera());
+	AttachmentPoint::ptr cameraPos(camera->getAttachmentPoint());
+
+	glm::mat4 viewMatrix(camera->getViewMatrix());
+	glm::vec3 forward(viewMatrix * glm::vec4(0, 0, -1, 0));
+	glm::vec3 up(viewMatrix * glm::vec4(0, 1, 0, 0));
+	soundManager->update(cameraPos->getPosition(), forward, up);
 }
 
 Game::Game()

@@ -44,6 +44,11 @@ glm::mat4 Camera::getViewMatrix() const
 	return viewMatrix;
 }
 
+AttachmentPoint::ptr const& Camera::getAttachmentPoint() const
+{
+	return attachmentPoint;
+}
+
 void Camera::setAttachmentPoint(AttachmentPoint::ptr attachmentPoint)
 {
 	this->attachmentPoint = attachmentPoint;

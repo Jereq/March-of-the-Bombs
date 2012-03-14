@@ -25,5 +25,6 @@ public:
 	glm::mat4 getProjectionMatrix() const;
 	glm::mat4 getViewMatrix() const;
 
+	AttachmentPoint::ptr const& getAttachmentPoint() const;
 	void setAttachmentPoint(AttachmentPoint::ptr attachmentPoint);
 };

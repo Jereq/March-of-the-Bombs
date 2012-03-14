@@ -16,6 +16,11 @@ MainMeny::~MainMeny()
 {
 }
 
+void MainMeny::atEntry()
+{
+	game->getSoundManager()->playBackgroundSound("");
+}
+
 //Mainmenys updateinfo
 void MainMeny::update(float deltaTime)
 {

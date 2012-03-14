@@ -162,6 +162,7 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 void GameScreen::atEntry()
 {
 	timeToNextBomb = TIME_PER_BOMB;
+	game->getSoundManager()->playBackgroundSound("Sounds/186828_ambiance_grotte_dar.mp3");
 }
 
 void GameScreen::update(float deltaTime)
@@ -671,6 +672,7 @@ void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& p
 			{
 				Bomb const& bomb = myEntities[entityID];
 				explosions.push_back(Explosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION));
+				game->getSoundManager()->playSound("Sounds/Grenade explosion_BLASTWAVEFX_31311.mp3", bomb.getPosition());
 			}
 
 			myEntities.erase(entityID);

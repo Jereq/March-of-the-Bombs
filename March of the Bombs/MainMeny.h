@@ -27,6 +27,8 @@ private:
 public:
 	MainMeny();
 	~MainMeny();
+
+	void atEntry();
 	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
