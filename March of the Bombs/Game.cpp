@@ -265,9 +265,9 @@ void Game::update(float deltaTime)
 	Camera::ptr camera(graphics->getCamera());
 	AttachmentPoint::ptr cameraPos(camera->getAttachmentPoint());
 
-	glm::mat4 viewMatrix(camera->getViewMatrix());
-	glm::vec3 forward(viewMatrix * glm::vec4(0, 0, -1, 0));
-	glm::vec3 up(viewMatrix * glm::vec4(0, 1, 0, 0));
+	glm::mat4 inverseViewMatrix(glm::inverse(camera->getViewMatrix()));
+	glm::vec3 forward(inverseViewMatrix * glm::vec4(0, 0, -1, 0));
+	glm::vec3 up(inverseViewMatrix * glm::vec4(0, 1, 0, 0));
 	soundManager->update(cameraPos->getPosition(), forward, up);
 }
 

@@ -181,7 +181,7 @@ void SoundManager::playBackgroundSound(std::string const& filename)
 	errCheck(result);
 }
 
-void SoundManager::playSound(std::string const& filename, glm::vec3 const& position)
+void SoundManager::playSound(std::string const& filename, glm::vec3 const& position, float minDistance)
 {
 	FMOD::System* system = getSystem();
 
@@ -197,6 +197,9 @@ void SoundManager::playSound(std::string const& filename, glm::vec3 const& posit
 	errCheck(result);
 
 	result = channel->set3DAttributes(reinterpret_cast<FMOD_VECTOR const*>(&position), NULL);
+	errCheck(result);
+
+	result = channel->set3DMinMaxDistance(minDistance, 10000.f);
 	errCheck(result);
 
 	channel->setPaused(false);

@@ -37,5 +37,5 @@ public:
 	void update(glm::vec3 const& cameraPos, glm::vec3 const& cameraForward, glm::vec3 const& cameraUp);
 
 	void playBackgroundSound(std::string const& filename);
-	void playSound(std::string const& filename, glm::vec3 const& position);
+	void playSound(std::string const& filename, glm::vec3 const& position, float minDistance);
 };

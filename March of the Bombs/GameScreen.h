@@ -56,6 +56,7 @@ private:
 	bool selecting;
 
 	std::list<Explosion> explosions;
+	int explosionsThisFrame;
 
 	std::set<TextureSection::ptr> preloadedTextures;
 

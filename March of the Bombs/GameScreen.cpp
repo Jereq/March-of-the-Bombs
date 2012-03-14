@@ -167,6 +167,8 @@ void GameScreen::atEntry()
 
 void GameScreen::update(float deltaTime)
 {
+	explosionsThisFrame = 0;
+
 	if (client && client->isRunning())
 	{
 		while (client->hasReceivedPackets())
@@ -672,7 +674,11 @@ void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& p
 			{
 				Bomb const& bomb = myEntities[entityID];
 				explosions.push_back(Explosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION));
-				game->getSoundManager()->playSound("Sounds/Grenade explosion_BLASTWAVEFX_31311.mp3", bomb.getPosition());
+				if (explosionsThisFrame < 1)
+				{
+					game->getSoundManager()->playSound("Sounds/Grenade explosion_BLASTWAVEFX_31311.mp3", bomb.getPosition(), 30.f);
+				}
+				explosionsThisFrame++;
 			}
 
 			myEntities.erase(entityID);
@@ -686,6 +692,11 @@ void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& p
 			{
 				Bomb const& bomb = opponentEntities[entityID];
 				explosions.push_back(Explosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION));
+				if (explosionsThisFrame < 1)
+				{
+					game->getSoundManager()->playSound("Sounds/Grenade explosion_BLASTWAVEFX_31311.mp3", bomb.getPosition(), 30.f);
+				}
+				explosionsThisFrame++;
 			}
 
 			opponentEntities.erase(entityID);
