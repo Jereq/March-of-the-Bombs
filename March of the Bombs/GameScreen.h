@@ -37,7 +37,6 @@ private:
 	typedef std::map<unsigned short, Bomb> entity_map;
 	entity_map myEntities;
 	entity_map opponentEntities;
-	
 
 	const static float TIME_PER_BOMB;
 	float timeToNextBomb;
@@ -61,10 +60,13 @@ private:
 	std::set<TextureSection::ptr> preloadedTextures;
 
 	void spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity);
+	void createExplosion(glm::vec3 const& position, float size, float duration, bool removeBlocks);
 
 	void preloadTextures();
 	void selectBombsBox(glm::vec2 const& pos1, glm::vec2 const& pos2);
 	void selectBombRay(glm::vec2 const& pos);
+
+	void getNearbyBombs(glm::vec2 const& center, float distance, Bomb::id_set& res) const;
 
 public:
 	GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,

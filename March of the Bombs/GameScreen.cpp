@@ -1,5 +1,6 @@
 #include "GameScreen.h"
 
+#include <glm/gtc/swizzle.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/random.hpp>
 
@@ -20,6 +21,60 @@ void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation,
 	{
 		Packet::ptr packet = Packet::ptr(new Packet9SpawnBomb(myID, myEntityCount++, position, rotation, velocity));
 		client->write(packet);
+	}
+}
+
+void GameScreen::createExplosion(glm::vec3 const& position, float size, float duration, bool removeBlocks)
+{
+	explosions.push_back(Explosion(position, glm::vec2(size), duration));
+	if (explosionsThisFrame < 1)
+	{
+		game->getSoundManager()->playSound("Sounds/Grenade explosion_BLASTWAVEFX_31311.mp3", position, 30.f);
+	}
+	explosionsThisFrame++;
+
+	Bomb::id_set nearbyBombs;
+	glm::vec2 groundPos(glm::swizzle<glm::X, glm::Z>(position));
+	getNearbyBombs(groundPos, 1.f, nearbyBombs);
+	BOOST_FOREACH(Bomb::id const& id, nearbyBombs)
+	{
+		if (id.first == myID)
+		{
+			Packet::ptr packet(new Packet13RemoveBomb(myID, id.second, true));
+			client->write(packet);
+		}
+	}
+	
+	if (removeBlocks)
+	{
+		glm::ivec2 pos(glm::round(groundPos));
+
+		const static glm::ivec2 offsets[4] =
+		{
+			glm::ivec2(-1, -1),
+			glm::ivec2(-1,  0),
+			glm::ivec2( 0, -1),
+			glm::ivec2( 0,  0)
+		};
+
+		std::vector<glm::ivec2> blocks;
+
+		BOOST_FOREACH(glm::ivec2 const& offset, offsets)
+		{
+			glm::ivec2 oPos(pos + offset);
+			Block::ptr block = blockMap.getBlock(oPos);
+
+			if (block && block->isDestructible())
+			{
+				blocks.push_back(oPos);
+			}
+		}
+
+		if (!blocks.empty())
+		{
+			Packet::ptr packet(new Packet14RemoveBlocks(blocks));
+			client->write(packet);
+		}
 	}
 }
 
@@ -113,6 +168,40 @@ void GameScreen::selectBombRay(glm::vec2 const& pos)
 	if (hitBomb)
 	{
 		hitBomb->setSelected(true);
+	}
+}
+
+void GameScreen::getNearbyBombs(glm::vec2 const& center, float distance, Bomb::id_set& res) const
+{
+	Bomb::id_set tRes;
+	blockMap.getNearbyBombs(center, glm::vec2(distance), tRes);
+
+	BOOST_FOREACH(Bomb::id const& id, tRes)
+	{
+		entity_map const* playerEntities;
+		if (id.first == myID)
+		{
+			playerEntities = &myEntities;
+		}
+		else if (id.first == opponentID)
+		{
+			playerEntities = & opponentEntities;
+		}
+		else
+		{
+			continue;
+		}
+
+		if (playerEntities->count(id.second) != 1)
+		{
+			return;
+		}
+
+		Bomb const& bomb = playerEntities->at(id.second);
+		if (glm::distance(center, bomb.getPosition().swizzle(glm::X, glm::Z)) <= distance)
+		{
+			res.insert(id);
+		}
 	}
 }
 
@@ -228,7 +317,17 @@ void GameScreen::update(float deltaTime)
 	BOOST_FOREACH(entity_map::value_type& entry, myEntities)
 	{
 		Bomb& bomb = entry.second;
+
+		glm::ivec2 oldPosition(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
 		bomb.updatePosition(deltaTime);
+
+		glm::ivec2 newPosition(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
+
+		if (oldPosition != newPosition)
+		{
+			blockMap.removeBombFromChunk(oldPosition, Bomb::id(myID, entry.first));
+			blockMap.addBombToChunk(newPosition, Bomb::id(myID, entry.first));
+		}
 
 		if (bomb.hasNewHeading())
 		{
@@ -390,35 +489,6 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 				{
 					Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
 					client->write(packet);
-
-					glm::ivec2 pos(glm::round(bomb.getPosition().swizzle(glm::X, glm::Z)));
-
-					const static glm::ivec2 offsets[4] =
-					{
-						glm::ivec2(-1, -1),
-						glm::ivec2(-1,  0),
-						glm::ivec2( 0, -1),
-						glm::ivec2( 0,  0)
-					};
-
-					std::vector<glm::ivec2> blocks;
-
-					BOOST_FOREACH(glm::ivec2 const& offset, offsets)
-					{
-						glm::ivec2 oPos(pos + offset);
-						Block::ptr block = blockMap.getBlock(oPos);
-
-						if (block && block->isDestructible())
-						{
-							blocks.push_back(oPos);
-						}
-					}
-
-					if (!blocks.empty())
-					{
-						packet.reset(new Packet14RemoveBlocks(blocks));
-						client->write(packet);
-					}
 				}
 			}
 			break;
@@ -607,10 +677,21 @@ void GameScreen::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& pac
 		{
 			Bomb& entity = opponentEntities[entityID];
 
+			glm::ivec2 oldPosition(glm::swizzle<glm::X, glm::Z>(entity.getPosition()));
+
 			entity.setPosition(packet5->getPosition());
 			entity.setRotation(packet5->getRotation());
 			entity.setVelocity(packet5->getVelocity());
+
+			glm::ivec2 newPosition(glm::swizzle<glm::X, glm::Z>(entity.getPosition()));
+
+			if (oldPosition != newPosition)
+			{
+				blockMap.removeBombFromChunk(oldPosition, Bomb::id(playerID, entityID));
+				blockMap.addBombToChunk(newPosition, Bomb::id(playerID, entityID));
+			}
 		}
+		
 	}
 	else
 	{
@@ -637,6 +718,9 @@ void GameScreen::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packe
 		newBomb.setTarget(blockMap, newBomb.getPosition() + glm::vec3(offset.x, 0, offset.y));
 
 		myEntities[entityID] = newBomb;
+		
+		glm::ivec2 block(glm::swizzle<glm::X, glm::Z>(newBomb.getPosition()));
+		blockMap.addBombToChunk(block, Bomb::id(playerID, entityID));
 	}
 	else if (playerID == opponentID)
 	{
@@ -648,6 +732,9 @@ void GameScreen::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packe
 		newBomb.setVelocity(packet9->getVelocity());
 
 		opponentEntities[entityID] = newBomb;
+		
+		glm::ivec2 block(glm::swizzle<glm::X, glm::Z>(newBomb.getPosition()));
+		blockMap.addBombToChunk(block, Bomb::id(playerID, entityID));
 	}
 	else
 	{
@@ -663,22 +750,21 @@ void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& p
 	unsigned short entityID = packet13->getEntityID();
 
 	const static glm::vec3 EXPLOSION_OFFSET(0, 0.3f, 0);
-	const static glm::vec2 EXPLOSION_SIZE(3.f);
-	const static float EXPLOSION_DURATION = 0.3f;
+	const static float EXPLOSION_SIZE(3.f);
+	const static float EXPLOSION_DURATION(0.3f);
 
 	if (playerID == myID)
 	{
 		if (myEntities.count(entityID) == 1)
 		{
+			Bomb const& bomb = myEntities[entityID];
+
+			glm::ivec2 block(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
+			blockMap.removeBombFromChunk(block, Bomb::id(playerID, entityID));
+
 			if (packet13->getExplode())
 			{
-				Bomb const& bomb = myEntities[entityID];
-				explosions.push_back(Explosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION));
-				if (explosionsThisFrame < 1)
-				{
-					game->getSoundManager()->playSound("Sounds/Grenade explosion_BLASTWAVEFX_31311.mp3", bomb.getPosition(), 30.f);
-				}
-				explosionsThisFrame++;
+				createExplosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION, true);
 			}
 
 			myEntities.erase(entityID);
@@ -688,15 +774,14 @@ void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& p
 	{
 		if (opponentEntities.count(entityID) == 1)
 		{
+			Bomb const& bomb = opponentEntities[entityID];
+
+			glm::ivec2 block(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
+			blockMap.removeBombFromChunk(block, Bomb::id(playerID, entityID));
+
 			if (packet13->getExplode())
 			{
-				Bomb const& bomb = opponentEntities[entityID];
-				explosions.push_back(Explosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION));
-				if (explosionsThisFrame < 1)
-				{
-					game->getSoundManager()->playSound("Sounds/Grenade explosion_BLASTWAVEFX_31311.mp3", bomb.getPosition(), 30.f);
-				}
-				explosionsThisFrame++;
+				createExplosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION, false);
 			}
 
 			opponentEntities.erase(entityID);

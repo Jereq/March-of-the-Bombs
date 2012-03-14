@@ -1,6 +1,7 @@
 #include "Bomb.h"
 
 #include "StandardBombModelData.h"
+#include "Map.h"
 
 Bomb::Bomb()
 {

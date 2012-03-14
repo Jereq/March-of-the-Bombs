@@ -1,9 +1,12 @@
 #pragma once
 
 #include <list>
+#include <set>
 
 #include "Model.h"
-#include "Map.h"
+#include "Graphics.h"
+
+class Map;
 
 /**
  * Bomb represents a single bomb on the map and some of its properties.
@@ -28,6 +31,10 @@ private:
 	std::list<glm::vec3> path;
 
 public:
+	/// Bomb id - first is playerID, second is entityID
+	typedef std::pair<unsigned short, unsigned short> id;
+	typedef std::set<id> id_set;
+
 	/// Constructor.
 	Bomb();
 	/**

@@ -42,6 +42,11 @@ void Map::loadMapFromFile(string const& c)
 
 		blockMap.resize(boost::extents[size.x][size.y]);
 		pathMap.resize(size.x, size.y);
+
+		numChunks.x = (size.x - 1) / CHUNK_SIZE + 1;
+		numChunks.y = (size.y - 1) / CHUNK_SIZE + 1;
+		bombsPerChunk.resize(numChunks.x * numChunks.y);
+
 		bases.clear();
 
 		for(int k = 0; k < size.y; k++)
@@ -87,12 +92,26 @@ void Map::loadMapFromFile(string const& c)
 		}
 		pathMap.calculateNeighbors();
 
-	groundPlane = Model::ptr(new Model(PlaneModelData::getInstance()));
-	groundPlane->setScale(glm::vec3(size.x, 1, size.y));
-		
+		groundPlane = Model::ptr(new Model(PlaneModelData::getInstance()));
+		groundPlane->setScale(glm::vec3(size.x, 1, size.y));
+
 	}
 
 	mapFile.close();
+}
+
+size_t Map::toChunkNum(glm::ivec2 const& block) const
+{
+	int x = block.x / CHUNK_SIZE;
+	int y = block.y / CHUNK_SIZE;
+
+	return x + numChunks.x * y;
+}
+
+bool Map::isValidBlock(glm::ivec2 const& block) const
+{
+	return block.x >= 0 && block.x < size.x &&
+		block.y >= 0 && block.y < size.y;
 }
 
 bool Map::findPath(glm::vec3 const& start, glm::vec3 const& goal, std::list<glm::vec3>& path) const
@@ -145,4 +164,45 @@ void Map::removeBlock(glm::ivec2 const& block)
 glm::ivec2 Map::getSize() const
 {
 	return size;
+}
+
+void Map::getNearbyBombs(glm::vec2 const& center, glm::vec2 const& distance, Bomb::id_set& res) const
+{
+	glm::ivec2 minPos(glm::floor(center - distance));
+	glm::ivec2 maxPos(glm::ceil(center + distance));
+
+	glm::ivec2 minChunk = minPos / (int)CHUNK_SIZE;
+	glm::ivec2 maxChunk = maxPos / (int)CHUNK_SIZE;
+
+	minChunk = glm::clamp(minChunk, glm::ivec2(0, 0), numChunks - glm::ivec2(1));
+	maxChunk = glm::clamp(maxChunk, glm::ivec2(0, 0), numChunks - glm::ivec2(1));
+
+	for (int x = minChunk.x; x <= maxChunk.x; x++)
+	{
+		for (int y = minChunk.y; y <= maxChunk.y; y++)
+		{
+			Bomb::id_set const& chunk = bombsPerChunk[x + numChunks.x * y];
+			res.insert(chunk.begin(), chunk.end());
+		}
+	}
+}
+
+void Map::addBombToChunk(glm::ivec2 const& block, Bomb::id const& bombID)
+{
+	if (!isValidBlock(block))
+	{
+		return;
+	}
+
+	bombsPerChunk[toChunkNum(block)].insert(bombID);
+}
+
+void Map::removeBombFromChunk(glm::ivec2 const& block, Bomb::id const& bombID)
+{
+	if (!isValidBlock(block))
+	{
+		return;
+	}
+
+	bombsPerChunk[toChunkNum(block)].erase(bombID);
 }

@@ -5,6 +5,7 @@
 #include "Block.h"
 #include "PathMap.h"
 #include "Graphics.h"
+#include "Bomb.h"
 
 /**
  * Map represents the map in terms of blocks, bases and the ground plane.
@@ -19,6 +20,14 @@ private:
 	std::vector<glm::ivec2> bases;
 	/// Map for path finding
 	PathMap pathMap;
+
+	/// Number of blocks per chunk, along one side
+	const static size_t CHUNK_SIZE = 2;
+
+	/// A list with chunks of the map, where each chunk has a set of bombs currently in it
+	typedef std::vector<Bomb::id_set> bomb_chunk_list;
+	bomb_chunk_list bombsPerChunk;
+	glm::ivec2 numChunks;
 
 	/// Size of the map, in blocks
 	glm::ivec2 size;
@@ -35,6 +44,10 @@ private:
 	 */
 	void loadMapFromFile(string const& filename);
 	
+	/// Convert from "block coordinates" to chunk number
+	size_t toChunkNum(glm::ivec2 const& block) const;
+	/// Check if the block is within the map or not
+	bool isValidBlock(glm::ivec2 const& block) const;
 
 public:
 	/**
@@ -68,4 +81,20 @@ public:
 
 	/// Get the size of the current map (in blocks)
 	glm::ivec2 getSize() const;
+
+	/**
+	 * Store nearby bombs in res. A bomb is nearby if its chunk intersects the rectangle between
+	 * center - distance and center + distance.
+	 */
+	void getNearbyBombs(glm::vec2 const& center, glm::vec2 const& distance, Bomb::id_set& res) const;
+	/**
+	 * Add a bomb to the chunk where block can be found. If the "block" is outside the map,
+	 * the bomb is simply not added.
+	 */
+	void addBombToChunk(glm::ivec2 const& block, Bomb::id const& bombID);
+	/**
+	 * Remove a bomb from the chunk where block can be found. If the "block" is outside the
+	 * map, no chunk is affected.
+	 */
+	void removeBombFromChunk(glm::ivec2 const& block, Bomb::id const& bombID);
 };
