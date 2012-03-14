@@ -119,7 +119,7 @@ void GameScreen::selectBombRay(glm::vec2 const& pos)
 GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
 		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor)
 	: game(Game::getInstance()), client(client),
-	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap(mapName + ".txt"),
+	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/"+mapName + ".txt"),
 	  myID(myID), opponentID(opponentID), opponentColor(opponentColor),
 	  cameraSpeed(20.f), cameraRotationSpeed(45.f), selecting(false)
 {

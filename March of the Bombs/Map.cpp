@@ -23,7 +23,7 @@ Map::Map(std::string const& fileName)
 
 void Map::loadDefaultMap()
 {
-	loadMapFromFile("defaultmapfile.txt");
+	loadMapFromFile("Maps/defaultmapfile.txt");
 }
 
 void Map::loadMapFromFile(string const& c)
