@@ -5,6 +5,9 @@
 
 namespace MouseButton
 {
+	/*
+	 * Different buttons on the mouse
+	 */
 	enum MouseButtonEnum
 	{
 		Left,
@@ -15,6 +18,9 @@ namespace MouseButton
 
 namespace MouseButtonState
 {
+	/*
+	 * The different actions of a mouse button
+	 */
 	enum MouseButtonStateEnum
 	{
 		Pressed,
@@ -22,6 +28,9 @@ namespace MouseButtonState
 	};
 }
 
+/*
+ * A MouseButtonEvent represents the the action of a mouse button being pressed or released
+ */
 class MouseButtonEvent :
 	public Event
 {

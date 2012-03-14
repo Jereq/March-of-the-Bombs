@@ -5,7 +5,3 @@ HardBlock::HardBlock(glm::vec3 const& position)
 {
 	model->setPosition(position);
 }
-
-HardBlock::~HardBlock()
-{
-}

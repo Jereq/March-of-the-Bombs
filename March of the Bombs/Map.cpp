@@ -1,4 +1,4 @@
-#include "MapHeader.h"
+#include "Map.h"
 #include "EmptyBlock.h"
 #include "HardBlock.h"
 #include "SoftBlock.h"
@@ -25,7 +25,7 @@ void Map::loadDefaultMap()
 	loadMapFromFile("defaultmapfile.txt");
 }
 
-void Map::loadMapFromFile(string c)
+void Map::loadMapFromFile(string const& c)
 {
 	string a;
 	ifstream mapFile;
@@ -35,44 +35,44 @@ void Map::loadMapFromFile(string c)
 		std::getline(mapFile, a);
 		tokenizer<> tok(a);
 		tokenizer<>::iterator beg=tok.begin();
-		height = lexical_cast<int>(*beg);
+		size.x = lexical_cast<int>(*beg);
 		beg++;
-		width = lexical_cast<int>(*beg);
+		size.y = lexical_cast<int>(*beg);
 
-		blockMap.resize(boost::extents[height][width]);
-		pathMap.resize(height, width);
+		blockMap.resize(boost::extents[size.x][size.y]);
+		pathMap.resize(size.x, size.y);
 		bases.clear();
 
-		for(int k = 0; k < height; k++)
+		for(int k = 0; k < size.y; k++)
 		{
 			std::getline(mapFile, a);
 			tokenizer<> tok(a);
 			tokenizer<>::iterator saz=tok.begin();
-			for(int g = 0; g < width; g++)
+			for(int g = 0; g < size.x; g++)
 			{
 				unsigned short playerAssignment = 1;
 				int blockSlotType = lexical_cast<int>(*saz);
 				switch (blockSlotType)
 				{
 				case 0:
-					blockMap[k][g] = Block::ptr(new EmptyBlock());
-					pathMap.freePathLazy(k, g);
+					blockMap[g][k] = Block::ptr(new EmptyBlock());
+					pathMap.freePathLazy(g, k);
 					break;
 
 				case 1:
-					blockMap[k][g] = Block::ptr(new SoftBlock(glm::vec3(k, 0, g)));
-					pathMap.blockPathLazy(k, g);
+					blockMap[g][k] = Block::ptr(new SoftBlock(glm::vec3(g, 0, k)));
+					pathMap.blockPathLazy(g, k);
 					break;
 
 				case 2:
-					blockMap[k][g] = Block::ptr(new HardBlock(glm::vec3(k, 0, g)));
-					pathMap.blockPathLazy(k, g);
+					blockMap[g][k] = Block::ptr(new HardBlock(glm::vec3(g, 0, k)));
+					pathMap.blockPathLazy(g, k);
 					break;
 
 				case 3:
-					blockMap[k][g] = Block::ptr(new HQBlock(playerAssignment));
-					pathMap.freePathLazy(k, g);
-					bases.push_back(glm::ivec2(k, g));
+					blockMap[g][k] = Block::ptr(new HQBlock(playerAssignment));
+					pathMap.freePathLazy(g, k);
+					bases.push_back(glm::ivec2(g, k));
 					playerAssignment++;
 					break;
 				}
@@ -82,7 +82,7 @@ void Map::loadMapFromFile(string c)
 		pathMap.calculateNeighbors();
 
 	groundPlane = Model::ptr(new Model(PlaneModelData::getInstance()));
-	groundPlane->setScale(glm::vec3(width, 1, height));
+	groundPlane->setScale(glm::vec3(size.x, 1, size.y));
 		
 	}
 
@@ -119,8 +119,8 @@ std::vector<glm::ivec2> const& Map::getBases() const
 
 Block::ptr Map::getBlock(glm::ivec2 const& pos) const
 {
-	if (pos.x >= 0 && pos.x < height &&
-		pos.y >= 0 && pos.y < width)
+	if (pos.x >= 0 && pos.x < size.x &&
+		pos.y >= 0 && pos.y < size.y)
 	{
 		return blockMap[pos.x][pos.y];
 	}
@@ -138,5 +138,5 @@ void Map::removeBlock(glm::ivec2 const& block)
 
 glm::ivec2 Map::getSize() const
 {
-	return glm::ivec2(width, height);
+	return size;
 }

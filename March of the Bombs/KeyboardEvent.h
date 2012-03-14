@@ -4,6 +4,9 @@
 
 namespace KeyboardEventType
 {
+	/**
+	 * A key can be pressed or released
+	 */
 	enum KeyboardEventTypeEnum
 	{
 		Pressed,
@@ -11,6 +14,9 @@ namespace KeyboardEventType
 	};
 }
 
+/*
+ * A keyboard event represents the action of a key being pressed or released
+ */
 class KeyboardEvent
 	: public Event
 {
@@ -18,7 +24,7 @@ public:
 	typedef KeyboardEventType::KeyboardEventTypeEnum type;
 
 	const char key;
-	const type eventType;
+	const type keyEventType;
 
 	KeyboardEvent(char key, KeyboardEvent::type eventType);
 };

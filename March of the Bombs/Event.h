@@ -4,6 +4,9 @@
 
 namespace EventType
 {
+	/**
+	 * Different types of events
+	 */
 	enum EventTypeEnum
 	{
 		Keyboard,
@@ -12,6 +15,10 @@ namespace EventType
 	};
 }
 
+/**
+ * Event is a base class for all events. To create a new event type, subclass Event
+ * and add a name for the event to the EventType::EventTpyeEnum.
+ */
 class Event
 {
 public:
@@ -19,6 +26,7 @@ public:
 	typedef boost::shared_ptr<Event> ptr;
 
 protected:
+	/// Constructor
 	Event(Event::type eventType);
 
 public:

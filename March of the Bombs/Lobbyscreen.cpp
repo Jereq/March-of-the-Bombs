@@ -144,7 +144,7 @@ void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
 {
 	const static char ESC = 0x1B;
 
-	if (keyEvent->eventType == KeyboardEventType::Pressed)
+	if (keyEvent->keyEventType == KeyboardEventType::Pressed)
 	{
 		switch (keyEvent->key)
 		{

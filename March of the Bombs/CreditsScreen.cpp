@@ -100,7 +100,7 @@ void CreditsScreen::createBackground()
 void CreditsScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
 {
 	const static char ESC = 0x1B;
-	if (keyEvent->key == ESC && keyEvent->eventType == KeyboardEventType::Pressed)
+	if (keyEvent->key == ESC && keyEvent->keyEventType == KeyboardEventType::Pressed)
 	{
 		game->close();
 	}

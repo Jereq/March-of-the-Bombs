@@ -316,7 +316,7 @@ Screen::ptr GameScreen::getNextScreen()
 
 void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 {
-	if (kbEvent->eventType == KeyboardEventType::Pressed)
+	if (kbEvent->keyEventType == KeyboardEventType::Pressed)
 	{
 		const static char ESC = 0x1B;
 
@@ -430,7 +430,7 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 		}
 	}
 
-	if (kbEvent->eventType == KeyboardEventType::Released)
+	if (kbEvent->keyEventType == KeyboardEventType::Released)
 	{
 		switch (kbEvent->key)
 		{

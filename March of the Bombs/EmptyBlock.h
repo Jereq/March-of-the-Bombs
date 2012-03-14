@@ -1,10 +1,15 @@
 #pragma once
-#include "block.h"
+
+#include "Block.h"
+
+/**
+ * A block of air that is pretty useless.
+ */
 class EmptyBlock :
 	public Block
 {
 public:
-	EmptyBlock(void);
-	~EmptyBlock(void);
+	/// Constructor. Creates a block without a model.
+	EmptyBlock();
 };
 

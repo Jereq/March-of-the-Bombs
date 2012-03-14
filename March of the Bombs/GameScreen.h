@@ -6,7 +6,7 @@
 
 #include "Screen.h"
 #include "Game.h"
-#include "MapHeader.h"
+#include "Map.h"
 #include "Bomb.h"
 #include "Explosion.h"
 #include "Flag.h"

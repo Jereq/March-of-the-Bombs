@@ -113,8 +113,7 @@
     <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Lobbyscreen.cpp" />
-    <ClCompile Include="LogicMap.cpp" />
-    <ClCompile Include="MainGameLogic.cpp" />
+    <ClCompile Include="Map.cpp" />
     <ClCompile Include="MainMeny.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Model3DS.cpp" />
@@ -133,10 +132,6 @@
     <ClCompile Include="StandardBombModelData.cpp" />
     <ClCompile Include="TextureSection.cpp" />
     <ClCompile Include="TextField.cpp" />
-    <ClCompile Include="UnitActions.cpp" />
-    <ClCompile Include="UnitFactory.cpp" />
-    <ClCompile Include="UnitMovement.cpp" />
-    <ClCompile Include="Units.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -168,7 +163,6 @@
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="Lobbyscreen.h" />
-    <ClInclude Include="MainGameLogicHeader.h" />
     <ClInclude Include="MainMeny.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Model3DS.h" />
@@ -182,17 +176,13 @@
     <ClInclude Include="PlaneModelData.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Rectanglef.h" />
-    <ClInclude Include="MapHeader.h" />
+    <ClInclude Include="Map.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="SimpleImage.h" />
     <ClInclude Include="SoftBlock.h" />
     <ClInclude Include="StandardBombModelData.h" />
     <ClInclude Include="TextureSection.h" />
     <ClInclude Include="TextField.h" />
-    <ClInclude Include="UnitActionsHeader.h" />
-    <ClInclude Include="UnitFactoryHeader.h" />
-    <ClInclude Include="UnitMovementHeader.h" />
-    <ClInclude Include="UnitsHeader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\billboard.frag" />

@@ -4,7 +4,3 @@ EmptyBlock::EmptyBlock()
 	: Block(Model::ptr())
 {
 }
-
-EmptyBlock::~EmptyBlock()
-{
-}

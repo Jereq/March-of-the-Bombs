@@ -61,11 +61,17 @@
     <Filter Include="Header Files\Game Logic\PathFinding">
       <UniqueIdentifier>{98029904-bbc7-43d5-9dc8-44f78514541b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Game Logic\Units">
-      <UniqueIdentifier>{0b1c54d5-88e9-4f7b-b5dd-638157b4c124}</UniqueIdentifier>
+    <Filter Include="Header Files\Game Logic\Block">
+      <UniqueIdentifier>{5c0cbd77-fd86-4544-8768-db3620837c19}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game Logic\Units">
+    <Filter Include="Source Files\Game Logic\Block">
+      <UniqueIdentifier>{05b8a704-79f9-45fb-a416-b6434082f4cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Logic\Unit">
       <UniqueIdentifier>{3509773a-c3fd-4aed-9e10-4721599738c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Logic\Unit">
+      <UniqueIdentifier>{0b1c54d5-88e9-4f7b-b5dd-638157b4c124}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,9 +90,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="MainGameLogic.cpp">
-      <Filter>Source Files\Game Logic</Filter>
-    </ClCompile>
     <ClCompile Include="Graphics.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -96,26 +99,11 @@
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
-    <ClCompile Include="Units.cpp">
-      <Filter>Source Files\Game Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="LogicMap.cpp">
-      <Filter>Source Files\Game Logic</Filter>
-    </ClCompile>
     <ClCompile Include="GLSLProgram.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="UnitFactory.cpp">
-      <Filter>Source Files\Game Logic</Filter>
-    </ClCompile>
     <ClCompile Include="Rectanglef.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitActions.cpp">
-      <Filter>Source Files\Game Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="UnitMovement.cpp">
-      <Filter>Source Files\Game Logic</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
@@ -146,21 +134,6 @@
     </ClCompile>
     <ClCompile Include="GameScreen.cpp">
       <Filter>Source Files\GUIcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>Source Files\Game Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="EmptyBlock.cpp">
-      <Filter>Source Files\Game Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="HardBlock.cpp">
-      <Filter>Source Files\Game Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="SoftBlock.cpp">
-      <Filter>Source Files\Game Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="HQBlock.cpp">
-      <Filter>Source Files\Game Logic</Filter>
     </ClCompile>
     <ClCompile Include="MouseMoveEvent.cpp">
       <Filter>Source Files\Event</Filter>
@@ -199,7 +172,7 @@
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Bomb.cpp">
-      <Filter>Source Files\Game Logic\Units</Filter>
+      <Filter>Source Files\Game Logic\Unit</Filter>
     </ClCompile>
     <ClCompile Include="Lobbyscreen.cpp">
       <Filter>Source Files\GUIcpp</Filter>
@@ -231,8 +204,26 @@
     <ClCompile Include="HQModelData.cpp">
       <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Flag.cpp">
+    <ClCompile Include="Map.cpp">
       <Filter>Source Files\Game Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Source Files\Game Logic\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="EmptyBlock.cpp">
+      <Filter>Source Files\Game Logic\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="Flag.cpp">
+      <Filter>Source Files\Game Logic\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="HardBlock.cpp">
+      <Filter>Source Files\Game Logic\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="HQBlock.cpp">
+      <Filter>Source Files\Game Logic\Block</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftBlock.cpp">
+      <Filter>Source Files\Game Logic\Block</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,9 +242,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="MainGameLogicHeader.h">
-      <Filter>Header Files\Game Logic</Filter>
-    </ClInclude>
     <ClInclude Include="Graphics.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
@@ -263,23 +251,8 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
-    <ClInclude Include="UnitsHeader.h">
-      <Filter>Header Files\Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="MapHeader.h">
-      <Filter>Header Files\Game Logic</Filter>
-    </ClInclude>
     <ClInclude Include="GLSLProgram.h">
       <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitFactoryHeader.h">
-      <Filter>Header Files\Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitActionsHeader.h">
-      <Filter>Header Files\Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="UnitMovementHeader.h">
-      <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
     <ClInclude Include="Rectanglef.h">
       <Filter>Header Files</Filter>
@@ -310,18 +283,6 @@
     </ClInclude>
     <ClInclude Include="GameScreen.h">
       <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>Header Files\Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="EmptyBlock.h">
-      <Filter>Header Files\Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="HardBlock.h">
-      <Filter>Header Files\Game Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="SoftBlock.h">
-      <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
     <ClInclude Include="MouseMoveEvent.h">
       <Filter>Header Files\Event</Filter>
@@ -363,7 +324,7 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="Bomb.h">
-      <Filter>Header Files\Game Logic\Units</Filter>
+      <Filter>Header Files\Game Logic\Unit</Filter>
     </ClInclude>
     <ClInclude Include="Lobbyscreen.h">
       <Filter>Header Files\GUIh</Filter>
@@ -383,9 +344,6 @@
     <ClInclude Include="Animation.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="HQBlock.h">
-      <Filter>Header Files\Game Logic</Filter>
-    </ClInclude>
     <ClInclude Include="HQModelData.h">
       <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
@@ -395,7 +353,25 @@
     <ClInclude Include="FlagModelData.h">
       <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Header Files\Game Logic\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftBlock.h">
+      <Filter>Header Files\Game Logic\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="EmptyBlock.h">
+      <Filter>Header Files\Game Logic\Block</Filter>
+    </ClInclude>
     <ClInclude Include="Flag.h">
+      <Filter>Header Files\Game Logic\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="HardBlock.h">
+      <Filter>Header Files\Game Logic\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="HQBlock.h">
+      <Filter>Header Files\Game Logic\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
   </ItemGroup>

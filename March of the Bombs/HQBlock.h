@@ -1,7 +1,7 @@
 #pragma once
 #include "block.h"
 #include "Model.h"
-#include "MapHeader.h"
+#include "Map.h"
 #include "HQModelData.h"
 
 class HQBlock :

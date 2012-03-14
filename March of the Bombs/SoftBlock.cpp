@@ -6,10 +6,6 @@ SoftBlock::SoftBlock(glm::vec3 const& position)
 	model->setPosition(position);
 }
 
-SoftBlock::~SoftBlock()
-{
-}
-
 bool SoftBlock::isDestructible() const
 {
 	return true;

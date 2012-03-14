@@ -4,6 +4,9 @@
 
 #include <boost/shared_ptr.hpp>
 
+/**
+ * StandardBombModelData represents the raw data of a bomb model.
+ */
 class StandardBombModelData :
 	public Model3DS
 {
@@ -14,8 +17,10 @@ private:
 	static ptr instance;
 
 protected:
+	/// Constructor. Loads the model file and the texture
 	StandardBombModelData();
 
 public:
+	/// Get a singleton instance, creating it first if needed
 	static ptr getInstance();
 };
