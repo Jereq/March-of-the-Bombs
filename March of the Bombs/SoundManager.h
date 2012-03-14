@@ -3,6 +3,8 @@
 #include <string>
 #include <map>
 
+#include <boost/shared_ptr.hpp>
+
 #include <fmod/fmod.hpp>
 #include <fmod/fmod_errors.h>
 
@@ -23,6 +25,8 @@ private:
 	FMOD::Sound* backgroundSound;
 
 public:
+	typedef boost::shared_ptr<SoundManager> ptr;
+
 	SoundManager();
 	~SoundManager();
 

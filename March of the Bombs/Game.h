@@ -9,6 +9,7 @@
 #include "GUIMain.h"
 #include "Event.h"
 #include "GameClient.h"
+#include "SoundManager.h"
 
 class Game
 {
@@ -23,6 +24,8 @@ private:
 	std::deque<Event::ptr> events;
 
 	boost::asio::io_service ioService;
+
+	SoundManager::ptr soundManager;
 
 	bool paused;
 	int validUpdate;
@@ -86,4 +89,5 @@ public:
 	int getWindowHeight() const;
 
 	Graphics::ptr const& getGraphics() const;
+	SoundManager::ptr const& getSoundManager() const;
 };

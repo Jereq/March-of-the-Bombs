@@ -264,13 +264,15 @@ void Game::update(float deltaTime)
 }
 
 Game::Game()
-	: fpsCap(60.f), paused(true), validUpdate(0), previousTime(glutGet(GLUT_ELAPSED_TIME))
+	: fpsCap(60.f), paused(true), validUpdate(0), previousTime(glutGet(GLUT_ELAPSED_TIME)),
+	graphics(new Graphics()), soundManager(new SoundManager())
 {
-	graphics = Graphics::ptr(new Graphics());
 }
 
 Game::~Game()
 {
+	soundManager->clearCache();
+	SoundManager::release();
 }
 
 void Game::start()
@@ -372,4 +374,9 @@ int Game::getWindowHeight() const
 Graphics::ptr const& Game::getGraphics() const
 {
 	return graphics;
+}
+
+SoundManager::ptr const& Game::getSoundManager() const
+{
+	return soundManager;
 }
