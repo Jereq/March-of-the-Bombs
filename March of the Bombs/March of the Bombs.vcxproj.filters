@@ -228,6 +228,9 @@
     <ClCompile Include="SelectionList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -378,6 +381,9 @@
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
     <ClInclude Include="SelectionList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

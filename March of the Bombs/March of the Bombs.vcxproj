@@ -60,7 +60,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;freeglut.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,7 +79,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;freeglut.lib;fmodex_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -130,6 +130,7 @@
     <ClCompile Include="SelectionList.cpp" />
     <ClCompile Include="SimpleImage.cpp" />
     <ClCompile Include="SoftBlock.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StandardBombModelData.cpp" />
     <ClCompile Include="TextureSection.cpp" />
     <ClCompile Include="TextField.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="SelectionList.h" />
     <ClInclude Include="SimpleImage.h" />
     <ClInclude Include="SoftBlock.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StandardBombModelData.h" />
     <ClInclude Include="TextureSection.h" />
     <ClInclude Include="TextField.h" />
