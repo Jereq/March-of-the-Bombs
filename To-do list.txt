@@ -1,20 +1,19 @@
 prioritetsordning!
 
 1. base class (Roffe)
-2. sätt ut basen på banan (Roffe)
-3. ljud (fmod?) (Sebastian)
-4. fixa att flaggan funkar som den ska på banan (Johny)
-5. Bomber kan attackera fiende bas och enheter
-6. Lobby (Fredrik) -> Lista på nuvarande games, ip-address till host, join/back/refresh-knappar
-7. Basernas liv-mätare
-8. 
-9. servern (Larsson)
-10. Swarming
-11. 
-12. credits meny -> bibliotek, add-ons och personer som har hjälpt
-13. 
-14. How-to-play meny
-15. Options meny
+2. ljud (fmod?) (Sebastian)
+3. fixa att flaggan funkar som den ska på banan (Johny)
+4. Bomber kan attackera fiende bas och enheter
+5. Lobby (Fredrik) -> Lista på nuvarande games, ip-address till host, join/back/refresh-knappar
+6. Basernas liv-mätare
+7. 
+8. servern (Larsson)
+9. Swarming
+10. 
+11. credits meny -> bibliotek, add-ons och personer som har hjälpt
+12. 
+13. How-to-play meny
+14. Options meny
 
 
 Done!
@@ -28,3 +27,4 @@ Done!
 * flaggan på banan (Johny)
 * flagg klass (Johny)
 * flagg modell med textur (Johny)
+* sätt ut basen på banan (Roffe)
