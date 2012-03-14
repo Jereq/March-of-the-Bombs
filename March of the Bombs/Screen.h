@@ -6,6 +6,7 @@
 #include "Button.h"
 #include "TextField.h"
 #include "SimpleImage.h"
+#include "SelectionList.h"
 
 #include <Packet1SimpleMessage.h>
 #include <Packet2Blob.h>

@@ -21,11 +21,17 @@ private:
 	Button::ptr signInButton;
 
 	//TextFeild
-	std::vector<TextField::ptr> textfields;
+
 	TextField::ptr IPTF;
 	TextField::ptr SignInTF;
 
+	//SelectionList
+	std::vector<SelectionList::ptr> SelectionLists;
+	SelectionList::ptr selectionList;
+	
+	//Background
 	std::vector<SimpleImage> Backgrounds;
+
 	Screen::ptr nextScreen;
 	boost::shared_ptr<Game> game;
 	GameClient::ptr client;
@@ -41,13 +47,18 @@ public:
 	LobbyScreen();
 	~LobbyScreen();
 
+	std::vector<TextField::ptr> textfields;
+
 	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
 
+	//createfunctions
 	void createButtons();
 	void createBackground();
 	void createTextFields();
+	void createListofGame();
+
 	void converttoStringVector();
 	void KeyboardEventMethod(KeyboardEvent* keyEvent);
 	void MousePressEventMethod(MouseButtonEvent* mbEvent);

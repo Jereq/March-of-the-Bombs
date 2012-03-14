@@ -9,6 +9,12 @@ LobbyScreen::LobbyScreen()
 	createBackground();
 	createButtons();
 	createTextFields();
+
+	createListofGame();
+	if(!openGames.empty())
+	{
+		converttoStringVector();
+	}
 }
 
 LobbyScreen::~LobbyScreen()
@@ -78,10 +84,16 @@ void LobbyScreen::draw(Graphics::ptr graphics)
 		buttons[i]->render(graphics);
 	}
 
-	//starts to render all the TextFields
+	//starts to render all the textFields
 	for(unsigned int i = 0; i < textfields.size(); i++)
 	{
 		textfields[i]->render(graphics);
+	}
+		
+	//starts to render all the selectionLists
+	for(unsigned int i = 0; i < SelectionLists.size(); i++)
+	{
+		SelectionLists[i]->render(graphics);
 	}
 }
 
@@ -138,6 +150,15 @@ void LobbyScreen::createTextFields()
 
 	textfields.push_back(SignInTF);
 	textfields.push_back(IPTF);
+}
+
+void LobbyScreen::createListofGame()
+{
+	TextureSection LoGBackground(L"Images/TFBackground.png");
+
+	selectionList = SelectionList::ptr(new SelectionList(LoGBackground,Rectanglef(glm::vec2(0.05f,0.17f),glm::vec2(0.90f,0.50f)),0.0f));
+
+	SelectionLists.push_back(selectionList);
 }
 
 void LobbyScreen::KeyboardEventMethod(KeyboardEvent* keyEvent)
@@ -203,8 +224,12 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		{
 			Packet::ptr packet11(new Packet11RequestOpenGames());
 			client->write(packet11);
+
 			//göra om vectorn som fås av serven till en vector av strängar
-			converttoStringVector();
+			if(!openGames.empty())
+			{
+				converttoStringVector();
+			}
 		}
 
 		for(unsigned int i = 0; i < textfields.size(); i++)
@@ -247,6 +272,11 @@ void LobbyScreen::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 void LobbyScreen::converttoStringVector()
 {
 	//plats för kod till att fylla strängvectorn
+	ListofGames.clear();
+	for (unsigned int i = 0; i < openGames.size(); i ++)
+	{
+		ListofGames.push_back(openGames[i].getMapName() + " " + openGames[i].getPlayerName());
+	}
 }
 
 void LobbyScreen::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet)

@@ -226,7 +226,7 @@
       <Filter>Source Files\Game Logic\Block</Filter>
     </ClCompile>
     <ClCompile Include="SelectionList.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>Source Files</Filter>
@@ -381,7 +381,7 @@
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
     <ClInclude Include="SelectionList.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GUIh</Filter>
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
