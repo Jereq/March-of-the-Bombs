@@ -225,6 +225,9 @@
     <ClCompile Include="SoftBlock.cpp">
       <Filter>Source Files\Game Logic\Block</Filter>
     </ClCompile>
+    <ClCompile Include="SelectionList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -373,6 +376,9 @@
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Header Files\Game Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectionList.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

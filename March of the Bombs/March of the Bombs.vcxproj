@@ -127,6 +127,7 @@
     <ClCompile Include="PlaneModelData.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Rectanglef.cpp" />
+    <ClCompile Include="SelectionList.cpp" />
     <ClCompile Include="SimpleImage.cpp" />
     <ClCompile Include="SoftBlock.cpp" />
     <ClCompile Include="StandardBombModelData.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Rectanglef.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="SelectionList.h" />
     <ClInclude Include="SimpleImage.h" />
     <ClInclude Include="SoftBlock.h" />
     <ClInclude Include="StandardBombModelData.h" />
