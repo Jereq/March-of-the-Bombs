@@ -70,7 +70,7 @@ void Map::loadMapFromFile(string const& c)
 					break;
 
 				case 3:
-					blockMap[g][k] = Block::ptr(new HQBlock(playerAssignment));
+					blockMap[g][k] = Block::ptr(new HQBlock(playerAssignment, glm::vec3(g, 0, k)));
 					pathMap.freePathLazy(g, k);
 					bases.push_back(glm::ivec2(g, k));
 					playerAssignment++;

@@ -10,6 +10,7 @@
 #include "Bomb.h"
 #include "Explosion.h"
 #include "Flag.h"
+#include "HQBlock.h"
 
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"
@@ -36,7 +37,8 @@ private:
 	typedef std::map<unsigned short, Bomb> entity_map;
 	entity_map myEntities;
 	entity_map opponentEntities;
-	Flag flag;	
+	Flag flag;
+	
 
 	const static float TIME_PER_BOMB;
 	float timeToNextBomb;

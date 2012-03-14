@@ -1,7 +1,7 @@
 #pragma once
 #include "block.h"
-#include "Model.h"
-#include "Map.h"
+//#include "Model.h"
+//#include "Map.h"
 #include "HQModelData.h"
 
 class HQBlock :
@@ -12,14 +12,11 @@ private:
 
 public:
 	
-	HQBlock(unsigned short owner);
+	HQBlock(unsigned short owner, glm::vec3 const& position);
 	~HQBlock(void);
 
 	
 	unsigned short getOwner() const;
-	void setPosition();
-	unsigned short setPlayer(/*player*/);
-	int hitPoints;
 	/*void drawHQ(Graphics::ptr graphics);*/
 
 };

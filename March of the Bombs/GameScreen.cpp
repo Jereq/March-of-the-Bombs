@@ -10,6 +10,7 @@
 #include "PlaneModelData.h"
 #include "StandardBombModelData.h"
 #include "FlagModelData.h"
+#include "HQModelData.h"
 
 const float GameScreen::TIME_PER_BOMB = 3.f;
 
@@ -290,6 +291,7 @@ void GameScreen::draw(Graphics::ptr graphics)
 	{
 		exp.draw(graphics);
 	}
+
 
 	flag.draw(graphics);
 	blockMap.draw(graphics);

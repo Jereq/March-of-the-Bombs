@@ -32,6 +32,7 @@ private:
 	 * will remain as before.
 	 */
 	void loadMapFromFile(string const& filename);
+	
 
 public:
 	/**
