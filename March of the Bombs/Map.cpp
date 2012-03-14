@@ -3,6 +3,7 @@
 #include "HardBlock.h"
 #include "SoftBlock.h"
 #include "HQBlock.h"
+#include "Flag.h"
 #include "PlaneModelData.h"
 
 #include <iostream>
@@ -75,6 +76,11 @@ void Map::loadMapFromFile(string const& c)
 					bases.push_back(glm::ivec2(g, k));
 					playerAssignment++;
 					break;
+				
+				case 4:
+					blockMap[g][k] = Block::ptr(new Flag(glm::vec3(g, 0, k)));
+					pathMap.freePathLazy(g, k);
+					flagPos = glm::ivec2(g, k);
 				}
 				saz++;
 			}

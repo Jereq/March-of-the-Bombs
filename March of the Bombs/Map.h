@@ -23,6 +23,8 @@ private:
 	/// Size of the map, in blocks
 	glm::ivec2 size;
 
+	glm::ivec2 flagPos;
+
 	Model::ptr groundPlane;
 
 	/// Load a default map (for testing)

@@ -37,7 +37,6 @@ private:
 	typedef std::map<unsigned short, Bomb> entity_map;
 	entity_map myEntities;
 	entity_map opponentEntities;
-	Flag flag;
 	
 
 	const static float TIME_PER_BOMB;
