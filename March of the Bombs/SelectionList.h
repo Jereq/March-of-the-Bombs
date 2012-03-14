@@ -5,19 +5,21 @@
 #include "Graphics.h"
 #include <glm\glm.hpp>
 
-#include "KeyboardEvent.h"
-
-
 class SelectionList
 {
 private:
-
+	TextureSection Background;
+	Rectanglef PosRect;
+	float depth;
 
 public:
 	typedef boost::shared_ptr<SelectionList> ptr;
 
-	SelectionList();
+	std::vector<std::string> GameList;
+	SelectionList(TextureSection Background, Rectanglef PosRect, float depth);
 	~SelectionList();
 	void render(Graphics::ptr graphics);
+	void updateString();
+
 };
 

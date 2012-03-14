@@ -34,14 +34,14 @@ public:
 	TextField(TextureSection activeBackground, TextureSection deactiveBackground, Rectanglef PosRect, float depth);
 	~TextField();
 
-	TFState getState();
-	void setState(TFState TFS);
 	void render(Graphics::ptr graphics);
 	void static keyMapping();
 	void updateString(KeyboardEvent* keyEvent);
 
-	string getString();
-
+	//get-/set- methods
 	bool intersects(glm::vec2 const& point) const;
 	bool istargeted() const;
+	TFState getState();
+	void setState(TFState TFS);
+	string getString();
 };

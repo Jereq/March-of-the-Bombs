@@ -35,6 +35,7 @@ private:
 	Screen::ptr newGame;
 
 	std::vector<OpenGame> openGames;
+	std::vector<std::string> ListofGames;
 
 public:
 	LobbyScreen();
@@ -47,6 +48,7 @@ public:
 	void createButtons();
 	void createBackground();
 	void createTextFields();
+	void converttoStringVector();
 	void KeyboardEventMethod(KeyboardEvent* keyEvent);
 	void MousePressEventMethod(MouseButtonEvent* mbEvent);
 	void MouseTouchEventMethod(MouseMoveEvent* mmEvent);

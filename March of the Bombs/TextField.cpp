@@ -30,11 +30,11 @@ void TextField::render(Graphics::ptr graphics)
 
 	if(!active)
 	{
-		graphics->drawTexture(deactiveBackground,PosRect,0.50f);
+		graphics->drawTexture(deactiveBackground,PosRect,depth);
 	}
 	else
 	{
-		graphics->drawTexture(activeBackground,PosRect,0.50f);
+		graphics->drawTexture(activeBackground,PosRect,depth);
 	}
 }
 

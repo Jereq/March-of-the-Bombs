@@ -106,11 +106,11 @@ void LobbyScreen::createButtons()
 	TextureSection SInButtonT	(L"images/NewBI/SignInBtn2.png");
 	TextureSection RButtonT		(L"images/NewBI/RefreshBtn2.png");
 
-	backButton			= Button::ptr(new Button(BackButton,	BackButtonT,	Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
-	joinGameButton		= Button::ptr(new Button(JGButton,		JGButtonT,		Rectanglef(glm::vec2(0.05f,0.20f),glm::vec2(0.20f,0.10f)), 0.0f));
-	createGameButton	= Button::ptr(new Button(CGButton,		CGButtonT,		Rectanglef(glm::vec2(0.05f,0.40f),glm::vec2(0.20f,0.10f)), 0.0f));
-	signInButton		= Button::ptr(new Button(SInButton,		SInButtonT,		Rectanglef(glm::vec2(0.05f,0.60f),glm::vec2(0.20f,0.10f)), 0.0f));
-	refreshButton		= Button::ptr(new Button(RButton,		RButtonT,		Rectanglef(glm::vec2(0.70f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
+	backButton			= Button::ptr(new Button(BackButton,	BackButtonT,	Rectanglef(glm::vec2(0.40f,0.02f),glm::vec2(0.20f,0.10f)), 0.0f));
+	joinGameButton		= Button::ptr(new Button(JGButton,		JGButtonT,		Rectanglef(glm::vec2(0.70f,0.75f),glm::vec2(0.20f,0.10f)), 0.0f));
+	createGameButton	= Button::ptr(new Button(CGButton,		CGButtonT,		Rectanglef(glm::vec2(0.40f,0.75f),glm::vec2(0.20f,0.10f)), 0.0f));
+	signInButton		= Button::ptr(new Button(SInButton,		SInButtonT,		Rectanglef(glm::vec2(0.10f,0.75f),glm::vec2(0.20f,0.10f)), 0.0f));
+	refreshButton		= Button::ptr(new Button(RButton,		RButtonT,		Rectanglef(glm::vec2(0.70f,0.02f),glm::vec2(0.20f,0.10f)), 0.0f));
 	
 	buttons.push_back(backButton);
 	buttons.push_back(refreshButton);
@@ -133,8 +133,8 @@ void LobbyScreen::createTextFields()
 	TextureSection TFBackground(L"Images/TFBackground.png");
 	TextureSection DTFBackground(L"Images/DTFBackground.png");
 
-	SignInTF	= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.30f,0.60f),glm::vec2(0.40f,0.05f)),0.0f));
-	IPTF		= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.30f,0.20f),glm::vec2(0.40f,0.05f)),0.0f));
+	SignInTF	= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.05f,0.90f),glm::vec2(0.40f,0.05f)),0.0f));
+	IPTF		= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.55f,0.90f),glm::vec2(0.40f,0.05f)),0.0f));
 
 	textfields.push_back(SignInTF);
 	textfields.push_back(IPTF);
@@ -203,6 +203,8 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		{
 			Packet::ptr packet11(new Packet11RequestOpenGames());
 			client->write(packet11);
+			//göra om vectorn som fås av serven till en vector av strängar
+			converttoStringVector();
 		}
 
 		for(unsigned int i = 0; i < textfields.size(); i++)
@@ -240,6 +242,11 @@ void LobbyScreen::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 			textfield->setState(NotTargeted);
 		}
 	}
+}
+
+void LobbyScreen::converttoStringVector()
+{
+	//plats för kod till att fylla strängvectorn
 }
 
 void LobbyScreen::handlePacket4LoginAccepted(Packet4LoginAccepted::const_ptr const& packet)
