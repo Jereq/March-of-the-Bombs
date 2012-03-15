@@ -337,11 +337,35 @@ void GameScreen::update(float deltaTime)
 
 			bomb.setHasNewHeading(false);
 		}
+
+		Bomb::id_set nearbyBombs;
+		glm::vec2 groundPos(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
+		getNearbyBombs(groundPos, EXPLOSION_RADIUS, nearbyBombs);
+		BOOST_FOREACH(Bomb::id const& id, nearbyBombs)
+		{
+ 			if (id.first == opponentID)
+			{
+				Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
+				client->write(packet);
+				break;
+			}
+		}
 	}
 
 	BOOST_FOREACH(entity_map::value_type& entry, opponentEntities)
 	{
-		entry.second.updatePosition(deltaTime);
+		Bomb& bomb = entry.second;
+
+		glm::ivec2 oldPosition(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
+		bomb.updatePosition(deltaTime);
+
+		glm::ivec2 newPosition(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
+
+		if (oldPosition != newPosition)
+		{
+			blockMap.removeBombFromChunk(oldPosition, Bomb::id(opponentID, entry.first));
+			blockMap.addBombToChunk(newPosition, Bomb::id(opponentID, entry.first));
+		}
 	}
 
 	std::list<Explosion>::iterator it = explosions.begin();
