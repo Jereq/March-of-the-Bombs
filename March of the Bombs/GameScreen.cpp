@@ -207,10 +207,10 @@ void GameScreen::getNearbyBombs(glm::vec2 const& center, float distance, Bomb::i
 }
 
 GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
-		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor)
+		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& myColor, glm::vec3 const& opponentColor)
 	: game(Game::getInstance()), client(client),
 	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/"+mapName + ".txt"),
-	  myID(myID), opponentID(opponentID), opponentColor(opponentColor),
+	  myID(myID), opponentID(opponentID), myColor(myColor), opponentColor(opponentColor),
 	  cameraSpeed(20.f), cameraRotationSpeed(45.f), selecting(false)
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
@@ -710,7 +710,7 @@ void GameScreen::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packe
 	{
 		unsigned short entityID = packet9->getEntityID();
 
-		Bomb newBomb(myID);
+		Bomb newBomb(myID, myColor);
 		newBomb.setPosition(packet9->getPosition());
 		newBomb.setRotation(packet9->getRotation());
 		newBomb.setVelocity(packet9->getVelocity());
@@ -727,7 +727,7 @@ void GameScreen::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packe
 	{
 		unsigned short entityID = packet9->getEntityID();
 
-		Bomb newBomb(myID);
+		Bomb newBomb(opponentID, opponentColor);
 		newBomb.setPosition(packet9->getPosition());
 		newBomb.setRotation(packet9->getRotation());
 		newBomb.setVelocity(packet9->getVelocity());

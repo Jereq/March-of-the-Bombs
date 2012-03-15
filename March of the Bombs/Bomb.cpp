@@ -7,10 +7,12 @@ Bomb::Bomb()
 {
 }
 
-Bomb::Bomb(unsigned short owner)
-	: owner(owner), newHeading(false), selected(false), model(new Model(StandardBombModelData::getInstance()))
+Bomb::Bomb(unsigned short owner, glm::vec3 const& ownerColor)
+	: owner(owner), ownerColor(ownerColor),
+	newHeading(false), selected(false), model(new Model(StandardBombModelData::getInstance()))
 {
 	model->setScale(glm::vec3(0.3f));
+	model->setTint(glm::vec4(ownerColor, 0.3f));
 }
 
 unsigned short Bomb::getOwner() const
@@ -63,7 +65,7 @@ void Bomb::setSelected(bool select)
 	else
 	{
 		selected = false;
-		model->setTint(glm::vec4(0.f));
+		model->setTint(glm::vec4(ownerColor, 0.3f));
 	}
 }
 

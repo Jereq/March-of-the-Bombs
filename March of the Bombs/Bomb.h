@@ -19,6 +19,8 @@ private:
 
 	/// ID of the owning player
 	unsigned short owner;
+	/// Color of owning player
+	glm::vec3 ownerColor;
 	/// Selected bomb are drawn with a blue tint
 	bool selected;
 	/// The selected bomb has recently altered direction/velocity/position
@@ -41,7 +43,7 @@ public:
 	 * Constructor. Assigns the owner of the bomb, loads the standard bomb model
 	 * and sets some default values.
 	 */
-	Bomb(unsigned short owner);
+	Bomb(unsigned short owner, glm::vec3 const &ownerColor);
 
 	/// Return the bombs owner
 	unsigned short getOwner() const;

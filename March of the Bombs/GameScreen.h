@@ -29,6 +29,7 @@ private:
 
 	unsigned short myID;
 	unsigned short opponentID;
+	glm::vec3 myColor;
 	glm::vec3 opponentColor;
 	glm::ivec2 basePosition;
 
@@ -71,7 +72,7 @@ private:
 
 public:
 	GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
-		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& opponentColor);
+		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& myColor, glm::vec3 const& opponentColor);
 
 	void atEntry();
 	void update(float deltaTime);
