@@ -83,12 +83,32 @@ bool Bomb::setTarget(Map const& map, glm::vec3 const& targetPos)
 {
 	bool result = map.findPath(getPosition(), targetPos, path);
 
-	if (!result)
+	if (result)
 	{
-		setVelocity(glm::vec3(0.f));
+		return true;
 	}
 
-	return result;
+	const static glm::vec3 offsets[] =
+	{
+		glm::vec3(1.1f, 0, 0.5f),
+		glm::vec3(-.1f, 0, 0.5f),
+		glm::vec3(0.5f, 0, 1.1f),
+		glm::vec3(0.5f, 0, -.1f)
+	};
+
+	glm::vec3 basePos(glm::floor(targetPos));
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		result = map.findPath(getPosition(), basePos + offsets[i], path);
+		if (result)
+		{
+			return true;
+		}
+	}
+
+	setVelocity(glm::vec3(0.f));
+	return false;
 }
 
 void Bomb::halt()
