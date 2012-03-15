@@ -272,10 +272,10 @@ void LobbyScreen::MouseTouchEventMethod(MouseMoveEvent* mmEvent)
 void LobbyScreen::converttoStringVector()
 {
 	//plats för kod till att fylla strängvectorn
-	ListofGames.clear();
+	selectionList->GameList.clear();
 	for (unsigned int i = 0; i < openGames.size(); i ++)
 	{
-		ListofGames.push_back(openGames[i].getMapName() + " " + openGames[i].getPlayerName());
+		selectionList->GameList.push_back(openGames[i].getMapName() + " " + openGames[i].getPlayerName());
 	}
 }
 
