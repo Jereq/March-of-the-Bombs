@@ -14,6 +14,7 @@
 #include "HQModelData.h"
 
 const float GameScreen::TIME_PER_BOMB = 3.f;
+const float GameScreen::EXPLOSION_RADIUS = 1.5f;
 
 void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity)
 {
@@ -35,7 +36,7 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 
 	Bomb::id_set nearbyBombs;
 	glm::vec2 groundPos(glm::swizzle<glm::X, glm::Z>(position));
-	getNearbyBombs(groundPos, 1.f, nearbyBombs);
+	getNearbyBombs(groundPos, size * 0.5f, nearbyBombs);
 	BOOST_FOREACH(Bomb::id const& id, nearbyBombs)
 	{
 		if (id.first == myID)
@@ -231,13 +232,13 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 
 	std::vector<glm::vec3> mapPoints;
 	mapPoints.push_back(glm::vec3(      0.f, 0.f,       0.f));
-	mapPoints.push_back(glm::vec3(      0.f, 1.f,       0.f));
+	mapPoints.push_back(glm::vec3(      0.f, 3.f,       0.f));
 	mapPoints.push_back(glm::vec3(      0.f, 0.f, mapSize.y));
-	mapPoints.push_back(glm::vec3(      0.f, 1.f, mapSize.y));
+	mapPoints.push_back(glm::vec3(      0.f, 3.f, mapSize.y));
 	mapPoints.push_back(glm::vec3(mapSize.x, 0.f,       0.f));
-	mapPoints.push_back(glm::vec3(mapSize.x, 1.f,       0.f));
+	mapPoints.push_back(glm::vec3(mapSize.x, 3.f,       0.f));
 	mapPoints.push_back(glm::vec3(mapSize.x, 0.f, mapSize.y));
-	mapPoints.push_back(glm::vec3(mapSize.x, 1.f, mapSize.y));
+	mapPoints.push_back(glm::vec3(mapSize.x, 3.f, mapSize.y));
 	light->setPoints(mapPoints);
 
 	graphics->setLight(light);
@@ -309,7 +310,7 @@ void GameScreen::update(float deltaTime)
 	timeToNextBomb -= deltaTime;
 	while (timeToNextBomb <= 0)
 	{
-		spawnBomb(glm::vec3(basePosition.x, 0, basePosition.y), glm::vec3(0), glm::vec3(0));
+		spawnBomb(glm::vec3(basePosition.x + 0.5f, 0, basePosition.y + 0.5f), glm::vec3(0), glm::vec3(0));
 
 		timeToNextBomb += TIME_PER_BOMB;
 	}
@@ -750,7 +751,6 @@ void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& p
 	unsigned short entityID = packet13->getEntityID();
 
 	const static glm::vec3 EXPLOSION_OFFSET(0, 0.3f, 0);
-	const static float EXPLOSION_SIZE(3.f);
 	const static float EXPLOSION_DURATION(0.3f);
 
 	if (playerID == myID)
@@ -764,7 +764,7 @@ void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& p
 
 			if (packet13->getExplode())
 			{
-				createExplosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION, true);
+				createExplosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_RADIUS * 2, EXPLOSION_DURATION, true);
 			}
 
 			myEntities.erase(entityID);
@@ -781,7 +781,7 @@ void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& p
 
 			if (packet13->getExplode())
 			{
-				createExplosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_SIZE, EXPLOSION_DURATION, false);
+				createExplosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_RADIUS * 2, EXPLOSION_DURATION, false);
 			}
 
 			opponentEntities.erase(entityID);

@@ -54,6 +54,7 @@ private:
 	glm::vec2 selectionPosition;
 	bool selecting;
 
+	const static float EXPLOSION_RADIUS;
 	std::list<Explosion> explosions;
 	int explosionsThisFrame;
 
