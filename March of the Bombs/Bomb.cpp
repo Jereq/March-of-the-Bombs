@@ -97,6 +97,7 @@ bool Bomb::setTarget(Map const& map, glm::vec3 const& targetPos)
 	};
 
 	glm::vec3 basePos(glm::floor(targetPos));
+	basePos.y = 0;
 
 	for (size_t i = 0; i < 4; i++)
 	{
