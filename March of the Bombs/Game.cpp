@@ -137,11 +137,6 @@ void Game::updateFunc(int value)
 	float deltaTime = deltaTimeMS / 1000.f;
 	previousTime = runTimeMS;
 
-	if (deltaTime > 1.f / fpsCap * 10)
-	{
-		deltaTime = 1.f / fpsCap * 10;
-	}
-
 	int mouseDeltaX = currentMouseX - previousMouseX;
 	int mouseDeltaY = currentMouseY - previousMouseY;
 	previousMouseX = currentMouseX;
