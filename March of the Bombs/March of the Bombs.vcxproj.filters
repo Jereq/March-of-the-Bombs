@@ -231,6 +231,9 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FontandKeyMapping.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FontandKeyMapping.h">
+      <Filter>Header Files\GUIh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

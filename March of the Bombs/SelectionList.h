@@ -2,6 +2,7 @@
 
 #include "TextureSection.h"
 #include "Rectanglef.h"
+#include "FontandKeyMapping.h"
 #include "Graphics.h"
 #include <glm\glm.hpp>
 
