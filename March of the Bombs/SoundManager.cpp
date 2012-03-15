@@ -161,6 +161,11 @@ void SoundManager::update(glm::vec3 const& cameraPos, glm::vec3 const& cameraFor
 
 void SoundManager::playBackgroundSound(std::string const& filename)
 {
+	playBackgroundSound(filename, 1.f);
+}
+
+void SoundManager::playBackgroundSound(std::string const& filename, float volume)
+{
 	if (backgroundSound)
 	{
 		backgroundSound->release();
@@ -177,7 +182,14 @@ void SoundManager::playBackgroundSound(std::string const& filename)
 	FMOD_RESULT result = system->createSound(filename.c_str(), FMOD_LOOP_NORMAL, NULL, &backgroundSound);
 	errCheck(result);
 
-	result = system->playSound(FMOD_CHANNEL_FREE, backgroundSound, false, NULL);
+	FMOD::Channel* channel = NULL;
+	result = system->playSound(FMOD_CHANNEL_FREE, backgroundSound, true, &channel);
+	errCheck(result);
+
+	result = channel->setVolume(volume);
+	errCheck(result);
+
+	result = channel->setPaused(false);
 	errCheck(result);
 }
 
