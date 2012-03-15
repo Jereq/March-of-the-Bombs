@@ -30,7 +30,7 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 	explosions.push_back(Explosion(position, glm::vec2(size), duration));
 	if (explosionsThisFrame < 1)
 	{
-		game->getSoundManager()->playSound("Sounds/Grenade explosion_BLASTWAVEFX_31311.mp3", position, 30.f);
+		game->getSoundManager()->playSound("Sounds/bombexplosion.mp3", position, 30.f);
 	}
 	explosionsThisFrame++;
 
@@ -252,7 +252,7 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 void GameScreen::atEntry()
 {
 	timeToNextBomb = TIME_PER_BOMB;
-	game->getSoundManager()->playBackgroundSound("Sounds/186828_ambiance_grotte_dar.mp3");
+	game->getSoundManager()->playBackgroundSound("Sounds/gamebackground.mp3");
 }
 
 void GameScreen::update(float deltaTime)

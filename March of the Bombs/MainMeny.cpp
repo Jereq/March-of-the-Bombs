@@ -18,7 +18,7 @@ MainMeny::~MainMeny()
 
 void MainMeny::atEntry()
 {
-	game->getSoundManager()->playBackgroundSound("");
+	game->getSoundManager()->playBackgroundSound("Sounds/Mainbackground.mp3");
 }
 
 //Mainmenys updateinfo

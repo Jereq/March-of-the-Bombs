@@ -4,6 +4,7 @@
 GUIMain::GUIMain()
 {
 	screen = Screen::ptr(new MainMeny());				//creating a smartpointer attribute, allso the thing that will say what screen to use
+	screen->atEntry();
 }
 
 GUIMain::~GUIMain()
