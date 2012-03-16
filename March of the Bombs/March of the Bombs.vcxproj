@@ -92,6 +92,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="client.cpp" />
+    <ClCompile Include="CreateGameScreen.cpp" />
     <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="EmptyBlock.cpp" />
     <ClCompile Include="Event.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CreateGameScreen.h" />
     <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="EmptyBlock.h" />
     <ClInclude Include="Event.h" />

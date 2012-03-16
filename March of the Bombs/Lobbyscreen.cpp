@@ -1,7 +1,9 @@
 #include "LobbyScreen.h"
+
 #include "Game.h"
 #include "MainMeny.h"
 #include "GameScreen.h"
+#include "CreateGameScreen.h"
 
 LobbyScreen::LobbyScreen()
 	: game(Game::getInstance())
@@ -208,8 +210,8 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		{
 			if (client)
 			{
-				Packet::ptr packet = Packet::ptr(new Packet6CreateGame("defaultmapfile"));
-				client->write(packet);
+				nextScreen.reset(new CreateGameScreen(shared_from_this(), client, playerName, playerID));
+				game->getEvents().clear();
 			}
 		}
 		else if (joinGameButton->getState() == Hovered)
@@ -312,4 +314,5 @@ void LobbyScreen::handlePacket12OpenGames(Packet12OpenGames::const_ptr const& pa
 	Packet12OpenGames const* packet12 = static_cast<Packet12OpenGames const*>(packet.get());
 
 	openGames = packet12->getOpenGames();
+	converttoStringVector();
 }

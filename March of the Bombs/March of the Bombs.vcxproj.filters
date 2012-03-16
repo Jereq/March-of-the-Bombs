@@ -234,6 +234,9 @@
     <ClCompile Include="FontandKeyMapping.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
+    <ClCompile Include="CreateGameScreen.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -390,6 +393,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FontandKeyMapping.h">
+      <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="CreateGameScreen.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
   </ItemGroup>
