@@ -1,19 +1,15 @@
 prioritetsordning!
 
-1. Bomber kan attackera fiende bas och enheter (Roffe)
-2. ljud (fmod?) (Sebastian)
-3. Fixa så att spelplanen är mer uppsplittad så inte när man checkar enheter så går man inte igenom hela listan (Sebastian)
-4. leta upp ljud som kan användas som bakgrundsljud och dylikt (Johny)
-5. fixa att flaggan funkar som den ska på banan (Johny)
-6. Lobby (Fredrik) -> Lista på nuvarande games, ip-address till host, join/back/refresh-knappar
-7. Basernas liv-mätare
-8. servern (Sebastian)
-9. Swarming
-10. 
-11. credits meny -> bibliotek, add-ons och personer som har hjälpt
-12. 
-13. How-to-play meny
-14. Options meny
+1. leta upp ljud som kan användas som bakgrundsljud och dylikt (Johny)
+2. Lobby (Fredrik) -> Lista på nuvarande games, ip-address till host, join/back/refresh-knappar
+3. Basernas liv-mätare
+4. servern (Sebastian)
+5. Swarming
+6. 
+7. credits meny -> bibliotek, add-ons och personer som har hjälpt
+8. 
+9. How-to-play meny
+10. Options meny
 
 
 Done!
@@ -29,3 +25,7 @@ Done!
 * flagg modell med textur (Johny)
 * sätt ut basen på banan (Roffe)
 * base class (Roffe)
+* ljud (Sebastian)
+* Fixa så att spelplanen är mer uppsplittad så inte när man checkar enheter så går man inte igenom hela listan (Sebastian)
+* Bomber kan attackera fiende bas och enheter (Sebastian)
+* fixa att flaggan funkar som den ska på banan (Sebastian)
