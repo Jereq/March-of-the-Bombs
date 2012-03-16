@@ -215,13 +215,14 @@ void GameScreen::getNearbyBombs(glm::vec2 const& center, float distance, Bomb::i
 	}
 }
 
-GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
-		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& myColor, glm::vec3 const& opponentColor)
+GameScreen::GameScreen(GameClient::ptr const& client, std::string const& myName, unsigned short myID, glm::vec3 const& myColor,
+		std::string const& opponentName, unsigned short opponentID, glm::vec3 const& opponentColor,
+		std::string const& mapName, unsigned short myBaseID)
 	: game(Game::getInstance()), client(client),
-	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/"+mapName + ".txt"),
+	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/" + mapName + ".txt"),
 	  myID(myID), opponentID(opponentID), myColor(myColor), opponentColor(opponentColor),
 	  cameraSpeed(20.f), cameraRotationSpeed(45.f), selecting(false),
-	  myScore(0), opponentScore(0)
+	  myScore(0), opponentScore(0), myName(myName), opponentName(opponentName)
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
 	assert(bases.size() > myBaseID);
@@ -265,6 +266,7 @@ void GameScreen::atEntry()
 {
 	timeToNextBomb = TIME_PER_BOMB;
 	game->getSoundManager()->playBackgroundSound("Sounds/gamebackground.mp3");
+	game->getGraphics()->setBackground(background);
 }
 
 void GameScreen::update(float deltaTime)
@@ -754,8 +756,7 @@ void GameScreen::mouseMoveEventHandler(MouseMoveEvent const* mmEvent)
 
 void GameScreen::createBackground()
 {
-	TextureSection Background(L"images/CaveBackground.png");
-	game->getGraphics()->setBackground(TextureSection::ptr(new TextureSection(Background)));
+	background.reset(new TextureSection(L"images/CaveBackground.png"));
 
 	TextureSection guiBackground(L"images/NewBI/Start.png");
 	SimpleImage Background1(guiBackground, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(0.20f,0.20f)), 0.10f);

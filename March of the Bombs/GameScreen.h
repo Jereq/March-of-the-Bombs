@@ -27,12 +27,18 @@ private:
 	float cameraRotationSpeed;
 	Map blockMap;
 
+	std::string myName;
+	std::string opponentName;
+
 	unsigned short myID;
 	unsigned short opponentID;
+
 	glm::vec3 myColor;
 	glm::vec3 opponentColor;
+
 	float myScore;
 	float opponentScore;
+
 	glm::ivec2 basePosition;
 	glm::vec3 opponentBasePos;
 
@@ -48,6 +54,7 @@ private:
 	std::vector<Button> buttons;
 	std::vector<SimpleImage> Backgrounds;
 	Screen::ptr nextScreen;
+	TextureSection::ptr background;
 
 	float currentDeltaTime;
 	glm::vec3 cameraVelocity;
@@ -77,8 +84,9 @@ private:
 	void getNearbyBombs(glm::vec2 const& center, float distance, Bomb::id_set& res) const;
 
 public:
-	GameScreen(GameClient::ptr const& client, std::string const& mapName, unsigned short myID,
-		unsigned short opponentID, unsigned short myBaseID, glm::vec3 const& myColor, glm::vec3 const& opponentColor);
+	GameScreen(GameClient::ptr const& client, std::string const& myName, unsigned short myID, glm::vec3 const& myColor,
+		std::string const& opponentName, unsigned short opponentID, glm::vec3 const& opponentColor,
+		std::string const& mapName, unsigned short myBaseID);
 
 	void atEntry();
 	void update(float deltaTime);

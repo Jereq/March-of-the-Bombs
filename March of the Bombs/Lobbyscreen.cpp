@@ -4,6 +4,7 @@
 #include "MainMeny.h"
 #include "GameScreen.h"
 #include "CreateGameScreen.h"
+#include "LoadingScreen.h"
 
 LobbyScreen::LobbyScreen()
 	: game(Game::getInstance())
@@ -292,11 +293,11 @@ void LobbyScreen::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& pack
 	Packet8SetupGame const* packet8 = static_cast<Packet8SetupGame const*>(packet.get());
 
 	glm::vec3 myColor = glm::vec3(1.f, 1.f, 0.f) - packet8->getOpponentColor();
-	newGame = Screen::ptr(new GameScreen(client, packet8->getMapName(), playerID,
-		packet8->getOpponentID(), packet8->getBaseID(), myColor, packet8->getOpponentColor()));
-
-	Packet::ptr packetReady(new Packet10PlayerReady(playerID));
-	client->write(packetReady);
+	
+	nextScreen.reset(new LoadingScreen(client, playerName, playerID, myColor,
+		"Hasse", packet8->getOpponentID(), packet8->getOpponentColor(),
+		packet8->getMapName(), packet8->getBaseID()));
+	game->getEvents().clear();
 }
 
 void LobbyScreen::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet)
