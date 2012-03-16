@@ -43,6 +43,8 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 		{
 			Packet::ptr packet(new Packet13RemoveBomb(myID, id.second, true));
 			client->write(packet);
+
+			myEntities[id.second].setIsAlive(false);
 		}
 	}
 	
@@ -96,29 +98,23 @@ void GameScreen::selectBombsBox(glm::vec2 const& pos1, glm::vec2 const& pos2)
 	glm::vec2 lowerLeft = glm::min(pos1, pos2);
 	glm::vec2 upperRight = glm::max(pos1, pos2);
 
-	glm::vec4 nearPositionLL = pickingMatrix * glm::vec4(lowerLeft.x * 2 - 1, lowerLeft.y * 2 - 1, 0, 1);
-	nearPositionLL /= nearPositionLL.w;
-
-	glm::vec4 nearPositionLR = pickingMatrix * glm::vec4(upperRight.x * 2 - 1, lowerLeft.y * 2 - 1, 0, 1);
-	nearPositionLR /= nearPositionLR.w;
-
-	glm::vec4 nearPositionUL = pickingMatrix * glm::vec4(lowerLeft.x * 2 - 1, upperRight.y * 2 - 1, 0, 1);
-	nearPositionUL /= nearPositionUL.w;
-
+	glm::vec4 nearPositionLL = pickingMatrix * glm::vec4(lowerLeft.x  * 2 - 1, lowerLeft.y  * 2 - 1, 0, 1);
+	glm::vec4 nearPositionLR = pickingMatrix * glm::vec4(upperRight.x * 2 - 1, lowerLeft.y  * 2 - 1, 0, 1);
+	glm::vec4 nearPositionUL = pickingMatrix * glm::vec4(lowerLeft.x  * 2 - 1, upperRight.y * 2 - 1, 0, 1);
 	glm::vec4 nearPositionUR = pickingMatrix * glm::vec4(upperRight.x * 2 - 1, upperRight.y * 2 - 1, 0, 1);
+	glm::vec4 farPositionLL  = pickingMatrix * glm::vec4(lowerLeft.x  * 2 - 1, lowerLeft.y  * 2 - 1, 1, 1);
+	glm::vec4 farPositionLR  = pickingMatrix * glm::vec4(upperRight.x * 2 - 1, lowerLeft.y  * 2 - 1, 1, 1);
+	glm::vec4 farPositionUL  = pickingMatrix * glm::vec4(lowerLeft.x  * 2 - 1, upperRight.y * 2 - 1, 1, 1);
+	glm::vec4 farPositionUR  = pickingMatrix * glm::vec4(upperRight.x * 2 - 1, upperRight.y * 2 - 1, 1, 1);
+
+	nearPositionLL /= nearPositionLL.w;
+	nearPositionLR /= nearPositionLR.w;
+	nearPositionUL /= nearPositionUL.w;
 	nearPositionUR /= nearPositionUR.w;
-
-	glm::vec4 farPositionLL = pickingMatrix * glm::vec4(lowerLeft.x * 2 - 1, lowerLeft.y * 2 - 1, 1, 1);
-	farPositionLL /= farPositionLL.w;
-
-	glm::vec4 farPositionLR = pickingMatrix * glm::vec4(upperRight.x * 2 - 1, lowerLeft.y * 2 - 1, 1, 1);
-	farPositionLR /= farPositionLR.w;
-
-	glm::vec4 farPositionUL = pickingMatrix * glm::vec4(lowerLeft.x * 2 - 1, upperRight.y * 2 - 1, 1, 1);
-	farPositionUL /= farPositionUL.w;
-
-	glm::vec4 farPositionUR = pickingMatrix * glm::vec4(upperRight.x * 2 - 1, upperRight.y * 2 - 1, 1, 1);
-	farPositionUR /= farPositionUR.w;
+	farPositionLL  /= farPositionLL.w;
+	farPositionLR  /= farPositionLR.w;
+	farPositionUL  /= farPositionUL.w;
+	farPositionUR  /= farPositionUR.w;
 
 	Frustum selectionFrustum = Frustum(
 		glm::vec3(nearPositionLL),
@@ -133,7 +129,6 @@ void GameScreen::selectBombsBox(glm::vec2 const& pos1, glm::vec2 const& pos2)
 	BOOST_FOREACH(entity_map::value_type& entry, myEntities)
 	{
 		Bomb& bomb = entry.second;
-
 		bomb.setSelected(bomb.frustumIntersect(selectionFrustum));
 	}
 }
@@ -319,6 +314,11 @@ void GameScreen::update(float deltaTime)
 	{
 		Bomb& bomb = entry.second;
 
+		if (!bomb.isAlive())
+		{
+			continue;
+		}
+
 		glm::ivec2 oldPosition(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
 		bomb.updatePosition(deltaTime);
 
@@ -338,6 +338,15 @@ void GameScreen::update(float deltaTime)
 			bomb.setHasNewHeading(false);
 		}
 
+		if (!bomb.hasTarget() && bomb.explodeAtTarget())
+		{
+			Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
+			client->write(packet);
+
+			bomb.setIsAlive(false);
+			continue;
+		}
+
 		Bomb::id_set nearbyBombs;
 		glm::vec2 groundPos(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
 		getNearbyBombs(groundPos, EXPLOSION_RADIUS, nearbyBombs);
@@ -347,6 +356,8 @@ void GameScreen::update(float deltaTime)
 			{
 				Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
 				client->write(packet);
+
+				bomb.setIsAlive(false);
 				break;
 			}
 		}
@@ -514,6 +525,8 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 				{
 					Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
 					client->write(packet);
+
+					bomb.setIsAlive(false);
 				}
 			}
 			break;

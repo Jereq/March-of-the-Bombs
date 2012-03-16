@@ -9,7 +9,9 @@ Bomb::Bomb()
 
 Bomb::Bomb(unsigned short owner, glm::vec3 const& ownerColor)
 	: owner(owner), ownerColor(ownerColor),
-	newHeading(false), selected(false), model(new Model(StandardBombModelData::getInstance()))
+	newHeading(false), selected(false),
+	model(new Model(StandardBombModelData::getInstance())),
+	willExplodeAtTarget(false), alive(true)
 {
 	model->setScale(glm::vec3(0.3f));
 	model->setTint(glm::vec4(ownerColor, 0.3f));
@@ -79,12 +81,38 @@ void Bomb::setHasNewHeading(bool newHead)
 	newHeading = newHead;
 }
 
+bool Bomb::explodeAtTarget() const
+{
+	return willExplodeAtTarget;
+}
+
+void Bomb::setExplodeAtTarget(bool explode)
+{
+	willExplodeAtTarget = explode;
+}
+
+bool Bomb::isAlive() const
+{
+	return alive;
+}
+
+void Bomb::setIsAlive(bool isAlive)
+{
+	alive = isAlive;
+}
+
+bool Bomb::hasTarget() const
+{
+	return !path.empty();
+}
+
 bool Bomb::setTarget(Map const& map, glm::vec3 const& targetPos)
 {
 	bool result = map.findPath(getPosition(), targetPos, path);
 
 	if (result)
 	{
+		willExplodeAtTarget = false;
 		return true;
 	}
 
@@ -104,11 +132,12 @@ bool Bomb::setTarget(Map const& map, glm::vec3 const& targetPos)
 		result = map.findPath(getPosition(), basePos + offsets[i], path);
 		if (result)
 		{
+			willExplodeAtTarget = true;
 			return true;
 		}
 	}
 
-	setVelocity(glm::vec3(0.f));
+	halt();
 	return false;
 }
 
@@ -116,6 +145,7 @@ void Bomb::halt()
 {
 	path.clear();
 	setVelocity(glm::vec3(0.f));
+	willExplodeAtTarget = false;
 }
 
 bool Bomb::rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const

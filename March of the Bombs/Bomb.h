@@ -31,6 +31,14 @@ private:
 
 	/// The path the bomb is currently following
 	std::list<glm::vec3> path;
+	/// If the bomb shold explode at the end of the path
+	bool willExplodeAtTarget;
+
+	/**
+	 * Whether the bomb is alive or not. A bomb will be dead between sending
+	 * a remove entity packet and receiving the response from the server.
+	 */
+	bool alive;
 
 public:
 	/// Bomb id - first is playerID, second is entityID
@@ -72,6 +80,18 @@ public:
 	/// Set whether the bomb has a new heading or not
 	void setHasNewHeading(bool newHead);
 
+	/// Return whether the bomb should explode at reaching it's target
+	bool explodeAtTarget() const;
+	/// Set whether the bomb should explode at reaching it's target
+	void setExplodeAtTarget(bool explode);
+
+	/// Return whether the bomb is alive
+	bool isAlive() const;
+	/// Set whether a bomb is alive
+	void setIsAlive(bool isAlive);
+
+	/// Return whether the bomb currently has a path to a target
+	bool hasTarget() const;
 	/**
 	 * Calculate a new path for the bomb that should reach targetPos.
 	 * If targetPos can not be reached, the bomb will stop.
