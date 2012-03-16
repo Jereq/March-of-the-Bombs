@@ -754,7 +754,7 @@ void GameScreen::mouseMoveEventHandler(MouseMoveEvent const* mmEvent)
 
 void GameScreen::createBackground()
 {
-	TextureSection Background(L"images/GroundPlane.png");
+	TextureSection Background(L"images/CaveBackground.png");
 	game->getGraphics()->setBackground(TextureSection::ptr(new TextureSection(Background)));
 
 	TextureSection guiBackground(L"images/NewBI/Start.png");
