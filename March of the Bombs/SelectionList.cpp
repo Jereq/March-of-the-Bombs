@@ -14,9 +14,7 @@ SelectionList::~SelectionList()
 }
 
 void SelectionList::render(Graphics::ptr graphics)
-{
-	//ngn form av loop som gör detta för varje sträng som skickats in...
-	
+{	
 	//The size of the letters
 	float letterHight = StringHightRect.getSize().y;
 	float letterWidth = letterHight * 0.5f;
@@ -29,9 +27,12 @@ void SelectionList::render(Graphics::ptr graphics)
 	{
 		for(unsigned int j = 0; j < GameList[i].size(); j++)
 		{
-			graphics->drawTexture(tempkeymap[GameList[i][j]],tempRect,depth);
+			graphics->drawTexture(tempkeymap[GameList[i][j]],tempRect,depth-0.01f);
 			tempRect.setPosition(glm::vec2((tempRect.getPosition().x + letterWidth),tempRect.getPosition().y));
 		}
+		//skapa en rektangel runt hela strängen... 
+		//som ska ge ID till vilken man tryckte på och 
+		// därefter ge vilket game man ska joina... 
 
 		tempRect.setPosition(glm::vec2((PosRect.getPosition().x),tempRect.getPosition().y - letterHight));
 	}

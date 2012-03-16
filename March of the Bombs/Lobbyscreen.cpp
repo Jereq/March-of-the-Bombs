@@ -11,12 +11,7 @@ LobbyScreen::LobbyScreen()
 	createBackground();
 	createButtons();
 	createTextFields();
-
 	createListofGame();
-	if(!openGames.empty())
-	{
-		converttoStringVector();
-	}
 }
 
 LobbyScreen::~LobbyScreen()
@@ -158,7 +153,7 @@ void LobbyScreen::createListofGame()
 {
 	TextureSection LoGBackground(L"Images/TFBackground.png");
 
-	selectionList = SelectionList::ptr(new SelectionList(LoGBackground,Rectanglef(glm::vec2(0.05f,0.17f),glm::vec2(0.90f,0.50f)),0.0f));
+	selectionList = SelectionList::ptr(new SelectionList(LoGBackground,Rectanglef(glm::vec2(0.05f,0.17f),glm::vec2(0.90f,0.50f)),0.05f));
 
 	SelectionLists.push_back(selectionList);
 }
@@ -205,6 +200,7 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 			client->write(packet);
 			signInButton->disabled = true;
 			signInButton->setState(Unused);
+			
 		}
 		else if (createGameButton->getState() == Hovered)
 		{
@@ -226,8 +222,8 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		{
 			Packet::ptr packet11(new Packet11RequestOpenGames());
 			client->write(packet11);
-
-			//göra om vectorn som fås av serven till en vector av strängar
+			
+			//fills the ListofGames
 			if(!openGames.empty())
 			{
 				converttoStringVector();
