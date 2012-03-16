@@ -754,10 +754,11 @@ void GameScreen::mouseMoveEventHandler(MouseMoveEvent const* mmEvent)
 
 void GameScreen::createBackground()
 {
-	TextureSection Background(L"images/NewBI/Start.png");
+	TextureSection Background(L"images/GroundPlane.png");
 	game->getGraphics()->setBackground(TextureSection::ptr(new TextureSection(Background)));
 
-	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(0.20f,0.20f)), 0.10f);
+	TextureSection guiBackground(L"images/NewBI/Start.png");
+	SimpleImage Background1(guiBackground, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(0.20f,0.20f)), 0.10f);
 
 	Backgrounds.push_back(Background1);
 }
