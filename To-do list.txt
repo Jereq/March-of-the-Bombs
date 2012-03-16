@@ -1,10 +1,10 @@
 prioritetsordning!
 
-1. leta upp ljud som kan användas som bakgrundsljud och dylikt (Johny)
-2. Lobby (Fredrik) -> Lista på nuvarande games, ip-address till host, join/back/refresh-knappar
-3. Basernas liv-mätare
-4. servern (Sebastian)
-5. Swarming
+1. Lobby (Fredrik) -> Lista på nuvarande games, ip-address till host, join/back/refresh-knappar
+2. Basernas liv-mätare
+3. servern (Sebastian)
+4. 
+5. Swarming(?)s
 6. 
 7. credits meny -> bibliotek, add-ons och personer som har hjälpt
 8. 
@@ -29,3 +29,4 @@ Done!
 * Fixa så att spelplanen är mer uppsplittad så inte när man checkar enheter så går man inte igenom hela listan (Sebastian)
 * Bomber kan attackera fiende bas och enheter (Sebastian)
 * fixa att flaggan funkar som den ska på banan (Sebastian)
+* leta upp ljud som kan användas som bakgrundsljud och dylikt (Johny)
