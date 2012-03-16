@@ -30,4 +30,5 @@ public:
 	void handlePacket12OpenGames(Packet12OpenGames::const_ptr const& packet);
 	void handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet);
 	void handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet);
+	void handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet);
 };

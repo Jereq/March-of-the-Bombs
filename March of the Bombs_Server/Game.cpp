@@ -113,3 +113,14 @@ void Game::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& pac
 {
 	deliver(packet);
 }
+
+void Game::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet, Player::ptr const& sender)
+{
+	BOOST_FOREACH(Player::ptr const& player, players)
+	{
+		if (player != sender)
+		{
+			player->deliver(packet);
+		}
+	}
+}

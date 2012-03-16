@@ -248,6 +248,15 @@ void Player::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& p
 	}
 }
 
+void Player::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket15UpdatePlayerScore(packet, shared_from_this());
+	}
+}
+
 std::string const& Player::getName() const
 {
 	return name;

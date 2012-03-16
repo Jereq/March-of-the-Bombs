@@ -14,6 +14,7 @@
 #include "HQModelData.h"
 
 const float GameScreen::TIME_PER_BOMB = 3.f;
+const float GameScreen::FLAG_POINTS_PER_SEC = 10.f;
 const float GameScreen::EXPLOSION_RADIUS = 1.5f;
 const float GameScreen::FLAG_RADIUS = 5.f;
 
@@ -211,7 +212,8 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 	: game(Game::getInstance()), client(client),
 	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/"+mapName + ".txt"),
 	  myID(myID), opponentID(opponentID), myColor(myColor), opponentColor(opponentColor),
-	  cameraSpeed(20.f), cameraRotationSpeed(45.f), selecting(false)
+	  cameraSpeed(20.f), cameraRotationSpeed(45.f), selecting(false),
+	  myScore(0), opponentScore(0)
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
 	assert(bases.size() > myBaseID);
@@ -354,7 +356,7 @@ void GameScreen::update(float deltaTime)
 
 		Bomb::id_set nearbyBombs;
 		glm::vec2 groundPos(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
-		getNearbyBombs(groundPos, EXPLOSION_RADIUS, nearbyBombs);
+		getNearbyBombs(groundPos, EXPLOSION_RADIUS * 0.8f, nearbyBombs);
 		BOOST_FOREACH(Bomb::id const& id, nearbyBombs)
 		{
  			if (id.first == opponentID)
@@ -409,6 +411,10 @@ void GameScreen::update(float deltaTime)
 		if (numMyBombs > numOpponentBombs)
 		{
 			flag->setOwner(myID, myColor);
+			myScore += FLAG_POINTS_PER_SEC * deltaTime;
+
+			Packet::ptr packet(new Packet15UpdatePlayerScore(myID, myScore));
+			client->write(packet);
 		}
 		else if (numMyBombs < numOpponentBombs)
 		{
@@ -451,6 +457,15 @@ void GameScreen::update(float deltaTime)
 
 	glm::mat3 rotationMatrix = glm::mat3(glm::rotate(glm::mat4(), rotation.y, glm::vec3(0, 1, 0)));
 	cameraPos->setPosition(cameraPos->getPosition() + rotationMatrix * cameraVelocity * deltaTime);
+
+	if (myScore >= 100)
+	{
+		float dummy = 10;
+	}
+	else if (opponentScore >= 100)
+	{
+		float dummy = 10;
+	}
 }
 
 void GameScreen::draw(Graphics::ptr graphics)
@@ -880,5 +895,15 @@ void GameScreen::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr cons
 	BOOST_FOREACH(glm::ivec2 const& block, blocks)
 	{
 		blockMap.removeBlock(block);
+	}
+}
+
+void GameScreen::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet)
+{
+	Packet15UpdatePlayerScore const* packet15 = static_cast<Packet15UpdatePlayerScore const*>(packet.get());
+
+	if (packet15->getPlayerID() == opponentID)
+	{
+		opponentScore = packet15->getNewScore();
 	}
 }

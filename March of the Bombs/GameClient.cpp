@@ -16,6 +16,7 @@
 #include <Packet12OpenGames.h>
 #include <Packet13RemoveBomb.h>
 #include <Packet14RemoveBlocks.h>
+#include <Packet15UpdatePlayerScore.h>
 
 void GameClient::registerPackets()
 {
@@ -33,6 +34,7 @@ void GameClient::registerPackets()
 	packetManager.addPacketPrototype(Packet::ptr(new Packet12OpenGames()));
 	packetManager.addPacketPrototype(Packet::ptr(new Packet13RemoveBomb()));
 	packetManager.addPacketPrototype(Packet::ptr(new Packet14RemoveBlocks()));
+	packetManager.addPacketPrototype(Packet::ptr(new Packet15UpdatePlayerScore()));
 }
 
 void GameClient::handleConnect(boost::system::error_code const& error)

@@ -103,3 +103,8 @@ void GUIMain::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& 
 {
 	screen->handlePacket14RemoveBlocks(packet);
 }
+
+void GUIMain::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet)
+{
+	screen->handlePacket15UpdatePlayerScore(packet);
+}

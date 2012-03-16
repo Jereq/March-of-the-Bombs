@@ -85,3 +85,9 @@ void Packet14RemoveBlocks::dispatch(void* context) const
 	Player::ptr cont = *static_cast<Player::ptr*>(context);
 	cont->handlePacket14RemoveBlocks(shared_from_this());
 }
+
+void Packet15UpdatePlayerScore::dispatch(void* context) const
+{
+	Player::ptr cont = *static_cast<Player::ptr*>(context);
+	cont->handlePacket15UpdatePlayerScore(shared_from_this());
+}

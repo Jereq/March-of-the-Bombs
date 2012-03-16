@@ -31,6 +31,8 @@ private:
 	unsigned short opponentID;
 	glm::vec3 myColor;
 	glm::vec3 opponentColor;
+	float myScore;
+	float opponentScore;
 	glm::ivec2 basePosition;
 
 	unsigned short myEntityCount;
@@ -55,6 +57,7 @@ private:
 	glm::vec2 selectionPosition;
 	bool selecting;
 
+	const static float FLAG_POINTS_PER_SEC;
 	const static float FLAG_RADIUS;
 	const static float EXPLOSION_RADIUS;
 	std::list<Explosion> explosions;
@@ -90,4 +93,5 @@ public:
 	void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet);
 	void handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet);
 	void handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet);
+	void handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet);
 };
