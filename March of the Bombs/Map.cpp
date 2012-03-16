@@ -137,6 +137,11 @@ bool Map::intersectGround(glm::vec3 const& origin, glm::vec3 const& direction, f
 	return groundPlane->rayIntersect(origin, direction, distance);
 }
 
+Block::ptr Map::getFlag() const
+{
+	return blockMap[flagPos.x][flagPos.y];
+}
+
 std::vector<glm::ivec2> const& Map::getBases() const
 {
 	return bases;

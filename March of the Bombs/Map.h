@@ -72,6 +72,8 @@ public:
 	 */
 	bool intersectGround(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const;
 
+	/// Return the flag
+	Block::ptr getFlag() const;
 	/// Return the location of the bases
 	std::vector<glm::ivec2> const& getBases() const;
 	/// Return the block at the specified position, or a empty pointer if there is no block there

@@ -15,6 +15,7 @@
 
 const float GameScreen::TIME_PER_BOMB = 3.f;
 const float GameScreen::EXPLOSION_RADIUS = 1.5f;
+const float GameScreen::FLAG_RADIUS = 5.f;
 
 void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity)
 {
@@ -41,10 +42,14 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 	{
 		if (id.first == myID)
 		{
-			Packet::ptr packet(new Packet13RemoveBomb(myID, id.second, true));
-			client->write(packet);
+			Bomb& bomb = myEntities[id.second];
+			if (bomb.isAlive())
+			{
+				Packet::ptr packet(new Packet13RemoveBomb(myID, id.second, true));
+				client->write(packet);
 
-			myEntities[id.second].setIsAlive(false);
+				bomb.setIsAlive(false);
+			}
 		}
 	}
 	
@@ -376,6 +381,42 @@ void GameScreen::update(float deltaTime)
 		{
 			blockMap.removeBombFromChunk(oldPosition, Bomb::id(opponentID, entry.first));
 			blockMap.addBombToChunk(newPosition, Bomb::id(opponentID, entry.first));
+		}
+	}
+
+	Flag* flag = dynamic_cast<Flag*>(blockMap.getFlag().get());
+	if (flag)
+	{
+		Bomb::id_set flagBombs;
+		glm::vec2 flagGroundPos(glm::swizzle<glm::X, glm::Z>(flag->getPosition()));
+		getNearbyBombs(flagGroundPos, FLAG_RADIUS, flagBombs);
+
+		size_t numMyBombs = 0;
+		size_t numOpponentBombs = 0;
+
+		BOOST_FOREACH(Bomb::id const& id, flagBombs)
+		{
+			if (id.first == myID && myEntities[id.second].isAlive())
+			{
+				numMyBombs++;
+			}
+			else if(id.first == opponentID && opponentEntities[id.second].isAlive())
+			{
+				numOpponentBombs++;
+			}
+		}
+
+		if (numMyBombs > numOpponentBombs)
+		{
+			flag->setOwner(myID, myColor);
+		}
+		else if (numMyBombs < numOpponentBombs)
+		{
+			flag->setOwner(opponentID, opponentColor);
+		}
+		else
+		{
+			flag->setOwner(-1, glm::vec3());
 		}
 	}
 
