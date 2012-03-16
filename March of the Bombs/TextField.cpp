@@ -1,12 +1,12 @@
 #include "TextField.h"
 
-TextField::image_map TextField::keyMap;
+//TextField::image_map TextField::keyMap;
 
 
 TextField::TextField(TextureSection activeBackground, TextureSection deactiveBackground, Rectanglef PosRect, float depth)
 	: activeBackground(activeBackground),deactiveBackground(deactiveBackground), PosRect(PosRect), depth(depth), textfieldState(NotTargeted)
 {
-	keyMapping();
+	FaKM.keyMapping();
 	active = false;
 	targeted = false;
 }
@@ -22,9 +22,11 @@ void TextField::render(Graphics::ptr graphics)
 	float letterWidth = PosRect.getSize().y * 0.5f;
 	tempRect.setSize(glm::vec2(letterWidth,PosRect.getSize().y));
 
+	FontandKeyMapping::image_map& tempkeymap = FaKM.getKeyMap();
+
 	for(unsigned int i = 0; i < Text.length(); i++)
 	{
-		graphics->drawTexture(keyMap[Text[i]],tempRect,depth);
+		graphics->drawTexture(tempkeymap[Text[i]],tempRect,depth-0.01f);
 		tempRect.setPosition(glm::vec2((tempRect.getPosition().x + letterWidth),tempRect.getPosition().y));
 	}
 
@@ -37,7 +39,7 @@ void TextField::render(Graphics::ptr graphics)
 		graphics->drawTexture(activeBackground,PosRect,depth);
 	}
 }
-
+/*
 void TextField::keyMapping()
 {
 	if(!keyMap.empty())
@@ -162,7 +164,7 @@ void TextField::keyMapping()
 		keyMap[' '] = BitFont.cut(Rectanglef(glm::vec2(7 * sizef, 0 * sizef), lettersize));
 	}
 }
-
+*/ 
 void TextField::updateString(KeyboardEvent* keyEvent)
 {
 	if (!active)
@@ -173,7 +175,7 @@ void TextField::updateString(KeyboardEvent* keyEvent)
 	char eventKey = keyEvent->key;
 	const static char BackSpace = 8;
 
-	if (keyMap.count(eventKey) == 1 && keyEvent->key != BackSpace)
+	if (FaKM.getKeyMap().count(eventKey) == 1 && keyEvent->key != BackSpace)
 	{
 		Text += eventKey;
 	}

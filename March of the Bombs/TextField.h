@@ -24,8 +24,7 @@ private:
 	std::string Text;
 	TFState textfieldState;
 
-	typedef std::map<char,TextureSection> image_map;
-	static image_map keyMap;
+	FontandKeyMapping FaKM;
 
 public:
 	typedef boost::shared_ptr<TextField> ptr;
@@ -36,7 +35,6 @@ public:
 	~TextField();
 
 	void render(Graphics::ptr graphics);
-	void static keyMapping();
 	void updateString(KeyboardEvent* keyEvent);
 
 	//get-/set- methods

@@ -145,8 +145,8 @@ void LobbyScreen::createTextFields()
 	TextureSection TFBackground(L"Images/TFBackground.png");
 	TextureSection DTFBackground(L"Images/DTFBackground.png");
 
-	SignInTF	= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.05f,0.90f),glm::vec2(0.40f,0.05f)),0.0f));
-	IPTF		= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.55f,0.90f),glm::vec2(0.40f,0.05f)),0.0f));
+	SignInTF	= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.05f,0.90f),glm::vec2(0.40f,0.05f)),0.05f));
+	IPTF		= TextField::ptr(new TextField(TFBackground,DTFBackground,Rectanglef(glm::vec2(0.55f,0.90f),glm::vec2(0.40f,0.05f)),0.05f));
 
 	textfields.push_back(SignInTF);
 	textfields.push_back(IPTF);

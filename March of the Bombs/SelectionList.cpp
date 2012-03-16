@@ -18,30 +18,22 @@ void SelectionList::render(Graphics::ptr graphics)
 	//ngn form av loop som gör detta för varje sträng som skickats in...
 	
 	//The size of the letters
-	Rectanglef tempRect = PosRect;
-	float letterWidth = PosRect.getSize().y * 0.5f;
-	tempRect.setSize(glm::vec2(letterWidth,PosRect.getSize().y));
+	float letterHight = StringHightRect.getSize().y;
+	float letterWidth = letterHight * 0.5f;
+	
+	Rectanglef tempRect(glm::vec2(PosRect.getPosition().x,PosRect.getPosition().y + PosRect.getSize().y - letterHight),glm::vec2(letterWidth,letterHight));
+	
+	FontandKeyMapping::image_map& tempkeymap = FaKM.getKeyMap();
 
 	for(unsigned int i = 0; i < GameList.size();i++)
 	{
 		for(unsigned int j = 0; j < GameList[i].size(); j++)
 		{
-			//graphics->drawTexture(GameList[i],tempRect,depth);
+			graphics->drawTexture(tempkeymap[GameList[i][j]],tempRect,depth);
 			tempRect.setPosition(glm::vec2((tempRect.getPosition().x + letterWidth),tempRect.getPosition().y));
 		}
 
-		/*
-		mall för att se hur jag gjorde med textfälten
-		Rectanglef tempRect = PosRect;
-		float letterWidth = PosRect.getSize().y * 0.5f;
-		tempRect.setSize(glm::vec2(letterWidth,PosRect.getSize().y));
-
-		for(unsigned int i = 0; i < Text.length(); i++)
-		{
-			graphics->drawTexture(keyMap[Text[i]],tempRect,depth);
-			tempRect.setPosition(glm::vec2((tempRect.getPosition().x + letterWidth),tempRect.getPosition().y));
-		}
-		*/
+		tempRect.setPosition(glm::vec2((PosRect.getPosition().x),tempRect.getPosition().y - letterHight));
 	}
 
 	graphics->drawTexture(Background,PosRect,depth);

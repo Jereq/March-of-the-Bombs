@@ -12,6 +12,7 @@ private:
 	TextureSection Background;
 	Rectanglef PosRect, StringHightRect;
 	float depth;
+	FontandKeyMapping FaKM;
 
 public:
 	typedef boost::shared_ptr<SelectionList> ptr;
