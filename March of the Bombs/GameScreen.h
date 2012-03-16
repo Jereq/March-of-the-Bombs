@@ -34,6 +34,7 @@ private:
 	float myScore;
 	float opponentScore;
 	glm::ivec2 basePosition;
+	glm::vec3 opponentBasePos;
 
 	unsigned short myEntityCount;
 
@@ -57,6 +58,7 @@ private:
 	glm::vec2 selectionPosition;
 	bool selecting;
 
+	const static float BASE_POINTS_PER_BOMB;
 	const static float FLAG_POINTS_PER_SEC;
 	const static float FLAG_RADIUS;
 	const static float EXPLOSION_RADIUS;

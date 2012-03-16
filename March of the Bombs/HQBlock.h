@@ -19,5 +19,6 @@ public:
 	unsigned short getOwner() const;
 	/*void drawHQ(Graphics::ptr graphics);*/
 
+	glm::vec3 getPosition() const;
 };
 

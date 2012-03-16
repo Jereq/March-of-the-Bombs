@@ -17,3 +17,8 @@ HQBlock::~HQBlock()
 //{
 //	graphics->drawModel(model);
 //}
+
+glm::vec3 HQBlock::getPosition() const
+{
+	return model->getPosition();
+}

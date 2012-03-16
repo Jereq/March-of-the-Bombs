@@ -14,6 +14,7 @@
 #include "HQModelData.h"
 
 const float GameScreen::TIME_PER_BOMB = 3.f;
+const float GameScreen::BASE_POINTS_PER_BOMB = 50.f;
 const float GameScreen::FLAG_POINTS_PER_SEC = 10.f;
 const float GameScreen::EXPLOSION_RADIUS = 1.5f;
 const float GameScreen::FLAG_RADIUS = 5.f;
@@ -84,6 +85,13 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 			Packet::ptr packet(new Packet14RemoveBlocks(blocks));
 			client->write(packet);
 		}
+	}
+
+	if (glm::distance(position, opponentBasePos) < size * 0.5f)
+	{
+		myScore += BASE_POINTS_PER_BOMB;
+		Packet::ptr packet(new Packet15UpdatePlayerScore(myID, myScore));
+		client->write(packet);
 	}
 }
 
@@ -219,6 +227,8 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& mapName
 	assert(bases.size() > myBaseID);
 	basePosition = bases[myBaseID];
 
+	opponentBasePos = dynamic_cast<HQBlock const*>(blockMap.getBlock(bases[1 - myBaseID]).get())->getPosition();
+
 	cameraPos.reset(new AttachmentPoint(glm::vec3(basePosition.x - 20, 30, basePosition.y + 20), glm::vec3(-40, -45, 0)));
 	Graphics::ptr graphics = game->getGraphics();
 
@@ -346,6 +356,15 @@ void GameScreen::update(float deltaTime)
 		}
 
 		if (!bomb.hasTarget() && bomb.explodeAtTarget())
+		{
+			Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
+			client->write(packet);
+
+			bomb.setIsAlive(false);
+			continue;
+		}
+
+		if (glm::distance(bomb.getPosition(), opponentBasePos) < EXPLOSION_RADIUS * 0.8f)
 		{
 			Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
 			client->write(packet);
