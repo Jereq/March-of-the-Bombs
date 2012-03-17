@@ -216,7 +216,7 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 			if (client && !openGames.empty())
 			{
 				int tempindex = selectionList->getindex();
-				if(tempindex >= 0 && tempindex < openGames.size())
+				if(tempindex >= 0 && (unsigned int)tempindex < openGames.size())
 				{
 					Packet::ptr packet = Packet::ptr(new Packet7JoinGame(openGames[tempindex].getGameID()));
 					client->write(packet);
