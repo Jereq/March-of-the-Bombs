@@ -6,6 +6,7 @@ SelectionList::SelectionList(TextureSection Background, Rectanglef PosRect, floa
 {
 	//sets the size of the strings
 	StringHightRect.setSize(glm::vec2(PosRect.getSize().x,PosRect.getSize().y * 0.1f));
+	index = -1;
 }
 
 
@@ -33,9 +34,31 @@ void SelectionList::render(Graphics::ptr graphics)
 		//skapa en rektangel runt hela strängen... 
 		//som ska ge ID till vilken man tryckte på och 
 		// därefter ge vilket game man ska joina... 
+		
+		//Rectanglef StringRect
 
 		tempRect.setPosition(glm::vec2((PosRect.getPosition().x),tempRect.getPosition().y - letterHight));
 	}
 
 	graphics->drawTexture(Background,PosRect,depth);
+}
+
+void SelectionList::updateselection(MouseButtonEvent const* mbEvent)
+{
+	if(PosRect.intersects(mbEvent->position) &&
+		mbEvent->button == MouseButton::Left &&
+		mbEvent->state == MouseButtonState::Pressed)
+	{
+		int tempindex = (int)(9 - ((mbEvent->position.y - PosRect.getPosition().y) / PosRect.getSize().y) * 10);
+
+		if(tempindex >= 0 && tempindex < GameList.size())
+		{
+			index = tempindex;
+		}
+	}
+}
+
+int SelectionList::getindex()
+{
+	return index;
 }

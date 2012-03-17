@@ -215,26 +215,29 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		{
 			if (client && !openGames.empty())
 			{
-				Packet::ptr packet = Packet::ptr(new Packet7JoinGame(openGames[0].getGameID()));
-				client->write(packet);
+				int tempindex = selectionList->getindex();
+				if(tempindex >= 0 && tempindex < openGames.size())
+				{
+					Packet::ptr packet = Packet::ptr(new Packet7JoinGame(openGames[tempindex].getGameID()));
+					client->write(packet);
+				}
+
+
 			}
 		}
 		else if (refreshButton->getState() == Hovered)
 		{
 			Packet::ptr packet11(new Packet11RequestOpenGames());
 			client->write(packet11);
-			
-			//fills the ListofGames
-			if(!openGames.empty())
-			{
-				converttoStringVector();
-			}
+			openGames.clear();
 		}
 
 		for(unsigned int i = 0; i < textfields.size(); i++)
 		{
 			textfields[i]->active = (textfields[i]->getState() == Targeted);
 		}
+
+		selectionList->updateselection(mbEvent);
 	}
 }
 

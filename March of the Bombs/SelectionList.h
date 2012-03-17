@@ -4,6 +4,7 @@
 #include "Rectanglef.h"
 #include "FontandKeyMapping.h"
 #include "Graphics.h"
+#include "MouseButtonEvent.h"
 #include <glm\glm.hpp>
 
 class SelectionList
@@ -12,6 +13,7 @@ private:
 	TextureSection Background;
 	Rectanglef PosRect, StringHightRect;
 	float depth;
+	int index;
 	FontandKeyMapping FaKM;
 
 public:
@@ -22,7 +24,7 @@ public:
 	SelectionList(TextureSection Background, Rectanglef PosRect, float depth);
 	~SelectionList();
 	void render(Graphics::ptr graphics);
-	void updateString();
-
+	void updateselection(MouseButtonEvent const* mbEvent);
+	int getindex();
 };
 
