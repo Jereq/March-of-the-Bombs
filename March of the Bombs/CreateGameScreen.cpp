@@ -184,9 +184,3 @@ void CreateGameScreen::handlePacket8SetupGame(Packet8SetupGame::const_ptr const&
 		packet8->getMapName(), packet8->getBaseID()));
 	Game::getInstance()->getEvents().clear();
 }
-
-void CreateGameScreen::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet)
-{
-	nextScreen = newGame;
-	Game::getInstance()->getEvents().clear();
-}

@@ -78,10 +78,18 @@ private:
 	void createExplosion(glm::vec3 const& position, float size, float duration, bool removeBlocks);
 
 	void preloadTextures();
+
+	void createButtons();
+	void createBackground();
+
 	void selectBombsBox(glm::vec2 const& pos1, glm::vec2 const& pos2);
 	void selectBombRay(glm::vec2 const& pos);
 
 	void getNearbyBombs(glm::vec2 const& center, float distance, Bomb::id_set& res) const;
+
+	void keyboardEventHandler(KeyboardEvent const* kbEvent);
+	void mouseButtonEventHandler(MouseButtonEvent const* mbEvent);
+	void mouseMoveEventHandler(MouseMoveEvent const* mmEvent);
 
 public:
 	GameScreen(GameClient::ptr const& client, std::string const& myName, unsigned short myID, glm::vec3 const& myColor,
@@ -92,12 +100,6 @@ public:
 	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
-
-	void createButtons();
-	void createBackground();
-	void keyboardEventHandler(KeyboardEvent const* kbEvent);
-	void mouseButtonEventHandler(MouseButtonEvent const* mbEvent);
-	void mouseMoveEventHandler(MouseMoveEvent const* mmEvent);
 	
 	void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet);
 	void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet);

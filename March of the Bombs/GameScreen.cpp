@@ -231,8 +231,16 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& myName,
 	opponentBasePos = dynamic_cast<HQBlock const*>(blockMap.getBlock(bases[1 - myBaseID]).get())->getPosition();
 
 	cameraPos.reset(new AttachmentPoint(glm::vec3(basePosition.x - 20, 30, basePosition.y + 20), glm::vec3(-40, -45, 0)));
-	Graphics::ptr graphics = game->getGraphics();
+}
 
+void GameScreen::atEntry()
+{
+	preloadTextures();
+
+	createBackground();
+	createButtons();
+
+	Graphics::ptr graphics = game->getGraphics();
 	graphics->getCamera()->setAttachmentPoint(cameraPos);
 
 	glm::ivec2 mapSize = blockMap.getSize();
@@ -256,14 +264,6 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& myName,
 
 	graphics->setLight(light);
 
-	preloadTextures();
-
-	GameScreen::createBackground();
-	GameScreen::createButtons();
-}
-
-void GameScreen::atEntry()
-{
 	timeToNextBomb = TIME_PER_BOMB;
 	game->getSoundManager()->playBackgroundSound("Sounds/gamebackground.mp3");
 	game->getGraphics()->setBackground(background);
@@ -756,9 +756,9 @@ void GameScreen::mouseMoveEventHandler(MouseMoveEvent const* mmEvent)
 
 void GameScreen::createBackground()
 {
-	background.reset(new TextureSection(L"images/CaveBackground.png"));
+	background.reset(new TextureSection(L"Images/CaveBackground.png"));
 
-	TextureSection guiBackground(L"images/NewBI/Start.png");
+	TextureSection guiBackground(L"Images/NewBI/Start.png");
 	SimpleImage Background1(guiBackground, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(0.20f,0.20f)), 0.10f);
 
 	Backgrounds.push_back(Background1);

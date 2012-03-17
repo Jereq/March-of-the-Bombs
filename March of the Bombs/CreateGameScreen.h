@@ -22,7 +22,6 @@ private:
 
 	std::string playerName;
 	unsigned short playerID;
-	Screen::ptr newGame;
 
 	void goBack();
 
@@ -41,5 +40,4 @@ public:
 	Screen::ptr getNextScreen();
 	
 	virtual void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet);
-	virtual void handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet);
 };
