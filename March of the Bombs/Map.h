@@ -32,7 +32,8 @@ private:
 	/// Size of the map, in blocks
 	glm::ivec2 size;
 
-	glm::ivec2 flagPos;
+	/// Every flag in the map, in block coordinates
+	std::vector<glm::ivec2> flagPositions;
 
 	Model::ptr groundPlane;
 
@@ -72,8 +73,8 @@ public:
 	 */
 	bool intersectGround(glm::vec3 const& origin, glm::vec3 const& direction, float& distance) const;
 
-	/// Return the flag
-	Block::ptr getFlag() const;
+	/// Return the location of the flags
+	std::vector<glm::ivec2> const& getFlags() const;
 	/// Return the location of the bases
 	std::vector<glm::ivec2> const& getBases() const;
 	/// Return the block at the specified position, or a empty pointer if there is no block there

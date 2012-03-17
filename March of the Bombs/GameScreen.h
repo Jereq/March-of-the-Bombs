@@ -39,8 +39,12 @@ private:
 	float myScore;
 	float opponentScore;
 
+	float scoreThisFrame;
+
 	glm::ivec2 basePosition;
 	glm::vec3 opponentBasePos;
+
+	std::vector<Block::ptr> flags;
 
 	unsigned short myEntityCount;
 

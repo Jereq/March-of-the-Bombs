@@ -89,9 +89,7 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 
 	if (glm::distance(position, opponentBasePos) < size * 0.5f)
 	{
-		myScore += BASE_POINTS_PER_BOMB;
-		Packet::ptr packet(new Packet15UpdatePlayerScore(myID, myScore));
-		client->write(packet);
+		scoreThisFrame += BASE_POINTS_PER_BOMB;
 	}
 }
 
@@ -222,11 +220,17 @@ GameScreen::GameScreen(GameClient::ptr const& client, std::string const& myName,
 	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/" + mapName + ".txt"),
 	  myID(myID), opponentID(opponentID), myColor(myColor), opponentColor(opponentColor),
 	  cameraSpeed(20.f), cameraRotationSpeed(45.f), selecting(false),
-	  myScore(0), opponentScore(0), myName(myName), opponentName(opponentName)
+	  myScore(0), opponentScore(0), myName(myName), opponentName(opponentName), scoreThisFrame(0)
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
 	assert(bases.size() > myBaseID);
 	basePosition = bases[myBaseID];
+
+	std::vector<glm::ivec2> const& flagPos = blockMap.getFlags();
+	BOOST_FOREACH(glm::ivec2 const& pos, flagPos)
+	{
+		flags.push_back(blockMap.getBlock(pos));
+	}
 
 	opponentBasePos = dynamic_cast<HQBlock const*>(blockMap.getBlock(bases[1 - myBaseID]).get())->getPosition();
 
@@ -407,44 +411,54 @@ void GameScreen::update(float deltaTime)
 		}
 	}
 
-	Flag* flag = dynamic_cast<Flag*>(blockMap.getFlag().get());
-	if (flag)
+	BOOST_FOREACH(Block::ptr const& bFlag, flags)
 	{
-		Bomb::id_set flagBombs;
-		glm::vec2 flagGroundPos(glm::swizzle<glm::X, glm::Z>(flag->getPosition()));
-		getNearbyBombs(flagGroundPos, FLAG_RADIUS, flagBombs);
-
-		size_t numMyBombs = 0;
-		size_t numOpponentBombs = 0;
-
-		BOOST_FOREACH(Bomb::id const& id, flagBombs)
+		Flag* flag = dynamic_cast<Flag*>(bFlag.get());
+		if (flag)
 		{
-			if (id.first == myID && myEntities[id.second].isAlive())
+			Bomb::id_set flagBombs;
+			glm::vec2 flagGroundPos(glm::swizzle<glm::X, glm::Z>(flag->getPosition()));
+			getNearbyBombs(flagGroundPos, FLAG_RADIUS, flagBombs);
+
+			size_t numMyBombs = 0;
+			size_t numOpponentBombs = 0;
+
+			BOOST_FOREACH(Bomb::id const& id, flagBombs)
 			{
-				numMyBombs++;
+				if (id.first == myID && myEntities[id.second].isAlive())
+				{
+					numMyBombs++;
+				}
+				else if(id.first == opponentID && opponentEntities[id.second].isAlive())
+				{
+					numOpponentBombs++;
+				}
 			}
-			else if(id.first == opponentID && opponentEntities[id.second].isAlive())
+
+			if (numMyBombs > numOpponentBombs)
 			{
-				numOpponentBombs++;
+				flag->setOwner(myID, myColor);
+				scoreThisFrame += FLAG_POINTS_PER_SEC * deltaTime;
+			}
+			else if (numMyBombs < numOpponentBombs)
+			{
+				flag->setOwner(opponentID, opponentColor);
+			}
+			else
+			{
+				flag->setOwner(-1, glm::vec3());
 			}
 		}
+	}
 
-		if (numMyBombs > numOpponentBombs)
-		{
-			flag->setOwner(myID, myColor);
-			myScore += FLAG_POINTS_PER_SEC * deltaTime;
+	if (scoreThisFrame != 0)
+	{
+		myScore += scoreThisFrame;
 
-			Packet::ptr packet(new Packet15UpdatePlayerScore(myID, myScore));
-			client->write(packet);
-		}
-		else if (numMyBombs < numOpponentBombs)
-		{
-			flag->setOwner(opponentID, opponentColor);
-		}
-		else
-		{
-			flag->setOwner(-1, glm::vec3());
-		}
+		Packet::ptr packet(new Packet15UpdatePlayerScore(myID, myScore));
+		client->write(packet);
+
+		scoreThisFrame = 0;
 	}
 
 	std::list<Explosion>::iterator it = explosions.begin();
@@ -479,13 +493,14 @@ void GameScreen::update(float deltaTime)
 	glm::mat3 rotationMatrix = glm::mat3(glm::rotate(glm::mat4(), rotation.y, glm::vec3(0, 1, 0)));
 	cameraPos->setPosition(cameraPos->getPosition() + rotationMatrix * cameraVelocity * deltaTime);
 
-	if (myScore >= 100)
+	if (myScore >= 1000.f)
 	{
-		float dummy = 10;
+		nextScreen = Screen::ptr(new MainMeny());
+		game->getEvents().clear();
 	}
-	else if (opponentScore >= 100)
+	else if (opponentScore >= 1000.f)
 	{
-		float dummy = 10;
+		game->close();
 	}
 }
 

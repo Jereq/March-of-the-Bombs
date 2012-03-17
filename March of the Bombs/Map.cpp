@@ -85,7 +85,7 @@ void Map::loadMapFromFile(string const& c)
 				case 4:
 					blockMap[g][k] = Block::ptr(new Flag(glm::vec3(g, 0, k)));
 					pathMap.freePathLazy(g, k);
-					flagPos = glm::ivec2(g, k);
+					flagPositions.push_back(glm::ivec2(g, k));
 				}
 				saz++;
 			}
@@ -137,9 +137,9 @@ bool Map::intersectGround(glm::vec3 const& origin, glm::vec3 const& direction, f
 	return groundPlane->rayIntersect(origin, direction, distance);
 }
 
-Block::ptr Map::getFlag() const
+std::vector<glm::ivec2> const& Map::getFlags() const
 {
-	return blockMap[flagPos.x][flagPos.y];
+	return flagPositions;
 }
 
 std::vector<glm::ivec2> const& Map::getBases() const
