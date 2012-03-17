@@ -7,7 +7,7 @@ StandardBombModelData::StandardBombModelData()
 {
 	if (groups.size() > 0)
 	{
-		groups[0].texture = GLTexture::getTexture(L"Models/Standard.png");
+		groups[0].texture = GLTexture::getTexture(L"Models/Standard.png", true);
 	}
 }
 

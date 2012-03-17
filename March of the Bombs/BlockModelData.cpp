@@ -280,7 +280,7 @@ BlockModelData::ptr BlockModelData::getHardInstance()
 
 		mat.shininess = 40.f;
 
-		hardInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Hard Rock.png"), mat));
+		hardInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Hard Rock.png", true), mat));
 	}
 
 	return hardInstance;
@@ -305,7 +305,7 @@ BlockModelData::ptr BlockModelData::getSoftInstance()
 
 		mat.shininess = 10.f;
 
-		softInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Soft Rock.png"), mat));
+		softInstance = BlockModelData::ptr(new BlockModelData(GLTexture::getTexture(L"Images/Soft Rock.png", true), mat));
 	}
 
 	return softInstance;

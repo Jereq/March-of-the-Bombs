@@ -4,8 +4,13 @@ TextureSection::TextureSection()
 {
 }
 
-TextureSection::TextureSection(std::wstring const& fileName)
-	: texture(GLTexture::getTexture(fileName)), section(Rectanglef(glm::vec2(0), glm::vec2(1)))
+TextureSection::TextureSection(std::wstring const& filename)
+	: texture(GLTexture::getTexture(filename, true)), section(Rectanglef(glm::vec2(0), glm::vec2(1)))
+{
+}
+
+TextureSection::TextureSection(std::wstring const& filename, bool interpolate)
+	: texture(GLTexture::getTexture(filename, interpolate)), section(Rectanglef(glm::vec2(0), glm::vec2(1)))
 {
 }
 

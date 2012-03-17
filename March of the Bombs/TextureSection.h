@@ -13,7 +13,8 @@ public:
 	typedef boost::shared_ptr<TextureSection> ptr;
 
 	TextureSection();
-	TextureSection(std::wstring const& fileName);
+	TextureSection(std::wstring const& filename);
+	TextureSection(std::wstring const& filename, bool interpolate);
 	TextureSection(GLTexture::ptr const& texture);
 	TextureSection(GLTexture::ptr const& texture, Rectanglef const& section);
 

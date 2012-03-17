@@ -8,7 +8,7 @@ HQModelData::HQModelData()
 {
 	if (groups.size() > 0)
 	{
-		groups[0].texture = GLTexture::getTexture(L"Models/base.png");
+		groups[0].texture = GLTexture::getTexture(L"Models/base.png", true);
 	}
 }
 

@@ -20,12 +20,12 @@ private:
 
 	GLTexture(GLuint handle);
 
-	static ptr loadTexture(std::wstring const& fileName);
+	static ptr loadTexture(std::wstring const& fileName, bool interpolate);
 
 public:
 	~GLTexture();
 
-	static ptr getTexture(std::wstring const& fileName);
+	static ptr getTexture(std::wstring const& fileName, bool interpolate);
 
 	GLuint getHandle() const;
 	void use(GLint textureUnit) const;

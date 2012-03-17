@@ -20,7 +20,7 @@ void FontandKeyMapping::keyMapping()
 	}
 	else
 	{
-		TextureSection BitFont(L"Images/BitFont.png");
+		TextureSection BitFont(L"Images/BitFont.png", false);
 
 		float sizef = 1 / 8.f;
 		glm::vec2 lettersize(sizef);

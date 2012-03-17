@@ -7,7 +7,7 @@ FlagModelData::FlagModelData()
 {
 	if (groups.size() > 0)
 	{
-		groups[0].texture = GLTexture::getTexture(L"Models/flag.tga");
+		groups[0].texture = GLTexture::getTexture(L"Models/flag.tga", true);
 	}
 }
 

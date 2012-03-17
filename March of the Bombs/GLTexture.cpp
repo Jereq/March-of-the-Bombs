@@ -14,7 +14,7 @@ GLTexture::GLTexture(GLuint handle)
 {
 }
 
-GLTexture::ptr GLTexture::loadTexture(std::wstring const& fileName)
+GLTexture::ptr GLTexture::loadTexture(std::wstring const& fileName, bool interpolate)
 {
 	ILuint ilName;
 	ilGenImages(1, &ilName);
@@ -33,6 +33,12 @@ GLTexture::ptr GLTexture::loadTexture(std::wstring const& fileName)
 	GLuint handle = ilutGLBindTexImage();
 	result = ilutGLTexImage(0);
 
+	if (!interpolate)
+	{
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	}
+
 	ilDeleteImages(1, &ilName);
 
 	return GLTexture::ptr(new GLTexture(handle));
@@ -46,13 +52,13 @@ GLTexture::~GLTexture()
 	}
 }
 
-GLTexture::ptr GLTexture::getTexture(std::wstring const& fileName)
+GLTexture::ptr GLTexture::getTexture(std::wstring const& fileName, bool interpolate)
 {
 	GLTexture::ptr& tex = textureMap[fileName].lock();
 
 	if (!tex)
 	{
-		tex = loadTexture(fileName);
+		tex = loadTexture(fileName, interpolate);
 		textureMap[fileName] = tex;
 	}
 
