@@ -57,26 +57,30 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 	
 	if (removeBlocks)
 	{
-		glm::ivec2 pos(glm::round(groundPos));
+		float blockExplosionRadius = size * 0.8f;
 
-		const static glm::ivec2 offsets[4] =
-		{
-			glm::ivec2(-1, -1),
-			glm::ivec2(-1,  0),
-			glm::ivec2( 0, -1),
-			glm::ivec2( 0,  0)
-		};
+		glm::vec2 bPos = groundPos - glm::vec2(0.5f);
+
+		glm::ivec2 minPos(glm::floor(bPos - glm::vec2(blockExplosionRadius)));
+		glm::ivec2 maxPos(glm::ceil(bPos + glm::vec2(blockExplosionRadius)));
+
+		minPos = glm::max(minPos, 0);
+		maxPos = glm::min(maxPos, blockMap.getSize() - glm::ivec2(1));
 
 		std::vector<glm::ivec2> blocks;
 
-		BOOST_FOREACH(glm::ivec2 const& offset, offsets)
+		for (int x = minPos.x; x <= maxPos.x; x++)
 		{
-			glm::ivec2 oPos(pos + offset);
-			Block::ptr block = blockMap.getBlock(oPos);
-
-			if (block && block->isDestructible())
+			for (int y = minPos.y; y <= maxPos.y; y++)
 			{
-				blocks.push_back(oPos);
+				glm::ivec2 oPos(x, y);
+
+				Block::ptr block = blockMap.getBlock(oPos);			
+
+				if (block && block->isDestructible() && glm::distance(glm::vec2(oPos), bPos) < blockExplosionRadius)
+				{
+					blocks.push_back(oPos);
+				}
 			}
 		}
 
