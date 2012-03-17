@@ -18,14 +18,18 @@ private:
 	Button::ptr backButton;
 	Button::ptr okButton;
 
-	TextField::ptr mapName;
+	SelectionList::ptr mapList;
 
 	std::string playerName;
 	unsigned short playerID;
 
 	void goBack();
 
+	std::vector<std::string> mapNames;
+
 protected:
+	void loadMapNames();
+
 	void setupComponents();
 
 	void keyboardEventHandler(KeyboardEvent* keyEvent);

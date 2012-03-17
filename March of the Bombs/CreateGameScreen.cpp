@@ -1,5 +1,7 @@
 #include "CreateGameScreen.h"
 
+#include <boost/filesystem.hpp>
+
 #include "Game.h"
 
 #include "GameScreen.h"
@@ -9,6 +11,28 @@ void CreateGameScreen::goBack()
 {
 	Game::getInstance()->getEvents().clear();
 	nextScreen = previousScreen;
+}
+
+void CreateGameScreen::loadMapNames()
+{
+	using namespace boost::filesystem;
+
+	path mapDirectory("Maps");
+	assert(is_directory(mapDirectory));
+
+	directory_iterator begin(mapDirectory);
+	directory_iterator end;
+	for(directory_iterator it = begin; it != end; ++it)
+	{
+		path const& p(it->path());
+
+		if (is_regular_file(p) && p.extension() == ".txt")
+		{
+			mapNames.push_back(p.stem().generic_string());
+		}
+	}
+
+	mapList->GameList = mapNames;
 }
 
 void CreateGameScreen::setupComponents()
@@ -25,10 +49,9 @@ void CreateGameScreen::setupComponents()
 		Rectanglef(glm::vec2(0.55f, 0.1f), glm::vec2(0.25f, 0.1f)),
 		0));
 
-	mapName.reset(new TextField(
+	mapList.reset(new SelectionList(
 		TextureSection(L"Images/TFBackground.png"),
-		TextureSection(L"Images/DTFBackground.png"),
-		Rectanglef(glm::vec2(0.55f, 0.7f), glm::vec2(0.35f, 0.05f)),
+		Rectanglef(glm::vec2(0.1f, 0.3f), glm::vec2(0.8f, 0.6f)),
 		0));
 }
 
@@ -42,10 +65,6 @@ void CreateGameScreen::keyboardEventHandler(KeyboardEvent* keyEvent)
 		{
 		case ESC:
 			goBack();
-			break;
-
-		default:
-			mapName->updateString(keyEvent);
 			break;
 		}
 	}
@@ -63,12 +82,17 @@ void CreateGameScreen::mouseButtonEventHandler(MouseButtonEvent* mbEvent)
 		{
 			if (client)
 			{
-				Packet::ptr packet = Packet::ptr(new Packet6CreateGame(mapName->getString()));
-				client->write(packet);
+				int selectedMap = mapList->getindex();
+
+				if (selectedMap >= 0 && static_cast<size_t>(selectedMap) < mapNames.size())
+				{
+					Packet::ptr packet = Packet::ptr(new Packet6CreateGame(mapNames[static_cast<size_t>(selectedMap)]));
+					client->write(packet);
+				}
 			}
 		}
 		
-		mapName->active = (mapName->getState() == Targeted);
+		mapList->updateselection(mbEvent);
 	}
 }
 
@@ -91,15 +115,6 @@ void CreateGameScreen::mouseMoveEventHandler(MouseMoveEvent* mmEvent)
 	{
 		okButton->setState(Unused);
 	}
-
-	if(mapName->intersects(mmEvent->position))
-	{
-		mapName->setState(Targeted);
-	}
-	else
-	{
-		mapName->setState(NotTargeted);
-	}
 }
 
 CreateGameScreen::CreateGameScreen(Screen::ptr const& parentScreen, GameClient::ptr const& client,
@@ -108,6 +123,7 @@ CreateGameScreen::CreateGameScreen(Screen::ptr const& parentScreen, GameClient::
 	  playerName(playerName), playerID(playerID)
 {
 	setupComponents();
+	loadMapNames();
 }
 
 void CreateGameScreen::update(float deltaTime)
@@ -163,7 +179,7 @@ void CreateGameScreen::draw(Graphics::ptr graphics)
 	backButton->render(graphics);
 	okButton->render(graphics);
 
-	mapName->render(graphics);
+	mapList->render(graphics);
 }
 
 Screen::ptr CreateGameScreen::getNextScreen()
