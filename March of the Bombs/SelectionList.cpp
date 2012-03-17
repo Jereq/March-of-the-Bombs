@@ -49,7 +49,7 @@ void SelectionList::updateselection(MouseButtonEvent const* mbEvent)
 		mbEvent->button == MouseButton::Left &&
 		mbEvent->state == MouseButtonState::Pressed)
 	{
-		int tempindex = (int)(9 - ((mbEvent->position.y - PosRect.getPosition().y) / PosRect.getSize().y) * 10);
+		int tempindex = (int)(10.f - ((mbEvent->position.y - PosRect.getPosition().y) / PosRect.getSize().y) * 10);
 
 		if(tempindex >= 0 && tempindex < (int)GameList.size())
 		{
