@@ -751,7 +751,7 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 			if (selecting)
 			{
 				float selectionSize = glm::distance(selectionPosition, mbEvent->position);
-				if (selectionSize > 0.001f)
+				if (selectionSize > 0.01f)
 				{
 					selectBombsBox(selectionPosition, mbEvent->position);
 				}
