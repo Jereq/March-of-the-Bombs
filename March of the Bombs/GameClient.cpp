@@ -42,6 +42,13 @@ void GameClient::handleConnect(boost::system::error_code const& error)
 	if (!error)
 	{
 		startRead();
+
+		connected = true;
+
+		if (!writePackets.empty())
+		{
+			startWrite();
+		}
 	}
 }
 
@@ -98,7 +105,7 @@ void GameClient::doWrite(Packet::ptr packet)
 {
 	bool writeInProgress = !writePackets.empty();
 	writePackets.push_back(packet);
-	if (!writeInProgress)
+	if (!writeInProgress && connected)
 	{
 		startWrite();
 	}
@@ -126,7 +133,7 @@ void GameClient::startRead()
 }
 
 GameClient::GameClient(std::string const& host, std::string const& port)
-	: socket(io_service)
+	: socket(io_service), connected(false)
 {
 	registerPackets();
 

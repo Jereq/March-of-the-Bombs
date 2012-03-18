@@ -21,6 +21,8 @@ private:
 	std::deque<Packet::ptr> writePackets;
 	std::deque<Packet::ptr> receivedPackets;
 
+	bool connected;
+
 	void registerPackets();
 
 	void handleConnect(boost::system::error_code const& error);
