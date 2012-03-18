@@ -15,7 +15,7 @@
 
 const float GameScreen::TIME_PER_BOMB = 3.f;
 const float GameScreen::BASE_POINTS_PER_BOMB = 50.f;
-const float GameScreen::FLAG_POINTS_PER_SEC = 10.f;
+const float GameScreen::FLAG_POINTS_PER_SEC = 5.f;
 const float GameScreen::EXPLOSION_RADIUS = 1.5f;
 const float GameScreen::FLAG_RADIUS = 5.f;
 
