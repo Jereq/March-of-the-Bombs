@@ -237,6 +237,9 @@
     <ClCompile Include="CreateGameScreen.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
+    <ClCompile Include="WaitingScreen.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -396,6 +399,9 @@
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
     <ClInclude Include="CreateGameScreen.h">
+      <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="WaitingScreen.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
   </ItemGroup>

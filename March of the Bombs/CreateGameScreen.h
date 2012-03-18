@@ -42,6 +42,4 @@ public:
 	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
-	
-	virtual void handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet);
 };

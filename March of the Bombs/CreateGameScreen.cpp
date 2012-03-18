@@ -5,7 +5,7 @@
 #include "Game.h"
 
 #include "GameScreen.h"
-#include "LoadingScreen.h"
+#include "WaitingScreen.h"
 
 void CreateGameScreen::goBack()
 {
@@ -44,8 +44,8 @@ void CreateGameScreen::setupComponents()
 		0));
 
 	okButton.reset(new Button(
-		TextureSection(L"Images/NewBI/NPBtn1.png"),
-		TextureSection(L"Images/NewBI/NPBtn2.png"),
+		TextureSection(L"Images/NewBI/CGBtn1.png"),
+		TextureSection(L"Images/NewBI/CGBtn2.png"),
 		Rectanglef(glm::vec2(0.55f, 0.1f), glm::vec2(0.25f, 0.1f)),
 		0));
 
@@ -86,8 +86,8 @@ void CreateGameScreen::mouseButtonEventHandler(MouseButtonEvent* mbEvent)
 
 				if (selectedMap >= 0 && static_cast<size_t>(selectedMap) < mapNames.size())
 				{
-					Packet::ptr packet = Packet::ptr(new Packet6CreateGame(mapNames[static_cast<size_t>(selectedMap)]));
-					client->write(packet);
+					nextScreen.reset(new WaitingScreen(client, playerName, playerID, mapNames[static_cast<size_t>(selectedMap)]));
+					Game::getInstance()->getEvents().clear();
 				}
 			}
 		}
@@ -187,16 +187,4 @@ Screen::ptr CreateGameScreen::getNextScreen()
 	Screen::ptr screen;
 	screen.swap(nextScreen);
 	return screen;
-}
-
-void CreateGameScreen::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& packet)
-{
-	Packet8SetupGame const* packet8 = static_cast<Packet8SetupGame const*>(packet.get());
-
-	glm::vec3 myColor = glm::vec3(1.f, 1.f, 0.f) - packet8->getOpponentColor();
-	
-	nextScreen.reset(new LoadingScreen(client, playerName, playerID, myColor,
-		"Hasse", packet8->getOpponentID(), packet8->getOpponentColor(),
-		packet8->getMapName(), packet8->getBaseID()));
-	Game::getInstance()->getEvents().clear();
 }

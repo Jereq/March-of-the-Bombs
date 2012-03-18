@@ -136,6 +136,7 @@
     <ClCompile Include="StandardBombModelData.cpp" />
     <ClCompile Include="TextureSection.cpp" />
     <ClCompile Include="TextField.cpp" />
+    <ClCompile Include="WaitingScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="StandardBombModelData.h" />
     <ClInclude Include="TextureSection.h" />
     <ClInclude Include="TextField.h" />
+    <ClInclude Include="WaitingScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\billboard.frag" />

@@ -30,18 +30,22 @@ void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation,
 
 void GameScreen::createExplosion(glm::vec3 const& position, float size, float duration, bool removeBlocks)
 {
+	// Add new explosion
 	explosions.push_back(Explosion(position, glm::vec2(size), duration));
+	// Limit explosion sounds to one per frame
 	if (explosionsThisFrame < 1)
 	{
 		game->getSoundManager()->playSound("Sounds/bombexplosion.mp3", position, 30.f);
 	}
 	explosionsThisFrame++;
 
+	// Find all bombs within the explosion radius
 	Bomb::id_set nearbyBombs;
 	glm::vec2 groundPos(glm::swizzle<glm::X, glm::Z>(position));
 	getNearbyBombs(groundPos, size * 0.5f, nearbyBombs);
 	BOOST_FOREACH(Bomb::id const& id, nearbyBombs)
 	{
+		// Only deal with the players own bombs
 		if (id.first == myID)
 		{
 			Bomb& bomb = myEntities[id.second];
@@ -55,6 +59,7 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 		}
 	}
 	
+	// Blow up blocks
 	if (removeBlocks)
 	{
 		float blockExplosionRadius = size * 0.8f;
@@ -69,6 +74,7 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 
 		std::vector<glm::ivec2> blocks;
 
+		// For every block in a square...
 		for (int x = minPos.x; x <= maxPos.x; x++)
 		{
 			for (int y = minPos.y; y <= maxPos.y; y++)
@@ -84,6 +90,7 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 			}
 		}
 
+		// If any block to remove was found...
 		if (!blocks.empty())
 		{
 			Packet::ptr packet(new Packet14RemoveBlocks(blocks));
@@ -91,6 +98,7 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 		}
 	}
 
+	// Give score for every explosion close to the opponents base
 	if (glm::distance(position, opponentBasePos) < size * 0.5f)
 	{
 		scoreThisFrame += BASE_POINTS_PER_BOMB;
