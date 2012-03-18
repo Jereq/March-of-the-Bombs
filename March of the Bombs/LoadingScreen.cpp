@@ -15,7 +15,7 @@ LoadingScreen::LoadingScreen(GameClient::ptr const& client, std::string const& p
 	: client(client), playerName(playerName), playerID(playerID), playerColor(playerColor),
 	  opponentName(opponentName), opponentID(opponentID), opponentColor(opponentColor),
 	  mapName(mapName), baseID(baseID), opponentReady(false), ready(false),
-	  opponentLabel(glm::vec2(0.25f, 0.45f), glm::vec2(0.03f, 0.06f), "Opponent: " + opponentName, 0)
+	  opponentLabel(glm::vec2(0.25f, 0.45f), glm::vec2(0.03f, 0.06f), "Opponent: " + opponentName, 0, glm::vec3(1.f))
 {
 }
 
