@@ -50,6 +50,6 @@ void WaitingScreen::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& pa
 	glm::vec3 myColor = glm::vec3(1.f, 1.f, 0.f) - packet8->getOpponentColor();
 	
 	nextScreen.reset(new LoadingScreen(client, playerName, playerID, myColor,
-		"Hasse", packet8->getOpponentID(), packet8->getOpponentColor(),
+		packet8->getOpponentName(), packet8->getOpponentID(), packet8->getOpponentColor(),
 		packet8->getMapName(), packet8->getBaseID()));
 }

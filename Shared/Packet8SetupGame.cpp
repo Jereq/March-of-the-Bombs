@@ -25,6 +25,7 @@ void Packet8SetupGame::pack() const
 	char* dataP = &packedData[OFFSET_DATA];
 
 	dataP += util::pack(&opponentID, 1, dataP);
+	dataP += util::pack(&opponentName, 1, dataP);
 	dataP += util::pack(&opponentColor, 1, dataP);
 	dataP += util::pack(&mapName, 1, dataP);
 	dataP += util::pack(&baseID, 1, dataP);
@@ -47,6 +48,7 @@ void Packet8SetupGame::unpack() const
 	char* dataP = &packedData[OFFSET_DATA];
 
 	dataP += util::unpack(&opponentID, 1, dataP);
+	dataP += util::unpack(&opponentName, 1, dataP);
 	dataP += util::unpack(&opponentColor, 1, dataP);
 	dataP += util::unpack(&mapName, 1, dataP);
 	dataP += util::unpack(&baseID, 1, dataP);
@@ -64,14 +66,16 @@ Packet8SetupGame::Packet8SetupGame(char const* data, uint16_t length)
 {
 }
 
-Packet8SetupGame::Packet8SetupGame(unsigned short opponentID, glm::vec3 const& opponentColor,
-		std::string const& mapName, unsigned short baseID)
-	: Packet(mId), opponentID(opponentID), opponentColor(opponentColor), mapName(mapName), baseID(baseID)
+Packet8SetupGame::Packet8SetupGame(unsigned short opponentID, std::string const& opponentName,
+	glm::vec3 const& opponentColor, std::string const& mapName, unsigned short baseID)
+	: Packet(mId), opponentID(opponentID), opponentName(opponentName),
+	  opponentColor(opponentColor), mapName(mapName), baseID(baseID)
 {
 	dataLength = OFFSET_DATA +
 		2 * sizeof(uint16_t) +
 		sizeof(glm::vec3) +
-		util::packedSize(mapName);
+		util::packedSize(mapName) +
+		util::packedSize(opponentName);
 
 	unpacked = true;
 }
@@ -90,6 +94,17 @@ unsigned short Packet8SetupGame::getOpponentID() const
 
 	return opponentID;
 }
+
+std::string const& Packet8SetupGame::getOpponentName() const
+{
+	if (!unpacked)
+	{
+		unpack();
+	}
+
+	return opponentName;
+}
+
 glm::vec3 const& Packet8SetupGame::getOpponentColor() const
 {
 	if (!unpacked)

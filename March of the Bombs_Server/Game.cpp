@@ -25,10 +25,20 @@ void Game::join(Player::ptr const& player)
 
 			std::vector<Player::ptr> playVec(players.begin(), players.end());
 
-			Packet::ptr packet(new Packet8SetupGame(playVec[0]->getID(), glm::vec3(1, 0, 0), mapName, 0));
+			Packet::ptr packet(new Packet8SetupGame(
+				playVec[0]->getID(),
+				playVec[0]->getName(),
+				glm::vec3(1, 0, 0),
+				mapName,
+				0));
 			playVec[1]->deliver(packet);
 
-			packet.reset(new Packet8SetupGame(playVec[1]->getID(), glm::vec3(0, 1, 0), mapName, 1));
+			packet.reset(new Packet8SetupGame(
+				playVec[1]->getID(),
+				playVec[1]->getName(),
+				glm::vec3(0, 1, 0),
+				mapName,
+				1));
 			playVec[0]->deliver(packet);
 		}
 	}

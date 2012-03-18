@@ -16,6 +16,7 @@ private:
 
 protected:
 	mutable uint16_t opponentID;
+	mutable std::string opponentName;
 	mutable glm::vec3 opponentColor;
 	mutable std::string mapName;
 	mutable uint16_t baseID;
@@ -26,13 +27,14 @@ protected:
 public:
 	Packet8SetupGame();		// Prototype constructor
 	Packet8SetupGame(char const* data, uint16_t length);
-	Packet8SetupGame(unsigned short opponentID, glm::vec3 const& opponentColor,
-		std::string const& mapName, unsigned short baseID);
+	Packet8SetupGame(unsigned short opponentID, std::string const& opponentName,
+		glm::vec3 const& opponentColor, std::string const& mapName, unsigned short baseID);
 
 	virtual ptr createPacket(char const* data, uint16_t length) const;
 	virtual void dispatch(void* context) const;
 
 	unsigned short getOpponentID() const;
+	std::string const& getOpponentName() const;
 	glm::vec3 const& getOpponentColor() const;
 	std::string const& getMapName() const;
 	unsigned short getBaseID() const;
