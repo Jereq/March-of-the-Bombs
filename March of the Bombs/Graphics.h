@@ -19,11 +19,12 @@ private:
 	struct TextureInstance
 	{
 		const TextureSection texture;
+		const glm::vec3 color;
 		const Rectanglef target;
 		const float depth;
 
-		TextureInstance(TextureSection const& texture, Rectanglef const& target, float depth)
-			: texture(texture), target(target), depth(depth)
+		TextureInstance(TextureSection const& texture, glm::vec3 const& color, Rectanglef const& target, float depth)
+			: texture(texture), color(color), target(target), depth(depth)
 		{
 		}
 
@@ -33,6 +34,12 @@ private:
 			if (depth < rhs.depth) return false;
 			if (texture < rhs.texture) return true;
 			if (rhs.texture < texture) return false;
+			if (color.x < rhs.color.x) return true;
+			if (color.x > rhs.color.x) return false;
+			if (color.y < rhs.color.y) return true;
+			if (color.y > rhs.color.y) return false;
+			if (color.z < rhs.color.z) return true;
+			if (color.z > rhs.color.z) return false;
 			if (target < rhs.target) return true;
 			return false;
 		}
@@ -107,7 +114,7 @@ public:
 	Graphics();
 	~Graphics();
 
-	void drawTexture(TextureSection const& texture, Rectanglef const& target, float depth);
+	void drawTexture(TextureSection const& texture, Rectanglef const& target, float depth, glm::vec3 const& color);
 	void drawBillboard(TextureSection const& texture, glm::vec3 const& position, glm::vec2 const& size);
 	void drawModel(Model::ptr const& model);
 	void render();

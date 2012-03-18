@@ -14,7 +14,8 @@ LoadingScreen::LoadingScreen(GameClient::ptr const& client, std::string const& p
 		std::string const& mapName, unsigned short baseID)
 	: client(client), playerName(playerName), playerID(playerID), playerColor(playerColor),
 	  opponentName(opponentName), opponentID(opponentID), opponentColor(opponentColor),
-	  mapName(mapName), baseID(baseID), opponentReady(false), ready(false)
+	  mapName(mapName), baseID(baseID), opponentReady(false), ready(false),
+	  opponentLabel(glm::vec2(0.25f, 0.45f), glm::vec2(0.03f, 0.06f), "Opponent: " + opponentName, 0)
 {
 }
 
@@ -58,6 +59,7 @@ void LoadingScreen::update(float deltaTime)
 
 void LoadingScreen::draw(Graphics::ptr graphics)
 {
+	opponentLabel.draw(graphics);
 }
 
 Screen::ptr LoadingScreen::getNextScreen()

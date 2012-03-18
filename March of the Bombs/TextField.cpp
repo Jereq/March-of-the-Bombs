@@ -26,17 +26,17 @@ void TextField::render(Graphics::ptr graphics)
 
 	for(unsigned int i = 0; i < Text.length(); i++)
 	{
-		graphics->drawTexture(tempkeymap[Text[i]],tempRect,depth-0.01f);
+		graphics->drawTexture(tempkeymap[Text[i]],tempRect,depth-0.01f, glm::vec3(0.f));
 		tempRect.setPosition(glm::vec2((tempRect.getPosition().x + letterWidth),tempRect.getPosition().y));
 	}
 
 	if(!active)
 	{
-		graphics->drawTexture(deactiveBackground,PosRect,depth);
+		graphics->drawTexture(deactiveBackground,PosRect,depth, glm::vec3(1.f));
 	}
 	else
 	{
-		graphics->drawTexture(activeBackground,PosRect,depth);
+		graphics->drawTexture(activeBackground,PosRect,depth, glm::vec3(1.f));
 	}
 }
 /*

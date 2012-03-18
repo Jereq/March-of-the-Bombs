@@ -27,26 +27,26 @@ void Button::render(Graphics::ptr graphics)
 		{
 		case Unused:
 			{
-				graphics->drawTexture(unpressedTexture,posSizeRectangle, depth);
+				graphics->drawTexture(unpressedTexture,posSizeRectangle, depth, glm::vec3(1.f));
 			}
 			break;
 
 		case Hovered:
 			{
-				graphics->drawTexture(pressedTexture,posSizeRectangle, depth);
+				graphics->drawTexture(pressedTexture,posSizeRectangle, depth, glm::vec3(1.f));
 			}
 			break;
 
 		case Used:
 			{
-				graphics->drawTexture(pressedTexture,posSizeRectangle, depth);
+				graphics->drawTexture(pressedTexture,posSizeRectangle, depth, glm::vec3(1.f));
 			}
 			break;
 		}
 	}
 	else if (disabled)
 	{
-		graphics->drawTexture(unpressedTexture,posSizeRectangle, depth);
+		graphics->drawTexture(unpressedTexture,posSizeRectangle, depth, glm::vec3(1.f));
 	}
 }
 

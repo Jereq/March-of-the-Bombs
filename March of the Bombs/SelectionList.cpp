@@ -28,7 +28,7 @@ void SelectionList::render(Graphics::ptr graphics)
 	{
 		for(unsigned int j = 0; j < GameList[i].size(); j++)
 		{
-			graphics->drawTexture(tempkeymap[GameList[i][j]],tempRect,depth-0.01f);
+			graphics->drawTexture(tempkeymap[GameList[i][j]],tempRect,depth-0.01f, glm::vec3(0.f));
 			tempRect.setPosition(glm::vec2((tempRect.getPosition().x + letterWidth),tempRect.getPosition().y));
 		}
 		//skapa en rektangel runt hela strängen... 
@@ -40,7 +40,7 @@ void SelectionList::render(Graphics::ptr graphics)
 		tempRect.setPosition(glm::vec2((PosRect.getPosition().x),tempRect.getPosition().y - letterHight));
 	}
 
-	graphics->drawTexture(Background,PosRect,depth);
+	graphics->drawTexture(Background,PosRect,depth, glm::vec3(1.f));
 }
 
 void SelectionList::updateselection(MouseButtonEvent const* mbEvent)

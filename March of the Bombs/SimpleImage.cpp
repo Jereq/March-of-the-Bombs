@@ -19,5 +19,5 @@ SimpleImage::~SimpleImage(void)
 
 void SimpleImage::render(Graphics::ptr graphics)
 {
-	graphics->drawTexture(texture,posSizeRectangle, depth);
+	graphics->drawTexture(texture,posSizeRectangle, depth, glm::vec3(1.f));
 }

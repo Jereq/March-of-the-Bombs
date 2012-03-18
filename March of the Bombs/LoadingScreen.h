@@ -5,6 +5,7 @@
 #include "Screen.h"
 #include "GameClient.h"
 #include "GameScreen.h"
+#include "Label.h"
 
 class LoadingScreen
 	: public Screen
@@ -20,6 +21,8 @@ private:
 	Screen::ptr nextScreen;
 
 	GameClient::ptr client;
+
+	Label opponentLabel;
 
 	std::string playerName;
 	unsigned short playerID;

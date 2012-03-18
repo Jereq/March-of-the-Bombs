@@ -46,6 +46,7 @@ void Graphics::drawTextureInstance(TextureInstance const& texInst) const
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(textureData), textureData);
 
 	texInst.texture.getTexture()->use(0);
+	prog2D.setUniform("color", texInst.color);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
@@ -403,9 +404,9 @@ Graphics::~Graphics()
 	glDeleteVertexArrays(1, &billboardVAO);
 }
 
-void Graphics::drawTexture(TextureSection const& texture, Rectanglef const& target, float depth)
+void Graphics::drawTexture(TextureSection const& texture, Rectanglef const& target, float depth, glm::vec3 const& color)
 {
-	textureInstances.insert(TextureInstance(texture, target, depth));
+	textureInstances.insert(TextureInstance(texture, color, target, depth));
 }
 
 void Graphics::drawBillboard(TextureSection const& texture, glm::vec3 const& position, glm::vec2 const& size)
@@ -432,7 +433,7 @@ void Graphics::render()
 
 		prog2D.use();
 
-		drawTextureInstance(TextureInstance(*backgroundTexture, Rectanglef(glm::vec2(0.f), glm::vec2(1.f)), 1));
+		drawTextureInstance(TextureInstance(*backgroundTexture, glm::vec3(1.f), Rectanglef(glm::vec2(0.f), glm::vec2(1.f)), 1));
 
 		glDisable(GL_BLEND);
 		glBindVertexArray(0);
