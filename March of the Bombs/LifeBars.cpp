@@ -29,6 +29,7 @@ void LifeBars::updateLB(float PtoW)
 {
 	if(!Lefty)
 	{
+		LBRect.setPosition(glm::vec2((BGRect.getSize().x - (BGRect.getSize().x * PtoW)),BGRect.getSize().y));
 	}
 	LBRect.setSize(glm::vec2(BGRect.getSize().x * PtoW, BGRect.getSize().y));
 }

@@ -258,6 +258,8 @@ void GameScreen::atEntry()
 	createButtons();
 	LifeBarLeft = LifeBars(TextureSection(L"Images/RedBGHPBar.png"),TextureSection(L"Images/GreenBGHPBar.png"),
 		Rectanglef(glm::vec2(0.02f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,true);
+	LifeBarRight = LifeBars(TextureSection(L"Images/RedBGHPBar.png"),TextureSection(L"Images/GreenBGHPBar.png"),
+		Rectanglef(glm::vec2(0.58f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,false);
 
 	Graphics::ptr graphics = game->getGraphics();
 	graphics->getCamera()->setAttachmentPoint(cameraPos);

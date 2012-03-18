@@ -62,6 +62,7 @@ private:
 	TextureSection::ptr background;
 
 	LifeBars LifeBarLeft;
+	LifeBars LifeBarRight;
 
 	float currentDeltaTime;
 	glm::vec3 cameraVelocity;
