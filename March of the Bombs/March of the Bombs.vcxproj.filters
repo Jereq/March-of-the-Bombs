@@ -241,7 +241,7 @@
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
     <ClCompile Include="LifeBars.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
     <ClCompile Include="Label.cpp">
       <Filter>Source Files\GUIcpp</Filter>
@@ -411,7 +411,7 @@
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
     <ClInclude Include="LifeBars.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GUIh</Filter>
     </ClInclude>
     <ClInclude Include="Label.h">
       <Filter>Header Files\GUIh</Filter>

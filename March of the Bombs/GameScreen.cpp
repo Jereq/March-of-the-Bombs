@@ -18,6 +18,7 @@ const float GameScreen::BASE_POINTS_PER_BOMB = 50.f;
 const float GameScreen::FLAG_POINTS_PER_SEC = 5.f;
 const float GameScreen::EXPLOSION_RADIUS = 1.5f;
 const float GameScreen::FLAG_RADIUS = 5.f;
+const float GameScreen::POINTS_TO_WIN = 1000.f;
 
 void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity)
 {
@@ -255,6 +256,8 @@ void GameScreen::atEntry()
 
 	createBackground();
 	createButtons();
+	LifeBarLeft = LifeBars(TextureSection(L"Images/RedBGHPBar.png"),TextureSection(L"Images/GreenBGHPBar.png"),
+		Rectanglef(glm::vec2(0.02f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,true);
 
 	Graphics::ptr graphics = game->getGraphics();
 	graphics->getCamera()->setAttachmentPoint(cameraPos);
@@ -470,6 +473,10 @@ void GameScreen::update(float deltaTime)
 	{
 		myScore += scoreThisFrame;
 
+		float tempPtoW = myScore/POINTS_TO_WIN;
+
+		LifeBarLeft.updateLB(tempPtoW);
+
 		Packet::ptr packet(new Packet15UpdatePlayerScore(myID, myScore));
 		client->write(packet);
 
@@ -508,12 +515,12 @@ void GameScreen::update(float deltaTime)
 	glm::mat3 rotationMatrix = glm::mat3(glm::rotate(glm::mat4(), rotation.y, glm::vec3(0, 1, 0)));
 	cameraPos->setPosition(cameraPos->getPosition() + rotationMatrix * cameraVelocity * deltaTime);
 
-	if (myScore >= 1000.f)
+	if (myScore >= POINTS_TO_WIN)
 	{
 		nextScreen = Screen::ptr(new MainMeny());
 		game->getEvents().clear();
 	}
-	else if (opponentScore >= 1000.f)
+	else if (opponentScore >= POINTS_TO_WIN)
 	{
 		game->close();
 	}
@@ -550,6 +557,8 @@ void GameScreen::draw(Graphics::ptr graphics)
 	{
 		buttons[i].render(graphics);
 	}
+
+	LifeBarLeft.render(graphics);
 }
 
 Screen::ptr GameScreen::getNextScreen()

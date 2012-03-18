@@ -61,6 +61,8 @@ private:
 	Screen::ptr nextScreen;
 	TextureSection::ptr background;
 
+	LifeBars LifeBarLeft;
+
 	float currentDeltaTime;
 	glm::vec3 cameraVelocity;
 	float rotationYSpeed;
@@ -70,6 +72,7 @@ private:
 	glm::vec2 selectionPosition;
 	bool selecting;
 
+	const static float POINTS_TO_WIN;
 	const static float BASE_POINTS_PER_BOMB;
 	const static float FLAG_POINTS_PER_SEC;
 	const static float FLAG_RADIUS;
@@ -105,7 +108,7 @@ public:
 	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
-	
+		
 	void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet);
 	void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet);
 	void handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet);
