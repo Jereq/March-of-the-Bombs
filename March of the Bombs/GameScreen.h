@@ -11,6 +11,7 @@
 #include "Explosion.h"
 #include "Flag.h"
 #include "HQBlock.h"
+#include "LifeBars.h"
 
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"

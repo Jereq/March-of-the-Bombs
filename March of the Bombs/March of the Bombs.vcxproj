@@ -113,6 +113,7 @@
     <ClCompile Include="HQModelData.cpp" />
     <ClCompile Include="HtPScreen.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
+    <ClCompile Include="LifeBars.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
     <ClCompile Include="Lobbyscreen.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="HQModelData.h" />
     <ClInclude Include="HtPScreen.h" />
     <ClInclude Include="KeyboardEvent.h" />
+    <ClInclude Include="LifeBars.h" />
     <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="Lobbyscreen.h" />
     <ClInclude Include="MainMeny.h" />

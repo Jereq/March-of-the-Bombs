@@ -240,6 +240,9 @@
     <ClCompile Include="WaitingScreen.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
+    <ClCompile Include="LifeBars.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -403,6 +406,9 @@
     </ClInclude>
     <ClInclude Include="WaitingScreen.h">
       <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="LifeBars.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
