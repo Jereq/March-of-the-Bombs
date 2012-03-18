@@ -195,17 +195,18 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 			client.reset();
 			client.reset(new GameClient(IPTF->getString(), "1694"));
 
-
-			playerName = SignInTF->getString();
-			Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
-			client->write(packet);
-			signInButton->disabled = true;
-			signInButton->setState(Unused);
-			
+			if (client && client->isRunning())
+			{
+				playerName = SignInTF->getString();
+				Packet::ptr packet = Packet::ptr(new Packet3Login(playerName));
+				client->write(packet);
+				signInButton->disabled = true;
+				signInButton->setState(Unused);
+			}
 		}
 		else if (createGameButton->getState() == Hovered)
 		{
-			if (client)
+			if (client && client->isRunning())
 			{
 				nextScreen.reset(new CreateGameScreen(shared_from_this(), client, playerName, playerID));
 				game->getEvents().clear();
@@ -213,7 +214,7 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		}
 		else if (joinGameButton->getState() == Hovered)
 		{
-			if (client && !openGames.empty())
+			if (client && client->isRunning() && !openGames.empty())
 			{
 				int tempindex = selectionList->getindex();
 				if(tempindex >= 0 && (unsigned int)tempindex < openGames.size())
@@ -221,15 +222,16 @@ void LobbyScreen::MousePressEventMethod(MouseButtonEvent* mbEvent)
 					Packet::ptr packet = Packet::ptr(new Packet7JoinGame(openGames[tempindex].getGameID()));
 					client->write(packet);
 				}
-
-
 			}
 		}
 		else if (refreshButton->getState() == Hovered)
 		{
-			Packet::ptr packet11(new Packet11RequestOpenGames());
-			client->write(packet11);
-			openGames.clear();
+			if (client && client->isRunning())
+			{
+				Packet::ptr packet11(new Packet11RequestOpenGames());
+				client->write(packet11);
+				openGames.clear();
+			}
 		}
 
 		for(unsigned int i = 0; i < textfields.size(); i++)
