@@ -75,7 +75,7 @@ void GameClient::handleReadBody(boost::system::error_code const& error)
 	if (!error)
 	{
 		Packet::ptr packet = packetManager.createPacket(readBuffer, packetLength, packetId);
-		receivedPackets.push_back(packet);
+		pushReceivedPacket(packet);
 
 		startRead();
 	}
@@ -132,6 +132,13 @@ void GameClient::startRead()
 		boost::asio::placeholders::error));
 }
 
+void GameClient::pushReceivedPacket(Packet::ptr const& packet)
+{
+	boost::lock_guard<boost::mutex> lock(receivedPacketsMutex);
+
+	receivedPackets.push_back(packet);
+}
+
 GameClient::GameClient(std::string const& host, std::string const& port)
 	: socket(io_service), connected(false)
 {
@@ -178,6 +185,8 @@ bool GameClient::hasReceivedPackets() const
 
 Packet::ptr GameClient::popReceivedPacket()
 {
+	boost::lock_guard<boost::mutex> lock(receivedPacketsMutex);
+
 	Packet::ptr first = receivedPackets.front();
 	receivedPackets.pop_front();
 

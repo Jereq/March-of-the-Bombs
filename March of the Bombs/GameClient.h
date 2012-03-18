@@ -21,6 +21,8 @@ private:
 	std::deque<Packet::ptr> writePackets;
 	std::deque<Packet::ptr> receivedPackets;
 
+	boost::mutex receivedPacketsMutex;
+
 	bool connected;
 
 	void registerPackets();
@@ -33,6 +35,8 @@ private:
 	void doClose();
 	void startWrite();
 	void startRead();
+
+	void pushReceivedPacket(Packet::ptr const& packet);
 
 public:
 	typedef boost::shared_ptr<GameClient> ptr;
