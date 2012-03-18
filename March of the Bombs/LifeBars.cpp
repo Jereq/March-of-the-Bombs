@@ -9,7 +9,7 @@ LifeBars::LifeBars(TextureSection BackGroundT, TextureSection LifeBarT,
 			Rectanglef BackGroundR, float depth, bool Lefty)
 			: BGtexture(BackGroundT), LBtexture(LifeBarT), BGRect(BackGroundR), depth(depth), Lefty(Lefty)
 {
-
+	LBRect.setPosition(BGRect.getPosition());
 }
 
 LifeBars::~LifeBars()
