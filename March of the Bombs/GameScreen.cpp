@@ -561,6 +561,7 @@ void GameScreen::draw(Graphics::ptr graphics)
 	}
 
 	LifeBarLeft.render(graphics);
+	LifeBarRight.render(graphics);
 }
 
 Screen::ptr GameScreen::getNextScreen()
