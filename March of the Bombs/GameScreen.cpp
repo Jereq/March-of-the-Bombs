@@ -475,9 +475,7 @@ void GameScreen::update(float deltaTime)
 	{
 		myScore += scoreThisFrame;
 
-		float tempPtoW = myScore/POINTS_TO_WIN;
-
-		LifeBarLeft.updateLB(tempPtoW);
+		LifeBarLeft.updateLB(myScore/POINTS_TO_WIN);
 
 		Packet::ptr packet(new Packet15UpdatePlayerScore(myID, myScore));
 		client->write(packet);
@@ -968,5 +966,7 @@ void GameScreen::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::cons
 	if (packet15->getPlayerID() == opponentID)
 	{
 		opponentScore = packet15->getNewScore();
+
+		LifeBarRight.updateLB(opponentScore/POINTS_TO_WIN);
 	}
 }
