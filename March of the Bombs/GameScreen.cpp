@@ -294,7 +294,10 @@ void GameScreen::update(float deltaTime)
 		while (client->hasReceivedPackets())
 		{
 			Packet::ptr packet = client->popReceivedPacket();
-			packet->dispatch(&shared_from_this());
+			if (packet)
+			{
+				packet->dispatch(&shared_from_this());
+			}
 		}
 	}
 
