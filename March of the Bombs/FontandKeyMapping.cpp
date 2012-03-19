@@ -133,6 +133,8 @@ void FontandKeyMapping::keyMapping()
 
 		keyMap[':'] = BitFont.cut(Rectanglef(glm::vec2(6 * sizef, 3 * sizef), lettersize));
 
+		keyMap['!'] = BitFont.cut(Rectanglef(glm::vec2(7 * sizef, 3 * sizef), lettersize));
+	
 		keyMap[' '] = BitFont.cut(Rectanglef(glm::vec2(7 * sizef, 0 * sizef), lettersize));
 	}
 }

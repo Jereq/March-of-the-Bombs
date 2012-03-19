@@ -57,9 +57,9 @@ private:
 	float timeToNextBomb;
 
 	std::vector<Button> buttons;
-	std::vector<SimpleImage> Backgrounds;
 	Screen::ptr nextScreen;
 	TextureSection::ptr background;
+	SimpleImage::ptr GuiBackground;
 
 	LifeBars LifeBarLeft;
 	LifeBars LifeBarRight;

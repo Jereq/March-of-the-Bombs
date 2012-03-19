@@ -257,9 +257,9 @@ void GameScreen::atEntry()
 
 	createBackground();
 	createButtons();
-	LifeBarLeft = LifeBars(TextureSection(L"Images/RedBGHPBar.png"),TextureSection(L"Images/GreenBGHPBar.png"),
+	LifeBarLeft = LifeBars(TextureSection(L"Images/FrameLB.png"),TextureSection(L"Images/GreenBGHPBar.png"),
 		Rectanglef(glm::vec2(0.02f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,true);
-	LifeBarRight = LifeBars(TextureSection(L"Images/RedBGHPBar.png"),TextureSection(L"Images/GreenBGHPBar.png"),
+	LifeBarRight = LifeBars(TextureSection(L"Images/FrameLB.png"),TextureSection(L"Images/GreenBGHPBar.png"),
 		Rectanglef(glm::vec2(0.58f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,false);
 
 	Graphics::ptr graphics = game->getGraphics();
@@ -545,10 +545,7 @@ void GameScreen::draw(Graphics::ptr graphics)
 	blockMap.draw(graphics);
 
 	//starts to render all the backgrounds
-	for(unsigned int i = 0; i < Backgrounds.size(); i++)
-	{
-		Backgrounds[i].render(graphics);
-	}
+	GuiBackground->render(graphics);
 
 	//starts to render all the buttons
 	for(unsigned int i = 0; i < buttons.size(); i++)
@@ -795,19 +792,17 @@ void GameScreen::mouseMoveEventHandler(MouseMoveEvent const* mmEvent)
 void GameScreen::createBackground()
 {
 	background.reset(new TextureSection(L"Images/CaveBackground.png"));
+	TextureSection guiBackground(L"Images/GuiBackground.png");
 
-	TextureSection guiBackground(L"Images/NewBI/Start.png");
-	SimpleImage Background1(guiBackground, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(0.20f,0.20f)), 0.10f);
-
-	Backgrounds.push_back(Background1);
+	GuiBackground = SimpleImage::ptr(new SimpleImage(guiBackground, Rectanglef(glm::vec2(0.00f,0.92f),glm::vec2(1.00f,0.08f)), 0.10f, glm::vec3(1)));
 }
 
 void GameScreen::createButtons()
 {
-	TextureSection BackButton(L"images/NewBI/BackBtn1.png");
-	TextureSection BackButtonT(L"images/NewBI/BackBtn2.png");
+	TextureSection BackButton(L"Images/NewBI/SignInBtn1.png");
+	TextureSection BackButtonT(L"Images/NewBI/SignInBtn2.png");
 
-	Button button0(BackButton,		BackButtonT,	Rectanglef(glm::vec2(0.05f,0.05f),glm::vec2(0.10f,0.05f)), 0.0f);
+	Button button0(BackButton,		BackButtonT,	Rectanglef(glm::vec2(0.45f,0.93f),glm::vec2(0.10f,0.06f)), 0.0f);
 
 	buttons.push_back(button0);
 }

@@ -19,9 +19,9 @@ LifeBars::~LifeBars()
 void LifeBars::render(Graphics::ptr graphics)
 {
 	//backGround
-	graphics->drawTexture(BGtexture,BGRect,depth + 0.01f,glm::vec3(1));
+	graphics->drawTexture(BGtexture,BGRect,depth + 0.001f,glm::vec3(1));
 	//LifeBar
-	graphics->drawTexture(LBtexture,LBRect,depth + 0.001f,glm::vec3(1));
+	graphics->drawTexture(LBtexture,LBRect,depth + 0.002f,glm::vec3(1));
 
 }
 
