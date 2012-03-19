@@ -150,9 +150,6 @@
     <ClCompile Include="PlaneModelData.cpp">
       <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
-    <ClCompile Include="OptionScreen.cpp">
-      <Filter>Source Files\GUIcpp</Filter>
-    </ClCompile>
     <ClCompile Include="CreditsScreen.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
@@ -326,9 +323,6 @@
     <ClInclude Include="PlaneModelData.h">
       <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
-    <ClInclude Include="OptionScreen.h">
-      <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
     <ClInclude Include="CreditsScreen.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
@@ -475,48 +469,6 @@
     <None Include="Images\NewBI\BackBtn2.png">
       <Filter>Resource Files\Images</Filter>
     </None>
-    <None Include="Images\OldBI\ButtonBack.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonBackgound.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonBackgroundT.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonBackT.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonCredits.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonCreditsT.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonExit.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonExitT.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonHtP.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonHtPT.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonLobby.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonLobbyT.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonOption.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\ButtonOptionT.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
     <None Include="Images\NewBI\CBtn1.png">
       <Filter>Resource Files\Images</Filter>
     </None>
@@ -547,12 +499,6 @@
     <None Include="Images\NewBI\HtPBtn2.png">
       <Filter>Resource Files\Images</Filter>
     </None>
-    <None Include="Images\OldBI\MotBBackground.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\OldBI\MotBBackgroundCredits.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
     <None Include="Images\NewBI\NPBtn1.png">
       <Filter>Resource Files\Images</Filter>
     </None>
@@ -573,9 +519,6 @@
     </None>
     <None Include="Models\Standard.png">
       <Filter>Resource Files\Models</Filter>
-    </None>
-    <None Include="defaultmapfile.txt">
-      <Filter>Resource Files</Filter>
     </None>
     <None Include="Shaders\billboard.vert">
       <Filter>Resource Files\Shaders</Filter>

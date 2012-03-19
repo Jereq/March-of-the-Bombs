@@ -1,7 +1,6 @@
 #include "MainMeny.h"
 #include "Game.h"
 #include "LobbyScreen.h"
-#include "OptionScreen.h"
 #include "CreditsScreen.h"
 #include "HtPScreen.h"
 
@@ -86,25 +85,21 @@ void MainMeny::createButtons()
 {
 	TextureSection LobbyButton		(L"images/NewBI/NPBtn1.png");
 	TextureSection HtPButton		(L"images/NewBI/HtPBtn1.png");
-	TextureSection OptionButton		(L"images/NewBI/OBtn1.png");
 	TextureSection CreditsButton	(L"images/NewBI/CBtn1.png");
 	TextureSection ExitButton		(L"images/NewBI/ExitBtn1.png");
 
 	TextureSection LobbyButtonT		(L"images/NewBI/NPBtn2.png");
 	TextureSection HtPButtonT		(L"images/NewBI/HtPBtn2.png");
-	TextureSection OptionButtonT	(L"images/NewBI/OBtn2.png");
 	TextureSection CreditsButtonT	(L"images/NewBI/CBtn2.png");
 	TextureSection ExitButtonT		(L"images/NewBI/ExitBtn2.png");
 
-	lobbyButton		= Button::ptr(new Button(LobbyButton,	LobbyButtonT,	Rectanglef(glm::vec2(0.30f,0.25f),glm::vec2(0.40f,0.15f)), 0.0f));
-	htPButton		= Button::ptr(new Button(HtPButton,		HtPButtonT,		Rectanglef(glm::vec2(0.53f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
-	optionButton	= Button::ptr(new Button(OptionButton,	OptionButtonT,	Rectanglef(glm::vec2(0.27f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
-	creditsButton	= Button::ptr(new Button(CreditsButton,	CreditsButtonT,	Rectanglef(glm::vec2(0.80f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f));
-	exitButton		= Button::ptr(new Button(ExitButton,		ExitButtonT,	Rectanglef(glm::vec2(0.05f,0.04f),glm::vec2(0.15f,0.10f)), 0.0f));
+	lobbyButton		= Button::ptr(new Button(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.30f,0.25f),glm::vec2(0.40f,0.15f)), 0.0f));
+	htPButton		= Button::ptr(new Button(HtPButton,			HtPButtonT,		Rectanglef(glm::vec2(0.40f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
+	creditsButton	= Button::ptr(new Button(CreditsButton,		CreditsButtonT,	Rectanglef(glm::vec2(0.75f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
+	exitButton		= Button::ptr(new Button(ExitButton,		ExitButtonT,	Rectanglef(glm::vec2(0.05f,0.04f),glm::vec2(0.20f,0.10f)), 0.0f));
 
 	buttons.push_back(lobbyButton);
 	buttons.push_back(htPButton);
-	buttons.push_back(optionButton);
 	buttons.push_back(creditsButton);
 	buttons.push_back(exitButton);
 }
@@ -137,12 +132,6 @@ void MainMeny::MousePressEventMethod(MouseButtonEvent* mbEvent)
 		if (htPButton->getState() == Hovered)
 		{
 			nextScreen = Screen::ptr(new HtPScreen());
-			game->getEvents().clear();
-		}
-
-		if (optionButton->getState() == Hovered)
-		{
-			nextScreen = Screen::ptr(new OptionScreen());
 			game->getEvents().clear();
 		}
 

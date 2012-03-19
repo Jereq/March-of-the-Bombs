@@ -18,7 +18,6 @@ private:
 	std::vector<Button::ptr> buttons;
 	Button::ptr lobbyButton;
 	Button::ptr htPButton;
-	Button::ptr optionButton;
 	Button::ptr creditsButton;
 	Button::ptr exitButton;
 

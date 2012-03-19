@@ -125,7 +125,6 @@
     <ClCompile Include="MouseButtonEvent.cpp" />
     <ClCompile Include="MouseMoveEvent.cpp" />
     <ClCompile Include="MouseState.cpp" />
-    <ClCompile Include="OptionScreen.cpp" />
     <ClCompile Include="PacketDispatchClient.cpp" />
     <ClCompile Include="PathMap.cpp" />
     <ClCompile Include="PathNode.cpp" />
@@ -183,7 +182,6 @@
     <ClInclude Include="MouseButtonEvent.h" />
     <ClInclude Include="MouseMoveEvent.h" />
     <ClInclude Include="MouseState.h" />
-    <ClInclude Include="OptionScreen.h" />
     <ClInclude Include="PathMap.h" />
     <ClInclude Include="PathNode.h" />
     <ClInclude Include="PlaneModelData.h" />
@@ -204,7 +202,6 @@
     <None Include="Shaders\billboard.frag" />
     <None Include="Shaders\billboard.geom" />
     <None Include="Shaders\billboard.vert" />
-    <None Include="defaultmapfile.txt" />
     <None Include="Images\ButtonCredits.png" />
     <None Include="Images\ButtonExit.png" />
     <None Include="Images\ButtonHtP.png" />
@@ -229,22 +226,6 @@
     <None Include="Images\NewBI\OBtn2.png" />
     <None Include="Images\NewBI\Options.png" />
     <None Include="Images\NewBI\Start.png" />
-    <None Include="Images\OldBI\ButtonBack.png" />
-    <None Include="Images\OldBI\ButtonBackgound.png" />
-    <None Include="Images\OldBI\ButtonBackgroundT.png" />
-    <None Include="Images\OldBI\ButtonBackT.png" />
-    <None Include="Images\OldBI\ButtonCredits.png" />
-    <None Include="Images\OldBI\ButtonCreditsT.png" />
-    <None Include="Images\OldBI\ButtonExit.png" />
-    <None Include="Images\OldBI\ButtonExitT.png" />
-    <None Include="Images\OldBI\ButtonHtP.png" />
-    <None Include="Images\OldBI\ButtonHtPT.png" />
-    <None Include="Images\OldBI\ButtonLobby.png" />
-    <None Include="Images\OldBI\ButtonLobbyT.png" />
-    <None Include="Images\OldBI\ButtonOption.png" />
-    <None Include="Images\OldBI\ButtonOptionT.png" />
-    <None Include="Images\OldBI\MotBBackground.png" />
-    <None Include="Images\OldBI\MotBBackgroundCredits.png" />
     <None Include="Images\skull.tga" />
     <None Include="Models\Standard.3ds" />
     <None Include="Models\Standard.png" />
