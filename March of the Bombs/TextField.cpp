@@ -209,3 +209,8 @@ string TextField::getString()
 {
 	return Text;
 }
+
+void TextField::setString(string const& newString)
+{
+	Text = newString;
+}

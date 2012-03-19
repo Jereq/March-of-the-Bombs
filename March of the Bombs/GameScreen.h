@@ -73,7 +73,8 @@ private:
 	glm::vec2 selectionPosition;
 	bool selecting;
 
-	const static float POINTS_TO_WIN;
+	float pointsToWin;
+
 	const static float BASE_POINTS_PER_BOMB;
 	const static float FLAG_POINTS_PER_SEC;
 	const static float FLAG_RADIUS;
@@ -103,7 +104,7 @@ private:
 public:
 	GameScreen(GameClient::ptr const& client, std::string const& myName, unsigned short myID, glm::vec3 const& myColor,
 		std::string const& opponentName, unsigned short opponentID, glm::vec3 const& opponentColor,
-		std::string const& mapName, unsigned short myBaseID);
+		std::string const& mapName, unsigned short myBaseID, unsigned short pointsToWin);
 
 	void atEntry();
 	void update(float deltaTime);

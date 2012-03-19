@@ -19,7 +19,6 @@ const float GameScreen::BASE_POINTS_PER_BOMB = 50.f;
 const float GameScreen::FLAG_POINTS_PER_SEC = 5.f;
 const float GameScreen::EXPLOSION_RADIUS = 1.5f;
 const float GameScreen::FLAG_RADIUS = 5.f;
-const float GameScreen::POINTS_TO_WIN = 1000.f;
 
 void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity)
 {
@@ -229,12 +228,13 @@ void GameScreen::getNearbyBombs(glm::vec2 const& center, float distance, Bomb::i
 
 GameScreen::GameScreen(GameClient::ptr const& client, std::string const& myName, unsigned short myID, glm::vec3 const& myColor,
 		std::string const& opponentName, unsigned short opponentID, glm::vec3 const& opponentColor,
-		std::string const& mapName, unsigned short myBaseID)
+		std::string const& mapName, unsigned short myBaseID, unsigned short pointsToWin)
 	: game(Game::getInstance()), client(client),
 	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/" + mapName + ".txt"),
 	  myID(myID), opponentID(opponentID), myColor(myColor), opponentColor(opponentColor),
 	  cameraSpeed(20.f), cameraRotationSpeed(45.f), selecting(false),
-	  myScore(0), opponentScore(0), myName(myName), opponentName(opponentName), scoreThisFrame(0)
+	  myScore(0), opponentScore(0), myName(myName), opponentName(opponentName),
+	  scoreThisFrame(0), pointsToWin(pointsToWin)
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
 	assert(bases.size() > myBaseID);
@@ -478,7 +478,7 @@ void GameScreen::update(float deltaTime)
 	{
 		myScore += scoreThisFrame;
 
-		LifeBarLeft.updateLB(myScore/POINTS_TO_WIN);
+		LifeBarLeft.updateLB(myScore / pointsToWin);
 
 		Packet::ptr packet(new Packet15UpdatePlayerScore(myID, myScore));
 		client->write(packet);
@@ -955,7 +955,7 @@ void GameScreen::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::cons
 	{
 		opponentScore = packet15->getNewScore();
 
-		LifeBarRight.updateLB(opponentScore/POINTS_TO_WIN);
+		LifeBarRight.updateLB(opponentScore / pointsToWin);
 	}
 }
 

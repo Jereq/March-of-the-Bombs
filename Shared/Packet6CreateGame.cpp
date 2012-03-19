@@ -16,7 +16,11 @@ void Packet6CreateGame::pack() const
 	}
 
 	packHeader();
-	util::pack(&mapName, 1, &packedData[OFFSET_DATA]);
+
+	char* dataP = &packedData[OFFSET_DATA];
+
+	dataP += util::pack(&mapName, 1, dataP);
+	dataP += util::pack(&winLimit, 1, dataP);
 
 	packed = true;
 }
@@ -33,7 +37,10 @@ void Packet6CreateGame::unpack() const
 		return;
 	}
 
-	util::unpack(&mapName, 1, &packedData[OFFSET_DATA]);
+	char* dataP = &packedData[OFFSET_DATA];
+
+	dataP += util::unpack(&mapName, 1, dataP);
+	dataP += util::unpack(&winLimit, 1, dataP);
 
 	unpacked = true;
 }
@@ -48,8 +55,8 @@ Packet6CreateGame::Packet6CreateGame(char const* data, uint16_t length)
 {
 }
 
-Packet6CreateGame::Packet6CreateGame(string const& mapName)
-	: Packet(mId), mapName(mapName)
+Packet6CreateGame::Packet6CreateGame(string const& mapName, unsigned short winLimit)
+	: Packet(mId), mapName(mapName), winLimit(winLimit)
 {
 	if (mapName.size() > MAX_MAP_NAME_LENGTH)
 	{
@@ -57,7 +64,10 @@ Packet6CreateGame::Packet6CreateGame(string const& mapName)
 	}
 
 	unpacked = true;
-	dataLength = util::packedSize(mapName) + OFFSET_DATA;
+
+	dataLength = OFFSET_DATA + 
+		util::packedSize(mapName) +
+		sizeof(uint16_t);
 }
 
 Packet::ptr Packet6CreateGame::createPacket(char const* data, uint16_t length) const
@@ -73,4 +83,14 @@ string const& Packet6CreateGame::getMapName() const
 	}
 
 	return mapName;
+}
+
+unsigned short Packet6CreateGame::getWinLimit() const
+{
+	if (!unpacked)
+	{
+		unpack();
+	}
+
+	return winLimit;
 }

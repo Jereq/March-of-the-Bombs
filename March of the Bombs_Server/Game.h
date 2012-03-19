@@ -15,11 +15,13 @@ private:
 	unsigned short gameID;
 
 	bool gameOver;
+	unsigned short winLimit;
 
 	std::string mapName;
 
 public:
-	Game(Context::ptr const& parentLobby, unsigned short gameID, std::string const& mapName);
+	Game(Context::ptr const& parentLobby, unsigned short gameID,
+		std::string const& mapName, unsigned short winLimit);
 
 	virtual void join(Player::ptr const& player);
 	virtual void leave(Player::ptr const& player);

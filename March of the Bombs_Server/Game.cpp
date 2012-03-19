@@ -5,9 +5,10 @@
 
 #include "Lobby.h"
 
-Game::Game(Context::ptr const& parentLobby, unsigned short gameID, std::string const& mapName)
+Game::Game(Context::ptr const& parentLobby, unsigned short gameID,
+	std::string const& mapName, unsigned short winLimit)
 	: parentLobby(parentLobby), packetManager(parentLobby->getPacketManager()),
-	mapName(mapName), gameID(gameID), gameOver(false)
+	mapName(mapName), gameID(gameID), gameOver(false), winLimit(winLimit)
 {
 }
 
@@ -31,7 +32,8 @@ void Game::join(Player::ptr const& player)
 				playVec[0]->getName(),
 				glm::vec3(1, 0, 0),
 				mapName,
-				0));
+				0,
+				winLimit));
 			playVec[1]->deliver(packet);
 
 			packet.reset(new Packet8SetupGame(
@@ -39,7 +41,8 @@ void Game::join(Player::ptr const& player)
 				playVec[1]->getName(),
 				glm::vec3(0, 1, 0),
 				mapName,
-				1));
+				1,
+				winLimit));
 			playVec[0]->deliver(packet);
 		}
 	}
@@ -159,8 +162,7 @@ void Game::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr 
 		}
 	}
 	
-	const static float SCORE_TO_WIN = 1000.f;
-	if (packet15->getNewScore() >= SCORE_TO_WIN)
+	if (packet15->getNewScore() >= winLimit)
 	{
 		if (players.size() == 2)
 		{

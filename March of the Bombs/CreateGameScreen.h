@@ -5,6 +5,7 @@
 #include "GameClient.h"
 #include "MouseButtonEvent.h"
 #include "MouseMoveEvent.h"
+#include "Label.h"
 
 class CreateGameScreen :
 	public Screen
@@ -18,6 +19,8 @@ private:
 	Button::ptr backButton;
 	Button::ptr okButton;
 
+	Label::ptr winLabel;
+	TextField::ptr winLimit;
 	SelectionList::ptr mapList;
 
 	std::string playerName;

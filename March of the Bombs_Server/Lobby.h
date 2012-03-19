@@ -33,7 +33,7 @@ public:
 	virtual boost::shared_ptr<PacketManager> getPacketManager();
 	virtual std::set<Player::ptr> const& getPlayers() const;
 
-	virtual void createGame(Player::ptr const& player, std::string const& mapName);
+	virtual void createGame(Player::ptr const& player, std::string const& mapName, unsigned short winLimit);
 	virtual void removeGame(Context::ptr const& game);
 
 	virtual void handlePacket3Login(Packet3Login::const_ptr const& packet, Player::ptr const& sender);

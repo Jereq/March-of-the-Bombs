@@ -43,4 +43,5 @@ public:
 	TFState getState();
 	void setState(TFState TFS);
 	string getString();
+	void setString(string const& newString);
 };

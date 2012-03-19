@@ -301,7 +301,7 @@ void LobbyScreen::handlePacket8SetupGame(Packet8SetupGame::const_ptr const& pack
 	
 	nextScreen.reset(new LoadingScreen(client, playerName, playerID, myColor,
 		packet8->getOpponentName(), packet8->getOpponentID(), packet8->getOpponentColor(),
-		packet8->getMapName(), packet8->getBaseID()));
+		packet8->getMapName(), packet8->getBaseID(), packet8->getWinLimit()));
 	game->getEvents().clear();
 }
 

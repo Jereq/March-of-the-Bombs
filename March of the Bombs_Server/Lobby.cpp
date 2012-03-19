@@ -39,7 +39,7 @@ std::set<Player::ptr> const& Lobby::getPlayers() const
 	return newPlayers;
 }
 
-void Lobby::createGame(Player::ptr const& player, std::string const& mapName)
+void Lobby::createGame(Player::ptr const& player, std::string const& mapName, unsigned short winLimit)
 {
 	if (openGames.size() < MAX_OPEN_GAMES)
 	{
@@ -50,7 +50,7 @@ void Lobby::createGame(Player::ptr const& player, std::string const& mapName)
 			nextGameID++;
 		}
 
-		Context::ptr newGame(new Game(shared_from_this(), nextGameID, mapName));
+		Context::ptr newGame(new Game(shared_from_this(), nextGameID, mapName, winLimit));
 		newGame->join(player);
 
 		openGames[nextGameID++] = newGame;
@@ -84,7 +84,7 @@ void Lobby::handlePacket6CreateGame(Packet6CreateGame::const_ptr const& packet, 
 {
 	Packet6CreateGame const* packet6 = static_cast<Packet6CreateGame const*>(packet.get());
 
-	createGame(sender, packet6->getMapName());
+	createGame(sender, packet6->getMapName(), packet6->getWinLimit());
 }
 
 void Lobby::handlePacket7JoinGame(Packet7JoinGame::const_ptr const& packet, Player::ptr const& sender)

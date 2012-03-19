@@ -15,10 +15,11 @@ private:
 	unsigned short playerID;
 
 	std::string mapName;
+	unsigned short winLimit;
 
 public:
 	WaitingScreen(GameClient::ptr const& client, std::string const& playerName,
-		unsigned short playerID, std::string const& mapName);
+		unsigned short playerID, std::string const& mapName, unsigned short winLimit);
 
 	void atEntry();
 

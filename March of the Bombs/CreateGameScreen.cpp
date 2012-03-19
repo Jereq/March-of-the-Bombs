@@ -1,6 +1,7 @@
 #include "CreateGameScreen.h"
 
 #include <boost/filesystem.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include "Game.h"
 
@@ -51,8 +52,22 @@ void CreateGameScreen::setupComponents()
 
 	mapList.reset(new SelectionList(
 		TextureSection(L"Images/TFBackground.png"),
-		Rectanglef(glm::vec2(0.1f, 0.3f), glm::vec2(0.8f, 0.6f)),
+		Rectanglef(glm::vec2(0.1f, 0.25f), glm::vec2(0.8f, 0.6f)),
 		0));
+
+	winLabel.reset(new Label(
+		glm::vec2(0.1f, 0.95f),
+		glm::vec2(0.025f, 0.05f),
+		"Points to win:",
+		0,
+		glm::vec3(1.f)));
+
+	winLimit.reset(new TextField(
+		TextureSection(L"Images/TFBackground.png"),
+		TextureSection(L"Images/DTFBackground.png"),
+		Rectanglef(glm::vec2(0.55f, 0.9f), glm::vec2(0.35f, 0.05f)),
+		0));
+	winLimit->setString("1000");
 }
 
 void CreateGameScreen::keyboardEventHandler(KeyboardEvent* keyEvent)
@@ -65,6 +80,10 @@ void CreateGameScreen::keyboardEventHandler(KeyboardEvent* keyEvent)
 		{
 		case ESC:
 			goBack();
+			break;
+
+		default:
+			winLimit->updateString(keyEvent);
 			break;
 		}
 	}
@@ -86,12 +105,21 @@ void CreateGameScreen::mouseButtonEventHandler(MouseButtonEvent* mbEvent)
 
 				if (selectedMap >= 0 && static_cast<size_t>(selectedMap) < mapNames.size())
 				{
-					nextScreen.reset(new WaitingScreen(client, playerName, playerID, mapNames[static_cast<size_t>(selectedMap)]));
-					Game::getInstance()->getEvents().clear();
+					try
+					{
+						unsigned short limit = boost::lexical_cast<unsigned short>(winLimit->getString());
+
+						nextScreen.reset(new WaitingScreen(client, playerName, playerID, mapNames[static_cast<size_t>(selectedMap)], limit));
+						Game::getInstance()->getEvents().clear();
+					}
+					catch (boost::bad_lexical_cast const&)
+					{}
 				}
 			}
 		}
 		
+		winLimit->active = winLimit->getState() == Targeted;
+
 		mapList->updateselection(mbEvent);
 	}
 }
@@ -114,6 +142,15 @@ void CreateGameScreen::mouseMoveEventHandler(MouseMoveEvent* mmEvent)
 	else
 	{
 		okButton->setState(Unused);
+	}
+
+	if (winLimit->intersects(mmEvent->position))
+	{
+		winLimit->setState(Targeted);
+	}
+	else
+	{
+		winLimit->setState(NotTargeted);
 	}
 }
 
@@ -179,6 +216,8 @@ void CreateGameScreen::draw(Graphics::ptr graphics)
 	backButton->render(graphics);
 	okButton->render(graphics);
 
+	winLabel->draw(graphics);
+	winLimit->render(graphics);
 	mapList->render(graphics);
 }
 

@@ -14,6 +14,7 @@ private:
 
 protected:
 	mutable std::string mapName;
+	mutable uint16_t winLimit;
 
 	virtual void pack() const;
 	virtual void unpack() const;
@@ -21,10 +22,11 @@ protected:
 public:
 	Packet6CreateGame();		// Prototype constructor
 	Packet6CreateGame(char const* data, uint16_t length);
-	Packet6CreateGame(std::string const& mapName);
+	Packet6CreateGame(std::string const& mapName, unsigned short winLimit);
 
 	virtual ptr createPacket(char const* data, uint16_t length) const;
 	virtual void dispatch(void* context) const;
 
 	std::string const& getMapName() const;
+	unsigned short getWinLimit() const;
 };

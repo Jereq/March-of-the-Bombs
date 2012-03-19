@@ -34,6 +34,7 @@ private:
 
 	std::string mapName;
 	unsigned short baseID;
+	unsigned short winLimit;
 
 	void loadGame();
 
@@ -42,7 +43,7 @@ public:
 
 	LoadingScreen(GameClient::ptr const& client, std::string const& playerName, unsigned short playerID, glm::vec3 const& playerColor,
 		std::string const& opponentName, unsigned short opponentID, glm::vec3 const& opponentColor,
-		std::string const& mapName, unsigned short baseID);
+		std::string const& mapName, unsigned short baseID, unsigned short winLimit);
 
 	void atEntry();
 
