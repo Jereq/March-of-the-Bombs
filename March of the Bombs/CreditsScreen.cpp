@@ -90,7 +90,7 @@ void CreditsScreen::createButtons()
 
 void CreditsScreen::createBackground()
 {
-	TextureSection Background(L"Images/background_meny.png");
+	TextureSection Background(L"Images/background_credits.png");
 
 	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(1.00f,1.00f)), 0.99f);
 
