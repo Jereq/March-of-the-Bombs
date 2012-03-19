@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Game.h"
 #include "MainMeny.h"
+#include "GameOverScreen.h"
 #include "BlockModelData.h"
 #include "PlaneModelData.h"
 #include "StandardBombModelData.h"
@@ -512,14 +513,14 @@ void GameScreen::update(float deltaTime)
 	glm::mat3 rotationMatrix = glm::mat3(glm::rotate(glm::mat4(), rotation.y, glm::vec3(0, 1, 0)));
 	cameraPos->setPosition(cameraPos->getPosition() + rotationMatrix * cameraVelocity * deltaTime);
 
-	if (myScore >= POINTS_TO_WIN)
+	if (myScore >= POINTS_TO_WIN || opponentScore >= POINTS_TO_WIN)
 	{
-		nextScreen = Screen::ptr(new MainMeny());
+		nextScreen = Screen::ptr(new GameOverScreen(
+			myName, opponentName,
+			static_cast<unsigned int>(myScore),
+			static_cast<unsigned int>(opponentScore)));
+
 		game->getEvents().clear();
-	}
-	else if (opponentScore >= POINTS_TO_WIN)
-	{
-		game->close();
 	}
 }
 

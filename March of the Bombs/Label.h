@@ -18,6 +18,8 @@ private:
 	glm::vec3 color;
 
 public:
+	typedef boost::shared_ptr<Label> ptr;
+
 	Label(glm::vec2 const& position, glm::vec2 const& letterSize, std::string const& text,
 		float depth, glm::vec3 const& color);
 

@@ -246,6 +246,9 @@
     <ClCompile Include="Label.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverScreen.cpp">
+      <Filter>Source Files\GUIcpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -414,6 +417,9 @@
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
     <ClInclude Include="Label.h">
+      <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScreen.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
   </ItemGroup>

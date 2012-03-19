@@ -17,8 +17,6 @@ private:
 	std::string mapName;
 
 public:
-	typedef boost::shared_ptr<WaitingScreen> ptr;
-
 	WaitingScreen(GameClient::ptr const& client, std::string const& playerName,
 		unsigned short playerID, std::string const& mapName);
 
