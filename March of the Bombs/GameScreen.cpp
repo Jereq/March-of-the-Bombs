@@ -794,8 +794,8 @@ void GameScreen::createBackground()
 
 void GameScreen::createButtons()
 {
-	TextureSection BackButton(L"Images/NewBI/SignInBtn1.png");
-	TextureSection BackButtonT(L"Images/NewBI/SignInBtn2.png");
+	TextureSection BackButton(L"Images/NewBI/ExitBtn1.png");
+	TextureSection BackButtonT(L"Images/NewBI/ExitBtn2.png");
 
 	Button button0(BackButton,		BackButtonT,	Rectanglef(glm::vec2(0.45f,0.93f),glm::vec2(0.10f,0.06f)), 0.0f);
 
