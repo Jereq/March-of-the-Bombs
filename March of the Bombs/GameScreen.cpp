@@ -257,10 +257,10 @@ void GameScreen::atEntry()
 
 	createBackground();
 	createButtons();
-	LifeBarLeft = LifeBars(TextureSection(L"Images/FrameLB.png"),TextureSection(L"Images/GreenBGHPBar.png"),
-		Rectanglef(glm::vec2(0.02f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,true);
-	LifeBarRight = LifeBars(TextureSection(L"Images/FrameLB.png"),TextureSection(L"Images/GreenBGHPBar.png"),
-		Rectanglef(glm::vec2(0.58f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,false);
+	LifeBarLeft = LifeBars(TextureSection(L"Images/FrameLB.png"),TextureSection(L"Images/TFBackground.png"),
+		Rectanglef(glm::vec2(0.02f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,true, myColor);
+	LifeBarRight = LifeBars(TextureSection(L"Images/FrameLB.png"),TextureSection(L"Images/TFBackground.png"),
+		Rectanglef(glm::vec2(0.58f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,false, opponentColor);
 
 	Graphics::ptr graphics = game->getGraphics();
 	graphics->getCamera()->setAttachmentPoint(cameraPos);
