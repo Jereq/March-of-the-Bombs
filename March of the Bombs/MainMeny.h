@@ -5,6 +5,7 @@
 #include "MouseMoveEvent.h"
 #include "MouseButtonEvent.h"
 #include "Animation.h"
+#include "Label.h"
 
 class Game;
 
@@ -20,6 +21,8 @@ private:
 	Button::ptr optionButton;
 	Button::ptr creditsButton;
 	Button::ptr exitButton;
+
+	Label::ptr title;
 
 	Screen::ptr nextScreen;
 	boost::shared_ptr<Game> game;

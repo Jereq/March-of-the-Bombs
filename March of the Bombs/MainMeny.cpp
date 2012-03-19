@@ -10,6 +10,7 @@ MainMeny::MainMeny()
 {
 	MainMeny::createBackground();
 	MainMeny::createButtons();			//creates the vector holding all the buttons for this screen
+	title.reset(new Label(glm::vec2(0.05f, 0.8f), glm::vec2(0.05f, 0.12f), "March of the Bombs", 0, glm::vec3(1.f)));
 }
 
 MainMeny::~MainMeny()
@@ -70,6 +71,8 @@ void MainMeny::draw(Graphics::ptr graphics)
 	{
 		buttons[i]->render(graphics);
 	}
+
+	title->draw(graphics);
 }
 
 Screen::ptr MainMeny::getNextScreen()
@@ -108,7 +111,7 @@ void MainMeny::createButtons()
 
 void MainMeny::createBackground()
 {
-	TextureSection::ptr background(new TextureSection(L"Images/NewBI/Start.png"));
+	TextureSection::ptr background(new TextureSection(L"Images/background_meny.png"));
 	game->getGraphics()->setBackground(background);
 }
 
