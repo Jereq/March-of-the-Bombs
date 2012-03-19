@@ -88,7 +88,7 @@ void HtPScreen::createButtons()
 
 void HtPScreen::createBackground()
 {
-	TextureSection Background(L"images/NewBI/HtP.png");
+	TextureSection Background(L"Images/background_meny.png");
 
 	SimpleImage Background1(Background, Rectanglef(glm::vec2(0.00f,0.00f),glm::vec2(1.00f,1.00f)), 0.99f);
 
