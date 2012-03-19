@@ -304,6 +304,11 @@ void GameScreen::update(float deltaTime)
 		}
 	}
 
+	if (nextScreen)
+	{
+		return;
+	}
+
 	currentDeltaTime = deltaTime;
 
 	std::deque<Event::ptr>& events = game->getEvents();
@@ -512,16 +517,6 @@ void GameScreen::update(float deltaTime)
 
 	glm::mat3 rotationMatrix = glm::mat3(glm::rotate(glm::mat4(), rotation.y, glm::vec3(0, 1, 0)));
 	cameraPos->setPosition(cameraPos->getPosition() + rotationMatrix * cameraVelocity * deltaTime);
-
-	if (myScore >= POINTS_TO_WIN || opponentScore >= POINTS_TO_WIN)
-	{
-		nextScreen = Screen::ptr(new GameOverScreen(
-			myName, opponentName,
-			static_cast<unsigned int>(myScore),
-			static_cast<unsigned int>(opponentScore)));
-
-		game->getEvents().clear();
-	}
 }
 
 void GameScreen::draw(Graphics::ptr graphics)
@@ -962,4 +957,25 @@ void GameScreen::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::cons
 
 		LifeBarRight.updateLB(opponentScore/POINTS_TO_WIN);
 	}
+}
+
+void GameScreen::handlePacket16GameOver(Packet16GameOver::const_ptr const& packet)
+{
+	Packet16GameOver const* packet16 = static_cast<Packet16GameOver const*>(packet.get());
+
+	if (packet16->getPlayer1ID() == myID)
+	{
+		myScore = packet16->getPlayer1Score();
+		opponentScore = packet16->getPlayer2Score();
+	}
+	else
+	{
+		myScore = packet16->getPlayer2Score();
+		opponentScore = packet16->getPlayer1Score();
+	}
+
+	nextScreen.reset(new GameOverScreen(myName, opponentName,
+		static_cast<unsigned int>(myScore), static_cast<unsigned int>(opponentScore)));
+
+	game->getEvents().clear();
 }

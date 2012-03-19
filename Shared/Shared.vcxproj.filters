@@ -81,6 +81,9 @@
     <ClCompile Include="Packet15UpdatePlayerScore.cpp">
       <Filter>Source Files\Packet</Filter>
     </ClCompile>
+    <ClCompile Include="Packet16GameOver.cpp">
+      <Filter>Source Files\Packet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketException.h">
@@ -144,6 +147,9 @@
       <Filter>Header Files\Packet</Filter>
     </ClInclude>
     <ClInclude Include="Packet15UpdatePlayerScore.h">
+      <Filter>Header Files\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="Packet16GameOver.h">
       <Filter>Header Files\Packet</Filter>
     </ClInclude>
   </ItemGroup>

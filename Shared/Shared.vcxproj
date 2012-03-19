@@ -20,6 +20,7 @@
     <ClCompile Include="Packet13RemoveBomb.cpp" />
     <ClCompile Include="Packet14RemoveBlocks.cpp" />
     <ClCompile Include="Packet15UpdatePlayerScore.cpp" />
+    <ClCompile Include="Packet16GameOver.cpp" />
     <ClCompile Include="Packet2Blob.cpp" />
     <ClCompile Include="Packet3Login.cpp" />
     <ClCompile Include="Packet4LoginAccepted.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="Packet13RemoveBomb.h" />
     <ClInclude Include="Packet14RemoveBlocks.h" />
     <ClInclude Include="Packet15UpdatePlayerScore.h" />
+    <ClInclude Include="Packet16GameOver.h" />
     <ClInclude Include="Packet2Blob.h" />
     <ClInclude Include="Packet3Login.h" />
     <ClInclude Include="Packet4LoginAccepted.h" />

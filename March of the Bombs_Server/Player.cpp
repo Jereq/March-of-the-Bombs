@@ -6,7 +6,7 @@ using boost::asio::ip::tcp;
 #include "Context.h"
 
 Player::Player(boost::asio::io_service& io_service)
-	: socket(io_service)
+	: socket(io_service), score(0)
 {
 }
 
@@ -257,6 +257,15 @@ void Player::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_pt
 	}
 }
 
+void Player::handlePacket16GameOver(Packet16GameOver::const_ptr const& packet)
+{
+	Context::ptr con = context.lock();
+	if (con)
+	{
+		con->handlePacket16GameOver(packet, shared_from_this());
+	}
+}
+
 std::string const& Player::getName() const
 {
 	return name;
@@ -275,4 +284,14 @@ unsigned int Player::getID() const
 void Player::setID(unsigned int newID)
 {
 	ID = newID;
+}
+
+float Player::getScore() const
+{
+	return score;
+}
+
+void Player::setScore(float newScore)
+{
+	score = newScore;
 }

@@ -108,3 +108,8 @@ void GUIMain::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_p
 {
 	screen->handlePacket15UpdatePlayerScore(packet);
 }
+
+void GUIMain::handlePacket16GameOver(Packet16GameOver::const_ptr const& packet)
+{
+	screen->handlePacket16GameOver(packet);
+}

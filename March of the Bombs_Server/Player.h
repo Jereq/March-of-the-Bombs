@@ -20,6 +20,7 @@
 #include <Packet13RemoveBomb.h>
 #include <Packet14RemoveBlocks.h>
 #include <Packet15UpdatePlayerScore.h>
+#include <Packet16GameOver.h>
 
 class Context;
 
@@ -38,6 +39,7 @@ private:
 
 	std::string name;
 	unsigned int ID;
+	float score;
 
 public:
 	typedef boost::shared_ptr<Player> ptr;
@@ -70,10 +72,14 @@ public:
 	void handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet);
 	void handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet);
 	void handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet);
+	void handlePacket16GameOver(Packet16GameOver::const_ptr const& packet);
 
 	std::string const& getName() const;
 	void setName(std::string const& newName);
 
 	unsigned int getID() const;
 	void setID(unsigned int newID);
+
+	float getScore() const;
+	void setScore(float newScore);
 };

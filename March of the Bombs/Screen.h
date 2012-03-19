@@ -23,6 +23,7 @@
 #include <Packet13RemoveBomb.h>
 #include <Packet14RemoveBlocks.h>
 #include <Packet15UpdatePlayerScore.h>
+#include <Packet16GameOver.h>
 
 class Screen
 	: public boost::enable_shared_from_this<Screen>
@@ -51,4 +52,5 @@ public:
 	virtual void handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet) {}
 	virtual void handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet) {}
 	virtual void handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet) {}
+	virtual void handlePacket16GameOver(Packet16GameOver::const_ptr const& packet) {}
 };

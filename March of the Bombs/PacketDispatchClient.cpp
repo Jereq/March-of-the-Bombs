@@ -91,3 +91,9 @@ void Packet15UpdatePlayerScore::dispatch(void* context) const
 	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
 	cont->handlePacket15UpdatePlayerScore(shared_from_this());
 }
+
+void Packet16GameOver::dispatch(void* context) const
+{
+	GUIMain::ptr cont = *reinterpret_cast<GUIMain::ptr*>(context);
+	cont->handlePacket16GameOver(shared_from_this());
+}

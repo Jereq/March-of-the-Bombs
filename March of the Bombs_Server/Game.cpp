@@ -126,11 +126,39 @@ void Game::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& pac
 
 void Game::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet, Player::ptr const& sender)
 {
+	Packet15UpdatePlayerScore const* packet15 = reinterpret_cast<Packet15UpdatePlayerScore const*>(packet.get());
+
+	sender->setScore(packet15->getNewScore());
+
 	BOOST_FOREACH(Player::ptr const& player, players)
 	{
 		if (player != sender)
 		{
 			player->deliver(packet);
+		}
+	}
+	
+	const static float SCORE_TO_WIN = 1000.f;
+	if (packet15->getNewScore() >= SCORE_TO_WIN)
+	{
+		if (players.size() == 2)
+		{
+			Player::ptr tPlayers[2];
+
+			size_t i = 0;
+			BOOST_FOREACH(Player::ptr const& player, players)
+			{
+				tPlayers[i++] = player;
+			}
+
+			Packet::ptr packet(new Packet16GameOver(
+				tPlayers[0]->getID(), tPlayers[1]->getID(),
+				tPlayers[0]->getScore(), tPlayers[1]->getScore()));
+
+			tPlayers[0]->deliver(packet);
+			tPlayers[1]->deliver(packet);
+
+			std::cout << "[Game] " << sender->getName() << " won a game" << std::endl;
 		}
 	}
 }
