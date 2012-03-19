@@ -14,6 +14,8 @@ private:
 	Context::w_ptr parentLobby;
 	unsigned short gameID;
 
+	bool gameOver;
+
 	std::string mapName;
 
 public:

@@ -6,7 +6,8 @@
 #include "Lobby.h"
 
 Game::Game(Context::ptr const& parentLobby, unsigned short gameID, std::string const& mapName)
-	: parentLobby(parentLobby), packetManager(parentLobby->getPacketManager()), mapName(mapName), gameID(gameID)
+	: parentLobby(parentLobby), packetManager(parentLobby->getPacketManager()),
+	mapName(mapName), gameID(gameID), gameOver(false)
 {
 }
 
@@ -95,37 +96,57 @@ unsigned short Game::getGameID() const
 
 void Game::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet, Player::ptr const& sender)
 {
-	deliver(packet);
+	if (!gameOver)
+	{
+		deliver(packet);
+	}
 }
 
 void Game::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet, Player::ptr const& sender)
 {
-	deliver(packet);
+	if (!gameOver)
+	{
+		deliver(packet);
+	}
 }
 
 void Game::handlePacket10PlayerReady(Packet10PlayerReady::const_ptr const& packet, Player::ptr const& sender)
 {
-	BOOST_FOREACH(Player::ptr const& player, players)
+	if (!gameOver)
 	{
-		if (player != sender)
+		BOOST_FOREACH(Player::ptr const& player, players)
 		{
-			player->deliver(packet);
+			if (player != sender)
+			{
+				player->deliver(packet);
+			}
 		}
 	}
 }
 
 void Game::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet, Player::ptr const& sender)
 {
-	deliver(packet);
+	if (!gameOver)
+	{
+		deliver(packet);
+	}
 }
 
 void Game::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet, Player::ptr const& sender)
 {
-	deliver(packet);
+	if (!gameOver)
+	{
+		deliver(packet);
+	}
 }
 
 void Game::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet, Player::ptr const& sender)
 {
+	if (gameOver)
+	{
+		return;
+	}
+
 	Packet15UpdatePlayerScore const* packet15 = reinterpret_cast<Packet15UpdatePlayerScore const*>(packet.get());
 
 	sender->setScore(packet15->getNewScore());
@@ -159,6 +180,7 @@ void Game::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr 
 			tPlayers[1]->deliver(packet);
 
 			std::cout << "[Game] " << sender->getName() << " won a game" << std::endl;
+			gameOver = true;
 		}
 	}
 }
