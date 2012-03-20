@@ -27,6 +27,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -56,6 +57,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_WIN32_WINNT=0x0501</PreprocessorDefinitions>
       <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -199,43 +201,190 @@
     <ClInclude Include="WaitingScreen.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\billboard.frag" />
-    <None Include="Shaders\billboard.geom" />
-    <None Include="Shaders\billboard.vert" />
+    <None Include="Images\background_credits.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\background_game_over.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\background_loading.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\background_meny.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\background_waiting.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\BitFont.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\CaveBackground.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\DTFBackground.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\Explosion.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\FrameLB.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\GuiBackground.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\htpScreen_background.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\CGBtn1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\CGBtn2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\JGBtn1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\JGBtn2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\RefreshBtn1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\RefreshBtn2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\SignInBtn1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\SignInBtn2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\Soft Rock.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\TFBackground.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Maps\centerlane 75x75.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Maps\defaultmapfile 50x50.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Maps\derplanes.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Maps\destroycenter 50x50.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Maps\test all soft blocks.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Maps\twinchamber 100x100.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Maps\twinchamber 100x100V2.txt">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Models\base.3ds">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Models\base.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Models\flag.3ds">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Models\flag.tga">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Shaders\billboard.frag">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Shaders\billboard.geom">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Shaders\billboard.vert">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <None Include="Images\ButtonCredits.png" />
     <None Include="Images\ButtonExit.png" />
     <None Include="Images\ButtonHtP.png" />
     <None Include="Images\ButtonLobby.png" />
     <None Include="Images\ButtonOption.png" />
-    <None Include="Images\GroundPlane.png" />
-    <None Include="Images\Hard Rock.png" />
+    <None Include="Images\GroundPlane.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\Hard Rock.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <None Include="Images\MotBBackground.png" />
-    <None Include="Images\NewBI\BackBtn1.png" />
-    <None Include="Images\NewBI\BackBtn2.png" />
-    <None Include="Images\NewBI\CBtn1.png" />
-    <None Include="Images\NewBI\CBtn2.png" />
-    <None Include="Images\NewBI\Credits.png" />
-    <None Include="Images\NewBI\ExitBtn1.png" />
-    <None Include="Images\NewBI\ExitBtn2.png" />
-    <None Include="Images\NewBI\HtP.png" />
-    <None Include="Images\NewBI\HtPBtn1.png" />
-    <None Include="Images\NewBI\HtPBtn2.png" />
-    <None Include="Images\NewBI\NPBtn1.png" />
-    <None Include="Images\NewBI\NPBtn2.png" />
-    <None Include="Images\NewBI\OBtn1.png" />
-    <None Include="Images\NewBI\OBtn2.png" />
-    <None Include="Images\NewBI\Options.png" />
-    <None Include="Images\NewBI\Start.png" />
-    <None Include="Images\skull.tga" />
-    <None Include="Models\Standard.3ds" />
-    <None Include="Models\Standard.png" />
-    <None Include="Models\StandardBomber1.3ds" />
-    <None Include="Shaders\model.frag" />
-    <None Include="Shaders\model.vert" />
-    <None Include="Shaders\modelShadow.frag" />
-    <None Include="Shaders\modelShadow.vert" />
-    <None Include="Shaders\standard2d.frag" />
-    <None Include="Shaders\standard2d.vert" />
+    <None Include="Images\NewBI\BackBtn1.png">
+      <FileType>Document</FileType>
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\BackBtn2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\CBtn1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\CBtn2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\ExitBtn1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\ExitBtn2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\HtPBtn1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\HtPBtn2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\NPBtn1.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Images\NewBI\NPBtn2.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Models\Standard.3ds">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Models\Standard.png">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Shaders\model.frag">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Shaders\model.vert">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Shaders\modelShadow.frag">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Shaders\modelShadow.vert">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Shaders\standard2d.frag">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Shaders\standard2d.vert">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Sounds\bombexplosion.mp3">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Sounds\gamebackground.mp3">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="Sounds\Mainbackground.mp3">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

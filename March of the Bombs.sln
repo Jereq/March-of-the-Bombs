@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "March of the Bombs_Server",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shared", "Shared\Shared.vcxproj", "{D91DF2FD-F046-4321-809B-128CF6CDE584}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "March of the Bombs_setup", "March of the Bombs_setup\March of the Bombs_setup.vdproj", "{313D5DFF-7719-40BF-A362-3C8566931B19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +33,8 @@ Global
 		{D91DF2FD-F046-4321-809B-128CF6CDE584}.Debug|Win32.Build.0 = Debug|Win32
 		{D91DF2FD-F046-4321-809B-128CF6CDE584}.Release|Win32.ActiveCfg = Release|Win32
 		{D91DF2FD-F046-4321-809B-128CF6CDE584}.Release|Win32.Build.0 = Release|Win32
+		{313D5DFF-7719-40BF-A362-3C8566931B19}.Debug|Win32.ActiveCfg = Debug
+		{313D5DFF-7719-40BF-A362-3C8566931B19}.Release|Win32.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

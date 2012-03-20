@@ -73,6 +73,12 @@
     <Filter Include="Header Files\Game Logic\Unit">
       <UniqueIdentifier>{0b1c54d5-88e9-4f7b-b5dd-638157b4c124}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Maps">
+      <UniqueIdentifier>{f646da94-4416-4a6b-9718-65e2983a7b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Sounds">
+      <UniqueIdentifier>{c7a87622-6678-4876-95ba-af3610714a9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="client.cpp">
@@ -436,9 +442,6 @@
     <None Include="Shaders\modelShadow.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="Models\StandardBomber1.3ds">
-      <Filter>Resource Files\Models</Filter>
-    </None>
     <None Include="Images\MotBBackground.png">
       <Filter>Resource Files\Images</Filter>
     </None>
@@ -457,15 +460,6 @@
     <None Include="Images\ButtonOption.png">
       <Filter>Resource Files\Images</Filter>
     </None>
-    <None Include="Images\skull.tga">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\NewBI\BackBtn1.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\NewBI\Start.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
     <None Include="Images\NewBI\BackBtn2.png">
       <Filter>Resource Files\Images</Filter>
     </None>
@@ -473,9 +467,6 @@
       <Filter>Resource Files\Images</Filter>
     </None>
     <None Include="Images\NewBI\CBtn2.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\NewBI\Credits.png">
       <Filter>Resource Files\Images</Filter>
     </None>
     <None Include="Images\NewBI\ExitBtn1.png">
@@ -490,9 +481,6 @@
     <None Include="Images\Hard Rock.png">
       <Filter>Resource Files\Images</Filter>
     </None>
-    <None Include="Images\NewBI\HtP.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
     <None Include="Images\NewBI\HtPBtn1.png">
       <Filter>Resource Files\Images</Filter>
     </None>
@@ -503,15 +491,6 @@
       <Filter>Resource Files\Images</Filter>
     </None>
     <None Include="Images\NewBI\NPBtn2.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\NewBI\OBtn1.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\NewBI\OBtn2.png">
-      <Filter>Resource Files\Images</Filter>
-    </None>
-    <None Include="Images\NewBI\Options.png">
       <Filter>Resource Files\Images</Filter>
     </None>
     <None Include="Models\Standard.3ds">
@@ -528,6 +507,117 @@
     </None>
     <None Include="Shaders\billboard.geom">
       <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="Images\NewBI\BackBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\background_credits.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\background_game_over.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\background_loading.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\background_meny.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\BitFont.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\background_waiting.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\TFBackground.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\Soft Rock.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\htpScreen_background.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\GuiBackground.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\FrameLB.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\Explosion.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\DTFBackground.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\CaveBackground.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\SignInBtn2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\SignInBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\RefreshBtn2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\RefreshBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\JGBtn2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\JGBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\CGBtn2.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Images\NewBI\CGBtn1.png">
+      <Filter>Resource Files\Images</Filter>
+    </None>
+    <None Include="Models\base.3ds">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Models\flag.3ds">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Models\base.png">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Models\flag.tga">
+      <Filter>Resource Files\Models</Filter>
+    </None>
+    <None Include="Maps\centerlane 75x75.txt">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\defaultmapfile 50x50.txt">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\derplanes.txt">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\destroycenter 50x50.txt">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\test all soft blocks.txt">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\twinchamber 100x100.txt">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\twinchamber 100x100V2.txt">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Sounds\bombexplosion.mp3">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="Sounds\Mainbackground.mp3">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="Sounds\gamebackground.mp3">
+      <Filter>Resource Files\Sounds</Filter>
     </None>
   </ItemGroup>
 </Project>

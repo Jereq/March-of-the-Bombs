@@ -1,6 +1,7 @@
 #include "Game.h"
 
 #include <GL/glew.h>
+#define FREEGLUT_STATIC
 #include <GL/freeglut.h>
 
 #ifndef IL_USE_PRAGMA_LIBS
