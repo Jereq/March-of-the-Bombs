@@ -32,12 +32,6 @@ int main(int argc, char* argv[])
 {
 	try
 	{
-		if (argc < 2)
-		{
-			std::cerr << "Usage: " << argv[0] << " <port> [<port> ...]" << std::endl;
-			return EXIT_FAILURE;
-		}
-
 		boost::asio::io_service io_service;
 
 		boost::shared_ptr<PacketManager> packetManager(new PacketManager());
@@ -45,9 +39,10 @@ int main(int argc, char* argv[])
 
 		Acceptor::list acceptors;
 		Lobby::ptr lobby(new Lobby(packetManager));
-		for (int i = 1; i < argc; ++i)
+
+		if (argc < 2)
 		{
-			unsigned short port = boost::lexical_cast<unsigned short>(argv[i]);
+			unsigned short port = boost::lexical_cast<unsigned short>("1694");
 
 			tcp::endpoint endpoint(tcp::v4(), port);
 			Acceptor::ptr acceptor(new Acceptor(io_service, endpoint, lobby));
@@ -56,6 +51,21 @@ int main(int argc, char* argv[])
 			endpoint = tcp::endpoint(tcp::v6(), port);
 			acceptor = Acceptor::ptr(new Acceptor(io_service, endpoint, lobby));
 			acceptors.push_back(acceptor);
+		}
+		else
+		{
+			for (int i = 1; i < argc; ++i)
+			{
+				unsigned short port = boost::lexical_cast<unsigned short>(argv[i]);
+
+				tcp::endpoint endpoint(tcp::v4(), port);
+				Acceptor::ptr acceptor(new Acceptor(io_service, endpoint, lobby));
+				acceptors.push_back(acceptor);
+
+				endpoint = tcp::endpoint(tcp::v6(), port);
+				acceptor = Acceptor::ptr(new Acceptor(io_service, endpoint, lobby));
+				acceptors.push_back(acceptor);
+			}
 		}
 
 		while (true)
