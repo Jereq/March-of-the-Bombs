@@ -9,6 +9,8 @@ using std::vector;
 
 #include <boost/foreach.hpp>
 
+#include "OrientedBoundingBox.h"
+
 Model3DS::MaterialGroup::MaterialGroup()
 	: count(0), startIndex(0)
 {
@@ -38,22 +40,32 @@ void Model3DS::MaterialGroup::clearInstancesToDraw()
 	drawInst.clear();
 }
 
-void Model3DS::MaterialGroup::drawInstances(GLSLProgram const& prog) const
+void Model3DS::MaterialGroup::drawInstances(GLSLProgram const& prog, Frustum const& cullFrustum, BoundingBox const& boundingBox) const
 {
 	use(prog);
 
 	BOOST_FOREACH(DrawInstance const& inst, drawInst)
 	{
+		if (OrientedBoundingBox(boundingBox, inst.modelMatrix).frustumIntersect(cullFrustum) == IntersectionResult::OUTSIDE)
+		{
+			continue;
+		}
+
 		prog.setUniform("modelMatrix", inst.modelMatrix);
 		prog.setUniform("tint", inst.tint);
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, reinterpret_cast<GLvoid*>(startIndex * sizeof(unsigned short)));
 	}
 }
 
-void Model3DS::MaterialGroup::drawInstancesShadow(GLSLProgram const& prog) const
+void Model3DS::MaterialGroup::drawInstancesShadow(GLSLProgram const& prog, Frustum const& cullFrustum, BoundingBox const& boundingBox) const
 {
 	BOOST_FOREACH(DrawInstance const& inst, drawInst)
 	{
+		if (OrientedBoundingBox(boundingBox, inst.modelMatrix).frustumIntersect(cullFrustum) == IntersectionResult::OUTSIDE)
+		{
+			continue;
+		}
+
 		prog.setUniform("modelMatrix", inst.modelMatrix);
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, reinterpret_cast<GLvoid*>(startIndex * sizeof(unsigned short)));
 	}
@@ -271,25 +283,25 @@ void Model3DS::clearInstancesToDraw()
 	}
 }
 
-void Model3DS::drawInstances(GLSLProgram const& prog) const
+void Model3DS::drawInstances(GLSLProgram const& prog, Frustum const& cullFrustum) const
 {
 	glBindVertexArray(modelVAO);
 
 	BOOST_FOREACH(MaterialGroup const& material, groups)
 	{
-		material.drawInstances(prog);
+		material.drawInstances(prog, cullFrustum, boundingBox);
 	}
 
 	glBindVertexArray(0);
 }
 
-void Model3DS::drawInstancesShadow(GLSLProgram const& prog) const
+void Model3DS::drawInstancesShadow(GLSLProgram const& prog, Frustum const& cullFrustum) const
 {
 	glBindVertexArray(modelVAO);
 
 	BOOST_FOREACH(MaterialGroup const& material, groups)
 	{
-		material.drawInstancesShadow(prog);
+		material.drawInstancesShadow(prog, cullFrustum, boundingBox);
 	}
 
 	glBindVertexArray(0);

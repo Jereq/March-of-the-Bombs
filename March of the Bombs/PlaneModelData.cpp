@@ -5,6 +5,8 @@ using glm::vec3;
 
 #include <boost/foreach.hpp>
 
+#include "OrientedBoundingBox.h"
+
 const unsigned short PlaneModelData::NUM_INDICES = 4;
 PlaneModelData::ptr PlaneModelData::instance;
 
@@ -160,7 +162,7 @@ void PlaneModelData::clearInstancesToDraw()
 	drawInst.clear();
 }
 
-void PlaneModelData::drawInstances(GLSLProgram const& prog) const
+void PlaneModelData::drawInstances(GLSLProgram const& prog, Frustum const& cullFrustum) const
 {
 	glBindVertexArray(modelVAO);
 
@@ -168,6 +170,11 @@ void PlaneModelData::drawInstances(GLSLProgram const& prog) const
 
 	BOOST_FOREACH(DrawInstance const& inst, drawInst)
 	{
+		if (OrientedBoundingBox(boundingBox, inst.modelMatrix).frustumIntersect(cullFrustum) == IntersectionResult::OUTSIDE)
+		{
+			continue;
+		}
+
 		prog.setUniform("modelMatrix", inst.modelMatrix);
 		prog.setUniform("tint", inst.tint);
 		glDrawElements(GL_TRIANGLE_STRIP, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
@@ -176,12 +183,17 @@ void PlaneModelData::drawInstances(GLSLProgram const& prog) const
 	glBindVertexArray(0);
 }
 
-void PlaneModelData::drawInstancesShadow(GLSLProgram const& prog) const
+void PlaneModelData::drawInstancesShadow(GLSLProgram const& prog, Frustum const& cullFrustum) const
 {
 	glBindVertexArray(modelVAO);
 
 	BOOST_FOREACH(DrawInstance const& inst, drawInst)
 	{
+		if (OrientedBoundingBox(boundingBox, inst.modelMatrix).frustumIntersect(cullFrustum) == IntersectionResult::OUTSIDE)
+		{
+			continue;
+		}
+
 		prog.setUniform("modelMatrix", inst.modelMatrix);
 		glDrawElements(GL_TRIANGLES, NUM_INDICES, GL_UNSIGNED_BYTE, NULL);
 	}

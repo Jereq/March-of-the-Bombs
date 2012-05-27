@@ -450,9 +450,11 @@ void Graphics::render()
 		glClear(GL_DEPTH_BUFFER_BIT);
 
 		setupModelShadowShader(light);
+
+		Frustum lightFrustum(light->getProjectionMatrix() * light->getViewMatrix());
 		BOOST_FOREACH(ModelData::ptr const& data, modelDatas)
 		{
-			data->drawInstancesShadow(progModelShadow);
+			data->drawInstancesShadow(progModelShadow, lightFrustum);
 		}
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -464,9 +466,11 @@ void Graphics::render()
 		glDisable(GL_POLYGON_OFFSET_FILL);
 
 		setupModelShader();
+
+		Frustum cameraFrustum(camera->getProjectionMatrix() * camera->getViewMatrix());
 		BOOST_FOREACH(ModelData::ptr const& data, modelDatas)
 		{
-			data->drawInstances(progModelShade);
+			data->drawInstances(progModelShade, cameraFrustum);
 			data->clearInstancesToDraw();
 		}
 	}

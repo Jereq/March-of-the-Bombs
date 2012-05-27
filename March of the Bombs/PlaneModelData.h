@@ -71,9 +71,9 @@ public:
 	virtual void clearInstancesToDraw();
 
 	/// Draw instances normally
-	virtual void drawInstances(GLSLProgram const& prog) const;
+	virtual void drawInstances(GLSLProgram const& prog, Frustum const& cullFrustum) const;
 	/// Draw instances from the lights perspective onto a shadow map
-	virtual void drawInstancesShadow(GLSLProgram const& prog) const;
+	virtual void drawInstancesShadow(GLSLProgram const& prog, Frustum const& cullFrustum) const;
 
 	/// Get a singleton instance
 	static ptr getInstance();

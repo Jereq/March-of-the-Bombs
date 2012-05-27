@@ -15,6 +15,7 @@ using glm::mat4;
 
 #include "Graphics.h"
 #include "Model3DS.h"
+#include "OrientedBoundingBox.h"
 
 Model::Model(ModelData::ptr const& model)
 	: modelData(model), scale(1.f), tint(0.f), selected(false),
@@ -138,5 +139,5 @@ bool Model::rayIntersect(glm::vec3 const& origin, glm::vec3 const& direction, fl
 
 bool Model::frustumIntersect(Frustum const& frustum) const
 {
-	return modelData->getBoundingBox().frustumIntersect(frustum.mul(getInverseModelMatrix()));
+	return OrientedBoundingBox(modelData->getBoundingBox(), getModelMatrix()).frustumIntersect(frustum) != IntersectionResult::OUTSIDE;
 }

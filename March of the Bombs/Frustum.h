@@ -4,32 +4,23 @@
 
 class Frustum
 {
+private:
+	glm::vec4 planes[6];
+
+	static glm::vec4 getPlane(glm::vec3 const& p1, glm::vec3 const& p2, glm::vec3 const& p3);
+	static glm::vec4 normalizePlane(glm::vec4 const& plane);
+
 public:
-	// TLN = TopLeftNear
-	glm::vec3 TLN;
+	enum PLANE_NUM
+	{
+		LEFT,
+		RIGHT,
+		BOTTOM,
+		TOP,
+		FRONT,
+		BACK,
+	};
 
-	// TRN = TopRightNear
-	glm::vec3 TRN;
-
-	// TLF = TopLeftFar
-	glm::vec3 TLF;
-
-	// TRF = TopRightFar
-	glm::vec3 TRF;
-
-	// BLN = BottomLeftNear
-	glm::vec3 BLN;
-
-	// BRN = BottomRightNear
-	glm::vec3 BRN;
-
-	// BLF = BottomLeftFar
-	glm::vec3 BLF;
-
-	// BRF = BottomRightFar
-	glm::vec3 BRF;
-
-	Frustum();
 	Frustum(
 		glm::vec3 const& bottomLeftNear,
 		glm::vec3 const& bottomRightNear,
@@ -39,8 +30,9 @@ public:
 		glm::vec3 const& bottomRightFar,
 		glm::vec3 const& topLeftFar,
 		glm::vec3 const& topRightFar);
+	Frustum(glm::mat4 const& viewProjectionMatrix);
 
-	Frustum mul(glm::mat4 const& matrix) const;
+	//Frustum mul(glm::mat4 const& matrix) const;
 
 	glm::vec4 getLeftPlane() const;
 	glm::vec4 getRightPlane() const;
@@ -48,4 +40,6 @@ public:
 	glm::vec4 getTopPlane() const;
 	glm::vec4 getFrontPlane() const;
 	glm::vec4 getBackPlane() const;
+
+	glm::vec4 getPlane(unsigned int num) const;
 };

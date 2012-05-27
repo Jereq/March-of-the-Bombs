@@ -65,9 +65,9 @@ protected:
 		virtual void clearInstancesToDraw();
 
 		/// Draw the list of instances normally
-		virtual void drawInstances(GLSLProgram const& prog) const;
+		virtual void drawInstances(GLSLProgram const& prog, Frustum const& cullFrustum, BoundingBox const& boundingBox) const;
 		/// Draw the list of instances from the lights perspective onto a shadow map
-		virtual void drawInstancesShadow(GLSLProgram const& prog) const;
+		virtual void drawInstancesShadow(GLSLProgram const& prog, Frustum const& cullFrustum, BoundingBox const& boundingBox) const;
 	};
 	std::vector<MaterialGroup> groups;
 
@@ -101,9 +101,9 @@ public:
 	virtual void clearInstancesToDraw();
 
 	/// Draw the instances normally
-	virtual void drawInstances(GLSLProgram const& prog) const;
+	virtual void drawInstances(GLSLProgram const& prog, Frustum const& cullFrustum) const;
 	/// Draw the instances from the lights perspective onto a shadow map
-	virtual void drawInstancesShadow(GLSLProgram const& prog) const;
+	virtual void drawInstancesShadow(GLSLProgram const& prog, Frustum const& cullFrustum) const;
 
 	/// Get the base bounding box for the model
 	virtual BoundingBox getBoundingBox() const;

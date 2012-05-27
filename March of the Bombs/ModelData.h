@@ -26,9 +26,9 @@ public:
 	virtual void clearInstancesToDraw() = 0;
 	
 	/// Draw instances normally
-	virtual void drawInstances(GLSLProgram const& prog) const = 0;
+	virtual void drawInstances(GLSLProgram const& prog, Frustum const& cullFrustum) const = 0;
 	/// Draw instances from a light source onto a shadow map
-	virtual void drawInstancesShadow(GLSLProgram const& prog) const = 0;
+	virtual void drawInstancesShadow(GLSLProgram const& prog, Frustum const& cullFrustum) const = 0;
 
 	/// Get the model base's bounding box, unaffected by any model matrix
 	virtual BoundingBox getBoundingBox() const = 0;

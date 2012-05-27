@@ -1,7 +1,21 @@
 #include "Frustum.h"
 
-Frustum::Frustum()
+glm::vec4 Frustum::getPlane(glm::vec3 const& p1, glm::vec3 const& p2, glm::vec3 const& p3)
 {
+	glm::vec3 p1p2 = p2 - p1;
+	glm::vec3 p1p3 = p3 - p1;
+	glm::vec3 normal = glm::cross(p1p2, p1p3);
+	normal = glm::normalize(normal);
+	float d = -((normal.x * p1.x) + (normal.y * p1.y) + (normal.z * p1.z));
+
+	return glm::vec4(normal, d);
+}
+
+glm::vec4 Frustum::normalizePlane(glm::vec4 const& plane)
+{
+	float mag = glm::length(glm::vec3(plane));
+
+	return plane / mag;
 }
 
 Frustum::Frustum(
@@ -13,90 +27,64 @@ Frustum::Frustum(
 		glm::vec3 const& bottomRightFar,
 		glm::vec3 const& topLeftFar,
 		glm::vec3 const& topRightFar)
-	: BLN(bottomLeftNear),
-	  BRN(bottomRightNear),
-	  TLN(topLeftNear),
-	  TRN(topRightNear),
-	  BLF(bottomLeftFar),
-	  BRF(bottomRightFar),
-	  TLF(topLeftFar),
-	  TRF(topRightFar)
 {
+	planes[LEFT] = getPlane(topLeftNear, topLeftFar, bottomLeftNear);
+	planes[RIGHT] = getPlane(topRightNear, bottomRightNear, topRightFar);
+	planes[BOTTOM] = getPlane(bottomLeftNear, bottomLeftFar, bottomRightNear);
+	planes[TOP] = getPlane(topRightFar, topLeftFar, topRightNear);
+	planes[BACK] = getPlane(topLeftFar, topRightFar, bottomLeftFar);
+	planes[FRONT] = getPlane(topRightNear, topLeftFar, bottomRightNear);
 }
 
-Frustum Frustum::mul(glm::mat4 const& matrix) const
+Frustum::Frustum(glm::mat4 const& viewProjectionMatrix)
 {
-	return Frustum(glm::vec3(matrix * glm::vec4(BLN, 1.f)),
-		glm::vec3(matrix * glm::vec4(BRN, 1.f)),
-		glm::vec3(matrix * glm::vec4(TLN, 1.f)),
-		glm::vec3(matrix * glm::vec4(TRN, 1.f)),
-		glm::vec3(matrix * glm::vec4(BLF, 1.f)),
-		glm::vec3(matrix * glm::vec4(BRF, 1.f)),
-		glm::vec3(matrix * glm::vec4(TLF, 1.f)),
-		glm::vec3(matrix * glm::vec4(TRF, 1.f)));
+	glm::mat4 transpMat = glm::transpose(viewProjectionMatrix);
+	glm::vec4 const& row0 = transpMat[0];
+	glm::vec4 const& row1 = transpMat[1];
+	glm::vec4 const& row2 = transpMat[2];
+	glm::vec4 const& row3 = transpMat[3];
+
+	planes[LEFT] = normalizePlane(-(row3 + row0));
+	planes[RIGHT] = normalizePlane(-(row3 - row0));
+	planes[BOTTOM] = normalizePlane(-(row3 + row1));
+	planes[TOP] = normalizePlane(-(row3 - row1));
+	planes[FRONT] = normalizePlane(-(row3 + row2));
+	planes[BACK] = normalizePlane(-(row3 - row2));
 }
 
 glm::vec4 Frustum::getLeftPlane() const
 {
-	glm::vec3 p1p2 = TLF - TLN;
-	glm::vec3 p1p3 = BLN - TLN;
-	glm::vec3 Normal = glm::cross(p1p2, p1p3);
-	float d = -((Normal.x * TLN.x) + (Normal.y * TLN.y) + (Normal.z * TLN.z));
-
-	return glm::vec4(Normal, d);
+	return planes[LEFT];
 }
 
 glm::vec4 Frustum::getRightPlane() const
 {
-	glm::vec3 p1p2 = BRN - TRN;
-	glm::vec3 p1p3 = TRF - TRN;
-	glm::vec3 Normal = glm::cross(p1p2, p1p3);
-	// Insert point 1 for d
-	float d = -((Normal.x * TRN.x) + (Normal.y * TRN.y) + (Normal.z * TRN.z));
-
-	return glm::vec4(Normal, d);
+	return planes[RIGHT];
 }
 
 glm::vec4 Frustum::getBottomPlane() const
 {
-	glm::vec3 p1p2 = BLF - BLN;
-	glm::vec3 p1p3 = BRN - BLN;
-	glm::vec3 Normal = glm::cross(p1p2, p1p3);
-	// Insert point 1 for d
-	float d = -((Normal.x * BLN.x) + (Normal.y * BLN.y) + (Normal.z * BLN.z));
-
-	return glm::vec4(Normal, d);
+	return planes[BOTTOM];
 }
 
 glm::vec4 Frustum::getTopPlane() const
 {
-	glm::vec3 p1p2 = TLF - TRF;
-	glm::vec3 p1p3 = TRN - TRF;
-	glm::vec3 Normal = glm::cross(p1p2, p1p3);
-	// Insert point 1 for d
-	float d = -((Normal.x * TRF.x) + (Normal.y * TRF.y) + (Normal.z * TRF.z));
-
-	return glm::vec4(Normal, d);
+	return planes[TOP];
 }
 
 glm::vec4 Frustum::getBackPlane() const
 {
-	glm::vec3 p1p2 = TRF - TLF;
-	glm::vec3 p1p3 = BLF - TLF;
-	glm::vec3 Normal = glm::cross(p1p2, p1p3);
-	// Insert point 1 for d
-	float d = -((Normal.x * TLF.x) + (Normal.y * TLF.y) + (Normal.z * TLF.z));
-
-	return glm::vec4(Normal, d);
+	return planes[BACK];
 }
 
 glm::vec4 Frustum::getFrontPlane() const
 {
-	glm::vec3 p1p2 = TLN - TRN;
-	glm::vec3 p1p3 = BRN - TRN;
-	glm::vec3 Normal = glm::cross(p1p2, p1p3);
-	// Insert point 1 for d
-	float d = -((Normal.x * TRN.x) + (Normal.y * TRN.y) + (Normal.z * TRN.z));
+	return planes[FRONT];
+}
 
-	return glm::vec4(Normal, d);
+glm::vec4 Frustum::getPlane(unsigned int num) const
+{
+	assert(num < 6);
+
+	return planes[num];
 }

@@ -252,6 +252,9 @@
     <ClCompile Include="GameOverScreen.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
+    <ClCompile Include="OrientedBoundingBox.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -421,6 +424,12 @@
     </ClInclude>
     <ClInclude Include="GameOverScreen.h">
       <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="OrientedBoundingBox.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="IntersectionResult.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
