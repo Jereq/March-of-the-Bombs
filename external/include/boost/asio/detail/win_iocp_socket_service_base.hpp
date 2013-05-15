@@ -2,7 +2,7 @@
 // detail/win_iocp_socket_service_base.hpp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2011 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -206,7 +206,7 @@ public:
       socket_base::message_flags, boost::system::error_code& ec)
   {
     // Wait for socket to become ready.
-    socket_ops::poll_write(impl.socket_, ec);
+    socket_ops::poll_write(impl.socket_, impl.state_, ec);
 
     return 0;
   }
@@ -273,7 +273,7 @@ public:
       socket_base::message_flags, boost::system::error_code& ec)
   {
     // Wait for socket to become ready.
-    socket_ops::poll_read(impl.socket_, ec);
+    socket_ops::poll_read(impl.socket_, impl.state_, ec);
 
     return 0;
   }
@@ -343,7 +343,7 @@ public:
       socket_base::message_flags& out_flags, boost::system::error_code& ec)
   {
     // Wait for socket to become ready.
-    socket_ops::poll_read(impl.socket_, ec);
+    socket_ops::poll_read(impl.socket_, impl.state_, ec);
 
     // Clear out_flags, since we cannot give it any other sensible value when
     // performing a null_buffers operation.
@@ -446,7 +446,7 @@ protected:
       bool peer_is_open, socket_holder& new_socket, int family, int type,
       int protocol, void* output_buffer, DWORD address_length, operation* op);
 
-  // Start an asynchronous read or write operation using the the reactor.
+  // Start an asynchronous read or write operation using the reactor.
   BOOST_ASIO_DECL void start_reactor_op(base_implementation_type& impl,
       int op_type, reactor_op* op);
 

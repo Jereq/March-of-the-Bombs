@@ -2,7 +2,7 @@
 // detail/impl/descriptor_ops.ipp
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
-// Copyright (c) 2003-2011 Christopher M. Kohlhoff (chris at kohlhoff dot com)
+// Copyright (c) 2003-2012 Christopher M. Kohlhoff (chris at kohlhoff dot com)
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -183,7 +183,8 @@ std::size_t sync_read(int d, state_type state, buf* bufs,
   {
     // Try to complete the operation without blocking.
     errno = 0;
-    int bytes = error_wrapper(::readv(d, bufs, static_cast<int>(count)), ec);
+    signed_size_type bytes = error_wrapper(::readv(
+          d, bufs, static_cast<int>(count)), ec);
 
     // Check if operation succeeded.
     if (bytes > 0)
@@ -203,7 +204,7 @@ std::size_t sync_read(int d, state_type state, buf* bufs,
       return 0;
 
     // Wait for descriptor to become ready.
-    if (descriptor_ops::poll_read(d, ec) < 0)
+    if (descriptor_ops::poll_read(d, 0, ec) < 0)
       return 0;
   }
 }
@@ -215,7 +216,8 @@ bool non_blocking_read(int d, buf* bufs, std::size_t count,
   {
     // Read some data.
     errno = 0;
-    int bytes = error_wrapper(::readv(d, bufs, static_cast<int>(count)), ec);
+    signed_size_type bytes = error_wrapper(::readv(
+          d, bufs, static_cast<int>(count)), ec);
 
     // Check for end of stream.
     if (bytes == 0)
@@ -267,7 +269,8 @@ std::size_t sync_write(int d, state_type state, const buf* bufs,
   {
     // Try to complete the operation without blocking.
     errno = 0;
-    int bytes = error_wrapper(::writev(d, bufs, static_cast<int>(count)), ec);
+    signed_size_type bytes = error_wrapper(::writev(
+          d, bufs, static_cast<int>(count)), ec);
 
     // Check if operation succeeded.
     if (bytes > 0)
@@ -280,7 +283,7 @@ std::size_t sync_write(int d, state_type state, const buf* bufs,
       return 0;
 
     // Wait for descriptor to become ready.
-    if (descriptor_ops::poll_write(d, ec) < 0)
+    if (descriptor_ops::poll_write(d, 0, ec) < 0)
       return 0;
   }
 }
@@ -292,7 +295,8 @@ bool non_blocking_write(int d, const buf* bufs, std::size_t count,
   {
     // Write some data.
     errno = 0;
-    int bytes = error_wrapper(::writev(d, bufs, static_cast<int>(count)), ec);
+    signed_size_type bytes = error_wrapper(::writev(
+          d, bufs, static_cast<int>(count)), ec);
 
     // Retry operation if interrupted by signal.
     if (ec == boost::asio::error::interrupted)
@@ -357,7 +361,7 @@ int ioctl(int d, state_type& state, long cmd,
   return result;
 }
 
-int fcntl(int d, long cmd, boost::system::error_code& ec)
+int fcntl(int d, int cmd, boost::system::error_code& ec)
 {
   if (d == -1)
   {
@@ -372,7 +376,7 @@ int fcntl(int d, long cmd, boost::system::error_code& ec)
   return result;
 }
 
-int fcntl(int d, long cmd, long arg, boost::system::error_code& ec)
+int fcntl(int d, int cmd, long arg, boost::system::error_code& ec)
 {
   if (d == -1)
   {
@@ -387,7 +391,7 @@ int fcntl(int d, long cmd, long arg, boost::system::error_code& ec)
   return result;
 }
 
-int poll_read(int d, boost::system::error_code& ec)
+int poll_read(int d, state_type state, boost::system::error_code& ec)
 {
   if (d == -1)
   {
@@ -399,14 +403,18 @@ int poll_read(int d, boost::system::error_code& ec)
   fds.fd = d;
   fds.events = POLLIN;
   fds.revents = 0;
+  int timeout = (state & user_set_non_blocking) ? 0 : -1;
   errno = 0;
-  int result = error_wrapper(::poll(&fds, 1, -1), ec);
-  if (result >= 0)
+  int result = error_wrapper(::poll(&fds, 1, timeout), ec);
+  if (result == 0)
+    ec = (state & user_set_non_blocking)
+      ? boost::asio::error::would_block : boost::system::error_code();
+  else if (result > 0)
     ec = boost::system::error_code();
   return result;
 }
 
-int poll_write(int d, boost::system::error_code& ec)
+int poll_write(int d, state_type state, boost::system::error_code& ec)
 {
   if (d == -1)
   {
@@ -418,9 +426,13 @@ int poll_write(int d, boost::system::error_code& ec)
   fds.fd = d;
   fds.events = POLLOUT;
   fds.revents = 0;
+  int timeout = (state & user_set_non_blocking) ? 0 : -1;
   errno = 0;
-  int result = error_wrapper(::poll(&fds, 1, -1), ec);
-  if (result >= 0)
+  int result = error_wrapper(::poll(&fds, 1, timeout), ec);
+  if (result == 0)
+    ec = (state & user_set_non_blocking)
+      ? boost::asio::error::would_block : boost::system::error_code();
+  else if (result > 0)
     ec = boost::system::error_code();
   return result;
 }
