@@ -11,7 +11,6 @@
 #include "Explosion.h"
 #include "Flag.h"
 #include "HQBlock.h"
-#include "LifeBars.h"
 
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"
@@ -22,28 +21,10 @@ class GameScreen :
 {
 private:
 	Game::ptr game;
-	GameClient::ptr client;
 	AttachmentPoint::ptr cameraPos;
 	float cameraSpeed;
 	float cameraRotationSpeed;
 	Map blockMap;
-
-	std::string myName;
-	std::string opponentName;
-
-	unsigned short myID;
-	unsigned short opponentID;
-
-	glm::vec3 myColor;
-	glm::vec3 opponentColor;
-
-	float myScore;
-	float opponentScore;
-
-	float scoreThisFrame;
-
-	glm::ivec2 basePosition;
-	glm::vec3 opponentBasePos;
 
 	std::vector<Block::ptr> flags;
 
@@ -51,18 +32,11 @@ private:
 
 	typedef std::map<unsigned short, Bomb> entity_map;
 	entity_map myEntities;
-	entity_map opponentEntities;
-
-	const static float TIME_PER_BOMB;
-	float timeToNextBomb;
 
 	std::vector<Button> buttons;
 	Screen::ptr nextScreen;
 	TextureSection::ptr background;
 	SimpleImage::ptr GuiBackground;
-
-	LifeBars LifeBarLeft;
-	LifeBars LifeBarRight;
 
 	float currentDeltaTime;
 	glm::vec3 cameraVelocity;
@@ -70,15 +44,6 @@ private:
 	float rotationXSpeed;
 	PointLight::ptr light;
 
-	glm::vec2 selectionPosition;
-	bool selecting;
-
-	float pointsToWin;
-
-	const static float BASE_POINTS_PER_BOMB;
-	const static float FLAG_POINTS_PER_SEC;
-	const static float FLAG_RADIUS;
-	const static float EXPLOSION_RADIUS;
 	std::list<Explosion> explosions;
 	int explosionsThisFrame;
 
@@ -102,19 +67,10 @@ private:
 	void mouseMoveEventHandler(MouseMoveEvent const* mmEvent);
 
 public:
-	GameScreen(GameClient::ptr const& client, std::string const& myName, unsigned short myID, glm::vec3 const& myColor,
-		std::string const& opponentName, unsigned short opponentID, glm::vec3 const& opponentColor,
-		std::string const& mapName, unsigned short myBaseID, unsigned short pointsToWin);
+	GameScreen();
 
 	void atEntry();
 	void update(float deltaTime);
 	void draw(Graphics::ptr graphics);
 	Screen::ptr getNextScreen();
-		
-	void handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet);
-	void handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet);
-	void handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet);
-	void handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet);
-	void handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet);
-	void handlePacket16GameOver(Packet16GameOver::const_ptr const& packet);
 };

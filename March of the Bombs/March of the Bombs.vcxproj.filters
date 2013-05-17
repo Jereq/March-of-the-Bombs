@@ -129,12 +129,6 @@
     <ClCompile Include="MouseButtonEvent.cpp">
       <Filter>Source Files\Event</Filter>
     </ClCompile>
-    <ClCompile Include="GameClient.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketDispatchClient.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PointLight.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -156,12 +150,6 @@
     <ClCompile Include="PlaneModelData.cpp">
       <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
-    <ClCompile Include="CreditsScreen.cpp">
-      <Filter>Source Files\GUIcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="HtPScreen.cpp">
-      <Filter>Source Files\GUIcpp</Filter>
-    </ClCompile>
     <ClCompile Include="StandardBombModelData.cpp">
       <Filter>Source Files\Graphics\Model</Filter>
     </ClCompile>
@@ -176,12 +164,6 @@
     </ClCompile>
     <ClCompile Include="Bomb.cpp">
       <Filter>Source Files\Game Logic\Unit</Filter>
-    </ClCompile>
-    <ClCompile Include="Lobbyscreen.cpp">
-      <Filter>Source Files\GUIcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="TextField.cpp">
-      <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
     <ClCompile Include="TextureSection.cpp">
       <Filter>Source Files\Graphics</Filter>
@@ -228,28 +210,13 @@
     <ClCompile Include="SoftBlock.cpp">
       <Filter>Source Files\Game Logic\Block</Filter>
     </ClCompile>
-    <ClCompile Include="SelectionList.cpp">
-      <Filter>Source Files\GUIcpp</Filter>
-    </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FontandKeyMapping.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
-    <ClCompile Include="CreateGameScreen.cpp">
-      <Filter>Source Files\GUIcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="WaitingScreen.cpp">
-      <Filter>Source Files\GUIcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="LifeBars.cpp">
-      <Filter>Source Files\GUIcpp</Filter>
-    </ClCompile>
     <ClCompile Include="Label.cpp">
-      <Filter>Source Files\GUIcpp</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOverScreen.cpp">
       <Filter>Source Files\GUIcpp</Filter>
     </ClCompile>
     <ClCompile Include="OrientedBoundingBox.cpp">
@@ -305,9 +272,6 @@
     <ClInclude Include="KeyboardEvent.h">
       <Filter>Header Files\Event</Filter>
     </ClInclude>
-    <ClInclude Include="GameClient.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PointLight.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
@@ -332,12 +296,6 @@
     <ClInclude Include="PlaneModelData.h">
       <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
-    <ClInclude Include="CreditsScreen.h">
-      <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
-    <ClInclude Include="HtPScreen.h">
-      <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
     <ClInclude Include="StandardBombModelData.h">
       <Filter>Header Files\Graphics\Model</Filter>
     </ClInclude>
@@ -353,17 +311,8 @@
     <ClInclude Include="Bomb.h">
       <Filter>Header Files\Game Logic\Unit</Filter>
     </ClInclude>
-    <ClInclude Include="Lobbyscreen.h">
-      <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
-    <ClInclude Include="TextField.h">
-      <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
     <ClInclude Include="TextureSection.h">
       <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadingScreen.h">
-      <Filter>Header Files\GUIh</Filter>
     </ClInclude>
     <ClInclude Include="Frustum.h">
       <Filter>Header Files\Graphics</Filter>
@@ -401,28 +350,13 @@
     <ClInclude Include="Map.h">
       <Filter>Header Files\Game Logic</Filter>
     </ClInclude>
-    <ClInclude Include="SelectionList.h">
-      <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FontandKeyMapping.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
-    <ClInclude Include="CreateGameScreen.h">
-      <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
-    <ClInclude Include="WaitingScreen.h">
-      <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
-    <ClInclude Include="LifeBars.h">
-      <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
     <ClInclude Include="Label.h">
-      <Filter>Header Files\GUIh</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOverScreen.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
     <ClInclude Include="OrientedBoundingBox.h">
@@ -430,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="IntersectionResult.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScreen.h">
+      <Filter>Header Files\GUIh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

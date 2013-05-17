@@ -15,18 +15,13 @@
 #include "MouseButtonEvent.h"
 #include "MouseMoveEvent.h"
 
-#include <Packet2Blob.h>
-#include <Packet3Login.h>
-
-Game::ptr Game::instance = Game::ptr();
+Game::ptr Game::instance;
 
 std::string Game::windowTitle = "March of the Bombs";
 
-void Game::initOpenGL()
+void Game::initOpenGL(int argc, char** argv)
 {
-	int argc = 1;
-	char* foo = "ProgramName";
-	glutInit(&argc, &foo);
+	glutInit(&argc, argv);
 
 	int windowWidth = 1280;
 	int windowHeight = 700;
@@ -290,15 +285,18 @@ void Game::start()
 	glutMainLoop();
 }
 
+void Game::init(int argc, char** argv)
+{
+	assert(!instance);
+
+	initOpenGL(argc, argv);
+	initDevIL();
+	instance = ptr(new Game());
+}
+
 Game::ptr Game::getInstance()
 {
-	if (!instance)
-	{
-		initOpenGL();
-		initDevIL();
-		instance = ptr(new Game());
-	}
-
+	assert(instance);
 	return instance;
 }
 

@@ -7,26 +7,14 @@
 #include <iostream>
 #include "Game.h"
 #include "MainMeny.h"
-#include "GameOverScreen.h"
 #include "BlockModelData.h"
 #include "PlaneModelData.h"
 #include "StandardBombModelData.h"
 #include "FlagModelData.h"
 #include "HQModelData.h"
 
-const float GameScreen::TIME_PER_BOMB = 3.f;
-const float GameScreen::BASE_POINTS_PER_BOMB = 50.f;
-const float GameScreen::FLAG_POINTS_PER_SEC = 5.f;
-const float GameScreen::EXPLOSION_RADIUS = 1.5f;
-const float GameScreen::FLAG_RADIUS = 5.f;
-
 void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity)
 {
-	if (client)
-	{
-		Packet::ptr packet = Packet::ptr(new Packet9SpawnBomb(myID, myEntityCount++, position, rotation, velocity));
-		client->write(packet);
-	}
 }
 
 void GameScreen::createExplosion(glm::vec3 const& position, float size, float duration, bool removeBlocks)
@@ -39,71 +27,6 @@ void GameScreen::createExplosion(glm::vec3 const& position, float size, float du
 		game->getSoundManager()->playSound("Sounds/bombexplosion.mp3", position, 30.f);
 	}
 	explosionsThisFrame++;
-
-	// Find all bombs within the explosion radius
-	Bomb::id_set nearbyBombs;
-	glm::vec2 groundPos(glm::swizzle<glm::X, glm::Z>(position));
-	getNearbyBombs(groundPos, size * 0.5f, nearbyBombs);
-	BOOST_FOREACH(Bomb::id const& id, nearbyBombs)
-	{
-		// Only deal with the players own bombs
-		if (id.first == myID)
-		{
-			Bomb& bomb = myEntities[id.second];
-			if (bomb.isAlive())
-			{
-				Packet::ptr packet(new Packet13RemoveBomb(myID, id.second, true));
-				client->write(packet);
-
-				bomb.setIsAlive(false);
-			}
-		}
-	}
-	
-	// Blow up blocks
-	if (removeBlocks)
-	{
-		float blockExplosionRadius = size * 0.8f;
-
-		glm::vec2 bPos = groundPos - glm::vec2(0.5f);
-
-		glm::ivec2 minPos(glm::floor(bPos - glm::vec2(blockExplosionRadius)));
-		glm::ivec2 maxPos(glm::ceil(bPos + glm::vec2(blockExplosionRadius)));
-
-		minPos = glm::max(minPos, 0);
-		maxPos = glm::min(maxPos, blockMap.getSize() - glm::ivec2(1));
-
-		std::vector<glm::ivec2> blocks;
-
-		// For every block in a square...
-		for (int x = minPos.x; x <= maxPos.x; x++)
-		{
-			for (int y = minPos.y; y <= maxPos.y; y++)
-			{
-				glm::ivec2 oPos(x, y);
-
-				Block::ptr block = blockMap.getBlock(oPos);			
-
-				if (block && block->isDestructible() && glm::distance(glm::vec2(oPos), bPos) < blockExplosionRadius)
-				{
-					blocks.push_back(oPos);
-				}
-			}
-		}
-
-		// If any block to remove was found...
-		if (!blocks.empty())
-		{
-			Packet::ptr packet(new Packet14RemoveBlocks(blocks));
-			client->write(packet);
-		}
-	}
-
-	// Give score for every explosion close to the opponents base
-	if (glm::distance(position, opponentBasePos) < size * 0.5f)
-	{
-		scoreThisFrame += BASE_POINTS_PER_BOMB;
-	}
 }
 
 void GameScreen::preloadTextures()
@@ -200,18 +123,7 @@ void GameScreen::getNearbyBombs(glm::vec2 const& center, float distance, Bomb::i
 	BOOST_FOREACH(Bomb::id const& id, tRes)
 	{
 		entity_map const* playerEntities;
-		if (id.first == myID)
-		{
-			playerEntities = &myEntities;
-		}
-		else if (id.first == opponentID)
-		{
-			playerEntities = & opponentEntities;
-		}
-		else
-		{
-			continue;
-		}
+		playerEntities = &myEntities;
 
 		if (playerEntities->count(id.second) != 1)
 		{
@@ -226,27 +138,20 @@ void GameScreen::getNearbyBombs(glm::vec2 const& center, float distance, Bomb::i
 	}
 }
 
-GameScreen::GameScreen(GameClient::ptr const& client, std::string const& myName, unsigned short myID, glm::vec3 const& myColor,
-		std::string const& opponentName, unsigned short opponentID, glm::vec3 const& opponentColor,
-		std::string const& mapName, unsigned short myBaseID, unsigned short pointsToWin)
-	: game(Game::getInstance()), client(client),
-	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/" + mapName + ".txt"),
-	  myID(myID), opponentID(opponentID), myColor(myColor), opponentColor(opponentColor),
-	  cameraSpeed(20.f), cameraRotationSpeed(45.f), selecting(false),
-	  myScore(0), opponentScore(0), myName(myName), opponentName(opponentName),
-	  scoreThisFrame(0), pointsToWin(pointsToWin)
+GameScreen::GameScreen()
+	: game(Game::getInstance()),
+	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/centerlane 75x75.txt"),
+	  cameraSpeed(20.f), cameraRotationSpeed(45.f)
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
-	assert(bases.size() > myBaseID);
-	basePosition = bases[myBaseID];
+	assert(bases.size() > 0);
+	glm::ivec2 basePosition = bases[0];
 
 	std::vector<glm::ivec2> const& flagPos = blockMap.getFlags();
 	BOOST_FOREACH(glm::ivec2 const& pos, flagPos)
 	{
 		flags.push_back(blockMap.getBlock(pos));
 	}
-
-	opponentBasePos = dynamic_cast<HQBlock const*>(blockMap.getBlock(bases[1 - myBaseID]).get())->getPosition();
 
 	cameraPos.reset(new AttachmentPoint(glm::vec3(basePosition.x - 20, 30, basePosition.y + 20), glm::vec3(-40, -45, 0)));
 }
@@ -257,10 +162,6 @@ void GameScreen::atEntry()
 
 	createBackground();
 	createButtons();
-	LifeBarLeft = LifeBars(TextureSection(L"Images/FrameLB.png"),TextureSection(L"Images/TFBackground.png"),
-		Rectanglef(glm::vec2(0.02f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,true, myColor);
-	LifeBarRight = LifeBars(TextureSection(L"Images/FrameLB.png"),TextureSection(L"Images/TFBackground.png"),
-		Rectanglef(glm::vec2(0.58f,0.94f),glm::vec2(0.40f,0.04f)),0.00f,false, opponentColor);
 
 	Graphics::ptr graphics = game->getGraphics();
 	graphics->getCamera()->setAttachmentPoint(cameraPos);
@@ -286,7 +187,6 @@ void GameScreen::atEntry()
 
 	graphics->setLight(light);
 
-	timeToNextBomb = TIME_PER_BOMB;
 	game->getSoundManager()->playBackgroundSound("Sounds/gamebackground.mp3");
 	game->getGraphics()->setBackground(background);
 }
@@ -294,15 +194,6 @@ void GameScreen::atEntry()
 void GameScreen::update(float deltaTime)
 {
 	explosionsThisFrame = 0;
-
-	if (client && client->isRunning())
-	{
-		while (client->hasReceivedPackets())
-		{
-			Packet::ptr packet = client->popReceivedPacket();
-			packet->dispatch(&shared_from_this());
-		}
-	}
 
 	if (nextScreen)
 	{
@@ -348,14 +239,6 @@ void GameScreen::update(float deltaTime)
 		}
 	}
 
-	timeToNextBomb -= deltaTime;
-	while (timeToNextBomb <= 0)
-	{
-		spawnBomb(glm::vec3(basePosition.x + 0.5f, 0, basePosition.y + 0.5f), glm::vec3(0), glm::vec3(0));
-
-		timeToNextBomb += TIME_PER_BOMB;
-	}
-
 	BOOST_FOREACH(entity_map::value_type& entry, myEntities)
 	{
 		Bomb& bomb = entry.second;
@@ -372,118 +255,9 @@ void GameScreen::update(float deltaTime)
 
 		if (oldPosition != newPosition)
 		{
-			blockMap.removeBombFromChunk(oldPosition, Bomb::id(myID, entry.first));
-			blockMap.addBombToChunk(newPosition, Bomb::id(myID, entry.first));
+			blockMap.removeBombFromChunk(oldPosition, Bomb::id(0, entry.first));
+			blockMap.addBombToChunk(newPosition, Bomb::id(0, entry.first));
 		}
-
-		if (bomb.hasNewHeading())
-		{
-			Packet5EntityMove::ptr packet(new Packet5EntityMove(myID, entry.first, bomb.getPosition(), bomb.getRotation(), bomb.getVelocity()));
-			client->write(packet);
-
-			bomb.setHasNewHeading(false);
-		}
-
-		if (!bomb.hasTarget() && bomb.explodeAtTarget())
-		{
-			Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
-			client->write(packet);
-
-			bomb.setIsAlive(false);
-			continue;
-		}
-
-		if (glm::distance(bomb.getPosition(), opponentBasePos) < EXPLOSION_RADIUS * 0.8f)
-		{
-			Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
-			client->write(packet);
-
-			bomb.setIsAlive(false);
-			continue;
-		}
-
-		Bomb::id_set nearbyBombs;
-		glm::vec2 groundPos(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
-		getNearbyBombs(groundPos, EXPLOSION_RADIUS * 0.8f, nearbyBombs);
-		BOOST_FOREACH(Bomb::id const& id, nearbyBombs)
-		{
- 			if (id.first == opponentID)
-			{
-				Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
-				client->write(packet);
-
-				bomb.setIsAlive(false);
-				break;
-			}
-		}
-	}
-
-	BOOST_FOREACH(entity_map::value_type& entry, opponentEntities)
-	{
-		Bomb& bomb = entry.second;
-
-		glm::ivec2 oldPosition(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
-		bomb.updatePosition(deltaTime);
-
-		glm::ivec2 newPosition(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
-
-		if (oldPosition != newPosition)
-		{
-			blockMap.removeBombFromChunk(oldPosition, Bomb::id(opponentID, entry.first));
-			blockMap.addBombToChunk(newPosition, Bomb::id(opponentID, entry.first));
-		}
-	}
-
-	BOOST_FOREACH(Block::ptr const& bFlag, flags)
-	{
-		Flag* flag = dynamic_cast<Flag*>(bFlag.get());
-		if (flag)
-		{
-			Bomb::id_set flagBombs;
-			glm::vec2 flagGroundPos(glm::swizzle<glm::X, glm::Z>(flag->getPosition()));
-			getNearbyBombs(flagGroundPos, FLAG_RADIUS, flagBombs);
-
-			size_t numMyBombs = 0;
-			size_t numOpponentBombs = 0;
-
-			BOOST_FOREACH(Bomb::id const& id, flagBombs)
-			{
-				if (id.first == myID && myEntities[id.second].isAlive())
-				{
-					numMyBombs++;
-				}
-				else if(id.first == opponentID && opponentEntities[id.second].isAlive())
-				{
-					numOpponentBombs++;
-				}
-			}
-
-			if (numMyBombs > numOpponentBombs)
-			{
-				flag->setOwner(myID, myColor);
-				scoreThisFrame += FLAG_POINTS_PER_SEC * deltaTime;
-			}
-			else if (numMyBombs < numOpponentBombs)
-			{
-				flag->setOwner(opponentID, opponentColor);
-			}
-			else
-			{
-				flag->setOwner(-1, glm::vec3());
-			}
-		}
-	}
-
-	if (scoreThisFrame != 0)
-	{
-		myScore += scoreThisFrame;
-
-		LifeBarLeft.updateLB(myScore / pointsToWin);
-
-		Packet::ptr packet(new Packet15UpdatePlayerScore(myID, myScore));
-		client->write(packet);
-
-		scoreThisFrame = 0;
 	}
 
 	std::list<Explosion>::iterator it = explosions.begin();
@@ -526,11 +300,6 @@ void GameScreen::draw(Graphics::ptr graphics)
 		entry.second.draw(graphics);
 	}
 
-	BOOST_FOREACH(entity_map::value_type& entry, opponentEntities)
-	{
-		entry.second.draw(graphics);
-	}
-
 	BOOST_FOREACH(Explosion& exp, explosions)
 	{
 		exp.draw(graphics);
@@ -547,9 +316,6 @@ void GameScreen::draw(Graphics::ptr graphics)
 	{
 		buttons[i].render(graphics);
 	}
-
-	LifeBarLeft.render(graphics);
-	LifeBarRight.render(graphics);
 }
 
 Screen::ptr GameScreen::getNextScreen()
@@ -601,41 +367,6 @@ void GameScreen::keyboardEventHandler(KeyboardEvent const* kbEvent)
 
 		case 'f':
 			rotationXSpeed += -cameraRotationSpeed;
-			break;
-
-		case 'h':
-			BOOST_FOREACH(entity_map::value_type& entry, myEntities)
-			{
-				Bomb& bomb = entry.second;
-				if (bomb.isSelected())
-				{
-					bomb.halt();
-					
-					Packet::ptr packet(new Packet5EntityMove(myID, entry.first, bomb.getPosition(), bomb.getRotation(), bomb.getVelocity()));
-					client->write(packet);
-				}
-			}
-			break;
-
-		case 'g':
-			BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
-			{
-				bomb.second.setSelected(false);
-			}
-			break;
-
-		case ' ':
-			BOOST_FOREACH(entity_map::value_type& entry, myEntities)
-			{
-				Bomb& bomb = entry.second;
-				if (bomb.isSelected())
-				{
-					Packet::ptr packet(new Packet13RemoveBomb(myID, entry.first, true));
-					client->write(packet);
-
-					bomb.setIsAlive(false);
-				}
-			}
 			break;
 
 		case '+':
@@ -695,9 +426,6 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 		{
 		case MouseButton::Left:
 			{
-				selectionPosition = mbEvent->position;
-				selecting = true;
-
 				//testbutton
 				if (buttons[0].getState() == Hovered)
 				{
@@ -706,65 +434,6 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 				}
 			}
 			break;
-
-		case  MouseButton::Right:
-			{
-				Graphics::ptr graphics = game->getGraphics();
-
-				Camera::ptr camera = graphics->getCamera();
-				glm::mat4 viewProjectionMatrix = camera->getProjectionMatrix() * camera->getViewMatrix();
-
-				glm::mat4 pickingMatrix = glm::inverse(viewProjectionMatrix);
-
-				glm::vec4 nearPosition = pickingMatrix * glm::vec4(mbEvent->position.x * 2 - 1, mbEvent->position.y * 2 - 1, 0, 1);
-				nearPosition /= nearPosition.w;
-
-				glm::vec3 origin = cameraPos->getPosition();
-				glm::vec3 direction = glm::normalize(glm::vec3(nearPosition) - origin);
-
-				float distance = std::numeric_limits<float>::infinity();
-
-				bool hitGround = blockMap.intersectGround(origin, direction, distance);
-
-				if (hitGround)
-				{
-					glm::vec3 destination = origin + direction * distance;
-
-					BOOST_FOREACH(entity_map::value_type& entry, myEntities)
-					{
-						Bomb& bomb = entry.second;
-
-						if (bomb.isSelected())
-						{
-							bomb.setTarget(blockMap, destination);
-					
-							Packet::ptr packet(new Packet5EntityMove(myID, entry.first, bomb.getPosition(), bomb.getRotation(), bomb.getVelocity()));
-							client->write(packet);
-						}
-					}
-				}
-			}
-			break;
-		}
-	}
-	else
-	{
-		if (mbEvent->button == MouseButton::Left)
-		{
-			if (selecting)
-			{
-				float selectionSize = glm::distance(selectionPosition, mbEvent->position);
-				if (selectionSize > 0.01f)
-				{
-					selectBombsBox(selectionPosition, mbEvent->position);
-				}
-				else
-				{
-					selectBombRay(mbEvent->position);
-				}
-
-				selecting = false;
-			}
 		}
 	}
 }
@@ -800,182 +469,4 @@ void GameScreen::createButtons()
 	Button button0(BackButton,		BackButtonT,	Rectanglef(glm::vec2(0.45f,0.93f),glm::vec2(0.10f,0.06f)), 0.0f);
 
 	buttons.push_back(button0);
-}
-
-void GameScreen::handlePacket5EntityMove(Packet5EntityMove::const_ptr const& packet)
-{
-	Packet5EntityMove const* packet5 = static_cast<Packet5EntityMove const*>(packet.get());
-
-	unsigned short playerID = packet5->getPlayerID();
-
-	if (playerID == myID)
-	{
-		// No need to move my bombs... :)
-	}
-	else if (playerID == opponentID)
-	{
-		unsigned short entityID = packet5->getEntityID();
-
-		if (opponentEntities.count(entityID) == 1)
-		{
-			Bomb& entity = opponentEntities[entityID];
-
-			glm::ivec2 oldPosition(glm::swizzle<glm::X, glm::Z>(entity.getPosition()));
-
-			entity.setPosition(packet5->getPosition());
-			entity.setRotation(packet5->getRotation());
-			entity.setVelocity(packet5->getVelocity());
-
-			glm::ivec2 newPosition(glm::swizzle<glm::X, glm::Z>(entity.getPosition()));
-
-			if (oldPosition != newPosition)
-			{
-				blockMap.removeBombFromChunk(oldPosition, Bomb::id(playerID, entityID));
-				blockMap.addBombToChunk(newPosition, Bomb::id(playerID, entityID));
-			}
-		}
-		
-	}
-	else
-	{
-		std::cerr << "Error: Received packet with unknown player ID" << std::endl;
-	}
-}
-
-void GameScreen::handlePacket9SpawnBomb(Packet9SpawnBomb::const_ptr const& packet)
-{
-	Packet9SpawnBomb const* packet9 = static_cast<Packet9SpawnBomb const*>(packet.get());
-
-	unsigned short playerID = packet9->getPlayerID();
-
-	if (playerID == myID)
-	{
-		unsigned short entityID = packet9->getEntityID();
-
-		Bomb newBomb(myID, myColor);
-		newBomb.setPosition(packet9->getPosition());
-		newBomb.setRotation(packet9->getRotation());
-		newBomb.setVelocity(packet9->getVelocity());
-
-		glm::vec2 offset = glm::circularRand(1.5f) + glm::diskRand(0.6f);
-		newBomb.setTarget(blockMap, newBomb.getPosition() + glm::vec3(offset.x, 0, offset.y));
-
-		myEntities[entityID] = newBomb;
-		
-		glm::ivec2 block(glm::swizzle<glm::X, glm::Z>(newBomb.getPosition()));
-		blockMap.addBombToChunk(block, Bomb::id(playerID, entityID));
-	}
-	else if (playerID == opponentID)
-	{
-		unsigned short entityID = packet9->getEntityID();
-
-		Bomb newBomb(opponentID, opponentColor);
-		newBomb.setPosition(packet9->getPosition());
-		newBomb.setRotation(packet9->getRotation());
-		newBomb.setVelocity(packet9->getVelocity());
-
-		opponentEntities[entityID] = newBomb;
-		
-		glm::ivec2 block(glm::swizzle<glm::X, glm::Z>(newBomb.getPosition()));
-		blockMap.addBombToChunk(block, Bomb::id(playerID, entityID));
-	}
-	else
-	{
-		std::cerr << "Error: Received packet with unknown player ID" << std::endl;
-	}
-}
-
-void GameScreen::handlePacket13RemoveBomb(Packet13RemoveBomb::const_ptr const& packet)
-{
-	Packet13RemoveBomb const* packet13 = static_cast<Packet13RemoveBomb const*>(packet.get());
-
-	unsigned short playerID = packet13->getPlayerID();
-	unsigned short entityID = packet13->getEntityID();
-
-	const static glm::vec3 EXPLOSION_OFFSET(0, 0.3f, 0);
-	const static float EXPLOSION_DURATION(0.3f);
-
-	if (playerID == myID)
-	{
-		if (myEntities.count(entityID) == 1)
-		{
-			Bomb const& bomb = myEntities[entityID];
-
-			glm::ivec2 block(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
-			blockMap.removeBombFromChunk(block, Bomb::id(playerID, entityID));
-
-			if (packet13->getExplode())
-			{
-				createExplosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_RADIUS * 2, EXPLOSION_DURATION, true);
-			}
-
-			myEntities.erase(entityID);
-		}
-	}
-	else if (playerID == opponentID)
-	{
-		if (opponentEntities.count(entityID) == 1)
-		{
-			Bomb const& bomb = opponentEntities[entityID];
-
-			glm::ivec2 block(glm::swizzle<glm::X, glm::Z>(bomb.getPosition()));
-			blockMap.removeBombFromChunk(block, Bomb::id(playerID, entityID));
-
-			if (packet13->getExplode())
-			{
-				createExplosion(bomb.getPosition() + EXPLOSION_OFFSET, EXPLOSION_RADIUS * 2, EXPLOSION_DURATION, false);
-			}
-
-			opponentEntities.erase(entityID);
-		}
-	}
-	else
-	{
-		std::cerr << "Error: Received packet with unknown player ID" << std::endl;
-	}
-}
-
-void GameScreen::handlePacket14RemoveBlocks(Packet14RemoveBlocks::const_ptr const& packet)
-{
-	Packet14RemoveBlocks const* packet14 = static_cast<Packet14RemoveBlocks const*>(packet.get());
-
-	std::vector<glm::ivec2> const& blocks = packet14->getBlocks();
-
-	BOOST_FOREACH(glm::ivec2 const& block, blocks)
-	{
-		blockMap.removeBlock(block);
-	}
-}
-
-void GameScreen::handlePacket15UpdatePlayerScore(Packet15UpdatePlayerScore::const_ptr const& packet)
-{
-	Packet15UpdatePlayerScore const* packet15 = static_cast<Packet15UpdatePlayerScore const*>(packet.get());
-
-	if (packet15->getPlayerID() == opponentID)
-	{
-		opponentScore = packet15->getNewScore();
-
-		LifeBarRight.updateLB(opponentScore / pointsToWin);
-	}
-}
-
-void GameScreen::handlePacket16GameOver(Packet16GameOver::const_ptr const& packet)
-{
-	Packet16GameOver const* packet16 = static_cast<Packet16GameOver const*>(packet.get());
-
-	if (packet16->getPlayer1ID() == myID)
-	{
-		myScore = packet16->getPlayer1Score();
-		opponentScore = packet16->getPlayer2Score();
-	}
-	else
-	{
-		myScore = packet16->getPlayer2Score();
-		opponentScore = packet16->getPlayer1Score();
-	}
-
-	nextScreen.reset(new GameOverScreen(myName, opponentName,
-		static_cast<unsigned int>(myScore), static_cast<unsigned int>(opponentScore)));
-
-	game->getEvents().clear();
 }

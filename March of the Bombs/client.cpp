@@ -2,8 +2,8 @@
 
 int main(int argc, char** argv)
 {
-	Game::ptr game = Game::getInstance();
-	game->start();
+	Game::init(argc, argv);
+	Game::getInstance()->start();
 
 	return EXIT_SUCCESS;
 }

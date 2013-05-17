@@ -97,8 +97,6 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="client.cpp" />
-    <ClCompile Include="CreateGameScreen.cpp" />
-    <ClCompile Include="CreditsScreen.cpp" />
     <ClCompile Include="EmptyBlock.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="Explosion.cpp" />
@@ -107,8 +105,6 @@
     <ClCompile Include="FontandKeyMapping.cpp" />
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameClient.cpp" />
-    <ClCompile Include="GameOverScreen.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GLSLProgram.cpp" />
     <ClCompile Include="GLTexture.cpp" />
@@ -117,12 +113,9 @@
     <ClCompile Include="HardBlock.cpp" />
     <ClCompile Include="HQBlock.cpp" />
     <ClCompile Include="HQModelData.cpp" />
-    <ClCompile Include="HtPScreen.cpp" />
     <ClCompile Include="KeyboardEvent.cpp" />
     <ClCompile Include="Label.cpp" />
-    <ClCompile Include="LifeBars.cpp" />
     <ClCompile Include="LoadingScreen.cpp" />
-    <ClCompile Include="Lobbyscreen.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MainMeny.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -130,23 +123,20 @@
     <ClCompile Include="MouseButtonEvent.cpp" />
     <ClCompile Include="MouseMoveEvent.cpp" />
     <ClCompile Include="MouseState.cpp" />
-    <ClCompile Include="PacketDispatchClient.cpp" />
     <ClCompile Include="PathMap.cpp" />
     <ClCompile Include="PathNode.cpp" />
     <ClCompile Include="PlaneModelData.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Rectanglef.cpp" />
-    <ClCompile Include="SelectionList.cpp" />
     <ClCompile Include="SimpleImage.cpp" />
     <ClCompile Include="SoftBlock.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StandardBombModelData.cpp" />
     <ClCompile Include="TextureSection.cpp" />
-    <ClCompile Include="TextField.cpp" />
-    <ClCompile Include="WaitingScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntersectionResult.h" />
+    <ClInclude Include="LoadingScreen.h" />
     <ClInclude Include="OrientedBoundingBox.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AttachmentPoint.h" />
@@ -156,8 +146,6 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="CreateGameScreen.h" />
-    <ClInclude Include="CreditsScreen.h" />
     <ClInclude Include="EmptyBlock.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="Explosion.h" />
@@ -166,8 +154,6 @@
     <ClInclude Include="FontandKeyMapping.h" />
     <ClInclude Include="Frustum.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GameClient.h" />
-    <ClInclude Include="GameOverScreen.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GLSLProgram.h" />
     <ClInclude Include="GLTexture.h" />
@@ -176,12 +162,8 @@
     <ClInclude Include="HardBlock.h" />
     <ClInclude Include="HQBlock.h" />
     <ClInclude Include="HQModelData.h" />
-    <ClInclude Include="HtPScreen.h" />
     <ClInclude Include="KeyboardEvent.h" />
     <ClInclude Include="Label.h" />
-    <ClInclude Include="LifeBars.h" />
-    <ClInclude Include="LoadingScreen.h" />
-    <ClInclude Include="Lobbyscreen.h" />
     <ClInclude Include="MainMeny.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Model3DS.h" />
@@ -196,14 +178,11 @@
     <ClInclude Include="Rectanglef.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Screen.h" />
-    <ClInclude Include="SelectionList.h" />
     <ClInclude Include="SimpleImage.h" />
     <ClInclude Include="SoftBlock.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StandardBombModelData.h" />
     <ClInclude Include="TextureSection.h" />
-    <ClInclude Include="TextField.h" />
-    <ClInclude Include="WaitingScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\background_credits.png">

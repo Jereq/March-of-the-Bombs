@@ -8,7 +8,6 @@
 #include "Camera.h"
 #include "GUIMain.h"
 #include "Event.h"
-#include "GameClient.h"
 #include "SoundManager.h"
 
 class Game
@@ -22,8 +21,6 @@ private:
 	GUIMain::ptr gui;
 	Graphics::ptr graphics;
 	std::deque<Event::ptr> events;
-
-	boost::asio::io_service ioService;
 
 	SoundManager::ptr soundManager;
 
@@ -40,7 +37,7 @@ private:
 	int windowWidth;
 	int windowHeight;
 
-	static void initOpenGL();
+	static void initOpenGL(int argc, char** argv);
 	static void initDevIL();
 
 	static void stDisplayFunc();
@@ -70,6 +67,7 @@ public:
 
 	void start();
 
+	static void init(int argc, char** argv);
 	static ptr getInstance();
 	
 	void pause();
