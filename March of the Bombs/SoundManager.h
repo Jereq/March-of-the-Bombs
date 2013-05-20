@@ -1,5 +1,7 @@
 #pragma once
 
+#include "MSound.h"
+
 #include <string>
 #include <map>
 
@@ -20,7 +22,9 @@ private:
 	static FMOD::System* getSystem();
 
 	typedef std::map<std::string, FMOD::Sound*> sound_map;
+	typedef std::map<std::string, MSound*> mSound_map;
 	sound_map soundMap;
+	mSound_map mSoundMap;
 
 	FMOD::Sound* backgroundSound;
 

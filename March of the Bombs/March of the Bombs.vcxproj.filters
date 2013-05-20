@@ -222,6 +222,12 @@
     <ClCompile Include="OrientedBoundingBox.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="MSound.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MChannel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttachmentPoint.h">
@@ -367,6 +373,12 @@
     </ClInclude>
     <ClInclude Include="LoadingScreen.h">
       <Filter>Header Files\GUIh</Filter>
+    </ClInclude>
+    <ClInclude Include="MSound.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MChannel.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

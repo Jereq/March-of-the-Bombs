@@ -87,6 +87,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MChannel.cpp" />
+    <ClCompile Include="MSound.cpp" />
     <ClCompile Include="OrientedBoundingBox.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="AttachmentPoint.cpp" />
@@ -137,6 +139,8 @@
   <ItemGroup>
     <ClInclude Include="IntersectionResult.h" />
     <ClInclude Include="LoadingScreen.h" />
+    <ClInclude Include="MChannel.h" />
+    <ClInclude Include="MSound.h" />
     <ClInclude Include="OrientedBoundingBox.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="AttachmentPoint.h" />

@@ -1,5 +1,8 @@
 #include "SoundManager.h"
 
+#include "MChannel.h"
+#include "MSound.h"
+
 #include <exception>
 #include <sstream>
 
@@ -143,9 +146,15 @@ void SoundManager::clearCache()
 		{
 			entry.second->release();
 		}
+
+		for (auto const& entry : mSoundMap)
+		{
+			delete entry.second;
+		}
 	}
 
 	soundMap.clear();
+	mSoundMap.clear();
 }
 
 void SoundManager::update(glm::vec3 const& cameraPos, glm::vec3 const& cameraForward, glm::vec3 const& cameraUp)
@@ -179,7 +188,7 @@ void SoundManager::playBackgroundSound(std::string const& filename, float volume
 
 	FMOD::System* system = getSystem();
 
-	FMOD_RESULT result = system->createSound(filename.c_str(), FMOD_LOOP_NORMAL, NULL, &backgroundSound);
+	FMOD_RESULT result = system->createSound(filename.c_str(), FMOD_SOFTWARE | FMOD_LOOP_NORMAL, NULL, &backgroundSound);
 	errCheck(result);
 
 	FMOD::Channel* channel = NULL;
@@ -189,8 +198,13 @@ void SoundManager::playBackgroundSound(std::string const& filename, float volume
 	result = channel->setVolume(volume);
 	errCheck(result);
 
-	result = channel->setPaused(false);
+	//result = channel->setPaused(false);
 	errCheck(result);
+
+	MChannel* mChannel = new MChannel(system, backgroundSound);
+	mChannel->setVolume(volume);
+	mChannel->setPaused(false);
+
 }
 
 void SoundManager::playSound(std::string const& filename, glm::vec3 const& position, float minDistance)
@@ -202,6 +216,8 @@ void SoundManager::playSound(std::string const& filename, glm::vec3 const& posit
 	{
 		result = system->createSound(filename.c_str(), FMOD_3D, NULL, &soundMap[filename]);
 		errCheck(result);
+
+		mSoundMap[filename] = new MSound(system, filename, true);
 	}
 
 	FMOD::Channel* channel;
@@ -215,4 +231,9 @@ void SoundManager::playSound(std::string const& filename, glm::vec3 const& posit
 	errCheck(result);
 
 	channel->setPaused(false);
+
+	MChannel mChannel(system, soundMap[filename]);
+	mChannel.setPosition(position);
+	mChannel.setMinMaxDistance(minDistance, 10000.f);
+	mChannel.setPaused(false);
 }
