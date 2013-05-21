@@ -222,10 +222,10 @@
     <ClCompile Include="OrientedBoundingBox.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="MSound.cpp">
+    <ClCompile Include="MChannel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MChannel.cpp">
+    <ClCompile Include="LoudEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -374,10 +374,10 @@
     <ClInclude Include="LoadingScreen.h">
       <Filter>Header Files\GUIh</Filter>
     </ClInclude>
-    <ClInclude Include="MSound.h">
+    <ClInclude Include="MChannel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MChannel.h">
+    <ClInclude Include="LoudEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

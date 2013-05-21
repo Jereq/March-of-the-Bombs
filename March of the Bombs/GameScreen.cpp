@@ -19,13 +19,16 @@ void GameScreen::spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation,
 
 void GameScreen::createExplosion(glm::vec3 const& position, float size, float duration, bool removeBlocks)
 {
-	// Add new explosion
-	explosions.push_back(Explosion(position, glm::vec2(size), duration));
-	// Limit explosion sounds to one per frame
+	MChannel* sound = nullptr;
+
 	if (explosionsThisFrame < 1)
 	{
-		game->getSoundManager()->playSound("Sounds/bombexplosion.mp3", position, 30.f);
+		sound = game->getSoundManager()->playSound("Sounds/bombexplosion.mp3", position, 30.f);
 	}
+
+	// Add new explosion
+	explosions.push_back(Explosion(position, glm::vec2(size), duration, sound));
+	// Limit explosion sounds to one per frame
 	explosionsThisFrame++;
 }
 
@@ -140,8 +143,8 @@ void GameScreen::getNearbyBombs(glm::vec2 const& center, float distance, Bomb::i
 
 GameScreen::GameScreen()
 	: game(Game::getInstance()),
-	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/centerlane 75x75.txt"),
-	  cameraSpeed(20.f), cameraRotationSpeed(45.f)
+	  rotationYSpeed(0), rotationXSpeed(0), myEntityCount(0), blockMap("Maps/emptyplane 75x75.txt"),
+	  cameraSpeed(5.67f), cameraRotationSpeed(180.f)
 {
 	std::vector<glm::ivec2> const& bases = blockMap.getBases();
 	assert(bases.size() > 0);
@@ -153,7 +156,7 @@ GameScreen::GameScreen()
 		flags.push_back(blockMap.getBlock(pos));
 	}
 
-	cameraPos.reset(new AttachmentPoint(glm::vec3(basePosition.x - 20, 30, basePosition.y + 20), glm::vec3(-40, -45, 0)));
+	cameraPos.reset(new AttachmentPoint(glm::vec3(basePosition.x, 1.8f, basePosition.y + 2.f), glm::vec3(-10.f, 180.f, 0.f)));
 }
 
 void GameScreen::atEntry()
@@ -187,8 +190,44 @@ void GameScreen::atEntry()
 
 	graphics->setLight(light);
 
-	game->getSoundManager()->playBackgroundSound("Sounds/gamebackground.mp3");
+	game->getSoundManager()->playBackgroundSound("Sounds/gamebackground.mp3", 0.5f);
 	game->getGraphics()->setBackground(background);
+
+	//createExplosion(glm::vec3(0,0,0),1.f,5.f,true);
+
+	boost::shared_ptr<LoudEntity> entity;
+
+	entity.reset(new LoudEntity(game->getSoundManager().get(), "Sounds/fire-1.mp3"));
+	entity->setPosition(glm::vec3(38.f, 0.f, 33.f));
+
+	loudEntities.push_back(boost::shared_ptr<LoudEntity>(entity));
+
+	entity.reset(new LoudEntity(game->getSoundManager().get(), "Sounds/Chipmunks_sound-Uday-1052330468.mp3"));
+	entity->setPosition(glm::vec3(60.f, 0.f, 22.f));
+
+	loudEntities.push_back(boost::shared_ptr<LoudEntity>(entity));
+
+	entity.reset(new LoudEntity(game->getSoundManager().get(), "Sounds/Cartoon Voice Baritone-SoundBible.com-2068310080.mp3"));
+	entity->setPosition(glm::vec3(58.f, 0.f, 54.f));
+
+	loudEntities.push_back(boost::shared_ptr<LoudEntity>(entity));
+
+	zombie.reset(new LoudEntity(game->getSoundManager().get(), "Sounds/Zombie Gibberish-SoundBible.com-589887278.mp3"));
+
+	glm::vec3 zombiePos;
+	auto bases = blockMap.getBases();
+	if (bases.size() > 1)
+	{
+		zombiePos = glm::vec3(bases[1].x, 0.f, bases[1].y);
+	}
+	else
+	{
+		zombiePos = cameraPos->getPosition();
+		zombiePos.y = 0.f;
+	}
+	zombie->setPosition(zombiePos);
+
+	loudEntities.push_back(boost::shared_ptr<LoudEntity>(zombie));
 }
 
 void GameScreen::update(float deltaTime)
@@ -260,6 +299,27 @@ void GameScreen::update(float deltaTime)
 		}
 	}
 
+	glm::vec3 playerPos(cameraPos->getPosition());
+	playerPos.y = 0.f;
+	glm::vec3 zombieOffset(playerPos - zombie->getPosition());
+
+	const static float ZOMBIE_SPEED = 1.3f;
+
+	if (glm::length(zombieOffset) > ZOMBIE_SPEED * deltaTime)
+	{
+		zombieOffset = glm::normalize(zombieOffset);
+		zombie->setPosition(zombie->getPosition() + zombieOffset * ZOMBIE_SPEED * deltaTime);
+	}
+	else
+	{
+		zombie->setPosition(playerPos);
+	}
+
+	if (zombieOffset != glm::vec3())
+	{
+		zombie->setDirection(zombieOffset);
+	}
+
 	std::list<Explosion>::iterator it = explosions.begin();
 	while (it != explosions.end())
 	{
@@ -278,9 +338,9 @@ void GameScreen::update(float deltaTime)
 	glm::vec3 rotation = cameraPos->getRotation();
 	rotation.y += rotationYSpeed * deltaTime;
 	rotation.x += rotationXSpeed * deltaTime;
-	if (rotation.x > 0)
+	if (rotation.x > 35.f)
 	{
-		rotation.x = 0;
+		rotation.x = 35.f;
 	}
 	else if (rotation.x < -90)
 	{
@@ -305,6 +365,10 @@ void GameScreen::draw(Graphics::ptr graphics)
 		exp.draw(graphics);
 	}
 
+	for (auto& entity : loudEntities)
+	{
+		entity->draw(graphics);
+	}
 
 	blockMap.draw(graphics);
 

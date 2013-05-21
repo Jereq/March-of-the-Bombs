@@ -1,8 +1,5 @@
 #include "SoundManager.h"
 
-#include "MChannel.h"
-#include "MSound.h"
-
 #include <exception>
 #include <sstream>
 
@@ -119,14 +116,20 @@ FMOD::System* SoundManager::getSystem()
 
 SoundManager::SoundManager()
 	: backgroundSound(NULL)
+	, backgroundchannel(nullptr)
+	, invBaseMat(1.f)
 {
 }
 
 SoundManager::~SoundManager()
-{
+{	
+	if(backgroundchannel)
+	{
+		delete backgroundchannel;
+	}
 	clearCache();
 
-	if (system)
+	if (backgroundSound)
 	{
 		backgroundSound->release();
 	}
@@ -146,25 +149,25 @@ void SoundManager::clearCache()
 		{
 			entry.second->release();
 		}
-
-		for (auto const& entry : mSoundMap)
-		{
-			delete entry.second;
-		}
 	}
 
 	soundMap.clear();
-	mSoundMap.clear();
 }
 
 void SoundManager::update(glm::vec3 const& cameraPos, glm::vec3 const& cameraForward, glm::vec3 const& cameraUp)
 {
 	FMOD::System* system = getSystem();
 
-	system->set3DListenerAttributes(0, reinterpret_cast<FMOD_VECTOR const*>(&cameraPos),
-		NULL,
-		reinterpret_cast<FMOD_VECTOR const*>(&cameraForward),
-		reinterpret_cast<FMOD_VECTOR const*>(&cameraUp));
+	listenerPos = cameraPos;
+
+	glm::vec3 listenerForward(glm::normalize(cameraForward));
+	glm::vec3 listenerUp(glm::normalize(cameraUp));
+
+	glm::vec3 listenerRight = glm::cross(listenerForward, listenerUp);
+
+	glm::mat3 baseMat(listenerRight, listenerUp, -listenerForward);
+	invBaseMat = glm::inverse(baseMat);
+
 	system->update();
 }
 
@@ -175,6 +178,12 @@ void SoundManager::playBackgroundSound(std::string const& filename)
 
 void SoundManager::playBackgroundSound(std::string const& filename, float volume)
 {
+	if(backgroundchannel)
+	{
+		delete backgroundchannel;
+		backgroundchannel = nullptr;
+	}
+
 	if (backgroundSound)
 	{
 		backgroundSound->release();
@@ -191,49 +200,48 @@ void SoundManager::playBackgroundSound(std::string const& filename, float volume
 	FMOD_RESULT result = system->createSound(filename.c_str(), FMOD_SOFTWARE | FMOD_LOOP_NORMAL, NULL, &backgroundSound);
 	errCheck(result);
 
-	FMOD::Channel* channel = NULL;
-	result = system->playSound(FMOD_CHANNEL_FREE, backgroundSound, true, &channel);
-	errCheck(result);
-
-	result = channel->setVolume(volume);
-	errCheck(result);
-
-	//result = channel->setPaused(false);
-	errCheck(result);
-
-	MChannel* mChannel = new MChannel(system, backgroundSound);
-	mChannel->setVolume(volume);
-	mChannel->setPaused(false);
-
+	backgroundchannel = new MChannel(system, backgroundSound, this);
+	backgroundchannel->setVolume(volume);
+	backgroundchannel->setPaused(false);
 }
 
-void SoundManager::playSound(std::string const& filename, glm::vec3 const& position, float minDistance)
+MChannel* SoundManager::playSound(std::string const& filename, glm::vec3 const& position, float minDistance)
+{
+	return playSound(filename, position, minDistance, false);
+}
+
+MChannel* SoundManager::playSound(std::string const& filename, glm::vec3 const& position, float minDistance, bool loop)
 {
 	FMOD::System* system = getSystem();
+
+	FMOD_MODE mode = FMOD_SOFTWARE | FMOD_3D;
+
+	if (loop)
+	{
+		mode |= FMOD_LOOP_NORMAL;
+	}
 
 	FMOD_RESULT result;
 	if (soundMap.count(filename) == 0)
 	{
-		result = system->createSound(filename.c_str(), FMOD_3D, NULL, &soundMap[filename]);
+		result = system->createSound(filename.c_str(), mode, NULL, &soundMap[filename]);
 		errCheck(result);
-
-		mSoundMap[filename] = new MSound(system, filename, true);
 	}
 
-	FMOD::Channel* channel;
-	result = system->playSound(FMOD_CHANNEL_FREE, soundMap[filename], true, &channel);
-	errCheck(result);
-
-	result = channel->set3DAttributes(reinterpret_cast<FMOD_VECTOR const*>(&position), NULL);
-	errCheck(result);
-
-	result = channel->set3DMinMaxDistance(minDistance, 10000.f);
-	errCheck(result);
-
+	MChannel* channel = new MChannel(system, soundMap[filename], this);
+	channel->setPosition(position);
+	channel->setMinMaxDistance(minDistance, 10000.0f);
 	channel->setPaused(false);
 
-	MChannel mChannel(system, soundMap[filename]);
-	mChannel.setPosition(position);
-	mChannel.setMinMaxDistance(minDistance, 10000.f);
-	mChannel.setPaused(false);
+	return channel;
+}
+
+glm::mat3 SoundManager::getInverseBaseMatrix()
+{
+	return invBaseMat;
+}
+
+glm::vec3 SoundManager::getListenerPosition()
+{
+	return listenerPos;
 }

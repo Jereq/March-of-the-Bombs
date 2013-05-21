@@ -3,9 +3,13 @@
 #include <fmod/fmod.hpp>
 #include <glm/glm.hpp>
 
+class SoundManager;
+
 class MChannel
 {
 private:
+	SoundManager* soundManager;
+
 	FMOD::Channel* channel;
 	FMOD::DSP* dsp;
 	FMOD::Sound* sound;
@@ -14,6 +18,7 @@ private:
 	float minDistance;
 	float maxDistance;
 	bool isPaused;
+	bool isDone;
 	float volume;
 	unsigned int PCM_Pos;
 
@@ -41,7 +46,7 @@ private:
 	);
 
 public:
-	MChannel(FMOD::System* system, FMOD::Sound* sound);
+	MChannel(FMOD::System* system, FMOD::Sound* sound, SoundManager* manager);
 	~MChannel();
 
 	void setPosition(glm::vec3 const& position);
@@ -53,6 +58,8 @@ public:
 
 	void setPaused(bool paused);
 	bool getIsPaused() const;
+
+	bool getIsDone() const;
 
 	void setVolume(float value);
 	float getVolume() const;

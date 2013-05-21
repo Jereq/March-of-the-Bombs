@@ -4,13 +4,14 @@
 #include <map>
 #include <set>
 
-#include "Screen.h"
-#include "Game.h"
-#include "Map.h"
 #include "Bomb.h"
 #include "Explosion.h"
 #include "Flag.h"
+#include "Game.h"
 #include "HQBlock.h"
+#include "LoudEntity.h"
+#include "Map.h"
+#include "Screen.h"
 
 #include "KeyboardEvent.h"
 #include "MouseButtonEvent.h"
@@ -27,6 +28,8 @@ private:
 	Map blockMap;
 
 	std::vector<Block::ptr> flags;
+	std::vector<boost::shared_ptr<LoudEntity>> loudEntities;
+	boost::shared_ptr<LoudEntity> zombie;
 
 	unsigned short myEntityCount;
 
