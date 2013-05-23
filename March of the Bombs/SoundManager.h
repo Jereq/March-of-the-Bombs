@@ -14,11 +14,21 @@
 
 class SoundManager
 {
+public:
+	enum class FilterType
+	{
+		NORMAL,
+		ECHO,
+		DAMPENING
+	};
+
 private:
 	static FMOD::System* system;
 
 	glm::mat3 invBaseMat;
 	glm::vec3 listenerPos;
+
+	FilterType filterType;
 
 	typedef std::map<std::string, FMOD::Sound*> sound_map;
 	sound_map soundMap;
@@ -49,4 +59,7 @@ public:
 
 	glm::mat3 getInverseBaseMatrix();
 	glm::vec3 getListenerPosition();
+
+	void setFilterType(FilterType type);
+	FilterType getFilterType() const;
 };

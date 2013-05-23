@@ -3,6 +3,8 @@
 #include <fmod/fmod.hpp>
 #include <glm/glm.hpp>
 
+#include <vector>
+
 class SoundManager;
 
 class MChannel
@@ -21,6 +23,11 @@ private:
 	bool isDone;
 	float volume;
 	unsigned int PCM_Pos;
+
+	std::vector<float> echoBuffer;
+	unsigned int echoBufferPos;
+	float prevLowPassLeft;
+	float prevLowPassRight;
 
 	MChannel(MChannel const&);
 	MChannel & operator= (MChannel const&);

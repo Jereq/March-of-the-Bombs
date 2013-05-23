@@ -35,6 +35,11 @@ void LoudEntity::setDirection(glm::vec3 const& dir)
 	model->setRotation(glm::vec3(0.f, yRot, 0.f));
 }
 
+void LoudEntity::setVolume(float volume)
+{
+	sound->setVolume(volume);
+}
+
 void LoudEntity::draw(Graphics::ptr graphics)
 {
 	graphics->drawModel(model);

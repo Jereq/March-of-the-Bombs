@@ -245,3 +245,13 @@ glm::vec3 SoundManager::getListenerPosition()
 {
 	return listenerPos;
 }
+
+void SoundManager::setFilterType(FilterType type)
+{
+	filterType = type;
+}
+
+SoundManager::FilterType SoundManager::getFilterType() const
+{
+	return filterType;
+}

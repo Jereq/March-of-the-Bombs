@@ -19,6 +19,7 @@ public:
 	glm::vec3 getPosition() const;
 
 	void setDirection(glm::vec3 const& dir);
+	void setVolume(float volume);
 
 	void draw(Graphics::ptr graphics);
 };

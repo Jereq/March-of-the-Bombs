@@ -7,6 +7,7 @@
 
 #include <fmod/fmod_errors.h>
 #include <glm/gtc/swizzle.hpp>
+#include <glm/gtx/constants.hpp>
 
 void MChannel::errCheck(FMOD_RESULT const& result)
 {
@@ -64,6 +65,8 @@ FMOD_RESULT MChannel::DSP_Callback(
 
 	bool looping = (mode & FMOD_LOOP_NORMAL) != 0;
 
+	SoundManager::FilterType filterType = soundManager->getFilterType();
+
 	float leftVolume = 1.f;
 	float rightVolume = 1.f;
 	if (mode & FMOD_3D)
@@ -118,18 +121,83 @@ FMOD_RESULT MChannel::DSP_Callback(
 		rightVolume *= distVolume;
 	}
 
+	const static float DOWN_SCALE = 0.5f;
+	const static float CUTOFF_FREQUENCY = 500.f;
+	const static float SAMPLE_RATE = 44100.f;
+
+	static float LOW_PASS_B1 = 2-glm::cos(2*glm::pi<float>()*CUTOFF_FREQUENCY/SAMPLE_RATE);
+	static float LOW_PASS_B = glm::sqrt(LOW_PASS_B1*LOW_PASS_B1 - 1) - LOW_PASS_B1; 
+	static float LOW_PASS_A = 1 + LOW_PASS_B;
+
 	for (unsigned int i = 0; i < len1 / sizeof(int16_t); i += 2)
 	{
-		outbuffer[outIndex++] = (float)ptr1[i    ] / std::numeric_limits<int16_t>::max() * volume * leftVolume;
-		outbuffer[outIndex++] = (float)ptr1[i + 1] / std::numeric_limits<int16_t>::max() * volume * rightVolume;
+		float outLeft =  (float)ptr1[i    ] / std::numeric_limits<int16_t>::max() * volume;
+		float outRight = (float)ptr1[i + 1] / std::numeric_limits<int16_t>::max() * volume;
+
+		prevLowPassLeft = LOW_PASS_A * outLeft - LOW_PASS_B * prevLowPassLeft;
+		prevLowPassRight = LOW_PASS_A * outRight - LOW_PASS_B * prevLowPassRight;
+
+		echoBuffer[echoBufferPos    ] = echoBuffer[echoBufferPos    ] * DOWN_SCALE + outLeft;
+		echoBuffer[echoBufferPos + 1] = echoBuffer[echoBufferPos + 1] * DOWN_SCALE + outRight;
+
+		switch (filterType)
+		{
+		default:
+		case SoundManager::FilterType::NORMAL:
+			outbuffer[outIndex++] = outLeft * leftVolume;
+			outbuffer[outIndex++] = outRight * rightVolume;
+			break;
+			
+		case SoundManager::FilterType::ECHO:
+			outbuffer[outIndex++] = echoBuffer[echoBufferPos    ] * leftVolume;
+			outbuffer[outIndex++] = echoBuffer[echoBufferPos + 1] * rightVolume;
+			break;
+			
+		case SoundManager::FilterType::DAMPENING:
+			outbuffer[outIndex++] = prevLowPassLeft * leftVolume;
+			outbuffer[outIndex++] = prevLowPassRight * rightVolume;
+			break;
+		}
+
+		echoBufferPos += 2;
+		if (echoBufferPos >= echoBuffer.size())
+		{
+			echoBufferPos = 0;
+		}
 	}
 
 	if (looping)
 	{
 		for (unsigned int i = 0; i < len2 / sizeof(int16_t); i += 2)
 		{
-			outbuffer[outIndex++] = (float)ptr2[i    ] / std::numeric_limits<int16_t>::max() * volume * leftVolume;
-			outbuffer[outIndex++] = (float)ptr2[i + 1] / std::numeric_limits<int16_t>::max() * volume * rightVolume;
+			float outLeft =  (float)ptr2[i    ] / std::numeric_limits<int16_t>::max() * volume;
+			float outRight = (float)ptr2[i + 1] / std::numeric_limits<int16_t>::max() * volume;
+
+			echoBuffer[echoBufferPos    ] = echoBuffer[echoBufferPos    ] * DOWN_SCALE + outLeft;
+			echoBuffer[echoBufferPos + 1] = echoBuffer[echoBufferPos + 1] * DOWN_SCALE + outRight;
+
+			switch (filterType)
+			{
+			default:
+			case SoundManager::FilterType::NORMAL:
+				outbuffer[outIndex++] = outLeft * leftVolume;
+				outbuffer[outIndex++] = outRight * rightVolume;
+				break;
+			
+			case SoundManager::FilterType::ECHO:
+				outbuffer[outIndex++] = echoBuffer[echoBufferPos    ] * leftVolume;
+				outbuffer[outIndex++] = echoBuffer[echoBufferPos + 1] * rightVolume;
+				break;
+			
+			case SoundManager::FilterType::DAMPENING:
+				break;
+			}
+
+			echoBufferPos += 2;
+			if (echoBufferPos >= echoBuffer.size())
+			{
+				echoBufferPos = 0;
+			}
 		}
 	}
 
@@ -184,14 +252,23 @@ MChannel::MChannel(FMOD::System* system, FMOD::Sound* sound, SoundManager* manag
 	, volume(1.f)
 	, PCM_Pos(0)
 	, soundManager(manager)
+	, echoBufferPos(0)
+	, prevLowPassLeft(0)
+	, prevLowPassRight(0)
 {
 	FMOD_RESULT result;
+
+	const static unsigned int NUM_CHANNELS = 2;
+
+	float frequency;
+	result = sound->getDefaults(&frequency, nullptr, nullptr, nullptr);
+	echoBuffer.resize((unsigned int)(0.5f * frequency) * NUM_CHANNELS);
 
 	FMOD_DSP_DESCRIPTION dspDesc =
 	{
 		"SoundManagerAwesomeness",
 		1,
-		2,
+		NUM_CHANNELS,
 		nullptr,
 		nullptr,
 		nullptr,

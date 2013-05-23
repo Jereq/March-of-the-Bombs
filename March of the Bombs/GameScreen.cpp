@@ -77,7 +77,7 @@ void GameScreen::selectBombsBox(glm::vec2 const& pos1, glm::vec2 const& pos2)
 		glm::vec3(farPositionUL),
 		glm::vec3(farPositionUR));
 
-	BOOST_FOREACH(entity_map::value_type& entry, myEntities)
+	for (entity_map::value_type& entry : myEntities)
 	{
 		Bomb& bomb = entry.second;
 		bomb.setSelected(bomb.frustumIntersect(selectionFrustum));
@@ -102,7 +102,7 @@ void GameScreen::selectBombRay(glm::vec2 const& pos)
 	float distance = std::numeric_limits<float>::infinity();
 
 	Bomb* hitBomb = NULL;
-	BOOST_FOREACH(entity_map::value_type& bomb, myEntities)
+	for (entity_map::value_type& bomb : myEntities)
 	{
 		bomb.second.setSelected(false);
 
@@ -123,7 +123,7 @@ void GameScreen::getNearbyBombs(glm::vec2 const& center, float distance, Bomb::i
 	Bomb::id_set tRes;
 	blockMap.getNearbyBombs(center, glm::vec2(distance), tRes);
 
-	BOOST_FOREACH(Bomb::id const& id, tRes)
+	for (Bomb::id const& id : tRes)
 	{
 		entity_map const* playerEntities;
 		playerEntities = &myEntities;
@@ -213,6 +213,7 @@ void GameScreen::atEntry()
 	loudEntities.push_back(boost::shared_ptr<LoudEntity>(entity));
 
 	zombie.reset(new LoudEntity(game->getSoundManager().get(), "Sounds/Zombie Gibberish-SoundBible.com-589887278.mp3"));
+	zombie->setVolume(0.5f);
 
 	glm::vec3 zombiePos;
 	auto bases = blockMap.getBases();
@@ -278,7 +279,7 @@ void GameScreen::update(float deltaTime)
 		}
 	}
 
-	BOOST_FOREACH(entity_map::value_type& entry, myEntities)
+	for (entity_map::value_type& entry : myEntities)
 	{
 		Bomb& bomb = entry.second;
 
@@ -351,16 +352,31 @@ void GameScreen::update(float deltaTime)
 
 	glm::mat3 rotationMatrix = glm::mat3(glm::rotate(glm::mat4(), rotation.y, glm::vec3(0, 1, 0)));
 	cameraPos->setPosition(cameraPos->getPosition() + rotationMatrix * cameraVelocity * deltaTime);
+
+	if (playerPos.x >= 0.f && playerPos.x <= 13.f
+		&& playerPos.z >= 0.f && playerPos.z <= 12.f)
+	{
+		game->getSoundManager()->setFilterType(SoundManager::FilterType::ECHO);
+	}
+	else if (playerPos.x >= 0.f && playerPos.x <= 13.f
+		&& playerPos.z > 12.f && playerPos.z <= 23.f)
+	{
+		game->getSoundManager()->setFilterType(SoundManager::FilterType::DAMPENING);
+	}
+	else
+	{
+		game->getSoundManager()->setFilterType(SoundManager::FilterType::NORMAL);
+	}
 }
 
 void GameScreen::draw(Graphics::ptr graphics)
 {
-	BOOST_FOREACH(entity_map::value_type& entry, myEntities)
+	for (entity_map::value_type& entry : myEntities)
 	{
 		entry.second.draw(graphics);
 	}
 
-	BOOST_FOREACH(Explosion& exp, explosions)
+	for (Explosion& exp : explosions)
 	{
 		exp.draw(graphics);
 	}
@@ -504,7 +520,7 @@ void GameScreen::mouseButtonEventHandler(MouseButtonEvent const* mbEvent)
 
 void GameScreen::mouseMoveEventHandler(MouseMoveEvent const* mmEvent)
 {
-	BOOST_FOREACH(Button& button, buttons)
+	for (Button& button : buttons)
 	{
 		if(button.intersects(mmEvent->position))
 		{
