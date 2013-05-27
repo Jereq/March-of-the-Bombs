@@ -17,6 +17,10 @@
 #include "MouseButtonEvent.h"
 #include "MouseMoveEvent.h"
 
+/*
+ * GameScreen is the main class for the actual game,
+ * containing the majority of the game logic.
+ */
 class GameScreen :
 	public Screen
 {
@@ -31,49 +35,38 @@ private:
 	std::vector<boost::shared_ptr<LoudEntity>> loudEntities;
 	boost::shared_ptr<LoudEntity> zombie;
 
-	unsigned short myEntityCount;
-
-	typedef std::map<unsigned short, Bomb> entity_map;
-	entity_map myEntities;
-
 	std::vector<Button> buttons;
 	Screen::ptr nextScreen;
 	TextureSection::ptr background;
 	SimpleImage::ptr GuiBackground;
 
-	float currentDeltaTime;
 	glm::vec3 cameraVelocity;
 	float rotationYSpeed;
 	float rotationXSpeed;
 	PointLight::ptr light;
 
-	std::list<Explosion> explosions;
-	int explosionsThisFrame;
-
-	std::set<TextureSection::ptr> preloadedTextures;
-
-	void spawnBomb(glm::vec3 const& position, glm::vec3 const& rotation, glm::vec3 const& velocity);
-	void createExplosion(glm::vec3 const& position, float size, float duration, bool removeBlocks);
-
-	void preloadTextures();
+	void addEntities();
 
 	void createButtons();
 	void createBackground();
 
-	void selectBombsBox(glm::vec2 const& pos1, glm::vec2 const& pos2);
-	void selectBombRay(glm::vec2 const& pos);
-
-	void getNearbyBombs(glm::vec2 const& center, float distance, Bomb::id_set& res) const;
-
+	void handleEvents();
 	void keyboardEventHandler(KeyboardEvent const* kbEvent);
 	void mouseButtonEventHandler(MouseButtonEvent const* mbEvent);
 	void mouseMoveEventHandler(MouseMoveEvent const* mmEvent);
 
+	void updateZombie(float deltaTime);
+	void updateCamera(float deltaTime);
+	void updateFilter();
+
 public:
+	/*
+	 * constructor.
+	 */
 	GameScreen();
 
-	void atEntry();
-	void update(float deltaTime);
-	void draw(Graphics::ptr graphics);
-	Screen::ptr getNextScreen();
+	void atEntry() override;
+	void update(float deltaTime) override;
+	void draw(Graphics::ptr graphics) override;
+	Screen::ptr getNextScreen() override;
 };

@@ -5,6 +5,8 @@
 
 #include <boost/foreach.hpp>
 
+#include "MChannel.h"
+
 FMOD::System* SoundManager::system(NULL);
 
 void SoundManager::errCheck(FMOD_RESULT const& result)
@@ -19,6 +21,8 @@ void SoundManager::errCheck(FMOD_RESULT const& result)
 
 void SoundManager::initSystem()
 {
+	// Initialization taken from FMOD:s documentation
+
 	FMOD_RESULT result;
 	unsigned int version;
 	int numdrivers;
@@ -85,6 +89,7 @@ void SoundManager::initSystem()
 		}
 	}
 
+	// Select righthanded coordinate system to play nice with OpenGL
 	result = system->init(100, FMOD_INIT_3D_RIGHTHANDED, 0);
 
 	if (result == FMOD_ERR_OUTPUT_CREATEBUFFER)
@@ -122,7 +127,9 @@ SoundManager::SoundManager()
 }
 
 SoundManager::~SoundManager()
-{	
+{
+	// Release all resources
+
 	if(backgroundchannel)
 	{
 		delete backgroundchannel;
@@ -137,6 +144,7 @@ SoundManager::~SoundManager()
 
 void SoundManager::release()
 {
+	// Reset the system
 	system->release();
 	system = NULL;
 }
@@ -145,7 +153,7 @@ void SoundManager::clearCache()
 {
 	if (system)
 	{
-		BOOST_FOREACH(sound_map::value_type const& entry, soundMap)
+		for (sound_map::value_type const& entry : soundMap)
 		{
 			entry.second->release();
 		}
@@ -165,6 +173,7 @@ void SoundManager::update(glm::vec3 const& cameraPos, glm::vec3 const& cameraFor
 
 	glm::vec3 listenerRight = glm::cross(listenerForward, listenerUp);
 
+	// Constuct base matrix out of orthonormal vectors
 	glm::mat3 baseMat(listenerRight, listenerUp, -listenerForward);
 	invBaseMat = glm::inverse(baseMat);
 
@@ -178,18 +187,19 @@ void SoundManager::playBackgroundSound(std::string const& filename)
 
 void SoundManager::playBackgroundSound(std::string const& filename, float volume)
 {
+	// Get rid of the previous sound, if any
 	if(backgroundchannel)
 	{
 		delete backgroundchannel;
 		backgroundchannel = nullptr;
 	}
-
 	if (backgroundSound)
 	{
 		backgroundSound->release();
-		backgroundSound = NULL;
+		backgroundSound = nullptr;
 	}
 
+	// No background sound selected
 	if (filename.empty())
 	{
 		return;
@@ -197,9 +207,11 @@ void SoundManager::playBackgroundSound(std::string const& filename, float volume
 
 	FMOD::System* system = getSystem();
 
+	// Load the sound into memory
 	FMOD_RESULT result = system->createSound(filename.c_str(), FMOD_SOFTWARE | FMOD_LOOP_NORMAL, NULL, &backgroundSound);
 	errCheck(result);
 
+	// Create and start channel with the sound
 	backgroundchannel = new MChannel(system, backgroundSound, this);
 	backgroundchannel->setVolume(volume);
 	backgroundchannel->setPaused(false);
@@ -214,13 +226,16 @@ MChannel* SoundManager::playSound(std::string const& filename, glm::vec3 const& 
 {
 	FMOD::System* system = getSystem();
 
+	// Default mode
 	FMOD_MODE mode = FMOD_SOFTWARE | FMOD_3D;
 
+	// Add loop bit
 	if (loop)
 	{
 		mode |= FMOD_LOOP_NORMAL;
 	}
 
+	// Load sound if not in cache
 	FMOD_RESULT result;
 	if (soundMap.count(filename) == 0)
 	{
@@ -228,6 +243,7 @@ MChannel* SoundManager::playSound(std::string const& filename, glm::vec3 const& 
 		errCheck(result);
 	}
 
+	// Create and start channel with the sound
 	MChannel* channel = new MChannel(system, soundMap[filename], this);
 	channel->setPosition(position);
 	channel->setMinMaxDistance(minDistance, 10000.0f);
