@@ -21,7 +21,7 @@ private:
 	Button::ptr creditsButton;
 	Button::ptr exitButton;
 
-	Label::ptr title;
+	std::vector<Label::ptr> labels;
 
 	Screen::ptr nextScreen;
 	boost::shared_ptr<Game> game;

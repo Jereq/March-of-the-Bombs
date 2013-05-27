@@ -7,7 +7,9 @@ MainMeny::MainMeny()
 {
 	MainMeny::createBackground();
 	MainMeny::createButtons();			//creates the vector holding all the buttons for this screen
-	title.reset(new Label(glm::vec2(0.05f, 0.8f), glm::vec2(0.05f, 0.12f), "March of the Bombs", 0, glm::vec3(1.f)));
+	labels.push_back(Label::ptr(new Label(glm::vec2(0.05f, 0.8f), glm::vec2(0.05f, 0.12f), "March of the Bombs", 0.f, glm::vec3(1.f))));
+	labels.push_back(Label::ptr(new Label(glm::vec2(0.30f, 0.65f), glm::vec2(0.025f, 0.06f), "Sound Downgrade", 0.f, glm::vec3(1.f, 1.f, 0.8f))));
+	labels.push_back(Label::ptr(new Label(glm::vec2(0.45f, 0.1f), glm::vec2(0.0125f, 0.03f), "By: Fredrik Cronqvist, Sebastian Larsson", 0.f, glm::vec3(1.f, 1.f, 0.8f))));
 }
 
 MainMeny::~MainMeny()
@@ -69,7 +71,10 @@ void MainMeny::draw(Graphics::ptr graphics)
 		buttons[i]->render(graphics);
 	}
 
-	title->draw(graphics);
+	for (Label::ptr const& lable : labels)
+	{
+		lable->draw(graphics);
+	}
 }
 
 Screen::ptr MainMeny::getNextScreen()
@@ -81,10 +86,10 @@ Screen::ptr MainMeny::getNextScreen()
 
 void MainMeny::createButtons()
 {
-	TextureSection LobbyButton		(L"images/NewBI/NPBtn1.png");
+	TextureSection LobbyButton		(L"images/NewBI/StartUp.png");
 	TextureSection ExitButton		(L"images/NewBI/ExitBtn1.png");
 
-	TextureSection LobbyButtonT		(L"images/NewBI/NPBtn2.png");
+	TextureSection LobbyButtonT		(L"images/NewBI/StartDown.png");
 	TextureSection ExitButtonT		(L"images/NewBI/ExitBtn2.png");
 
 	lobbyButton		= Button::ptr(new Button(LobbyButton,		LobbyButtonT,	Rectanglef(glm::vec2(0.30f,0.25f),glm::vec2(0.40f,0.15f)), 0.0f));

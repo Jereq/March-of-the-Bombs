@@ -175,7 +175,7 @@ void GameScreen::atEntry()
 		new PointLight(
 			glm::vec4(mapSize.x / 2.f, 70, mapSize.y / 2.f, 1),
 			glm::vec4(0, -1, 0, 0),
-			glm::vec3(1.f)));
+			glm::vec3(4.f)));
 
 	std::vector<glm::vec3> mapPoints;
 	mapPoints.push_back(glm::vec3(      0.f, 0.f,       0.f));
@@ -202,13 +202,18 @@ void GameScreen::atEntry()
 
 	loudEntities.push_back(boost::shared_ptr<LoudEntity>(entity));
 
-	entity.reset(new LoudEntity(game->getSoundManager().get(), "Sounds/Chipmunks_sound-Uday-1052330468.mp3"));
+	entity.reset(new LoudEntity(game->getSoundManager().get(), "Sounds/20043.mp3"));
 	entity->setPosition(glm::vec3(60.f, 0.f, 22.f));
 
 	loudEntities.push_back(boost::shared_ptr<LoudEntity>(entity));
 
 	entity.reset(new LoudEntity(game->getSoundManager().get(), "Sounds/Cartoon Voice Baritone-SoundBible.com-2068310080.mp3"));
 	entity->setPosition(glm::vec3(58.f, 0.f, 54.f));
+
+	loudEntities.push_back(boost::shared_ptr<LoudEntity>(entity));
+
+	entity.reset(new LoudEntity(game->getSoundManager().get(), "Sounds/12376.mp3"));
+	entity->setPosition(glm::vec3(15.f, 0.f, 15.f));
 
 	loudEntities.push_back(boost::shared_ptr<LoudEntity>(entity));
 
